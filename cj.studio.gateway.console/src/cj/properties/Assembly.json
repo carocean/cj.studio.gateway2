@@ -1,0 +1,35 @@
+{
+	entryPoint : {
+		activators : [
+		              
+			]
+	},
+	assemblyInfo : {
+		assemblyTitle : "gateway",
+		assemblyResource:"/",
+		assemblyDescription : "lns网关",
+		assemblyConfiguration : "",
+		assemblyCompany : "开发者：cj;研发机构：cj studio",
+		assemblyProduct : "cj.studio.gateway",
+		assemblyCopyright : "Copyright   2011",
+		assemblyTrademark : "",
+		assemblyCulture : "",
+		guid : "9BDBA7A8-0926-4CBC-9AAC-0474BDE6A27D",
+		assemblyVersion : "1.0.0.0",
+		assemblyFileVersion : "1.0.0.0",
+		assemblyIcon:"favicon.ico"
+	},
+	global:{
+		default:"zh_CN",
+		desc:"如果系统环境要求各芯片采用的语言本芯片没有，则芯片可采用默认语言"
+		},
+	serviceContainer : {
+		name : "netContainer",
+		scans : [{
+					package : "cj.studio.gateway",
+					extName : ".class|.json|.xml",
+					exoterical:"true"
+				}]
+
+	}
+}

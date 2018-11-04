@@ -1,0 +1,55 @@
+sourceSets { 
+	 main { 
+	 	java{
+	 		srcDir "$projectDir/src"
+	 	}
+	 	resources{
+		 	srcDir "$projectDir/src"
+		 }
+	 } 
+ 	}
+ 	sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+ 	tasks.withType(JavaCompile) {  
+        options.encoding = "UTF-8"  
+    } 
+ repositories { 
+	 flatDir(dirs: "../global/runtime") 
+ } 
+
+dependencies {
+	//compile project(':xx.xx');//指定你要依赖的你公司的其它项目
+	compile(
+            'commons-cli:commons-cli:1.2'
+    )
+    // compile('org.mongodb:mongo-java-driver:3.2.0')
+     compile 'io.jsonwebtoken:jjwt:0.9.0'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.8.1'
+    compile fileTree('../global/jee.runtime')
+	compile fileTree('../global/runtime')
+	compile fileTree('../global/cjtools')
+	compile fileTree('src/cj/references')//编译和运行时的依赖库，如果将来在神经元或netsite中运行的话，则不必将ecm,net等工具包放入该目录
+}
+     task releaseToCmdline(type: Copy){
+      dependsOn "build"
+	     from 'build/libs/'
+	     into '../outputs'
+	     include '**/*.jar'
+     }
+      task releaseToGateway(type: Copy){
+      dependsOn "build"
+	     from 'build/libs/'
+	     into '../cj.studio.gateway.console/src/cj/references'
+	     include '**/*.jar'
+     }
+      task releaseToTestWebsite(type: Copy){
+      dependsOn "build"
+	     from 'build/libs/'
+	     into '../cj.test.website/src/cj/references'
+	     include '**/*.jar'
+     }
+     //com.ly.wigo.shop.gateway
+     task release(type:Copy){
+      dependsOn "releaseToCmdline","releaseToGateway","releaseToTestWebsite"
+     }
+     
