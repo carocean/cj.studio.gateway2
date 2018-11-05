@@ -13,9 +13,9 @@ import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
-import cj.studio.gateway.socket.InputPipelineBuilder;
 import cj.studio.gateway.socket.app.session.AppSiteSessionManager;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
+import cj.studio.gateway.socket.pipeline.builder.AppSocketInputPipelineBuilder;
 import cj.ultimate.util.StringUtil;
 
 public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
@@ -29,7 +29,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 	IAppSiteSessionManager sessionManager;
 	public AppGatewaySocket(IServiceProvider parent) {
 		this.parent = parent;
-		builder = new InputPipelineBuilder((IServiceProvider) this);
+		builder = new AppSocketInputPipelineBuilder((IServiceProvider) this);
 		this.homeDir = (String) parent.getService("$.homeDir");
 	}
 

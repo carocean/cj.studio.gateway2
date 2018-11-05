@@ -7,7 +7,7 @@ $.parameter = function (name) {
     if (r != null) return unescape(r[2]); return null;
 }
 $.ws = {
-	toFrame : function(frameRaw) {
+	toFrame : function(frameRaw) {//如果是二进制侦则解析
 		// debugger;
 		var up = 0;
 		var down = 0;

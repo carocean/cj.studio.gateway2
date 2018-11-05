@@ -17,6 +17,11 @@ public class GatewaySocketContainer implements IGatewaySocketContainer{
 		return sockets.get(name);
 	}
 	@Override
+	public boolean contains(String name) {
+		// TODO Auto-generated method stub
+		return sockets.containsKey(name);
+	}
+	@Override
 	public void add(IGatewaySocket socket) {
 		sockets.put(socket.name(), socket);
 	}

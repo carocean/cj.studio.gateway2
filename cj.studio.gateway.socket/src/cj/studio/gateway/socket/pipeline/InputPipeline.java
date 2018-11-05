@@ -1,17 +1,37 @@
 package cj.studio.gateway.socket.pipeline;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import cj.studio.ecm.graph.CircuitException;
 
 public class InputPipeline implements IInputPipeline {
 	LinkEntry head;
 	LinkEntry last;
 	IIPipeline adapter;
+	Map<String, String> props;
+
 	public InputPipeline(IInputValve first, IInputValve last) {
 		head = new LinkEntry(first);
 		head.next = new LinkEntry(last);
 		this.last = head.next;
 		this.adapter = new IPipeline(this);
 	}
+
+	@Override
+	public String prop(String name) {
+		if (props == null)
+			return null;
+		return props.get(name);
+	}
+
+	@Override
+	public void prop(String name, String value) {
+		if (props == null)
+			props = new HashMap<>();
+		props.put(name, value);
+	}
+
 	@Override
 	public void add(IInputValve valve) {
 		LinkEntry entry = getEndConstomerEntry();
@@ -35,6 +55,7 @@ public class InputPipeline implements IInputPipeline {
 		} while (tmp.next != null);
 		return null;
 	}
+
 	@Override
 	public void remove(IInputValve valve) {
 		LinkEntry tmp = head;
@@ -156,6 +177,11 @@ public class InputPipeline implements IInputPipeline {
 		public void nextOnInactive(String inputName, IInputValve formthis) throws CircuitException {
 			target.nextOnInactive(inputName, formthis);
 
+		}
+
+		@Override
+		public String prop(String name) {
+			return target.prop(name);
 		}
 	}
 

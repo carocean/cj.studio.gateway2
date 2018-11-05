@@ -20,12 +20,13 @@ import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.logging.ILogging;
-import cj.studio.gateway.ForwardJunction;
 import cj.studio.gateway.ICluster;
 import cj.studio.gateway.IDestinationLoader;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.conf.ServerInfo;
+import cj.studio.gateway.junction.ForwardJunction;
+import cj.studio.gateway.junction.Junction;
 import cj.studio.gateway.server.util.DefaultHttpMineTypeFactory;
 import cj.studio.gateway.server.util.GetwayDestHelper;
 import cj.studio.gateway.socket.Destination;
@@ -37,6 +38,7 @@ import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
 import cj.studio.gateway.socket.util.SocketName;
 import cj.ultimate.util.FileHelper;
 import cj.ultimate.util.StringUtil;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -60,6 +62,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.util.AttributeKey;
 
 public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
+	static String Websocket_Channel = "Websocket-channel";
 	private WebSocketServerHandshaker handshaker;
 	IServiceProvider parent;
 	public static ILogging logger;
@@ -86,17 +89,17 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 
 	private void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
 		if (!req.getDecoderResult().isSuccess()) {
-			doResponse(ctx, req, new DefaultFullHttpResponse(HTTP_1_1, BAD_REQUEST));
+			doResponse(ctx, req, new DefaultFullHttpResponse(req.getProtocolVersion(), BAD_REQUEST));
 			return;
 		}
 
 		// deny PUT TRACE methods.
 		if (req.getMethod() == HttpMethod.PUT || req.getMethod() == HttpMethod.TRACE) {
-			doResponse(ctx, req, new DefaultFullHttpResponse(HTTP_1_1, FORBIDDEN));
+			doResponse(ctx, req, new DefaultFullHttpResponse(req.getProtocolVersion(), FORBIDDEN));
 			return;
 		}
 		if ("/favicon.ico".equals(req.getUri())) {
-			FullHttpResponse res = new DefaultFullHttpResponse(HTTP_1_1, HttpResponseStatus.OK);
+			FullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), HttpResponseStatus.OK);
 			IChipInfo cinfo = (IChipInfo) parent.getService("$.chipinfo");
 			InputStream gatewayLogo = cinfo.getIconStream();
 			byte[] buf = FileHelper.readFully(gatewayLogo);
@@ -106,7 +109,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 		}
 		// Send the demo page and favicon.ico
 		if (!isWebSocketReq(req)) {
-			FullHttpResponse res = new DefaultFullHttpResponse(HTTP_1_1, HttpResponseStatus.OK);
+			FullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), HttpResponseStatus.OK);
 			flowHttpRequest(ctx, req, res);
 			doResponse(ctx, req, res);
 			return;
@@ -120,6 +123,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 			WebSocketServerHandshakerFactory.sendUnsupportedWebSocketVersionResponse(ctx.channel());
 		} else {
 			handshaker.handshake(ctx.channel(), req);
+			websocketActive(ctx, req);
 		}
 	}
 
@@ -133,27 +137,89 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 			ctx.channel().write(new PongWebSocketFrame(frame.content().retain()));
 			return;
 		}
+		AttributeKey<Boolean> key = AttributeKey.valueOf(Websocket_Channel);
+		ctx.channel().attr(key).set(true);
 
+		ByteBuf bb = frame.content();
+		byte[] b = new byte[bb.readableBytes()];
+		bb.readBytes(b);
+		Frame f = new Frame(b);
+		System.out.println("-----ws---" + f);
 	}
+
+	protected void websocketActive(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
+		ServerNetGatewaySocket nettySocket = new ServerNetGatewaySocket(parent, ctx.channel());
+		sockets.add(nettySocket);
+		// 以下生成目标管道
+		String uri = req.getUri();
+		try {
+			uri = URLDecoder.decode(uri, "utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		String gatewayDestInHeader = req.headers().get("Gateway-Dest");
+		ServerInfo info = (ServerInfo) parent.getService("$.server.info");
+		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, info.getProps(),
+				getClass());
+		if (StringUtil.isEmpty(gatewayDest) || gatewayDest.endsWith("://")) {
+			throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
+		}
+
+		IGatewaySocket socket = this.sockets.find(gatewayDest);
+		if (socket == null) {
+			ICluster cluster = (ICluster) parent.getService("$.cluster");
+			Destination destination = cluster.getDestination(gatewayDest);
+			if (destination == null) {
+				throw new CircuitException("404", "簇中缺少目标:" + gatewayDest);
+			}
+			IDestinationLoader loader = (IDestinationLoader) parent.getService("$.dloader");
+			socket = loader.load(destination);
+			sockets.add(socket);
+		}
+
+		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
+		String name = SocketName.name(ctx.channel().id(), info.getName());
+		IInputPipeline inputPipeline = pipelines.get(name);
+		inputPipeline = builder.name(name).prop("Protocol", "ws").prop("Net-Name", info.getName()).createPipeline();
+		pipelines.add(name, inputPipeline);
+
+		ForwardJunction junction = new ForwardJunction(name);
+		junction.parse(inputPipeline, ctx, socket);
+		this.forwardJunctions.add(junction);
+
+		FullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), HttpResponseStatus.OK);
+		inputPipeline.headOnActive(name, req, res);// 通知管道激活
+	}
+
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		ServerNetGatewaySocket nettySocket=new ServerNetGatewaySocket(parent, ctx.channel());
-		sockets.add(nettySocket);
 		super.channelActive(ctx);
 	}
+
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-		String netName=(String)parent.getService("$.server.name");
-		String name=SocketName.name(ctx.channel().id(),netName);
-		sockets.remove(name);
-		IInputPipeline input=pipelines.get(name);
-		if(input!=null) {
+		String netName = (String) parent.getService("$.server.name");
+		String name = SocketName.name(ctx.channel().id(), netName);
+
+//		websocketInactive(ctx, name);//由于ws的channel是在http上升级的channel，故channelInactive一样执行。如果特意要释放ws channel的资源，可以根据ch.pipeline的handlers来判断是否ws channel，因为ws ch包含websocket handlers
+
+		Junction junction = forwardJunctions.findInForwards(name);
+		if (junction != null) {
+			this.forwardJunctions.remove(junction);
+		}
+
+		if (sockets.contains(name)) {
+			sockets.remove(name);// 不论是ws还是http增加的，在此安全移除
+		}
+
+		IInputPipeline input = pipelines.get(name);
+		if (input != null) {
 			input.headOnInactive(name);
 			pipelines.remove(name);
 		}
-		
 		super.channelInactive(ctx);
 	}
+
 	protected void flowHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req, FullHttpResponse res)
 			throws Exception {
 		String uri = req.getUri();
@@ -169,42 +235,40 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 		if (StringUtil.isEmpty(gatewayDest) || gatewayDest.endsWith("://")) {
 			throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 		}
-		
-		String name=SocketName.name(ctx.channel().id(),info.getName());
+
+		String name = SocketName.name(ctx.channel().id(), info.getName());
 		IInputPipeline inputPipeline = pipelines.get(name);
+		// 检查目标管道是否存在
 		if (inputPipeline != null) {
 			inputPipeline.headFlow(req, res);
 			return;
 		}
-		// 生成输入管道
+		// 目标管道不存在，以下生成目标管道
+		// 检查并生成目标管道
 		IGatewaySocket socket = this.sockets.find(gatewayDest);
-		if(socket==null) {
-			ICluster cluster = (ICluster)parent.getService("$.cluster");
-			Destination destination=cluster.getDestination(gatewayDest);
-			if(destination==null) {
-				throw new CircuitException("404", "簇中缺少目标:"+gatewayDest);
+		if (socket == null) {
+			ICluster cluster = (ICluster) parent.getService("$.cluster");
+			Destination destination = cluster.getDestination(gatewayDest);
+			if (destination == null) {
+				throw new CircuitException("404", "簇中缺少目标:" + gatewayDest);
 			}
-			IDestinationLoader loader=(IDestinationLoader)parent.getService("$.dloader");
-			socket=loader.load(destination);
+			IDestinationLoader loader = (IDestinationLoader) parent.getService("$.dloader");
+			socket = loader.load(destination);
 			sockets.add(socket);
 		}
-		
-		IInputPipelineBuilder builder = (IInputPipelineBuilder)socket.getService("$.pipeline.input.builder");
-		
-		inputPipeline = builder.name(name).createPipeline();
-		pipelines.add(name,inputPipeline);
-		
-		inputPipeline.headOnActive(name,req,res);//通知管道激活
-		
-		ForwardJunction junction=new ForwardJunction(name);
-		this.forwardJunctions.add(junction);
-		
-		
-		
-		inputPipeline.headFlow(req,res);
-	}
 
-	
+		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
+		inputPipeline = builder.name(name).prop("Protocol", "http").prop("Net-Name", info.getName()).createPipeline();
+		pipelines.add(name, inputPipeline);
+
+		ForwardJunction junction = new ForwardJunction(name);
+		junction.parse(inputPipeline, ctx, socket);
+		this.forwardJunctions.add(junction);
+
+		inputPipeline.headOnActive(name, req, res);// 通知管道激活
+
+		inputPipeline.headFlow(req, res);// 将当前请求发过去
+	}
 
 	protected void doResponse(ChannelHandlerContext ctx, FullHttpRequest req, FullHttpResponse res) {
 		HttpHeaders headers = res.headers();
@@ -252,8 +316,28 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 		String path = info.getProps().get("Websocket-Path");
 		if (StringUtil.isEmpty(path)) {
 			path = "/websocket";
+		} else {
+			if (!path.startsWith("/")) {
+				path = "/" + path;
+			}
 		}
-		return "ws://" + req.headers().get(HOST) + path;
+
+		String uri = req.getUri();
+		int pos = uri.lastIndexOf("?");
+		if (pos > 0) {
+			uri = uri.substring(0, pos);
+		}
+		if ("/".equals(uri)) {
+			return "ws://" + req.headers().get(HOST) + path;
+		}
+		while (uri.startsWith("/")) {
+			uri = uri.substring(1, uri.length());
+		}
+		pos = uri.indexOf("/");
+		if (pos > 0) {
+			uri = uri.substring(0, pos);
+		}
+		return "ws://" + req.headers().get(HOST) + "/" + uri + path;
 	}
 
 	@Override

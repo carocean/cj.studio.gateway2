@@ -10,4 +10,5 @@ public interface IGatewaySocketContainer {
 	String[] enumSocketName();
 	boolean isEmpty();
 	int count();
+	boolean contains(String name);
 }

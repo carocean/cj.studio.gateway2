@@ -7,4 +7,5 @@ public interface IIPipeline {
 	void nextOnActive(String inputName,Object request, Object response, IInputValve formthis)throws CircuitException;
 
 	void nextOnInactive(String inputName, IInputValve formthis) throws CircuitException;
+	String prop(String name);
 }

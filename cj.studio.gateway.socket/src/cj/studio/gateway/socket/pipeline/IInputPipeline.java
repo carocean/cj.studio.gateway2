@@ -11,4 +11,6 @@ public interface IInputPipeline extends IIPipeline,IDisposable{
 	void headOnInactive(String inputName)throws CircuitException;
 	 void add(IInputValve valve);
 	 void remove(IInputValve valve);
+	 
+	 void prop(String name,String value);
 }

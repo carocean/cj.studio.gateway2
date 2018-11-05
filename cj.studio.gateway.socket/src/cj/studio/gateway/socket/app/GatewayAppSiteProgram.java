@@ -1,6 +1,8 @@
 package cj.studio.gateway.socket.app;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IChip;
 import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.IServiceSite;
+import cj.studio.ecm.Scope;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceSite;
@@ -16,6 +19,7 @@ import cj.studio.ecm.logging.ILogging;
 import cj.studio.ecm.net.layer.ISessionEvent;
 import cj.studio.ecm.script.IJssModule;
 import cj.studio.gateway.socket.Destination;
+import cj.studio.gateway.socket.pipeline.ICustomInputValve;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.InputPipeline;
 import cj.studio.gateway.socket.valve.CheckErrorInputVavle;
@@ -85,7 +89,7 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 
 		parseErrors(info);
 		parseMimes(info);
-
+		
 		ClassLoader sysres = this.getClass().getClassLoader();
 		ClassLoader oldcl = memoClassloader(sysres);
 
@@ -101,6 +105,7 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 		}
 	}
 	
+
 	protected List<ISessionEvent> getSessionEvents(){
 		return null;
 	}
@@ -195,7 +200,29 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 			input.add(session);
 			
 		}
-		
+		ServiceCollection<ICustomInputValve> col=site.getServices(ICustomInputValve.class);
+		if(!col.isEmpty()) {
+			List<ICustomInputValve> list=col.asList();
+			ICustomInputValve[] arr=list.toArray(new ICustomInputValve[0]);
+			Arrays.sort(arr, new Comparator<ICustomInputValve>() {
+
+				@Override
+				public int compare(ICustomInputValve o1, ICustomInputValve o2) {
+					if(o1.getSort()==o2.getSort())return 0;
+					return o1.getSort()>o2.getSort()?1:-1;
+				}
+				
+			});
+			for(ICustomInputValve v:arr) {
+				CjService cjService=v.getClass().getDeclaredAnnotation(CjService.class);
+				if(cjService.scope()!=Scope.multiton) {
+					logger.warn(getClass(),"必须声明为多例服务，该Valve已被忽略:"+v);
+					continue;
+				}
+				System.out.println("+++++"+v.getSort()+"..."+v);
+				input.add(v);
+			}
+		}
 		return input;
 	}
 

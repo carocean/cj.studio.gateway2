@@ -1,3 +1,38 @@
 2018年11月04日 21:33:12  信息 : -------------网关启动完毕-------------------
 2018年11月04日 21:33:16  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
 2018年11月04日 21:33:41  错误: cj.studio.gateway.tools.RouterConsole - 不认识的命令：ls
+2018年11月05日 12:17:34  信息 : -------------网关启动完毕-------------------
+2018年11月05日 12:17:44  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月05日 12:19:33  信息 : -------------网关启动完毕-------------------
+2018年11月05日 12:19:45  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月05日 12:45:40  信息 : -------------网关启动完毕-------------------
+2018年11月05日 12:45:49  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月05日 12:46:23  错误: cj.studio.gateway.server.handler.HttpServerHandler - 缺少路由目标，请求侦被丢掉：/
+2018年11月05日 12:46:36  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
+		at java.util.TreeMap.deleteEntry(TreeMap.java:2309)
+		at java.util.TreeMap.remove(TreeMap.java:608)
+		at cj.studio.gateway.junction.JunctionTable.remove(JunctionTable.java:34)
+		at cj.studio.gateway.server.handler.HttpServerHandler.channelInactive(HttpServerHandler.java:208)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelInactiveNow(ChannelHandlerInvokerUtil.java:46)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelInactive(DefaultChannelHandlerInvoker.java:77)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelInactive(DefaultChannelHandlerContext.java:299)
+		at io.netty.channel.ChannelHandlerAdapter.channelInactive(ChannelHandlerAdapter.java:100)
+		at io.netty.handler.codec.http.HttpContentEncoder.channelInactive(HttpContentEncoder.java:242)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelInactiveNow(ChannelHandlerInvokerUtil.java:46)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelInactive(DefaultChannelHandlerInvoker.java:77)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelInactive(DefaultChannelHandlerContext.java:299)
+		at io.netty.channel.ChannelHandlerAdapter.channelInactive(ChannelHandlerAdapter.java:100)
+		at io.netty.handler.codec.http.HttpObjectAggregator.channelInactive(HttpObjectAggregator.java:226)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelInactiveNow(ChannelHandlerInvokerUtil.java:46)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelInactive(DefaultChannelHandlerInvoker.java:77)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelInactive(DefaultChannelHandlerContext.java:299)
+		at io.netty.handler.codec.ReplayingDecoder.channelInactive(ReplayingDecoder.java:347)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelInactiveNow(ChannelHandlerInvokerUtil.java:46)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelInactive(DefaultChannelHandlerInvoker.java:77)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelInactive(DefaultChannelHandlerContext.java:299)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelInactive(DefaultChannelPipeline.java:827)
+		at io.netty.channel.AbstractChannel$AbstractUnsafe$5.run(AbstractChannel.java:544)
+		at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:318)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:353)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)

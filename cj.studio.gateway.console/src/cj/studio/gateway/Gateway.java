@@ -51,7 +51,7 @@ public class Gateway implements IGateway, IServiceProvider {
 			return config.getCluster();
 		}
 		if ("$.junctions".equals(name)) {
-			return new JunctionTable();
+			return this.junctionTable;
 		}
 		if ("$.homeDir".equals(name)) {
 			return String.format("%s", config.home());
