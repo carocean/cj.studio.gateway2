@@ -2,6 +2,7 @@ package cj.studio.gateway.socket.app;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.List;
 
 import cj.studio.ecm.Assembly;
 import cj.studio.ecm.CJSystem;
@@ -11,25 +12,32 @@ import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.layer.ISessionEvent;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
-import cj.studio.gateway.socket.app.session.AppSiteSessionManager;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
+import cj.studio.gateway.socket.pipeline.IOutputPipelineBuilder;
+import cj.studio.gateway.socket.pipeline.IOutputSelector;
+import cj.studio.gateway.socket.pipeline.OutputSelector;
 import cj.studio.gateway.socket.pipeline.builder.AppSocketInputPipelineBuilder;
+import cj.studio.gateway.socket.pipeline.builder.AppSocketOutputPipelineBuilder;
 import cj.ultimate.util.StringUtil;
 
 public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 
 	private IServiceProvider parent;
 	private Destination destination;
-	private IInputPipelineBuilder builder;
+	private IInputPipelineBuilder inputBuilder;
+	private IOutputPipelineBuilder outputBuilder;
 	private boolean isConnected;
 	private String homeDir;
 	private IGatewayAppSiteProgram program;
 	IAppSiteSessionManager sessionManager;
+
 	public AppGatewaySocket(IServiceProvider parent) {
 		this.parent = parent;
-		builder = new AppSocketInputPipelineBuilder((IServiceProvider) this);
+		inputBuilder = new AppSocketInputPipelineBuilder(this);
+		outputBuilder = new AppSocketOutputPipelineBuilder(this);
 		this.homeDir = (String) parent.getService("$.homeDir");
 	}
 
@@ -40,7 +48,10 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 	@Override
 	public Object getService(String name) {
 		if ("$.pipeline.input.builder".equals(name)) {
-			return builder;
+			return inputBuilder;
+		}
+		if ("$.pipeline.output.builder".equals(name)) {
+			return outputBuilder;
 		}
 		if ("$.app.program".equals(name)) {
 			return program;
@@ -50,6 +61,9 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		}
 		if ("$.sessionManager".equals(name)) {
 			return this.sessionManager;
+		}
+		if ("$.destination".equals(name)) {
+			return this.destination;
 		}
 		return parent.getService(name);
 	}
@@ -64,6 +78,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		return destination.getName();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void connect(Destination dest) throws CircuitException {
 		this.destination = dest;
@@ -81,10 +96,19 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		String assembliesHome = String.format("%s%sassemblies%s%s%s", homeDir, File.separator, File.separator, appdir,
 				File.separator);
 		Object prog = scanAssemblyAndLoad(assembliesHome, share);
+
 		IGatewayAppSiteProgram wprog = (IGatewayAppSiteProgram) prog;
+		// 初始化会话事件
+		List<ISessionEvent> events =(List<ISessionEvent>) wprog.getService("$.session.events");
+		if (events != null) {
+			sessionManager.getEvents().addAll(events);
+		}
+		
+		IOutputSelector selector=new OutputSelector(this.outputBuilder,this);
 		IServiceSite site=(IServiceSite)wprog.getService("$.app.site");
-		site.addService("$.sessionManager", sessionManager);//将会话管理器注入到app中
-		wprog.start(dest, assembliesHome,type);
+		site.addService("$.output.selector", selector);
+		
+		wprog.start(dest, assembliesHome, type);
 		isConnected = true;
 	}
 
@@ -115,13 +139,13 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		if (program == null) {
 			throw new EcmException("程序集验证失败，原因：未发现Program的派生实现");
 		}
-		String expire=target.info().getProperty("site.session.expire");
-		if(StringUtil.isEmpty(expire)) {
-			expire=(30*60*1000L)+"";
+		String expire = target.info().getProperty("site.session.expire");
+		if (StringUtil.isEmpty(expire)) {
+			expire = (30 * 60 * 1000L) + "";
 		}
-		sessionManager=new AppSiteSessionManager(Long.valueOf(expire));
+		sessionManager = new AppSiteSessionManager(Long.valueOf(expire));
 		sessionManager.start();
-		
+
 		return program;
 	}
 
@@ -130,10 +154,10 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		isConnected = false;
 		sessionManager.stop();
 		program.close();
-		this.builder=null;
-		this.parent=null;
-		this.program=null;
-		this.sessionManager=null;
+		this.inputBuilder = null;
+		this.parent = null;
+		this.program = null;
+		this.sessionManager = null;
 	}
 
 }

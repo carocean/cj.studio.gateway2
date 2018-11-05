@@ -1,5 +1,7 @@
 package cj.studio.gateway.junction;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,9 +12,30 @@ public class JunctionTable implements IJunctionTable{
 	Map<String,Junction> forwards;
 	Map<String,Junction> inverts;
 	IJunctionListener forwardListener;
+	class CreateTimeComp implements Comparator<Junction>{
+
+		@Override
+		public int compare(Junction o1, Junction o2) {
+			if(o1.createTime==o2.createTime)return 0;
+			return o1.createTime>o2.createTime?1:-1;
+		}
+		
+	}
 	public JunctionTable() {
 		this.forwards=new HashMap<>();
 		this.inverts=new HashMap<>();
+	}
+	@Override
+	public Junction[] toSortedForwards() {
+		Junction[] ret=forwards.values().toArray(new Junction[0]);
+		Arrays.sort(ret, new CreateTimeComp());
+		return ret;
+	}
+	@Override
+	public Junction[] toSortedInverts() {
+		Junction[] ret=inverts.values().toArray(new Junction[0]);
+		Arrays.sort(ret, new CreateTimeComp());
+		return ret;
 	}
 	@Override
 	public void add(Junction junction) {
@@ -24,6 +47,7 @@ public class JunctionTable implements IJunctionTable{
 		if(forwardListener!=null) {
 			forwardListener.monitor("A", junction);
 		}
+		
 	}
 	@Override
 	public void remove(Junction junction) {

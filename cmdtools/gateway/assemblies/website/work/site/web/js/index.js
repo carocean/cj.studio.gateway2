@@ -19,7 +19,7 @@ $(document).ready(function(){
 		var domain='ws://'+euser.attr('user')+'.com';
 		var token=euser.attr('token');
 		//var frame ="command=handshake\r\nprotocol=gateway/1.0\r\nurl=/\r\nGateway-Inputer="+domain+"\r\nGateway-Token="+token+"\r\n\r\n\r\n";
-		var frame ="command=get\r\nprotocol=gateway/1.0\r\nurl=/\r\nGateway-Token="+token+"\r\n\r\n\r\n";
+		var frame ="command=get\r\nprotocol=gateway/1.0\r\nurl=/test/websocket.html\r\nGateway-Token="+token+"\r\n\r\n\r\n";
 		ws.send(frame);
 	},function(frame){
 		//onclose

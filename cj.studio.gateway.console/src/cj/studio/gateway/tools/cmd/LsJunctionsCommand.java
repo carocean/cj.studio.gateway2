@@ -54,9 +54,9 @@ public class LsJunctionsCommand extends Command {
 				}
 			});
 		}
-		String[] forwardNames=table.enumForwardName();
-		for (String name:forwardNames) {
-			ForwardJunction fj = (ForwardJunction) table.findInForwards(name);
+		Junction[] arr=table.toSortedForwards();
+		for (Junction jun:arr) {
+			ForwardJunction fj=(ForwardJunction)jun;
 			if(fj==null)continue;
 			System.out.println(String.format("%s管道：%s", indent, fj.getName()));
 			printForwardJunction(fj, indent);
@@ -88,8 +88,8 @@ public class LsJunctionsCommand extends Command {
 	@Override
 	public Options options() {
 		Options options = new Options();
-		// Option name = new Option("v", "virdomain",false, "仅列出虚域的配置信息");
-		// options.addOption(name);
+//		 Option name = new Option("s", "virdomain",false, "仅列出虚域的配置信息");
+//		 options.addOption(name);
 		Option u = new Option("t", "tt", false, "开启即时监控");
 		options.addOption(u);
 		// Option p = new Option("p", "password",true, "密码");

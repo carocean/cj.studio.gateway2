@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.List;
 
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IChipInfo;
@@ -38,10 +39,10 @@ import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
 import cj.studio.gateway.socket.util.SocketName;
 import cj.ultimate.util.FileHelper;
 import cj.ultimate.util.StringUtil;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpRequest;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -59,7 +60,6 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
-import io.netty.util.AttributeKey;
 
 public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 	static String Websocket_Channel = "Websocket-channel";
@@ -127,7 +127,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 		}
 	}
 
-	protected void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) {
+	protected void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) throws CircuitException {
 		// Check for closing frame
 		if (frame instanceof CloseWebSocketFrame) {
 			handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
@@ -137,19 +137,19 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 			ctx.channel().write(new PongWebSocketFrame(frame.content().retain()));
 			return;
 		}
-		AttributeKey<Boolean> key = AttributeKey.valueOf(Websocket_Channel);
-		ctx.channel().attr(key).set(true);
 
-		ByteBuf bb = frame.content();
-		byte[] b = new byte[bb.readableBytes()];
-		bb.readBytes(b);
-		Frame f = new Frame(b);
-		System.out.println("-----ws---" + f);
+		ServerInfo info = (ServerInfo) parent.getService("$.server.info");
+		String name = SocketName.name(ctx.channel().id(), info.getName());
+		IInputPipeline inputPipeline = pipelines.get(name);
+		if (inputPipeline == null) {
+			throw new CircuitException("404", "目标管道不存在" + name);
+		}
+		inputPipeline.headFlow(frame, null);
 	}
 
 	protected void websocketActive(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
 		ServerNetGatewaySocket nettySocket = new ServerNetGatewaySocket(parent, ctx.channel());
-		sockets.add(nettySocket);
+		sockets.add(nettySocket);// ws是双向通讯端子，故需加入
 		// 以下生成目标管道
 		String uri = req.getUri();
 		try {
@@ -179,8 +179,8 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 		String name = SocketName.name(ctx.channel().id(), info.getName());
-		IInputPipeline inputPipeline = pipelines.get(name);
-		inputPipeline = builder.name(name).prop("Protocol", "ws").prop("Net-Name", info.getName()).createPipeline();
+		IInputPipeline inputPipeline = builder.name(name).prop("From-Protocol", "ws").prop("From-Name", info.getName())
+				.prop("To-Name", socket.name()).createPipeline();
 		pipelines.add(name, inputPipeline);
 
 		ForwardJunction junction = new ForwardJunction(name);
@@ -258,7 +258,8 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 		}
 
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
-		inputPipeline = builder.name(name).prop("Protocol", "http").prop("Net-Name", info.getName()).createPipeline();
+		inputPipeline = builder.name(name).prop("From-Protocol", "http").prop("From-Name", info.getName())
+				.prop("To-Name", socket.name()).createPipeline();
 		pipelines.add(name, inputPipeline);
 
 		ForwardJunction junction = new ForwardJunction(name);
@@ -357,12 +358,26 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 			}
 		}
 
-		AttributeKey<Boolean> key = AttributeKey.valueOf("Websocket-channel");
-		if (ctx.attr(key).get() != null && ctx.attr(key).get()) {
+		if (isWebsocketChannel(ctx)) {
 			errorWebsocketCaught(ctx, cause);
 			return;
 		}
 		errorHttpCaught(ctx, cause);
+	}
+
+	private boolean isWebsocketChannel(ChannelHandlerContext ctx) {
+		ChannelPipeline pipeline = ctx.pipeline();
+		List<String> names = pipeline.names();
+		for (String name : names) {
+//			ChannelHandler handler=pipeline.get(name);
+			if ("wsdecoder".equals(name) || "wsencoder".equals(name)) {
+				return true;
+			}
+//			if(handler instanceof ByteToMessageDecoder) {
+//				return true;
+//			}
+		}
+		return false;
 	}
 
 	private void errorHttpCaught(ChannelHandlerContext ctx, Throwable cause) {

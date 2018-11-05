@@ -9,4 +9,5 @@ public interface IOPipeline {
 	 * @throws CircuitException
 	 */
 	void close()throws CircuitException;
+	String prop(String name);
 }

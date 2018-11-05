@@ -26,8 +26,8 @@ public class ForwardJunction extends Junction {
 	 * @param target 表示连线目标终点
 	 */
 	public void parse(IInputPipeline line, ChannelHandlerContext source, IGatewaySocket target) {
-		this.netName = line.prop("Net-Name");
-		this.protocol = line.prop("Protocol");
+		this.netName = line.prop("From-Name");
+		this.protocol = line.prop("From-Protocol");
 		this.localAddress = source.channel().localAddress();
 		this.remoteAddress = source.channel().remoteAddress();
 		this.destName = target.name();

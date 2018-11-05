@@ -19,7 +19,8 @@ public interface IJunctionTable {
 	int forwardsCount();
 
 	int invertsCount();
-
+	Junction[] toSortedForwards();
+	Junction[] toSortedInverts();
 	Junction findInInverts(String name);
 
 	Junction findInForwards(String name);

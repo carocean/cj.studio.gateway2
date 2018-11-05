@@ -1,8 +1,6 @@
 package cj.studio.gateway.socket.app;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +9,6 @@ import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IChip;
 import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.IServiceSite;
-import cj.studio.ecm.Scope;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceSite;
@@ -19,16 +16,6 @@ import cj.studio.ecm.logging.ILogging;
 import cj.studio.ecm.net.layer.ISessionEvent;
 import cj.studio.ecm.script.IJssModule;
 import cj.studio.gateway.socket.Destination;
-import cj.studio.gateway.socket.pipeline.ICustomInputValve;
-import cj.studio.gateway.socket.pipeline.IInputPipeline;
-import cj.studio.gateway.socket.pipeline.InputPipeline;
-import cj.studio.gateway.socket.valve.CheckErrorInputVavle;
-import cj.studio.gateway.socket.valve.CheckSessionInputValve;
-import cj.studio.gateway.socket.valve.CheckUrlInputValve;
-import cj.studio.gateway.socket.valve.FirstJeeInputValve;
-import cj.studio.gateway.socket.valve.FirstWayInputValve;
-import cj.studio.gateway.socket.valve.LastJeeInputValve;
-import cj.studio.gateway.socket.valve.LastWayInputValve;
 
 public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 	static ILogging logger = CJSystem.logging();
@@ -38,7 +25,6 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 	private Map<String, String> errors;
 	private Map<String, String> mimes;
 	private String http_root;
-
 	@Override
 	public final Object getService(String name) {
 		if ("$.app.site".equals(name)) {
@@ -57,6 +43,12 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 		}
 		if ("$.app.errors".equals(name)) {
 			return errors;
+		}
+		if("$.app.type".equals(name)) {
+			return type;
+		}
+		if("$.session.events".equals(name)) {
+			return getSessionEvents();
 		}
 		return site.getService(name);
 	}
@@ -78,12 +70,7 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 		this.type = type;
 		mimes = new HashMap<>();
 		errors = new HashMap<>();
-		// 初始化会话事件
-		IAppSiteSessionManager sessionManager = (IAppSiteSessionManager) site.getService("$.sessionManager");
-		List<ISessionEvent> events = getSessionEvents();
-		if (events != null) {
-			sessionManager.getEvents().addAll(events);
-		}
+		
 		IChip chip = (IChip) site.getService(IChip.class.getName());
 		IChipInfo info = chip.info();
 
@@ -175,64 +162,7 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 		}
 	}
 
-	@Override
-	public final IInputPipeline createInputPipeline(String name) {
-		IInputPipeline input = null;
-		if (type == ProgramAdapterType.jee) {
-			FirstJeeInputValve first=new FirstJeeInputValve();
-			LastJeeInputValve last=new LastJeeInputValve();
-			
-			input=new InputPipeline(first, last);
-		} else {
-			//注意顺序
-			FirstWayInputValve first = new FirstWayInputValve(0);
-			LastWayInputValve last = new LastWayInputValve(this);
-			input = new InputPipeline(first, last);
-			CheckUrlInputValve checkuri = createCheckUriEndWithDirSymbol();
-			if (checkuri != null) {
-				input.add(checkuri);
-			}
-			
-			CheckErrorInputVavle error=new CheckErrorInputVavle(this);
-			input.add(error);//添在此位置,error将产生会话，如果不想产生会话可放在sessionValve后面
-			
-			CheckSessionInputValve session = new CheckSessionInputValve(this);
-			input.add(session);
-			
-		}
-		ServiceCollection<ICustomInputValve> col=site.getServices(ICustomInputValve.class);
-		if(!col.isEmpty()) {
-			List<ICustomInputValve> list=col.asList();
-			ICustomInputValve[] arr=list.toArray(new ICustomInputValve[0]);
-			Arrays.sort(arr, new Comparator<ICustomInputValve>() {
+	
 
-				@Override
-				public int compare(ICustomInputValve o1, ICustomInputValve o2) {
-					if(o1.getSort()==o2.getSort())return 0;
-					return o1.getSort()>o2.getSort()?1:-1;
-				}
-				
-			});
-			for(ICustomInputValve v:arr) {
-				CjService cjService=v.getClass().getDeclaredAnnotation(CjService.class);
-				if(cjService.scope()!=Scope.multiton) {
-					logger.warn(getClass(),"必须声明为多例服务，该Valve已被忽略:"+v);
-					continue;
-				}
-				System.out.println("+++++"+v.getSort()+"..."+v);
-				input.add(v);
-			}
-		}
-		return input;
-	}
-
-	/**
-	 * 检查无扩展名请求路径是否在结尾处有目录符号，如果没有则通知客户端重定向
-	 * 
-	 * @return
-	 */
-	protected CheckUrlInputValve createCheckUriEndWithDirSymbol() {
-		return new CheckUrlInputValve();
-	}
 
 }
