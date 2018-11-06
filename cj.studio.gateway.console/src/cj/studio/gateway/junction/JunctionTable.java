@@ -10,8 +10,9 @@ import cj.studio.gateway.IJunctionTable;
 @CjService(name="junctionTable")
 public class JunctionTable implements IJunctionTable{
 	Map<String,Junction> forwards;
-	Map<String,Junction> inverts;
+	Map<String,Junction> backwards;
 	IJunctionListener forwardListener;
+	IJunctionListener backwardListener;
 	class CreateTimeComp implements Comparator<Junction>{
 
 		@Override
@@ -23,7 +24,7 @@ public class JunctionTable implements IJunctionTable{
 	}
 	public JunctionTable() {
 		this.forwards=new HashMap<>();
-		this.inverts=new HashMap<>();
+		this.backwards=new HashMap<>();
 	}
 	@Override
 	public Junction[] toSortedForwards() {
@@ -32,15 +33,26 @@ public class JunctionTable implements IJunctionTable{
 		return ret;
 	}
 	@Override
-	public Junction[] toSortedInverts() {
-		Junction[] ret=inverts.values().toArray(new Junction[0]);
+	public Junction[] toSortedBackwards() {
+		Junction[] ret=backwards.values().toArray(new Junction[0]);
+		Arrays.sort(ret, new CreateTimeComp());
+		return ret;
+	}
+	@Override
+	public Junction[] toSortedAll() {
+		Map<String,Object> map=new HashMap<>(forwards);
+		map.putAll(backwards);
+		Junction[] ret=map.values().toArray(new Junction[0]);
 		Arrays.sort(ret, new CreateTimeComp());
 		return ret;
 	}
 	@Override
 	public void add(Junction junction) {
-		if(junction instanceof InvertJunction) {
-			inverts.put(junction.name,junction);
+		if(junction instanceof BackwardJunction) {
+			backwards.put(junction.name,junction);
+			if(backwardListener!=null) {
+				backwardListener.monitor("A", junction);
+			}
 			return;
 		}
 		forwards.put(junction.name,junction);
@@ -51,8 +63,11 @@ public class JunctionTable implements IJunctionTable{
 	}
 	@Override
 	public void remove(Junction junction) {
-		if(junction instanceof InvertJunction) {
-			inverts.remove(junction.name);
+		if(junction instanceof BackwardJunction) {
+			backwards.remove(junction.name);
+			if(backwardListener!=null) {
+				backwardListener.monitor("R", junction);
+			}
 			return;
 		}
 		forwards.remove(junction.name);
@@ -65,28 +80,32 @@ public class JunctionTable implements IJunctionTable{
 		return forwards.keySet().toArray(new String[0]);
 	}
 	@Override
-	public String[] enumInvertName() {
-		return inverts.keySet().toArray(new String[0]);
+	public String[] enumBackwardName() {
+		return backwards.keySet().toArray(new String[0]);
 	}
 	@Override
 	public int forwardsCount() {
 		return forwards.size();
 	}
 	@Override
-	public int invertsCount() {
-		return inverts.size();
+	public int backwardsCount() {
+		return backwards.size();
 	}
 	@Override
 	public Junction findInForwards(String name) {
 		return forwards.get(name);
 	}
 	@Override
-	public Junction findInInverts(String name) {
-		return forwards.get(name);
+	public Junction findInBackwards(String name) {
+		return backwards.get(name);
 	}
 	
 	@Override
 	public void addForwardListener(IJunctionListener listener) {
 		this.forwardListener=listener;
+	}
+	@Override
+	public void addBackwardListener(IJunctionListener listener) {
+		this.backwardListener=listener;
 	}
 }

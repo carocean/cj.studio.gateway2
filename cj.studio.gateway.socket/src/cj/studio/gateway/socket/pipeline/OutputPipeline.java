@@ -12,6 +12,7 @@ public class OutputPipeline implements IOutputPipeline {
 	IOPipeline adapter;
 	Map<String, String> props;
 	Outputer handler;
+	private boolean disposed;
 
 	public OutputPipeline(IOutputValve first, IOutputValve last) {
 		head = new LinkEntry(first);
@@ -125,11 +126,17 @@ public class OutputPipeline implements IOutputPipeline {
 
 	@Override
 	public void dispose() {
-		LinkEntry tmp = head;
-		while (tmp.next != null) {
-			tmp.entry = null;
-			tmp = tmp.next;
+		LinkEntry next = head;
+		LinkEntry prev =null;
+		while (next.next != null) {
+			prev=next;
+			next = next.next;
+			prev.next=null;
+			prev.entry=null;
 		}
+		this.head=null;
+		this.last=null;
+		disposed=true;
 	}
 
 	class LinkEntry {
@@ -160,7 +167,10 @@ public class OutputPipeline implements IOutputPipeline {
 			props = new HashMap<>();
 		props.put(name, value);
 	}
-
+	@Override
+	public boolean isDisposed() {
+		return disposed;
+	}
 	class OPipeline implements IOPipeline {
 		OutputPipeline target;
 
@@ -210,9 +220,9 @@ public class OutputPipeline implements IOutputPipeline {
 		}
 		@Override
 		public void closePipeline() throws CircuitException {
-			if (target.last.entry instanceof IClosable) {
-				IClosable a = (IClosable) target.last.entry;
-				a.close();
+			if (target.last.entry instanceof ICloseableOutputValve) {
+				ICloseableOutputValve a = (ICloseableOutputValve) target.last.entry;
+				a.close(target);
 			}
 			releasePipeline();
 		}

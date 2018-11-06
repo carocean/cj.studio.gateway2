@@ -10,6 +10,7 @@ public class InputPipeline implements IInputPipeline {
 	LinkEntry last;
 	IIPipeline adapter;
 	Map<String, String> props;
+	private boolean disposed;
 
 	public InputPipeline(IInputValve first, IInputValve last) {
 		head = new LinkEntry(first);
@@ -97,15 +98,24 @@ public class InputPipeline implements IInputPipeline {
 		} while (tmp.next != null);
 		return tmp;
 	}
-
+	@Override
 	public void dispose() {
-		LinkEntry tmp = head;
-		while (tmp.next != null) {
-			tmp.entry = null;
-			tmp = tmp.next;
+		LinkEntry next = head;
+		LinkEntry prev =null;
+		while (next.next != null) {
+			prev=next;
+			next = next.next;
+			prev.next=null;
+			prev.entry=null;
 		}
+		this.head=null;
+		this.last=null;
+		disposed=true;
 	}
-
+	@Override
+	public boolean isDisposed() {
+		return disposed;
+	}
 	class LinkEntry {
 		LinkEntry next;
 		IInputValve entry;

@@ -35,6 +35,7 @@ import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
+import cj.studio.gateway.socket.util.SocketContants;
 import cj.studio.gateway.socket.util.SocketName;
 import cj.studio.gateway.socket.ws.WebsocketGatewaySocket;
 import cj.ultimate.util.FileHelper;
@@ -61,20 +62,20 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 
-public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
+public class HttpServerHandler extends SimpleChannelInboundHandler<Object> implements SocketContants {
 	static String Websocket_Channel = "Websocket-channel";
 	private WebSocketServerHandshaker handshaker;
 	IServiceProvider parent;
 	public static ILogging logger;
 	IGatewaySocketContainer sockets;
-	private IJunctionTable forwardJunctions;
+	private IJunctionTable junctions;
 	InputPipelineCollection pipelines;
 
 	public HttpServerHandler(IServiceProvider parent) {
 		this.parent = parent;
 		logger = CJSystem.logging();
 		sockets = (IGatewaySocketContainer) parent.getService("$.container.socket");
-		forwardJunctions = (IJunctionTable) parent.getService("$.junctions");
+		junctions = (IJunctionTable) parent.getService("$.junctions");
 		this.pipelines = new InputPipelineCollection();
 	}
 
@@ -148,8 +149,8 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 	}
 
 	protected void websocketActive(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
-		WebsocketGatewaySocket nettySocket = new WebsocketGatewaySocket(parent, ctx.channel());
-		sockets.add(nettySocket);// ws是双向通讯端子，故需加入
+		WebsocketGatewaySocket wsSocket = new WebsocketGatewaySocket(parent, ctx.channel());
+		sockets.add(wsSocket);// ws是双向通讯端子，故需加入
 		// 以下生成目标管道
 		String uri = req.getUri();
 		try {
@@ -157,7 +158,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
-		String gatewayDestInHeader = req.headers().get("Gateway-Dest");
+		String gatewayDestInHeader = req.headers().get(__frame_gatewayDest);
 		ServerInfo info = (ServerInfo) parent.getService("$.server.info");
 		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, info.getProps(),
 				getClass());
@@ -179,13 +180,13 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 		String name = SocketName.name(ctx.channel().id(), info.getName());
-		IInputPipeline inputPipeline = builder.name(name).prop("From-Protocol", "ws").prop("From-Name", info.getName())
-				.prop("To-Name", socket.name()).createPipeline();
+		IInputPipeline inputPipeline = builder.name(name).prop(__pipeline_fromProtocol, "ws")
+				.prop(__pipeline_fromWho, info.getName()).createPipeline();
 		pipelines.add(name, inputPipeline);
 
 		ForwardJunction junction = new ForwardJunction(name);
-		junction.parse(inputPipeline, ctx, socket);
-		this.forwardJunctions.add(junction);
+		junction.parse(inputPipeline, ctx.channel(), socket);
+		this.junctions.add(junction);
 
 		FullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), HttpResponseStatus.OK);
 		inputPipeline.headOnActive(name, req, res);// 通知管道激活
@@ -203,9 +204,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 
 //		websocketInactive(ctx, name);//由于ws的channel是在http上升级的channel，故channelInactive一样执行。如果特意要释放ws channel的资源，可以根据ch.pipeline的handlers来判断是否ws channel，因为ws ch包含websocket handlers
 
-		Junction junction = forwardJunctions.findInForwards(name);
+		Junction junction = junctions.findInForwards(name);
 		if (junction != null) {
-			this.forwardJunctions.remove(junction);
+			this.junctions.remove(junction);
 		}
 
 		if (sockets.contains(name)) {
@@ -228,7 +229,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
-		String gatewayDestInHeader = req.headers().get("Gateway-Dest");
+		String gatewayDestInHeader = req.headers().get(__frame_gatewayDest);
 		ServerInfo info = (ServerInfo) parent.getService("$.server.info");
 		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, info.getProps(),
 				getClass());
@@ -258,13 +259,13 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 		}
 
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
-		inputPipeline = builder.name(name).prop("From-Protocol", "http").prop("From-Name", info.getName())
-				.prop("To-Name", socket.name()).createPipeline();
+		inputPipeline = builder.name(name).prop(__pipeline_fromProtocol, "http").prop(__pipeline_fromWho, info.getName())
+				.createPipeline();
 		pipelines.add(name, inputPipeline);
 
 		ForwardJunction junction = new ForwardJunction(name);
-		junction.parse(inputPipeline, ctx, socket);
-		this.forwardJunctions.add(junction);
+		junction.parse(inputPipeline, ctx.channel(), socket);
+		this.junctions.add(junction);
 
 		inputPipeline.headOnActive(name, req, res);// 通知管道激活
 

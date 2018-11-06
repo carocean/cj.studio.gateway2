@@ -21,6 +21,7 @@ import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOutputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.pipeline.OutputSelector;
+import cj.ultimate.gson2.com.google.gson.Gson;
 import cj.ultimate.util.StringUtil;
 
 public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
@@ -65,6 +66,12 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		if ("$.destination".equals(name)) {
 			return this.destination;
 		}
+		if ("$.socket.name".equals(name)) {
+			return this.name();
+		}
+		if ("$.localAddress".equals(name)) {
+			return new Gson().toJson(destination.getUris());
+		}
 		return parent.getService(name);
 	}
 
@@ -104,7 +111,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 			sessionManager.getEvents().addAll(events);
 		}
 		
-		IOutputSelector selector=new OutputSelector(this.outputBuilder,this);
+		IOutputSelector selector=new OutputSelector(this);
 		IServiceSite site=(IServiceSite)wprog.getService("$.app.site");
 		site.addService("$.output.selector", selector);
 		

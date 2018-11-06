@@ -12,6 +12,7 @@ import cj.studio.ecm.net.web.HttpCircuit;
 import cj.studio.ecm.net.web.HttpFrame;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
+import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
@@ -25,7 +26,7 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 
-public class FirstWayInputValve implements IInputValve {
+public class FirstWayInputValve implements IInputValve,SocketContants {
 	private long uploadFileLimitLength;
 
 	public FirstWayInputValve(long uploadFileLimitLength) {
@@ -67,8 +68,8 @@ public class FirstWayInputValve implements IInputValve {
 		ByteBuf bb = request.content();
 		byte[] b = new byte[bb.readableBytes()];
 		bb.readBytes(b);
-		Frame f = new HttpFrame(b);
-		String sname = pipeline.prop("To-Name");
+		Frame f = new Frame(b);
+		String sname = pipeline.prop(__pipeline_toWho);
 		String uri = "";
 		if (f.containsQueryString()) {
 			uri = String.format("/%s%s?%s", sname, f.path(), f.queryString());
@@ -76,10 +77,10 @@ public class FirstWayInputValve implements IInputValve {
 			uri = String.format("/%s%s", sname, f.path());
 		}
 		f.url(uri);
-		f.head("From-Protocol", pipeline.prop("From-Protocol"));
-		f.head("From-Name", pipeline.prop("From-Name"));
-		f.head("From-Pipeline", pipeline.prop("Pipeline-Name"));
-		Circuit c = new HttpCircuit(String.format("%s 200 OK", f.protocol()));
+		f.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
+		f.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
+		f.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
+		Circuit c = new Circuit(String.format("%s 200 OK", f.protocol()));
 		pipeline.nextFlow(f, c, this);
 		c.dispose();
 	}
@@ -88,9 +89,9 @@ public class FirstWayInputValve implements IInputValve {
 		FullHttpRequest req = (FullHttpRequest) request;
 		String uri = req.getUri();
 		Frame frame = convertToFrame(uri, req);
-		frame.head("From-Protocol", pipeline.prop("From-Protocol"));
-		frame.head("From-Name", pipeline.prop("From-Name"));
-		frame.head("From-Pipeline", pipeline.prop("Pipeline-Name"));
+		frame.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
+		frame.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
+		frame.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
 		Circuit circuit = new HttpCircuit(String.format("%s 200 OK", req.getProtocolVersion().text()));
 		pipeline.nextFlow(frame, circuit, this);
 		FullHttpResponse res = (FullHttpResponse) response;
@@ -115,7 +116,6 @@ public class FirstWayInputValve implements IInputValve {
 	private Frame convertToFrame(String uri, FullHttpRequest req) throws CircuitException {
 		String line = String.format("%s %s %s", req.getMethod(), uri, req.getProtocolVersion().text());
 		Frame f = new HttpFrame(line);
-		f.head("Gateway-Protocol", "http");
 		HttpHeaders headers = req.headers();
 		Set<String> set = headers.names();
 		for (String key : set) {

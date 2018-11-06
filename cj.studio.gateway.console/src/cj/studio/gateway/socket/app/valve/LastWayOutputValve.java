@@ -8,21 +8,22 @@ import cj.studio.gateway.ICluster;
 import cj.studio.gateway.IDestinationLoader;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
-import cj.studio.gateway.junction.InvertJunction;
+import cj.studio.gateway.junction.BackwardJunction;
 import cj.studio.gateway.junction.Junction;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
+import cj.studio.gateway.socket.pipeline.ICloseableOutputValve;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOPipeline;
 import cj.studio.gateway.socket.pipeline.IOutputValve;
+import cj.studio.gateway.socket.util.SocketContants;
 import cj.studio.gateway.socket.ws.WebsocketGatewaySocket;
-import cj.ultimate.IClosable;
 
 //在该类中对接目标socket中的input端子，如果请求的是cluster目标不存在，则启动它
 //该类逻辑与net中实现的HttpServerHandler.java相同,并在本类中管道管理输出连接点
-public class LastWayOutputValve implements IOutputValve, IClosable {
-	private IJunctionTable invertJunctions;
+public class LastWayOutputValve implements IOutputValve, ICloseableOutputValve,SocketContants {
+	private IJunctionTable junctions;
 	private IServiceProvider parent;
 	private IGatewaySocketContainer sockets;
 	private IGatewaySocket targetSocket;
@@ -31,7 +32,7 @@ public class LastWayOutputValve implements IOutputValve, IClosable {
 	public LastWayOutputValve(IServiceProvider parent) {
 		this.parent = parent;
 		sockets = (IGatewaySocketContainer) parent.getService("$.container.socket");
-		invertJunctions = (IJunctionTable) parent.getService("$.junctions");
+		junctions = (IJunctionTable) parent.getService("$.junctions");
 	}
 
 	@Override
@@ -44,7 +45,7 @@ public class LastWayOutputValve implements IOutputValve, IClosable {
 	}
 
 	@Override
-	public void close() {
+	public void close(IOPipeline pipeline) {
 		if (targetSocket instanceof WebsocketGatewaySocket) {
 			try {
 				targetSocket.close();
@@ -53,12 +54,12 @@ public class LastWayOutputValve implements IOutputValve, IClosable {
 			}
 		}
 
-		dispose(null);
+		dispose(pipeline);
 	}
 
 	@Override
 	public void onActive(IOPipeline pipeline) throws CircuitException {
-		String gatewayDest = pipeline.prop("To-Name");
+		String gatewayDest = pipeline.prop(SocketContants.__pipeline_name);//在backward输出管道中，由于一个输出管道仅对应一个输入管道，因此管道名即为目标
 		IGatewaySocket socket = this.sockets.find(gatewayDest);
 		if (socket == null) {
 			ICluster cluster = (ICluster) parent.getService("$.cluster");
@@ -75,13 +76,13 @@ public class LastWayOutputValve implements IOutputValve, IClosable {
 		// 以下求一个输入端子
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) targetSocket.getService("$.pipeline.input.builder");
 		String name = gatewayDest;
-		IInputPipeline inputPipeline = builder.name(name).prop("From-Protocol", pipeline.prop("From-Protocol"))
-				.prop("From-Name", pipeline.prop("From-Name")).prop("To-Name", targetSocket.name()).createPipeline();
+		IInputPipeline inputPipeline = builder.name(name).prop(__pipeline_fromProtocol, pipeline.prop(__pipeline_fromProtocol))
+				.prop(__pipeline_fromWho, pipeline.prop(__pipeline_fromWho)).createPipeline();
 		input = inputPipeline;
 
-		InvertJunction junction = new InvertJunction(name);
-		junction.parse(inputPipeline, targetSocket);
-		this.invertJunctions.add(junction);
+		BackwardJunction junction = new BackwardJunction(name);
+		junction.parse(pipeline,inputPipeline, targetSocket);
+		this.junctions.add(junction);
 
 	}
 
@@ -95,16 +96,16 @@ public class LastWayOutputValve implements IOutputValve, IClosable {
 			return;
 		}
 		if (pipeline != null) {
-			String gatewayDest = pipeline.prop("To-Name");
+			String gatewayDest = pipeline.prop(SocketContants.__pipeline_name);
 			String name = gatewayDest;
-			Junction junction = invertJunctions.findInForwards(name);
+			Junction junction = junctions.findInBackwards(name);
 			if (junction != null) {
-				this.invertJunctions.remove(junction);
+				this.junctions.remove(junction);
 			}
 		}
 		input.dispose();
 		input = null;
-		this.invertJunctions = null;
+		this.junctions = null;
 		this.sockets = null;
 		this.parent = null;
 		this.targetSocket = null;

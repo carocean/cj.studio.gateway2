@@ -23,6 +23,7 @@ import cj.studio.gateway.socket.pipeline.IOutputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOutputValve;
 import cj.studio.gateway.socket.pipeline.OutputPipeline;
 import cj.studio.gateway.socket.pipeline.OutputPipelineCollection;
+import cj.studio.gateway.socket.util.SocketContants;
 
 public class AppSocketOutputPipelineBuilder implements IOutputPipelineBuilder {
 	IServiceProvider parent;
@@ -78,7 +79,11 @@ public class AppSocketOutputPipelineBuilder implements IOutputPipelineBuilder {
 		IOutputValve first=new FirstWayOutputValve(pipelines);
 		IOutputValve last=new LastWayOutputValve(this.parent);
 		IOutputPipeline output=new OutputPipeline(first, last);
-		output.prop("To-Name",name);
+		
+		String socketName=(String)parent.getService("$.socket.name");
+		output.prop(SocketContants.__pipeline_name,name);
+		output.prop(SocketContants.__pipeline_fromWho,socketName);
+		output.prop(SocketContants.__pipeline_fromProtocol,"app");
 		
 		ServiceCollection<IAnnotationOutputValve> col=app.getServices(IAnnotationOutputValve.class);
 		if(!col.isEmpty()) {

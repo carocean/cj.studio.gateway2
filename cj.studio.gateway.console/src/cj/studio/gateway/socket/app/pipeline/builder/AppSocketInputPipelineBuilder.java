@@ -27,6 +27,7 @@ import cj.studio.gateway.socket.pipeline.IAnnotationInputValve;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.InputPipeline;
+import cj.studio.gateway.socket.util.SocketContants;
 
 public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 	IServiceProvider parent;
@@ -46,18 +47,16 @@ public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 	@Override
 	public IInputPipeline createPipeline() throws CircuitException {
 		IGatewayAppSiteProgram prog = ((IGatewayAppSiteProgram) parent.getService("$.app.program"));
-//		IInputPipeline input = prog.createInputPipeline(name);
 		IInputPipeline input = createInputPipeline(prog);
-		
+		String socketName=(String)parent.getService("$.socket.name");
+		input.prop(SocketContants.__pipeline_name,name);
+		input.prop(SocketContants.__pipeline_toWho,socketName);
+		input.prop(SocketContants.__pipeline_toProtocol,"app");
 		if(props!=null) {
-			input.prop("Pipeline-Name",name);
 			Set<String> set=props.keySet();
 			for(String key:set) {
 				input.prop(key, props.get(key));
 			}
-		}
-		if (input == null) {
-			throw new CircuitException("404", "app socket 无法创建输入管道：" + prog);
 		}
 		return input;
 	}

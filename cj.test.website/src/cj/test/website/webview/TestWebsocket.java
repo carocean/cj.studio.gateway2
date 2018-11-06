@@ -26,7 +26,7 @@ public class TestWebsocket implements IGatewayAppSiteWayWebView{
 		Document doc=resource.html("/index.html");
 		if(frame instanceof HttpFrame) {
 			HttpFrame hf=(HttpFrame)frame;
-			System.out.println(hf.session());
+			System.out.println("session :"+hf.session());
 		}
 		//注意：ws协议不支持会话，开发可在应用层设计
 		IOutputer back=selector.select(frame);//回发
@@ -35,6 +35,7 @@ public class TestWebsocket implements IGatewayAppSiteWayWebView{
 		Circuit c1=new Circuit("g/1.0 200 ok");
 		back.send(f1, c1);
 		back.closePipeline();
+//		back.releasePipeline();
 		
 		IOutputer output=selector.select("website2");
 		Frame f=new Frame(String.format("put /website2/ http/1.1"));

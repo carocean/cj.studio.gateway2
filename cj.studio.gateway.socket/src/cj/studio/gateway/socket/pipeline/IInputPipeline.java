@@ -13,4 +13,5 @@ public interface IInputPipeline extends IIPipeline,IDisposable{
 	 void remove(IInputValve valve);
 	 
 	 void prop(String name,String value);
+	 boolean isDisposed();
 }

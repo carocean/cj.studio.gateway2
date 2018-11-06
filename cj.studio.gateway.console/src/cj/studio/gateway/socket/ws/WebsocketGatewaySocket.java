@@ -10,20 +10,27 @@ import cj.studio.gateway.socket.util.SocketName;
 import cj.studio.gateway.socket.ws.pipeline.builder.WebsocketInputPipelineBuilder;
 import io.netty.channel.Channel;
 
-public class WebsocketGatewaySocket implements IGatewaySocket{
+public class WebsocketGatewaySocket implements IGatewaySocket {
 	private IServiceProvider parent;
 	private Channel channel;
 	private IInputPipelineBuilder builder;
-	public WebsocketGatewaySocket(IServiceProvider parent,Channel channel) {
-		this.parent=parent;
-		this.channel=channel;
-		this.builder=new WebsocketInputPipelineBuilder(channel);
+
+	public WebsocketGatewaySocket(IServiceProvider parent, Channel channel) {
+		this.parent = parent;
+		this.channel = channel;
+		this.builder = new WebsocketInputPipelineBuilder(parent,channel);
 	}
 
 	@Override
 	public Object getService(String name) {
-		if("$.pipeline.input.builder".equals(name)) {
+		if ("$.pipeline.input.builder".equals(name)) {
 			return builder;
+		}
+		if ("$.localAddress".equals(name)) {
+			return channel.localAddress().toString();
+		}
+		if ("$.remoteAddress".equals(name)) {
+			return channel.remoteAddress().toString();
 		}
 		return parent.getService(name);
 	}
@@ -35,8 +42,8 @@ public class WebsocketGatewaySocket implements IGatewaySocket{
 
 	@Override
 	public String name() {
-		String netName=(String)parent.getService("$.server.name");
-		return SocketName.name(channel.id(),netName);
+		String netName = (String) parent.getService("$.server.name");
+		return SocketName.name(channel.id(), netName);
 	}
 
 	@Override
@@ -46,8 +53,9 @@ public class WebsocketGatewaySocket implements IGatewaySocket{
 
 	@Override
 	public void close() throws CircuitException {
-		channel.close();
+		if (channel.isOpen()) {
+			channel.close();
+		}
 	}
-
 
 }

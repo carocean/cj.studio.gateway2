@@ -62,6 +62,7 @@ public class LastWayInputValve implements IInputValve {
 			// 余下的扩展名必是文档
 			if (mappingsContainsKey(rpath)) {// 如果有java的webview则：
 				renderJavaDocument(rpath, frame, circuit);
+				return;
 			}
 			// 余下的则只可能是jss服务，故加载，如果不存在则报404
 			boolean exists = renderJssDocument(rpath, frame, circuit);

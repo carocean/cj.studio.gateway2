@@ -14,5 +14,5 @@ public interface IOutputPipeline extends IOPipeline,IDisposable{
 
 	void remove(IOutputValve valve);
 
-	
+	boolean isDisposed();
 }

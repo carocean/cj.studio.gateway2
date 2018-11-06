@@ -13,6 +13,7 @@ import cj.studio.ecm.net.web.WebUtil;
 import cj.studio.gateway.socket.app.IAppSiteSessionManager;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
+import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 
 public class CheckSessionInputValve implements IInputValve {
@@ -45,7 +46,7 @@ public class CheckSessionInputValve implements IInputValve {
 			pipeline.nextFlow(request, response, this);
 			return;
 		}
-		if(!"http".equals(pipeline.prop("From-Protocol"))) {//如果是ws协议则不分配会话，如果开发者想维护状态可在应用层自设。
+		if(!"http".equals(pipeline.prop(SocketContants.__frame_fromProtocol))) {//如果是ws协议则不分配会话，如果开发者想维护状态可在应用层自设。
 			pipeline.nextFlow(request, response, this);
 			return;
 		}

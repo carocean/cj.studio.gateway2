@@ -14,17 +14,21 @@ public interface IJunctionTable {
 
 	void remove(Junction junction);
 	String[] enumForwardName();
-	String[] enumInvertName();
+	String[] enumBackwardName();
 
 	int forwardsCount();
 
-	int invertsCount();
+	int backwardsCount();
 	Junction[] toSortedForwards();
-	Junction[] toSortedInverts();
-	Junction findInInverts(String name);
+	Junction[] toSortedBackwards();
+	Junction findInBackwards(String name);
 
 	Junction findInForwards(String name);
 
 	void addForwardListener(IJunctionListener listener);
+
+	void addBackwardListener(IJunctionListener listener);
+
+	Junction[] toSortedAll();
 
 }
