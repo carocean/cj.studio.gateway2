@@ -1,10 +1,10 @@
 package cj.studio.gateway.socket.app;
 
+import cj.studio.ecm.frame.Circuit;
+import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
-import cj.studio.ecm.net.web.HttpCircuit;
-import cj.studio.ecm.net.web.HttpFrame;
 
 public interface IGatewayAppSiteWayWebView {
-	void flow(HttpFrame frame, HttpCircuit circuit,
+	void flow(Frame frame, Circuit circuit,
 			IGatewayAppSiteResource resource) throws CircuitException;
 }

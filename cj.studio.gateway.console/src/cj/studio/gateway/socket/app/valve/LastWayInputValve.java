@@ -10,8 +10,6 @@ import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
-import cj.studio.ecm.net.web.HttpCircuit;
-import cj.studio.ecm.net.web.HttpFrame;
 import cj.studio.ecm.script.IJssModule;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
@@ -50,8 +48,8 @@ public class LastWayInputValve implements IInputValve {
 
 	@Override
 	public void flow(Object request, Object response, IIPipeline pipeline) throws CircuitException {
-		HttpFrame frame = (HttpFrame) request;
-		HttpCircuit circuit = (HttpCircuit) response;
+		Frame frame = (Frame) request;
+		Circuit circuit = (Circuit) response;
 		String rpath = frame.relativePath();
 		String ext = frame.extName();
 		if (!StringUtil.isEmpty(ext)) {// 如果有扩展名
@@ -91,7 +89,7 @@ public class LastWayInputValve implements IInputValve {
 	}
 
 
-	private boolean renderJssDocument(String rpath, HttpFrame frame, HttpCircuit circuit) throws CircuitException {
+	private boolean renderJssDocument(String rpath, Frame frame, Circuit circuit) throws CircuitException {
 		String filePath = "";
 		int pos = rpath.lastIndexOf(".");
 		if (pos > 0) {
@@ -132,7 +130,7 @@ public class LastWayInputValve implements IInputValve {
 		return false;
 	}
 
-	private void renderJavaDocument(String rpath, HttpFrame frame, HttpCircuit circuit) throws CircuitException {
+	private void renderJavaDocument(String rpath, Frame frame, Circuit circuit) throws CircuitException {
 		IGatewayAppSiteWayWebView webview = (IGatewayAppSiteWayWebView) mappings.get(rpath);
 		webview.flow(frame, circuit, resource);
 	}

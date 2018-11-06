@@ -11,13 +11,15 @@ public interface IOutputer {
 	 */
 	void send(Object request, Object response) throws CircuitException;
 
+	boolean canCloseablePipeline();
 	/**
 	 * 关闭管道。如果对端是net将会关闭
+	 * @throws CircuitException 
 	 */
-	void closePipeline();
+	void closePipeline() throws CircuitException;
 	/**
 	 * 仅释放管道
 	 */
-	void releasePipeline();
+	void releasePipeline()throws CircuitException;
 	
 }

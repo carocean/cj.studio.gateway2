@@ -8,7 +8,8 @@ $(document).ready(function(){
 		var url=frame.heads.url;
 		var protocol=frame.heads.protocol;
 		var cmd=frame.heads.command;
-		console.log('message:'+frame);
+		console.log(cmd+' '+ url+ ' '+protocol+'\r\n'+frame.content);
+		$('.my2').val(frame.content);
 	},function(f){
 		euser.html('已连接');
 		euser.attr('status','connected');

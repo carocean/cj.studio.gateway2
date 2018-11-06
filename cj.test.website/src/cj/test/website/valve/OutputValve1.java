@@ -1,4 +1,4 @@
-package cj.test.website;
+package cj.test.website.valve;
 
 import cj.studio.ecm.Scope;
 import cj.studio.ecm.annotation.CjService;
@@ -17,6 +17,15 @@ public class OutputValve1 implements IAnnotationOutputValve{
 	@Override
 	public int getSort() {
 		return 1;
+	}
+	@Override
+	public void onActive(IOPipeline pipeline) throws CircuitException {
+		pipeline.nextOnActive(this);
+		
+	}
+	@Override
+	public void onInactive(IOPipeline pipeline) throws CircuitException {
+		pipeline.nextOnInactive(this);
 	}
 
 }

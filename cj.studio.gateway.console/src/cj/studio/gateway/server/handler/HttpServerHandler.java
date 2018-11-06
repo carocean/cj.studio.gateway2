@@ -32,11 +32,11 @@ import cj.studio.gateway.server.util.DefaultHttpMineTypeFactory;
 import cj.studio.gateway.server.util.GetwayDestHelper;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
-import cj.studio.gateway.socket.ServerNetGatewaySocket;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
 import cj.studio.gateway.socket.util.SocketName;
+import cj.studio.gateway.socket.ws.WebsocketGatewaySocket;
 import cj.ultimate.util.FileHelper;
 import cj.ultimate.util.StringUtil;
 import io.netty.channel.ChannelFuture;
@@ -148,7 +148,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<Object> {
 	}
 
 	protected void websocketActive(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
-		ServerNetGatewaySocket nettySocket = new ServerNetGatewaySocket(parent, ctx.channel());
+		WebsocketGatewaySocket nettySocket = new WebsocketGatewaySocket(parent, ctx.channel());
 		sockets.add(nettySocket);// ws是双向通讯端子，故需加入
 		// 以下生成目标管道
 		String uri = req.getUri();

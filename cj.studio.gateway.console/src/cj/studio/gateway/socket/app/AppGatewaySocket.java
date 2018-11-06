@@ -15,12 +15,12 @@ import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.net.layer.ISessionEvent;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
+import cj.studio.gateway.socket.app.pipeline.builder.AppSocketInputPipelineBuilder;
+import cj.studio.gateway.socket.app.pipeline.builder.AppSocketOutputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOutputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.pipeline.OutputSelector;
-import cj.studio.gateway.socket.pipeline.builder.AppSocketInputPipelineBuilder;
-import cj.studio.gateway.socket.pipeline.builder.AppSocketOutputPipelineBuilder;
 import cj.ultimate.util.StringUtil;
 
 public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {

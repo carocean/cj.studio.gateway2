@@ -5,7 +5,8 @@ import cj.ultimate.IDisposable;
 
 public interface IOutputPipeline extends IOPipeline,IDisposable{
 	void headFlow(Object request,Object response)throws CircuitException;
-
+	void headOnActive()throws CircuitException;
+	void headOnInactive()throws CircuitException;
 	IOutputer handler();
 	void prop(String name,String value);
 
@@ -13,6 +14,5 @@ public interface IOutputPipeline extends IOPipeline,IDisposable{
 
 	void remove(IOutputValve valve);
 
-	void dispose();
 	
 }

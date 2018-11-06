@@ -77,3 +77,16 @@
 		at java.lang.Thread.run(Thread.java:748)
 2018年11月05日 22:44:48  信息 : -------------网关启动完毕-------------------
 2018年11月05日 22:44:51  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月06日 13:09:53  信息 : -------------网关启动完毕-------------------
+2018年11月06日 13:09:58  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月06日 13:22:45  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
+2018年11月06日 13:22:45  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
+2018年11月06日 13:22:45  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
+2018年11月06日 13:30:24  信息 : -------------网关启动完毕-------------------
+2018年11月06日 13:30:35  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月06日 15:05:33  信息 : -------------网关启动完毕-------------------
+2018年11月06日 15:05:34  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月06日 15:05:34  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月06日 16:01:35  信息 : -------------网关启动完毕-------------------
+2018年11月06日 16:01:38  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月06日 16:01:38  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share

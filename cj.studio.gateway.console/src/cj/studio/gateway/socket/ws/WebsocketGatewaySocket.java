@@ -1,23 +1,30 @@
-package cj.studio.gateway.socket;
+package cj.studio.gateway.socket.ws;
 
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
+import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.util.SocketName;
+import cj.studio.gateway.socket.ws.pipeline.builder.WebsocketInputPipelineBuilder;
 import io.netty.channel.Channel;
 
-public class ServerNetGatewaySocket implements IGatewaySocket{
+public class WebsocketGatewaySocket implements IGatewaySocket{
 	private IServiceProvider parent;
 	private Channel channel;
-	public ServerNetGatewaySocket(IServiceProvider parent,Channel channel) {
+	private IInputPipelineBuilder builder;
+	public WebsocketGatewaySocket(IServiceProvider parent,Channel channel) {
 		this.parent=parent;
 		this.channel=channel;
+		this.builder=new WebsocketInputPipelineBuilder(channel);
 	}
 
 	@Override
 	public Object getService(String name) {
+		if("$.pipeline.input.builder".equals(name)) {
+			return builder;
+		}
 		return parent.getService(name);
 	}
 

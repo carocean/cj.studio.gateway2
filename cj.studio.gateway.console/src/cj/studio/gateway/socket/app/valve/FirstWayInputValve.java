@@ -25,65 +25,78 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 
-public class FirstWayInputValve implements IInputValve{
+public class FirstWayInputValve implements IInputValve {
 	private long uploadFileLimitLength;
+
 	public FirstWayInputValve(long uploadFileLimitLength) {
-		this.uploadFileLimitLength=uploadFileLimitLength;
-		if(uploadFileLimitLength<=0) {
-			this.uploadFileLimitLength= 4194304L;// 4M;
+		this.uploadFileLimitLength = uploadFileLimitLength;
+		if (uploadFileLimitLength <= 0) {
+			this.uploadFileLimitLength = 4194304L;// 4M;
 		}
 	}
+
 	@Override
 	public void onActive(String inputName, Object request, Object response, IIPipeline pipeline)
 			throws CircuitException {
 		pipeline.nextOnActive(inputName, request, response, this);
-		
+
 	}
+
 	@Override
 	public void onInactive(String inputName, IIPipeline pipeline) throws CircuitException {
 		pipeline.nextOnInactive(inputName, this);
 	}
+
 	@Override
 	public void flow(Object request, Object response, IIPipeline pipeline) throws CircuitException {
-		if(request instanceof FullHttpRequest) {
-			flowHttp(request,response,pipeline);
+		if (request instanceof FullHttpRequest) {
+			flowHttp(request, response, pipeline);
 			return;
 		}
-		if(request instanceof WebSocketFrame) {
-			flowWs((WebSocketFrame)request,pipeline);
+		if (request instanceof WebSocketFrame) {
+			flowWs((WebSocketFrame) request, pipeline);
+			return;
+		}
+		if (request instanceof Frame) {
+			pipeline.nextFlow(request, response, this);
 			return;
 		}
 	}
+
 	private void flowWs(WebSocketFrame request, IIPipeline pipeline) throws CircuitException {
 		ByteBuf bb = request.content();
 		byte[] b = new byte[bb.readableBytes()];
 		bb.readBytes(b);
-		HttpFrame f = new HttpFrame(b);
-		String sname=pipeline.prop("To-Name");
-		String uri="";
-		if(f.containsQueryString()) {
-			uri=String.format("/%s%s?%s", sname,f.path(),f.queryString());
-		}else {
-			uri=String.format("/%s%s", sname,f.path());
+		Frame f = new HttpFrame(b);
+		String sname = pipeline.prop("To-Name");
+		String uri = "";
+		if (f.containsQueryString()) {
+			uri = String.format("/%s%s?%s", sname, f.path(), f.queryString());
+		} else {
+			uri = String.format("/%s%s", sname, f.path());
 		}
 		f.url(uri);
-		f.head("From-Protocol",pipeline.prop("From-Protocol"));
-		f.head("From-Name",pipeline.prop("From-Name"));
-		HttpCircuit c=new HttpCircuit(String.format("%s 200 OK", f.protocol()));
+		f.head("From-Protocol", pipeline.prop("From-Protocol"));
+		f.head("From-Name", pipeline.prop("From-Name"));
+		f.head("From-Pipeline", pipeline.prop("Pipeline-Name"));
+		Circuit c = new HttpCircuit(String.format("%s 200 OK", f.protocol()));
 		pipeline.nextFlow(f, c, this);
 		c.dispose();
 	}
+
 	private void flowHttp(Object request, Object response, IIPipeline pipeline) throws CircuitException {
-		FullHttpRequest req=(FullHttpRequest)request;
-		String uri=req.getUri();
-		Frame frame=convertToFrame(uri, req);
-		frame.head("From-Protocol",pipeline.prop("From-Protocol"));
-		frame.head("From-Name",pipeline.prop("From-Name"));
-		Circuit circuit=new HttpCircuit(String.format("%s 200 OK", req.getProtocolVersion().text()));
+		FullHttpRequest req = (FullHttpRequest) request;
+		String uri = req.getUri();
+		Frame frame = convertToFrame(uri, req);
+		frame.head("From-Protocol", pipeline.prop("From-Protocol"));
+		frame.head("From-Name", pipeline.prop("From-Name"));
+		frame.head("From-Pipeline", pipeline.prop("Pipeline-Name"));
+		Circuit circuit = new HttpCircuit(String.format("%s 200 OK", req.getProtocolVersion().text()));
 		pipeline.nextFlow(frame, circuit, this);
-		FullHttpResponse res=(FullHttpResponse)response;
-		fillToResponse(circuit,res);
+		FullHttpResponse res = (FullHttpResponse) response;
+		fillToResponse(circuit, res);
 	}
+
 	private void fillToResponse(Circuit circuit, FullHttpResponse res) {
 		HttpResponseStatus st = new HttpResponseStatus(Integer.valueOf(circuit.status()), circuit.message());
 		res.setStatus(st);
@@ -98,6 +111,7 @@ public class FirstWayInputValve implements IInputValve{
 			resheaders.add(name, v);
 		}
 	}
+
 	private Frame convertToFrame(String uri, FullHttpRequest req) throws CircuitException {
 		String line = String.format("%s %s %s", req.getMethod(), uri, req.getProtocolVersion().text());
 		Frame f = new HttpFrame(line);
@@ -158,7 +172,7 @@ public class FirstWayInputValve implements IInputValve{
 					f.head("Is-Completed", String.valueOf(fileUpload.isCompleted()));
 					f.head("is-InMemory", String.valueOf(fileUpload.isInMemory()));
 					if (fileUpload.isCompleted()) {
-						
+
 						f.head("File-Length", String.valueOf(fileUpload.length()));
 						/*
 						 * 上传文件最大大小， 这是gatewaysocket上的限制 ， httpserver也有限制为 ：Aggregator- Limit

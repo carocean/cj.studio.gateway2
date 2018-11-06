@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class InputPipelineCollection {
+import cj.ultimate.IDisposable;
+
+public class InputPipelineCollection implements IDisposable{
 	Map<String, IInputPipeline> map;
 	public InputPipelineCollection() {
 		map=new HashMap<>();
@@ -27,4 +29,7 @@ public class InputPipelineCollection {
 	public boolean isEmpty() {
 		return map.isEmpty();
 	}
+	@Override
+	public void dispose() {
+		map.clear();	}
 }

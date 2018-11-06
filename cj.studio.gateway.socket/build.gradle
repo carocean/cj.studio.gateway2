@@ -48,8 +48,14 @@ dependencies {
 	     into '../cj.test.website/src/cj/references'
 	     include '**/*.jar'
      }
+     task releaseToTestWebsite2(type: Copy){
+      dependsOn "build"
+	     from 'build/libs/'
+	     into '../cj.test.website2/src/cj/references'
+	     include '**/*.jar'
+     }
      //com.ly.wigo.shop.gateway
      task release(type:Copy){
-      dependsOn "releaseToCmdline","releaseToGateway","releaseToTestWebsite"
+      dependsOn "releaseToCmdline","releaseToGateway","releaseToTestWebsite","releaseToTestWebsite2"
      }
      

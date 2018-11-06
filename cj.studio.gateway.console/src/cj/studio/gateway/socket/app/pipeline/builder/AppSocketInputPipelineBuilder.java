@@ -1,4 +1,4 @@
-package cj.studio.gateway.socket.pipeline.builder;
+package cj.studio.gateway.socket.app.pipeline.builder;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -31,6 +31,7 @@ import cj.studio.gateway.socket.pipeline.InputPipeline;
 public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 	IServiceProvider parent;
 	private Map<String, String> props;
+	private String name;
 	static ILogging logger=CJSystem.logging();
 	public AppSocketInputPipelineBuilder(IServiceProvider parent) {
 		this.parent = parent;
@@ -38,6 +39,7 @@ public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 
 	@Override
 	public IInputPipelineBuilder name(String name) {
+		this.name=name;
 		return this;
 	}
 
@@ -46,7 +48,9 @@ public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 		IGatewayAppSiteProgram prog = ((IGatewayAppSiteProgram) parent.getService("$.app.program"));
 //		IInputPipeline input = prog.createInputPipeline(name);
 		IInputPipeline input = createInputPipeline(prog);
+		
 		if(props!=null) {
+			input.prop("Pipeline-Name",name);
 			Set<String> set=props.keySet();
 			for(String key:set) {
 				input.prop(key, props.get(key));

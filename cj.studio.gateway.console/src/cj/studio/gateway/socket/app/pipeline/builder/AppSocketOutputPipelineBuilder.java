@@ -1,4 +1,4 @@
-package cj.studio.gateway.socket.pipeline.builder;
+package cj.studio.gateway.socket.app.pipeline.builder;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -22,18 +22,22 @@ import cj.studio.gateway.socket.pipeline.IOutputPipeline;
 import cj.studio.gateway.socket.pipeline.IOutputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOutputValve;
 import cj.studio.gateway.socket.pipeline.OutputPipeline;
+import cj.studio.gateway.socket.pipeline.OutputPipelineCollection;
 
 public class AppSocketOutputPipelineBuilder implements IOutputPipelineBuilder {
 	IServiceProvider parent;
 	private Map<String, String> props;
+	private String name;
+	private OutputPipelineCollection pipelines;
 	static ILogging logger = CJSystem.logging();
-
+	
 	public AppSocketOutputPipelineBuilder(IServiceProvider parent) {
 		this.parent = parent;
 	}
 
 	@Override
 	public IOutputPipelineBuilder name(String name) {
+		this.name=name;
 		return this;
 	}
 
@@ -62,11 +66,19 @@ public class AppSocketOutputPipelineBuilder implements IOutputPipelineBuilder {
 		}
 		return output;
 	}
-
+	@Override
+	public IOutputPipelineBuilder service(String name, Object service) throws CircuitException {
+		if(!"Output-Pipeline-Col".equals(name)) {
+			throw new CircuitException("505", "仅支持服务名Output-Pipeline-Col，设备的服务名是："+name);
+		}
+		this. pipelines=(OutputPipelineCollection)service;
+		return this;
+	}
 	private IOutputPipeline createOutputPipeline(IServiceProvider app) {
-		IOutputValve first=new FirstWayOutputValve();
-		IOutputValve last=new LastWayOutputValve();
+		IOutputValve first=new FirstWayOutputValve(pipelines);
+		IOutputValve last=new LastWayOutputValve(this.parent);
 		IOutputPipeline output=new OutputPipeline(first, last);
+		output.prop("To-Name",name);
 		
 		ServiceCollection<IAnnotationOutputValve> col=app.getServices(IAnnotationOutputValve.class);
 		if(!col.isEmpty()) {

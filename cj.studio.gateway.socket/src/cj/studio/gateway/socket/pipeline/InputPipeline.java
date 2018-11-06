@@ -100,10 +100,9 @@ public class InputPipeline implements IInputPipeline {
 
 	public void dispose() {
 		LinkEntry tmp = head;
-		while (tmp != null) {
-			tmp = tmp.next;
+		while (tmp.next != null) {
 			tmp.entry = null;
-			tmp.next = null;
+			tmp = tmp.next;
 		}
 	}
 

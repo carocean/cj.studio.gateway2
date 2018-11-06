@@ -35,8 +35,18 @@ public class OutputSelector implements IOutputSelector {
 			return output.handler();
 		}
 		// 下面创建outputline
-		output = builder.name(name).prop("From-Name", destination.getName()).prop("From-Protocol", "app")
-				.createPipeline();
+		output = builder.name(name).service("Output-Pipeline-Col", pipelines).prop("From-Name", destination.getName())
+				.prop("From-Protocol", "app").createPipeline();
+		// 激活管道
+		try {
+			output.headOnActive();
+		} catch (Exception e) {
+			CircuitException ce = CircuitException.search(e);
+			if (ce!=null) {
+				ce.printStackTrace();
+			}
+			throw e;
+		}
 		pipelines.add(name, output);
 		return output.handler();
 	}

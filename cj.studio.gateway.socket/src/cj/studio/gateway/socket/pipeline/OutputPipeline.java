@@ -3,7 +3,6 @@ package cj.studio.gateway.socket.pipeline;
 import java.util.HashMap;
 import java.util.Map;
 
-import cj.studio.ecm.EcmException;
 import cj.studio.ecm.graph.CircuitException;
 import cj.ultimate.IClosable;
 
@@ -21,6 +20,7 @@ public class OutputPipeline implements IOutputPipeline {
 		this.adapter = new OPipeline(this);
 		this.handler = new Outputer(this);
 	}
+
 	@Override
 	public void add(IOutputValve valve) {
 		LinkEntry entry = getEndConstomerEntry();
@@ -44,6 +44,7 @@ public class OutputPipeline implements IOutputPipeline {
 		} while (tmp.next != null);
 		return null;
 	}
+
 	@Override
 	public void remove(IOutputValve valve) {
 		LinkEntry tmp = head;
@@ -59,6 +60,42 @@ public class OutputPipeline implements IOutputPipeline {
 	@Override
 	public void headFlow(Object request, Object response) throws CircuitException {
 		nextFlow(request, response, null);
+	}
+
+	@Override
+	public void headOnActive() throws CircuitException {
+		nextOnActive(null);
+
+	}
+
+	@Override
+	public void headOnInactive() throws CircuitException {
+		nextOnInactive(null);
+	}
+
+	@Override
+	public void nextOnActive(IOutputValve formthis) throws CircuitException {
+		if (formthis == null) {
+			head.entry.onActive(this);
+			return;
+		}
+		LinkEntry linkEntry = lookforHead(formthis);
+		if (linkEntry == null || linkEntry.next == null)
+			return;
+		linkEntry.next.entry.onActive(this);
+
+	}
+
+	@Override
+	public void nextOnInactive(IOutputValve formthis) throws CircuitException {
+		if (formthis == null) {
+			head.entry.onInactive(this);
+			return;
+		}
+		LinkEntry linkEntry = lookforHead(formthis);
+		if (linkEntry == null || linkEntry.next == null)
+			return;
+		linkEntry.next.entry.onInactive(this);
 	}
 
 	@Override
@@ -85,13 +122,13 @@ public class OutputPipeline implements IOutputPipeline {
 		} while (tmp.next != null);
 		return tmp;
 	}
+
 	@Override
 	public void dispose() {
 		LinkEntry tmp = head;
-		while (tmp != null) {
-			tmp = tmp.next;
+		while (tmp.next != null) {
 			tmp.entry = null;
-			tmp.next = null;
+			tmp = tmp.next;
 		}
 	}
 
@@ -103,15 +140,6 @@ public class OutputPipeline implements IOutputPipeline {
 			this.entry = entry;
 		}
 
-	}
-
-	@Override
-	public void close() {
-		if (!(last instanceof IClosable)) {
-			throw new EcmException("输出管道的last valve必须实现接口：IClosable");
-		}
-		IClosable closable = (IClosable) last;
-		closable.close();
 	}
 
 	@Override
@@ -134,9 +162,9 @@ public class OutputPipeline implements IOutputPipeline {
 	}
 
 	class OPipeline implements IOPipeline {
-		IOutputPipeline target;
+		OutputPipeline target;
 
-		public OPipeline(IOutputPipeline target) {
+		public OPipeline(OutputPipeline target) {
 			this.target = target;
 		}
 
@@ -146,37 +174,53 @@ public class OutputPipeline implements IOutputPipeline {
 		}
 
 		@Override
-		public void close() throws CircuitException {
-			target.close();
+		public String prop(String name) {
+			return target.prop(name);
 		}
 
 		@Override
-		public String prop(String name) {
-			return target.prop(name);
+		public void nextOnActive(IOutputValve formthis) throws CircuitException {
+			this.target.nextOnActive(formthis);
+		}
+
+		@Override
+		public void nextOnInactive(IOutputValve formthis) throws CircuitException {
+			target.nextOnInactive(formthis);
 		}
 
 	}
 
 	class Outputer implements IOutputer {
 		OutputPipeline target;
+
 		public Outputer(OutputPipeline outputPipeline) {
-			this.target=outputPipeline;
+			this.target = outputPipeline;
 		}
 
 		@Override
 		public void send(Object request, Object response) throws CircuitException {
 			this.target.headFlow(request, response);
 		}
-
 		@Override
-		public void closePipeline() {
-			target.close();
+		public boolean canCloseablePipeline() {
+			if (target.last.entry instanceof IClosable) {
+				return true;
+			}
+			return false;
+		}
+		@Override
+		public void closePipeline() throws CircuitException {
+			if (target.last.entry instanceof IClosable) {
+				IClosable a = (IClosable) target.last.entry;
+				a.close();
+			}
+			releasePipeline();
 		}
 
 		@Override
-		public void releasePipeline() {
-			// TODO Auto-generated method stub
-			
+		public void releasePipeline() throws CircuitException {
+			target.headOnInactive();
+			target.dispose();
 		}
 
 	}
