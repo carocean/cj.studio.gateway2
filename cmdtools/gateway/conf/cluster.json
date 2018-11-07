@@ -1,0 +1,23 @@
+{
+	"valids": [
+		{
+			"name": "website",
+			"uris": [
+				"app://website:way"
+			],
+			"props": {
+				"Upload-MaxFileLength": "200000"
+			}
+		},
+		{
+			"name": "website2",
+			"uris": [
+				"app://website2:way"
+			],
+			"props": {
+				
+			}
+		}
+	],
+	"invalids": []
+}

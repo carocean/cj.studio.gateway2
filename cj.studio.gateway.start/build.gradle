@@ -1,0 +1,71 @@
+apply plugin:'application'
+mainClassName = "cj.studio.gateway.start.Main"
+sourceSets { 
+	 main { 
+	 	java{
+	 		srcDir "$projectDir/src"
+	 	}
+	 	resources{
+		 	srcDir "$projectDir/src"
+		 }
+	 } 
+ 	}
+ 		sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+ 	tasks.withType(JavaCompile) {  
+        options.encoding = "UTF-8"  
+    } 
+ repositories { 
+ 	mavenCentral();
+	 flatDir(dirs: "$projectDir/global/lib") 
+ } 
+ jar {
+    manifest {
+        attributes 'Manifest-Version': version,
+                   'Class-Path': '.',
+                   'Main-Class':'cj.studio.gateway.start.Gateway',
+                   'DynamicImport-Package':'*'
+    }
+}
+
+dependencies {
+	compile(
+            'commons-cli:commons-cli:1.2'
+    )
+    //网关的启动项目如果引用了/global/cjtools/cube.jar包，则必须同时启用此org.mongodb:mongo依赖包，如果在网关系统jar中去掉由应用自行引用
+    compile('org.mongodb:mongo-java-driver:3.4.2')
+    compile 'io.jsonwebtoken:jjwt:0.9.0'
+    compile project(':cj.studio.gateway.socket');
+    compile fileTree('../global/jee.runtime')
+	compile fileTree('../global/runtime')
+	compile fileTree('../global/cjtools')
+	compile fileTree('src/cj/references')
+}
+task runnableJar(dependsOn:':cj.studio.gateway.console:release',type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'cj.studio.gateway.start.Gateway'
+    }
+    baseName = 'gateway'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+task releaseGatewayStart(dependsOn: runnableJar,type: Copy) {
+     dependsOn "build"
+     from 'build/libs/'
+      into '../cmdtools/gateway'
+     include '**/*.jar'
+ 	}
+ 	
+task release(type: Copy) {
+     dependsOn ":cj.studio.gateway.socket:release",":cj.studio.gateway.console:release","releaseGatewayStart",":cj.test.website:release",":cj.test.website2:release"
+ 		doLast {
+			println 'gateway 环境发布完毕!'
+		}
+ 	}
+tasks.getByPath(':cj.studio.gateway.console:release').mustRunAfter tasks.getByPath(':cj.studio.gateway.socket:release')
+tasks.getByPath(':cj.studio.gateway.start:release').mustRunAfter tasks.getByPath(':cj.studio.gateway.console:release')
+tasks.getByPath(':cj.test.website:release').mustRunAfter tasks.getByPath(':cj.studio.gateway.socket:release')
+tasks.getByPath(':cj.test.website2:release').mustRunAfter tasks.getByPath(':cj.studio.gateway.socket:release')
