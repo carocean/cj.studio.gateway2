@@ -1,6 +1,7 @@
 package cj.studio.gateway.server;
 
 import cj.studio.ecm.EcmException;
+import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.gateway.IGatewayServer;
 import cj.studio.gateway.conf.ServerInfo;
@@ -18,12 +19,21 @@ public class TcpGatewayServer implements IGatewayServer {
 	private EventLoopGroup workerGroup;
 	private ServerInfo info;
 	boolean isStarted;
-	
-	@Override
-	public Object getService(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	IServiceProvider parent;
+	public TcpGatewayServer(IServiceProvider parent) {
+		this.parent=parent;
 	}
+	@Override
+	public Object getService(String name) {
+		if ("$.server.info".equals(name)) {
+			return info;
+		}
+		if ("$.server.name".equals(name)) {
+			return this.netName();
+		}
+		return parent.getService(name);
+	}
+
 	@Override
 	public <T> ServiceCollection<T> getServices(Class<T> arg0) {
 		// TODO Auto-generated method stub
@@ -34,6 +44,7 @@ public class TcpGatewayServer implements IGatewayServer {
 		bossGroup.shutdownGracefully();
 		workerGroup.shutdownGracefully();
 		isStarted=false;
+		parent=null;
 	}
 
 	@Override
@@ -58,7 +69,7 @@ public class TcpGatewayServer implements IGatewayServer {
 		try {
 			b.group(bossGroup, workerGroup).childOption(ChannelOption.SO_KEEPALIVE, true)
 					.channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024)
-					.childHandler(new TcpChannelInitializer());
+					.childHandler(new TcpChannelInitializer(this));
 
 			// Bind and start to accept incoming connections.
 			Channel ch = null;

@@ -1,8 +1,10 @@
 package cj.studio.gateway.junction;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cj.studio.ecm.annotation.CjService;
@@ -40,9 +42,9 @@ public class JunctionTable implements IJunctionTable{
 	}
 	@Override
 	public Junction[] toSortedAll() {
-		Map<String,Object> map=new HashMap<>(forwards);
-		map.putAll(backwards);
-		Junction[] ret=map.values().toArray(new Junction[0]);
+		List<Object> list=new ArrayList<>(forwards.values());
+		list.addAll(backwards.values());
+		Junction[] ret=list.toArray(new Junction[0]);
 		Arrays.sort(ret, new CreateTimeComp());
 		return ret;
 	}

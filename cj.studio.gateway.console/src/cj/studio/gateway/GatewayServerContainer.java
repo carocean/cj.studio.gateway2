@@ -15,6 +15,7 @@ import cj.studio.ecm.annotation.CjServiceSite;
 import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.server.HttpGatewayServer;
 import cj.studio.gateway.server.TcpGatewayServer;
+import cj.studio.gateway.server.UdtGatewayServer;
 import cj.studio.gateway.server.WebsocketGatewayServer;
 
 @CjService(name = "gatewayServerContainer")
@@ -81,11 +82,11 @@ public class GatewayServerContainer implements IGatewayServerContainer,IServiceS
 			server=new HttpGatewayServer(this);
 			break;
 		case "tcp":
-			server=new TcpGatewayServer();
+			server=new TcpGatewayServer(this);
 			break;
-//		case "udt":
-//			server=new UdtGatewayServer();
-//			break;
+		case "udt":
+			server=new UdtGatewayServer(this);
+			break;
 //		case "jms":
 //			throw new EcmException(String.format("网关的服务器端不支持jms，原因网关不需要接收jms消息，网关使用jms只是用于将由其它网络协议收取到的消息通过jms协议转出网关。"));
 //		default:

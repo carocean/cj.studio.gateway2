@@ -44,7 +44,6 @@ public abstract class Console implements IServiceSetter {
 
 	@Override
 	public void setService(String serviceId, Object service) {
-
 		Command cmd = (Command) service;
 		commands.put(cmd.cmd(), cmd);
 	}

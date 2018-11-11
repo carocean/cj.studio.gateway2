@@ -2,7 +2,7 @@ package cj.studio.gateway.server.initializer;
 
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.gateway.conf.ServerInfo;
-import cj.studio.gateway.server.handler.WebsocketServerHandler;
+import cj.studio.gateway.server.handler.WebsocketChannelHandler;
 import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 import io.netty.channel.ChannelInitializer;
@@ -42,7 +42,7 @@ public class WebsocketChannelInitializer extends ChannelInitializer<SocketChanne
 //		 cp.addLast(new WebSocketFrameAggregator(aggregator));
 		cp.addLast(new HttpResponseEncoder());
 		cp.addLast(new WebSocketServerProtocolHandler(path));
-		cp.addLast(new WebsocketServerHandler(parent));
+		cp.addLast(new WebsocketChannelHandler(parent));
 
 	}
 

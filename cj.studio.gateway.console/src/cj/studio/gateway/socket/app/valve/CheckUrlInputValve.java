@@ -8,6 +8,7 @@ import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
+import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 
 public class CheckUrlInputValve implements IInputValve {
@@ -33,7 +34,7 @@ public class CheckUrlInputValve implements IInputValve {
 			}
 		}
 		int dotpos = uri.lastIndexOf(".");
-		if (dotpos < 0 && !uri.endsWith("/")) {// 重定向
+		if (dotpos < 0&&"http".equals(pipeline.prop(SocketContants.__pipeline_fromProtocol)) && !uri.endsWith("/")) {// 重定向
 			if (response instanceof Circuit) {
 				Circuit c = (Circuit) response;
 				Frame f = (Frame) request;

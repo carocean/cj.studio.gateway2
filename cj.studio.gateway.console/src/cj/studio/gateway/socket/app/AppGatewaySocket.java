@@ -9,7 +9,6 @@ import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IAssembly;
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.net.layer.ISessionEvent;
@@ -106,15 +105,15 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 
 		IGatewayAppSiteProgram wprog = (IGatewayAppSiteProgram) prog;
 		// 初始化会话事件
-		List<ISessionEvent> events =(List<ISessionEvent>) wprog.getService("$.session.events");
+		List<ISessionEvent> events = (List<ISessionEvent>) wprog.getService("$.session.events");
 		if (events != null) {
 			sessionManager.getEvents().addAll(events);
 		}
-		
-		IOutputSelector selector=new OutputSelector(this);
-		IServiceSite site=(IServiceSite)wprog.getService("$.app.site");
-		site.addService("$.output.selector", selector);
-		
+
+//		IOutputSelector selector=new OutputSelector(this);
+//		IServiceSite site=(IServiceSite)wprog.getService("$.app.site");
+//		site.addService("$.output.selector", selector);
+
 		wprog.start(dest, assembliesHome, type);
 		isConnected = true;
 	}
@@ -139,6 +138,8 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		}
 		String fn = assemblies[0].getAbsolutePath();
 		IAssembly target = Assembly.loadAssembly(fn, share);
+		target.parent(new AppCoreService());
+
 		target.start();
 
 		this.program = (IGatewayAppSiteProgram) target.workbin().part("$.cj.studio.gateway.app");
@@ -146,6 +147,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		if (program == null) {
 			throw new EcmException("程序集验证失败，原因：未发现Program的派生实现");
 		}
+
 		String expire = target.info().getProperty("site.session.expire");
 		if (StringUtil.isEmpty(expire)) {
 			expire = (30 * 60 * 1000L) + "";
@@ -167,4 +169,25 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		this.sessionManager = null;
 	}
 
+	class AppCoreService implements IServiceProvider {
+		IOutputSelector selector;
+
+		@Override
+		public Object getService(String name) {
+			if ("$.output.selector".equals(name)) {
+				if (selector == null) {
+					selector = new OutputSelector(AppGatewaySocket.this);
+				}
+				return selector;
+			}
+			return null;
+		}
+
+		@Override
+		public <T> ServiceCollection<T> getServices(Class<T> arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	}
 }

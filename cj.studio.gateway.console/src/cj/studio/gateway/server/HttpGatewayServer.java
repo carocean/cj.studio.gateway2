@@ -5,10 +5,11 @@ import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.gateway.IGatewayServer;
 import cj.studio.gateway.conf.ServerInfo;
-import cj.studio.gateway.server.initializer.HttpServerInitializer;
+import cj.studio.gateway.server.initializer.HttpChannelInitializer;
 import cj.ultimate.util.StringUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -72,7 +73,7 @@ public class HttpGatewayServer implements IGatewayServer, IServiceProvider {
 		try {
 			b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
 					.childOption(ChannelOption.SO_KEEPALIVE, true)
-					.childHandler(new HttpServerInitializer(this));
+					.childHandler(createChannelInitializer());
 
 			Channel ch = null;
 			if ("localhost".equals(ip())) {
@@ -85,6 +86,10 @@ public class HttpGatewayServer implements IGatewayServer, IServiceProvider {
 		} catch (InterruptedException e) {
 			throw new EcmException(e);
 		}
+	}
+
+	protected ChannelHandler createChannelInitializer() {
+		return new HttpChannelInitializer(this);
 	}
 
 	public String ip() {

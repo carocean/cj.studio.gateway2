@@ -9,6 +9,7 @@ import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IChip;
 import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.IServiceSite;
+import cj.studio.ecm.Scope;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceSite;
@@ -25,6 +26,7 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 	private Map<String, String> errors;
 	private Map<String, String> mimes;
 	private String http_root;
+
 	@Override
 	public final Object getService(String name) {
 		if ("$.app.site".equals(name)) {
@@ -44,10 +46,10 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 		if ("$.app.errors".equals(name)) {
 			return errors;
 		}
-		if("$.app.type".equals(name)) {
+		if ("$.app.type".equals(name)) {
 			return type;
 		}
-		if("$.session.events".equals(name)) {
+		if ("$.session.events".equals(name)) {
 			return getSessionEvents();
 		}
 		return site.getService(name);
@@ -70,13 +72,13 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 		this.type = type;
 		mimes = new HashMap<>();
 		errors = new HashMap<>();
-		
+
 		IChip chip = (IChip) site.getService(IChip.class.getName());
 		IChipInfo info = chip.info();
 
 		parseErrors(info);
 		parseMimes(info);
-		
+
 		ClassLoader sysres = this.getClass().getClassLoader();
 		ClassLoader oldcl = memoClassloader(sysres);
 
@@ -91,9 +93,8 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 			redoClassloader(oldcl);
 		}
 	}
-	
 
-	protected List<ISessionEvent> getSessionEvents(){
+	protected List<ISessionEvent> getSessionEvents() {
 		return null;
 	}
 
@@ -113,6 +114,10 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 			if (cs == null) {
 				logger.error(getClass(), String.format("映射错误：%s 未有CjService注解", view));
 				continue;
+			}
+			if (cs.scope() == Scope.singleon) {
+				logger.warn(getClass(), String.format("webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：%s,在 %s", cs.name(),
+						view.getClass(), view));
 			}
 			String name = cs.name();
 			if (!name.startsWith("/")) {
@@ -161,8 +166,5 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 			}
 		}
 	}
-
-	
-
 
 }

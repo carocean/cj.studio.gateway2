@@ -18,7 +18,6 @@ import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOPipeline;
 import cj.studio.gateway.socket.pipeline.IOutputValve;
 import cj.studio.gateway.socket.util.SocketContants;
-import cj.studio.gateway.socket.ws.WebsocketServerChannelGatewaySocket;
 
 //在该类中对接目标socket中的input端子，如果请求的是cluster目标不存在，则启动它
 //该类逻辑与net中实现的HttpServerHandler.java相同,并在本类中管道管理输出连接点
@@ -46,7 +45,7 @@ public class LastWayOutputValve implements IOutputValve, ICloseableOutputValve,S
 
 	@Override
 	public void close(IOPipeline pipeline) {
-		if (targetSocket instanceof WebsocketServerChannelGatewaySocket) {
+		if (targetSocket instanceof IGatewaySocket) {
 			try {
 				targetSocket.close();
 			} catch (CircuitException e) {

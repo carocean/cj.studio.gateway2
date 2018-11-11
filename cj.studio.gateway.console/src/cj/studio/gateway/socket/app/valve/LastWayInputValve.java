@@ -68,7 +68,7 @@ public class LastWayInputValve implements IInputValve {
 			boolean exists = renderJssDocument(rpath, frame, circuit);
 			if (!exists) {
 //				throw new CircuitException("404", "请求的文件不存在:" + frame.url());
-				renderResource(rpath, ext, frame, circuit);//如果jss也不存在则可能是资源，尝试加载一下，如果资源不存在则该方法会报404
+				renderResource(rpath, ext, frame, circuit);// 如果jss也不存在则可能是资源，尝试加载一下，如果资源不存在则该方法会报404
 			}
 			return;
 		}
@@ -88,7 +88,6 @@ public class LastWayInputValve implements IInputValve {
 		// 以上都试过了尝试按资源加载，如果不存在则在该方法中产生404
 		renderResource(rpath, ext, frame, circuit);
 	}
-
 
 	private boolean renderJssDocument(String rpath, Frame frame, Circuit circuit) throws CircuitException {
 		String filePath = "";
@@ -133,6 +132,14 @@ public class LastWayInputValve implements IInputValve {
 
 	private void renderJavaDocument(String rpath, Frame frame, Circuit circuit) throws CircuitException {
 		IGatewayAppSiteWayWebView webview = (IGatewayAppSiteWayWebView) mappings.get(rpath);
+		if (webview == null) {
+			if (rpath.endsWith("/")) {
+				rpath = rpath.substring(0, rpath.length() - 1);
+			} else {
+				rpath = String.format("%s/", rpath);
+			}
+			webview = (IGatewayAppSiteWayWebView) mappings.get(rpath);
+		}
 		webview.flow(frame, circuit, resource);
 	}
 
