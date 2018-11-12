@@ -6,10 +6,10 @@ import cj.studio.ecm.Scope;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.graph.CircuitException;
-import cj.studio.gateway.socket.ClientNetGatewaySocket;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.app.AppGatewaySocket;
+import cj.studio.gateway.socket.client.ClientGatewaySocket;
 
 @CjService(name = "dloader", scope = Scope.runtime)
 public class DestinationLoader implements IDestinationLoader, IServiceSetter, IServiceProvider {
@@ -35,7 +35,7 @@ public class DestinationLoader implements IDestinationLoader, IServiceSetter, IS
 			socket.connect(dest);
 			return socket;
 		}
-		socket = new ClientNetGatewaySocket(this);
+		socket = new ClientGatewaySocket(this);
 		socket.connect(dest);
 		return socket;
 	}

@@ -10,6 +10,15 @@
 			}
 		},
 		{
+			"name": "http://news.163.com",
+			"uris": [
+				"https://news.163.com?minWireSize=4&maxWireSize=10"
+			],
+			"props": {
+				"Broadcast-Mode":"unicast"
+			}
+		},
+		{
 			"name": "website2",
 			"uris": [
 				"app://website2:way"

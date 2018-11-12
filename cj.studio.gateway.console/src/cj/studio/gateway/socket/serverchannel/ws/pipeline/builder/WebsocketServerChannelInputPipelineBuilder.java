@@ -2,6 +2,7 @@ package cj.studio.gateway.socket.serverchannel.ws.pipeline.builder;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.graph.CircuitException;
@@ -51,6 +52,13 @@ public class WebsocketServerChannelInputPipelineBuilder implements IInputPipelin
 		String toWho=(String)parent.getService("$.server.name");
 		input.prop(SocketContants.__pipeline_toWho,toWho);
 		input.prop(SocketContants.__pipeline_toProtocol, "ws");
+		
+		if(props!=null) {
+			Set<String> set=props.keySet();
+			for(String key:set) {
+				input.prop(key, props.get(key));
+			}
+		}
 		return input;
 	}
 

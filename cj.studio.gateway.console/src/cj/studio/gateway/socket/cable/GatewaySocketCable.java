@@ -1,0 +1,275 @@
+package cj.studio.gateway.socket.cable;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+import cj.studio.ecm.CJSystem;
+import cj.studio.ecm.EcmException;
+import cj.studio.ecm.IServiceProvider;
+import cj.studio.ecm.ServiceCollection;
+import cj.studio.ecm.frame.Frame;
+import cj.studio.ecm.graph.CircuitException;
+import cj.studio.gateway.socket.cable.wire.HttpGatewaySocketWire;
+import cj.ultimate.util.StringUtil;
+
+public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider {
+	private IServiceProvider parent;
+	private List<IGatewaySocketWire> wires;
+	private int acquireRetryAttempts;
+	private long maxIdleTime;
+	private int maxWireSize;
+	private int minWireSize;
+	private int initialWireSize;
+	private long checkoutTimeout;
+	private String host;
+	private int port;
+	private String protocol;
+	boolean isOpened;
+	ReentrantLock lock;
+	Condition waitingForCreateWire;
+
+	public GatewaySocketCable(IServiceProvider parent) {
+		this.parent = parent;
+		wires = new CopyOnWriteArrayList<>();
+		lock = new ReentrantLock();
+		waitingForCreateWire = lock.newCondition();
+	}
+
+	@Override
+	public int acquireRetryAttempts() {
+		return acquireRetryAttempts;
+	}
+
+	@Override
+	public long maxIdleTime() {
+		return maxIdleTime;
+	}
+
+	@Override
+	public int maxWireSize() {
+		return maxWireSize;
+	}
+
+	@Override
+	public int minWireSize() {
+		return minWireSize;
+	}
+
+	@Override
+	public int initialWireSize() {
+		return initialWireSize;
+	}
+
+	@Override
+	public long checkoutTimeout() {
+		return checkoutTimeout;
+	}
+
+	public String host() {
+		return host;
+	}
+
+	public int port() {
+		return port;
+	}
+
+	public String protocol() {
+		return protocol;
+	}
+
+	@Override
+	public Object getService(String name) {
+		if ("$.wires".equals(name)) {
+			return wires;
+		}
+		if ("$.waitingForCreateWire".equals(name)) {
+			return waitingForCreateWire;
+		}
+		if ("$.lock".equals(name)) {
+			return lock;
+		}
+		if("$.prop.host".equals(name)) {
+			return host;
+		}
+		if("$.prop.port".equals(name)) {
+			return port;
+		}
+		return parent.getService(name);
+	}
+
+	@Override
+	public <T> ServiceCollection<T> getServices(Class<T> clazz) {
+		return parent.getServices(clazz);
+	}
+
+	@Override
+	public IGatewaySocketWire select() throws CircuitException {
+		// 选择导线后，导线为忙
+		try {
+			lock.lock();
+			IGatewaySocketWire wire = selectInExists();
+			if (wire != null) {
+				wire.used(true);
+				return wire;
+			}
+			// 需要新建wire
+			if (wires.size() > this.maxWireSize) {// 等待有空闲的导线
+				if (checkoutTimeout == 0) {
+					waitingForCreateWire.await();
+				} else {
+					boolean elapsed = waitingForCreateWire.await(checkoutTimeout, TimeUnit.MILLISECONDS);// 当wire的close会触发此条件
+					if (!elapsed) {
+						CJSystem.logging().error(getClass(), "waitingForCreateWire超时:" + checkoutTimeout);
+						return null;
+					}
+				}
+			}
+			// 以下是新建
+			wire = createWire();
+			wire.connect(host, port);
+			wire.used(true);
+			wires.add(wire);
+			checkWires();// 最后检查导线，如果存在多余空闲、不能写、没打开等情况，则移除它。
+			return wire;
+		} catch (Exception e) {
+			throw new CircuitException("505", e);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	private void checkWires() {
+		IGatewaySocketWire[] arr = wires.toArray(new IGatewaySocketWire[0]);
+		for (IGatewaySocketWire w : arr) {
+			if (w == null)
+				continue;
+			if ((System.currentTimeMillis() - w.idleBeginTime()) > this.maxIdleTime) {
+				w.dispose();// 释放连接，物理关闭
+				wires.remove(w);
+				continue;
+			}
+			if (!w.isOpened() || !w.isWritable()) {
+				wires.remove(w);
+				continue;
+			}
+		}
+
+	}
+
+	private IGatewaySocketWire selectInExists() {
+		// 检查现有导线是否有空闲的
+		for (IGatewaySocketWire wire : wires) {
+			if (wire == null) {
+				continue;
+			}
+			if (wire.isIdle() && wire.isWritable()) {
+				return wire;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void close() {
+		isOpened = false;
+
+	}
+
+	@Override
+	public void init(String connStr) throws CircuitException {
+		parseConnStr(connStr);
+	}
+
+	@Override
+	public void connect() throws CircuitException {
+		if (isOpened)
+			return;
+		onOpen();
+		isOpened = true;
+	}
+
+	private void onOpen() throws CircuitException {
+		for (int i = 0; i < this.initialWireSize; i++) {
+			IGatewaySocketWire wire = createWire();
+			wire.connect(host, port);
+		}
+	}
+
+	protected IGatewaySocketWire createWire() throws CircuitException {
+		IGatewaySocketWire wire = null;
+		switch (protocol) {
+		case "http":
+		case "https":
+			wire = new HttpGatewaySocketWire(this);
+			break;
+		case "ws":
+			break;
+		case "tcp":
+			break;
+		case "udt":
+			break;
+		default:
+			throw new CircuitException("505", "不支持的协议:" + protocol);
+		}
+		wires.add(wire);
+		return wire;
+	}
+
+	private void parseConnStr(String connStr) {
+		int pos = connStr.indexOf("://");
+		protocol = connStr.substring(0, pos);
+		String uri = connStr.substring(pos + 3, connStr.length());
+		pos = uri.indexOf("?");
+		String address = "";
+		String q = "";
+		if (pos < 0) {
+			address = uri;
+			q = "";
+		} else {
+			address = uri.substring(0, pos);
+			q = uri.substring(pos + 1, uri.length());
+		}
+		while (address.endsWith("/")) {
+			address = address.substring(0, address.length() - 1);
+		}
+		String[] addressArr = address.split(":");
+		if (addressArr.length < 2) {
+			this.host = addressArr[0];
+			this.port = 80;
+		} else {
+			this.host = addressArr[0];
+			this.port = Integer.valueOf(addressArr[1]);
+		}
+
+		Frame f = new Frame(String.format("parse /?%s %s/1.0", q, protocol));
+
+		this.acquireRetryAttempts = StringUtil.isEmpty(f.parameter("acquireRetryAttempts")) ? 10
+				: Integer.valueOf(f.parameter("acquireRetryAttempts"));
+		this.checkoutTimeout = StringUtil.isEmpty(f.parameter("checkoutTimeout")) ? 0
+				: Long.valueOf(f.parameter("checkoutTimeout"));
+		this.initialWireSize = StringUtil.isEmpty(f.parameter("initialWireSize")) ? 1
+				: Integer.valueOf(f.parameter("initialWireSize"));
+		this.maxIdleTime = StringUtil.isEmpty(f.parameter("maxIdleTime")) ? 1
+				: Long.valueOf(f.parameter("maxIdleTime"));
+		this.maxWireSize = StringUtil.isEmpty(f.parameter("maxWireSize")) ? 4
+				: Integer.valueOf(f.parameter("maxWireSize"));
+		this.minWireSize = StringUtil.isEmpty(f.parameter("minWireSize")) ? 2
+				: Integer.valueOf(f.parameter("minWireSize"));
+		if (StringUtil.isEmpty(f.parameter("initialWireSize"))) {
+			initialWireSize = minWireSize;
+		} else {
+			int i = Integer.valueOf(f.parameter("initialWireSize"));
+			if (i < minWireSize || i > maxWireSize) {
+				throw new EcmException(String.format(
+						"initialWireSize取值必须在minWireSize与maxWireSize之间。initialWireSize=%s,minWireSize=%s,maxWireSize=%s",
+						i, minWireSize, maxWireSize));
+			}
+			initialWireSize = i;
+		}
+		f.dispose();
+	}
+
+}
