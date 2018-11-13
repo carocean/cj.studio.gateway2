@@ -83,7 +83,7 @@ public class LastWayOutputValve implements IOutputValve, ICloseableOutputValve,S
 		junction.parse(pipeline,inputPipeline, targetSocket);
 		this.junctions.add(junction);
 		
-		input.headOnActive(name, null, null);
+		input.headOnActive(name);
 	}
 
 	@Override

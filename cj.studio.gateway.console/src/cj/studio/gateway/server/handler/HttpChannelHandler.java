@@ -187,8 +187,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		junction.parse(inputPipeline, ctx.channel(), socket);
 		this.junctions.add(junction);
 
-		FullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), HttpResponseStatus.OK);
-		inputPipeline.headOnActive(name, req, res);// 通知管道激活
+		inputPipeline.headOnActive(name);// 通知管道激活
 	}
 
 	@Override
@@ -263,7 +262,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		junction.parse(inputPipeline, ctx.channel(), socket);
 		this.junctions.add(junction);
 
-		inputPipeline.headOnActive(name, req, res);// 通知管道激活
+		inputPipeline.headOnActive(name);// 通知管道激活
 
 		inputPipeline.headFlow(req, res);// 将当前请求发过去
 	}

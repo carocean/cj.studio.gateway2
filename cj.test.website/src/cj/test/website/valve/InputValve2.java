@@ -10,10 +10,10 @@ import cj.studio.gateway.socket.pipeline.IIPipeline;
 public class InputValve2 implements IAnnotationInputValve{
 	
 	@Override
-	public void onActive(String inputName, Object request, Object response, IIPipeline pipeline)
+	public void onActive(String inputName,  IIPipeline pipeline)
 			throws CircuitException {
 		// TODO Auto-generated method stub
-		pipeline.nextOnActive(inputName, request, response, this);
+		pipeline.nextOnActive(inputName,  this);
 	}
 
 	@Override

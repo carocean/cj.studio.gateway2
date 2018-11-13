@@ -3086,3 +3086,40 @@
 2018年11月13日 02:18:30  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
 2018年11月13日 02:18:31  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
 2018年11月13日 02:23:09  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 10:13:57  信息 : -------------网关启动完毕-------------------
+2018年11月13日 10:14:16  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月13日 10:14:17  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 10:15:18  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月13日 13:17:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 13:59:23  信息 : -------------网关启动完毕-------------------
+2018年11月13日 13:59:27  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月13日 13:59:28  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 13:59:28  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月13日 13:59:42  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 13:59:43  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：GET /18/1113/02/E0F6QGJC0001899N.html HTTP/1.1
+2018年11月13日 13:59:54  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 13:59:57  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：GET /18/1113/02/E0F6QGJC0001899N.html HTTP/1.1
+2018年11月13日 13:59:57  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：GET /18/1113/02/E0F6QGJC0001899N.html HTTP/1.1
+2018年11月13日 13:59:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
+2018年11月13日 13:59:58  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：GET /18/1113/02/E0F6QGJC0001899N.html HTTP/1.1
+2018年11月13日 13:59:58  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：GET /18/1113/02/E0F6QGJC0001899N.html HTTP/1.1
+2018年11月13日 13:59:58  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：GET /18/1113/02/E0F6QGJC0001899N.html HTTP/1.1
+2018年11月13日 13:59:58  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
+2018年11月13日 14:00:17  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：GET /18/1113/02/E0F6QGJC0001899N.html HTTP/1.1
+2018年11月13日 14:00:21  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：GET /18/1113/02/E0F6QGJC0001899N.html HTTP/1.1
+2018年11月13日 21:10:21  信息 : -------------网关启动完毕-------------------
+2018年11月13日 21:10:24  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月13日 21:10:25  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 21:10:25  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月13日 21:15:02  信息 : -------------网关启动完毕-------------------
+2018年11月13日 21:15:06  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月13日 21:15:06  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 21:15:06  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月13日 21:15:46  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 21:15:55  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/apple-touch-icon-precomposed.png
+2018年11月13日 21:15:55  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/apple-touch-icon.png
+2018年11月13日 21:16:58  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 21:16:58  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 21:16:58  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 21:16:59  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月13日 21:16:59  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share

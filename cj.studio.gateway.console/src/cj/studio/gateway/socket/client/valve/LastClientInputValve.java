@@ -32,7 +32,7 @@ public class LastClientInputValve implements IInputValve {
 	}
 
 	@Override
-	public void onActive(String inputName, Object request, Object response, IIPipeline pipeline)
+	public void onActive(String inputName, IIPipeline pipeline)
 			throws CircuitException {
 		// 选择导线,留给app端开发者关闭输出管道时关闭，此处不考虑关闭。
 		// 也就是导线的释放权交由app端输出管道来控制。

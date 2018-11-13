@@ -79,7 +79,12 @@ public class AppSocketOutputPipelineBuilder implements IOutputPipelineBuilder {
 		IOutputValve first=new FirstWayOutputValve(pipelines);
 		IOutputValve last=new LastWayOutputValve(this.parent);
 		IOutputPipeline output=new OutputPipeline(first, last);
-		
+		if(props!=null) {
+			Set<String> set=props.keySet();
+			for(String key:set) {
+				output.prop(key, props.get(key));
+			}
+		}
 		String socketName=(String)parent.getService("$.socket.name");
 		output.prop(SocketContants.__pipeline_name,name);
 		output.prop(SocketContants.__pipeline_fromWho,socketName);

@@ -26,7 +26,7 @@ import cj.ultimate.IClosable;
  */
 public interface IGatewaySocketCable extends IClosable {
 	/**
-	 * 定义在连接远程获取新连接失败后重复尝试的次数。Default: 10
+	 * 定义在连接远程获取新连接失败后重复尝试的次数。Default: 3
 	 * 
 	 * @return
 	 */
@@ -65,7 +65,20 @@ public interface IGatewaySocketCable extends IClosable {
 	 * @return
 	 */
 	long checkoutTimeout();
-
+	/**
+	 * 当导线发送请求后等待响应的时间，超时后将抛出导常
+	 * ,如设为0则无限期等待。单位毫秒。Default: 0
+	 * 
+	 * @return
+	 */
+	long requestTimeout();
+	/**
+	 * 聚合器限制聚合的最大大小
+	 * ,单位字节。Default: 3m
+	 * 
+	 * @return
+	 */
+	int aggregatorLimit();
 	/**
 	 * 尝试获取一个可用导线。如果池满且无空闲导线将等待，直到超时。该方法在导线数没达到上限时会新建导线。
 	 * 
@@ -84,4 +97,13 @@ public interface IGatewaySocketCable extends IClosable {
 	 * @throws CircuitException
 	 */
 	void connect() throws CircuitException;
+
+
+	String host();
+
+
+	int port();
+
+
+	String protocol();
 }

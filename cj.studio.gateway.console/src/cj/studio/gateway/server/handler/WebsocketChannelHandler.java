@@ -115,7 +115,7 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 		this.junctions.add(junction);
 
 		Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
-		inputPipeline.headOnActive(pipelineName, frame, circuit);// 通知管道激活
+		inputPipeline.headOnActive(pipelineName);// 通知管道激活
 
 		inputPipeline.headFlow(frame, circuit);//再把本次请求发送处理
 	}

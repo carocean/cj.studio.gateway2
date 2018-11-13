@@ -13,6 +13,9 @@ import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.cable.wire.HttpGatewaySocketWire;
+import cj.studio.gateway.socket.cable.wire.TcpGatewaySocketWire;
+import cj.studio.gateway.socket.cable.wire.UdtGatewaySocketWire;
+import cj.studio.gateway.socket.cable.wire.WSGatewaySocketWire;
 import cj.ultimate.util.StringUtil;
 
 public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider {
@@ -30,14 +33,24 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	boolean isOpened;
 	ReentrantLock lock;
 	Condition waitingForCreateWire;
-
+	private int aggregatorLimit;
+	private long requestTimeout;
+	private String wspath;
 	public GatewaySocketCable(IServiceProvider parent) {
 		this.parent = parent;
 		wires = new CopyOnWriteArrayList<>();
 		lock = new ReentrantLock();
 		waitingForCreateWire = lock.newCondition();
 	}
-
+	
+	@Override
+	public int aggregatorLimit() {
+		return aggregatorLimit;
+	}
+	@Override
+	public long requestTimeout() {
+		return requestTimeout;
+	}
 	@Override
 	public int acquireRetryAttempts() {
 		return acquireRetryAttempts;
@@ -62,20 +75,19 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	public int initialWireSize() {
 		return initialWireSize;
 	}
-
 	@Override
 	public long checkoutTimeout() {
 		return checkoutTimeout;
 	}
-
+	@Override
 	public String host() {
 		return host;
 	}
-
+	@Override
 	public int port() {
 		return port;
 	}
-
+	@Override
 	public String protocol() {
 		return protocol;
 	}
@@ -96,6 +108,15 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		}
 		if("$.prop.port".equals(name)) {
 			return port;
+		}
+		if("$.prop.requestTimeout".equals(name)) {
+			return requestTimeout;
+		}
+		if("$.prop.aggregatorLimit".equals(name)) {
+			return aggregatorLimit;
+		}
+		if("$.prop.wspath".equals(name)) {
+			return wspath;
 		}
 		return parent.getService(name);
 	}
@@ -206,10 +227,13 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 			wire = new HttpGatewaySocketWire(this);
 			break;
 		case "ws":
+			wire=new WSGatewaySocketWire(this);
 			break;
 		case "tcp":
+			wire=new TcpGatewaySocketWire(this);
 			break;
 		case "udt":
+			wire=new UdtGatewaySocketWire(this);
 			break;
 		default:
 			throw new CircuitException("505", "不支持的协议:" + protocol);
@@ -254,10 +278,14 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 				: Integer.valueOf(f.parameter("initialWireSize"));
 		this.maxIdleTime = StringUtil.isEmpty(f.parameter("maxIdleTime")) ? 1
 				: Long.valueOf(f.parameter("maxIdleTime"));
+		this.requestTimeout = StringUtil.isEmpty(f.parameter("requestTimeout")) ? 15000L
+				: Long.valueOf(f.parameter("requestTimeout"));
 		this.maxWireSize = StringUtil.isEmpty(f.parameter("maxWireSize")) ? 4
 				: Integer.valueOf(f.parameter("maxWireSize"));
 		this.minWireSize = StringUtil.isEmpty(f.parameter("minWireSize")) ? 2
 				: Integer.valueOf(f.parameter("minWireSize"));
+		this.aggregatorLimit = StringUtil.isEmpty(f.parameter("aggregatorLimit")) ? 5*1024*1024
+				: Integer.valueOf(f.parameter("aggregatorLimit"));
 		if (StringUtil.isEmpty(f.parameter("initialWireSize"))) {
 			initialWireSize = minWireSize;
 		} else {
@@ -268,6 +296,12 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 						i, minWireSize, maxWireSize));
 			}
 			initialWireSize = i;
+		}
+		if("ws".equals(protocol)) {
+			wspath=f.parameter("wspath");
+			if(StringUtil.isEmpty(wspath)) {
+				throw new EcmException("没有为ws协议指定请求目标地址，指在连结串中设置wspath参数");
+			}
 		}
 		f.dispose();
 	}

@@ -7,9 +7,9 @@ import cj.studio.gateway.socket.pipeline.IInputValve;
 public class FirstTcpServerChannelInputValve implements IInputValve {
 
 	@Override
-	public void onActive(String inputName, Object request, Object response, IIPipeline pipeline)
+	public void onActive(String inputName, IIPipeline pipeline)
 			throws CircuitException {
-		pipeline.nextOnActive(inputName, request, response, this);
+		pipeline.nextOnActive(inputName,  this);
 	}
 
 	@Override

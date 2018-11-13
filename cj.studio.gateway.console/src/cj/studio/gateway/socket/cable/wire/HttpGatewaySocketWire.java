@@ -88,7 +88,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 				channel.close();
 			}
 			@SuppressWarnings("unchecked")
-			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.cable.wires");
+			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
 			wires.remove(this);
 			return null;
 		}
@@ -117,7 +117,8 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 		AttributeKey<ChannelPromise> promiseKey = AttributeKey.valueOf("Channel-Promise");
 		promise.channel().attr(promiseKey).set(promise);
 		try {
-			if (!promise.await(15000L, TimeUnit.MILLISECONDS)) {
+			long requestTimeout=(long)parent.getService("$.prop.requestTimeout");
+			if (!promise.await(requestTimeout, TimeUnit.MILLISECONDS)) {
 				throw new CircuitException("505", "请求超时：" + frame);
 			}
 		} catch (InterruptedException e) {
@@ -162,8 +163,10 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 //			pipeline.addLast(new HttpResponseDecoder());
 			// 客户端发送的是httprequest，所以要使用HttpRequestEncoder进行编码
 //			pipeline.addLast(new HttpRequestEncoder());
+			int aggregatorLimit=(int)parent.getService("$.prop.aggregatorLimit");
+			
 			pipeline.addLast("http-codec", new HttpClientCodec());
-			ch.pipeline().addLast("aggregator", new HttpObjectAggregator(1024000));
+			ch.pipeline().addLast("aggregator", new HttpObjectAggregator(aggregatorLimit));
 			pipeline.addLast(new HttpClientGatewaySocketHandler());
 
 		}
@@ -193,6 +196,13 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 			ChannelPromise promise = ctx.channel().attr(promiseKey).getAndRemove();
 			promise.setSuccess();
 		}
-
+		@Override
+		public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+			@SuppressWarnings("unchecked")
+			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
+			wires.remove(HttpGatewaySocketWire.this);
+			super.channelInactive(ctx);
+		}
 	}
+	
 }

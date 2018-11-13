@@ -127,8 +127,8 @@ public class InputPipeline implements IInputPipeline {
 	}
 
 	@Override
-	public void headOnActive(String inputName, Object request, Object response) throws CircuitException {
-		nextOnActive(inputName, request, response, null);
+	public void headOnActive(String inputName) throws CircuitException {
+		nextOnActive(inputName,  null);
 	}
 
 	@Override
@@ -138,16 +138,16 @@ public class InputPipeline implements IInputPipeline {
 	}
 
 	@Override
-	public void nextOnActive(String inputName, Object request, Object response, IInputValve formthis)
+	public void nextOnActive(String inputName, IInputValve formthis)
 			throws CircuitException {
 		if (formthis == null) {
-			head.entry.onActive(inputName, request, response, this);
+			head.entry.onActive(inputName,this);
 			return;
 		}
 		LinkEntry linkEntry = lookforHead(formthis);
 		if (linkEntry == null || linkEntry.next == null)
 			return;
-		linkEntry.next.entry.onActive(inputName, request, response, this);
+		linkEntry.next.entry.onActive(inputName, this);
 
 	}
 
@@ -176,9 +176,9 @@ public class InputPipeline implements IInputPipeline {
 		}
 
 		@Override
-		public void nextOnActive(String inputName, Object request, Object response, IInputValve formthis)
+		public void nextOnActive(String inputName, IInputValve formthis)
 				throws CircuitException {
-			target.nextOnActive(inputName, request, response, formthis);
+			target.nextOnActive(inputName, formthis);
 
 		}
 

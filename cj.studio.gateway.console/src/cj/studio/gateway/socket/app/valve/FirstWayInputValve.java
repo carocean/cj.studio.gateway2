@@ -26,7 +26,7 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 
-public class FirstWayInputValve implements IInputValve,SocketContants {
+public class FirstWayInputValve implements IInputValve, SocketContants {
 	private long uploadFileLimitLength;
 
 	public FirstWayInputValve(long uploadFileLimitLength) {
@@ -37,57 +37,10 @@ public class FirstWayInputValve implements IInputValve,SocketContants {
 	}
 
 	@Override
-	public void onActive(String inputName, Object request, Object response, IIPipeline pipeline)
-			throws CircuitException {
-		if (request instanceof FullHttpRequest) {
-			flowHttpOnActive(inputName,request, response, pipeline);
-			return;
-		}
-		if (request instanceof WebSocketFrame) {
-			flowWsOnActive(inputName, (WebSocketFrame)request, pipeline);
-			return;
-		}
-		if (request instanceof Frame) {
-			Frame f=(Frame)request;
-			f.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
-			f.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
-			f.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
-			pipeline.nextOnActive(inputName,request, response, this);
-			return;
-		}
+	public void onActive(String inputName, IIPipeline pipeline) throws CircuitException {
+		pipeline.nextOnActive(inputName, this);
 	}
-	private void flowWsOnActive(String inputName,WebSocketFrame request, IIPipeline pipeline) throws CircuitException {
-		ByteBuf bb = request.content();
-		byte[] b = new byte[bb.readableBytes()];
-		bb.readBytes(b);
-		Frame f = new Frame(b);
-		String sname = pipeline.prop(__pipeline_toWho);
-		String uri = "";
-		if (f.containsQueryString()) {
-			uri = String.format("/%s%s?%s", sname, f.path(), f.queryString());
-		} else {
-			uri = String.format("/%s%s", sname, f.path());
-		}
-		f.url(uri);
-		f.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
-		f.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
-		f.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
-		Circuit c = new Circuit(String.format("%s 200 OK", f.protocol()));
-		pipeline.nextOnActive(inputName,f, c, this);
-		c.dispose();
-	}
-	private void flowHttpOnActive(String inputName,Object request, Object response, IIPipeline pipeline) throws CircuitException {
-		FullHttpRequest req = (FullHttpRequest) request;
-		String uri = req.getUri();
-		Frame frame = convertToFrame(uri, req);
-		frame.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
-		frame.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
-		frame.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
-		Circuit circuit = new HttpCircuit(String.format("%s 200 OK", req.getProtocolVersion().text()));
-		pipeline.nextOnActive(inputName,frame, circuit, this);
-		FullHttpResponse res = (FullHttpResponse) response;
-		fillToResponse(circuit, res);
-	}
+
 	@Override
 	public void onInactive(String inputName, IIPipeline pipeline) throws CircuitException {
 		pipeline.nextOnInactive(inputName, this);
@@ -104,7 +57,7 @@ public class FirstWayInputValve implements IInputValve,SocketContants {
 			return;
 		}
 		if (request instanceof Frame) {
-			Frame f=(Frame)request;
+			Frame f = (Frame) request;
 			f.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
 			f.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
 			f.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
