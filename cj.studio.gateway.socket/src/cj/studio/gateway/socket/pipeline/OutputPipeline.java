@@ -3,6 +3,7 @@ package cj.studio.gateway.socket.pipeline;
 import java.util.HashMap;
 import java.util.Map;
 
+import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.graph.CircuitException;
 
 public class OutputPipeline implements IOutputPipeline {
@@ -59,7 +60,25 @@ public class OutputPipeline implements IOutputPipeline {
 
 	@Override
 	public void headFlow(Object request, Object response) throws CircuitException {
-		nextFlow(request, response, null);
+		try {
+			nextFlow(request, response, null);
+		} catch (Throwable e) {
+			CircuitException ce = CircuitException.search(e);
+			if (ce != null) {
+				if (response instanceof Circuit) {
+					Circuit c = (Circuit) response;
+					c.status(ce.getStatus());
+					c.message(ce.messageCause());
+				}
+				throw ce;
+			}
+			if (response instanceof Circuit) {
+				Circuit c = (Circuit) response;
+				c.status("503");
+				c.message(e.getMessage());
+			}
+			throw e;
+		}
 	}
 
 	@Override
@@ -126,16 +145,16 @@ public class OutputPipeline implements IOutputPipeline {
 	@Override
 	public void dispose() {
 		LinkEntry next = head;
-		LinkEntry prev =null;
+		LinkEntry prev = null;
 		while (next.next != null) {
-			prev=next;
+			prev = next;
 			next = next.next;
-			prev.next=null;
-			prev.entry=null;
+			prev.next = null;
+			prev.entry = null;
 		}
-		this.head=null;
-		this.last=null;
-		disposed=true;
+		this.head = null;
+		this.last = null;
+		disposed = true;
 	}
 
 	class LinkEntry {
@@ -166,10 +185,12 @@ public class OutputPipeline implements IOutputPipeline {
 			props = new HashMap<>();
 		props.put(name, value);
 	}
+
 	@Override
 	public boolean isDisposed() {
 		return disposed;
 	}
+
 	class OPipeline implements IOPipeline {
 		OutputPipeline target;
 
@@ -210,6 +231,7 @@ public class OutputPipeline implements IOutputPipeline {
 		public void send(Object request, Object response) throws CircuitException {
 			this.target.headFlow(request, response);
 		}
+
 		@Override
 		public boolean canCloseablePipeline() {
 			if (target.last.entry instanceof ICloseableOutputValve) {
@@ -217,6 +239,7 @@ public class OutputPipeline implements IOutputPipeline {
 			}
 			return false;
 		}
+
 		@Override
 		public void closePipeline() throws CircuitException {
 			if (target.last.entry instanceof ICloseableOutputValve) {

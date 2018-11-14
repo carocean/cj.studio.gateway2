@@ -3,6 +3,7 @@ package cj.studio.gateway.socket.pipeline;
 import java.util.HashMap;
 import java.util.Map;
 
+import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.graph.CircuitException;
 
 public class InputPipeline implements IInputPipeline {
@@ -71,7 +72,25 @@ public class InputPipeline implements IInputPipeline {
 
 	@Override
 	public void headFlow(Object request, Object response) throws CircuitException {
-		nextFlow(request, response, null);
+		try {
+			nextFlow(request, response, null);
+		} catch (Throwable e) {
+			CircuitException ce = CircuitException.search(e);
+			if (ce != null) {
+				if (response instanceof Circuit) {
+					Circuit c = (Circuit) response;
+					c.status(ce.getStatus());
+					c.message(ce.messageCause());
+				}
+				throw ce;
+			}
+			if (response instanceof Circuit) {
+				Circuit c = (Circuit) response;
+				c.status("503");
+				c.message(e.getMessage());
+			}
+			throw e;
+		}
 	}
 
 	@Override
@@ -98,24 +117,27 @@ public class InputPipeline implements IInputPipeline {
 		} while (tmp.next != null);
 		return tmp;
 	}
+
 	@Override
 	public void dispose() {
 		LinkEntry next = head;
-		LinkEntry prev =null;
+		LinkEntry prev = null;
 		while (next.next != null) {
-			prev=next;
+			prev = next;
 			next = next.next;
-			prev.next=null;
-			prev.entry=null;
+			prev.next = null;
+			prev.entry = null;
 		}
-		this.head=null;
-		this.last=null;
-		disposed=true;
+		this.head = null;
+		this.last = null;
+		disposed = true;
 	}
+
 	@Override
 	public boolean isDisposed() {
 		return disposed;
 	}
+
 	class LinkEntry {
 		LinkEntry next;
 		IInputValve entry;
@@ -128,7 +150,7 @@ public class InputPipeline implements IInputPipeline {
 
 	@Override
 	public void headOnActive(String inputName) throws CircuitException {
-		nextOnActive(inputName,  null);
+		nextOnActive(inputName, null);
 	}
 
 	@Override
@@ -138,10 +160,9 @@ public class InputPipeline implements IInputPipeline {
 	}
 
 	@Override
-	public void nextOnActive(String inputName, IInputValve formthis)
-			throws CircuitException {
+	public void nextOnActive(String inputName, IInputValve formthis) throws CircuitException {
 		if (formthis == null) {
-			head.entry.onActive(inputName,this);
+			head.entry.onActive(inputName, this);
 			return;
 		}
 		LinkEntry linkEntry = lookforHead(formthis);
@@ -176,8 +197,7 @@ public class InputPipeline implements IInputPipeline {
 		}
 
 		@Override
-		public void nextOnActive(String inputName, IInputValve formthis)
-				throws CircuitException {
+		public void nextOnActive(String inputName, IInputValve formthis) throws CircuitException {
 			target.nextOnActive(inputName, formthis);
 
 		}

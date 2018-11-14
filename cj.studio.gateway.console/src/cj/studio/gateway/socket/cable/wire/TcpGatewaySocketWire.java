@@ -139,7 +139,11 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
 			ChannelPipeline pipeline = ch.pipeline();
-
+			//心跳就不必加了，电缆是连接池，如果发现某个导线断开，会移除掉重新选择一根，所以永远是连接的。
+//			int heartbeat = (int) parent.getService("$.prop.heartbeat");
+//			if (heartbeat > 0) {
+//				pipeline.addLast(new IdleStateHandler(0, 5, 0));// 写心跳
+//			}
 			/*
 			 * 这个地方的 必须和服务端对应上。否则无法正常解码和编码
 			 * 
@@ -253,7 +257,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 				input.headOnInactive(pipelineName);
 				pipelines.remove(pipelineName);
 			}
-			
+
 		}
 
 		@Override
