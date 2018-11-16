@@ -11,6 +11,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpContentCompressor;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.stream.ChunkedWriteHandler;
 
 public class HttpChannelInitializer extends ChannelInitializer<SocketChannel> {
 	IServiceProvider parent;
@@ -25,7 +26,7 @@ public class HttpChannelInitializer extends ChannelInitializer<SocketChannel> {
 		ServerInfo info=(ServerInfo)parent.getService("$.server.info");
 		String aggregatorstr = info.getProps().get(SocketContants.__http_ws_prop_aggregatorFileLengthLimit);// 最大聚合的内容大小，一般用于限制文件最大大小的上传
 		if (StringUtil.isEmpty(aggregatorstr)) {
-			aggregatorstr = "10485760";//默认是10M
+			aggregatorstr = "2097152";//默认是2M
 		}
 		int aggregator = Integer.valueOf(aggregatorstr);
 		
@@ -35,6 +36,7 @@ public class HttpChannelInitializer extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("aggregator", new HttpObjectAggregator(aggregator));
 //	        cp.addLast(new WebSocketFrameAggregator(aggregator));
 		pipeline.addLast("deflater", new HttpContentCompressor());
+		ch.pipeline().addLast("http-chunked", new ChunkedWriteHandler());
 		HttpChannelHandler handler = new HttpChannelHandler(parent);
 		pipeline.addLast("handler", handler);
 	}

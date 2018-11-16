@@ -112,9 +112,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		}
 		// Send the demo page and favicon.ico
 		if (!isWebSocketReq(req)) {
-			FullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), HttpResponseStatus.OK);
-			flowHttpRequest(ctx, req, res);
-			doResponse(ctx, req, res);
+			flowHttpRequest(ctx, req);
 			return;
 		}
 
@@ -218,7 +216,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		super.channelInactive(ctx);
 	}
 
-	protected void flowHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req, FullHttpResponse res)
+	protected void flowHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req)
 			throws Exception {
 		String uri = req.getUri();
 		try {
@@ -236,7 +234,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		IInputPipeline inputPipeline = pipelines.get(name);
 		// 检查目标管道是否存在
 		if (inputPipeline != null) {
-			inputPipeline.headFlow(req, res);
+			inputPipeline.headFlow(req, ctx);
 			return;
 		}
 		// 目标管道不存在，以下生成目标管道
@@ -264,7 +262,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 		inputPipeline.headOnActive(name);// 通知管道激活
 
-		inputPipeline.headFlow(req, res);// 将当前请求发过去
+		inputPipeline.headFlow(req, ctx);// 将当前请求发过去
 	}
 
 	protected void doResponse(ChannelHandlerContext ctx, FullHttpRequest req, FullHttpResponse res) {

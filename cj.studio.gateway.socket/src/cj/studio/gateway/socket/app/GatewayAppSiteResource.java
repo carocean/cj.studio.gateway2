@@ -197,7 +197,16 @@ class GatewayAppSiteResource implements IGatewayAppSiteResource, IDisposable {
 		byte[] b = resource(relativedUrl);
 		return new String(b);
 	}
-
+	@Override
+	public File realFileName(String relativedUrl) throws CircuitException {
+		String rp = String.format("%s/%s", http_root, relativedUrl);
+		rp = rp.replace("//", "/").replace("/", File.separator);
+		File file=new File(rp);
+		if(!file.exists()) {
+			throw new CircuitException(NetConstans.STATUS_404, String.format("资源文件不存在:%s", relativedUrl));
+		}
+		return file;
+	}
 	public byte[] resource(String relativedUrl) throws CircuitException {
 
 		String rp = String.format("%s/%s", http_root, relativedUrl);

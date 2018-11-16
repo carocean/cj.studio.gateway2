@@ -59,6 +59,15 @@ public class ClientGatewaySocket implements IGatewaySocket {
 		if ("$.eventloop.group.udt".endsWith(name)) {
 			return eventloopGroup_Udt;
 		}
+		if ("$.socket.loopsize".equals(name)) {
+			return this.eventloopGroup.children().size();
+		}
+		if ("$.socket.loopudtsize".equals(name)) {
+			if(eventloopGroup_Udt==null) {
+				return 0;
+			}
+			return this.eventloopGroup_Udt.children().size();
+		}
 		return parent.getService(name);
 	}
 

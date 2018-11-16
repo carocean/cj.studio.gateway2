@@ -1,5 +1,6 @@
 package cj.studio.gateway.socket.app.valve;
 
+import java.io.File;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,8 +14,10 @@ import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.script.IJssModule;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
+import cj.studio.gateway.socket.chunk.FileChunkVisitor;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
+import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 
 public class LastWayInputValve implements IInputValve {
@@ -147,7 +150,10 @@ public class LastWayInputValve implements IInputValve {
 		if (this.mimes.containsKey(ext)) {
 			circuit.contentType(mimes.get(ext));
 		}
-		circuit.content().writeBytes(resource.resource(rpath));
+//		circuit.content().writeBytes(resource.resource(rpath));
+		File f=resource.realFileName(rpath);
+		FileChunkVisitor file=new FileChunkVisitor(f);
+		circuit.attribute(SocketContants.__circuit_chunk_visitor,file);
 	}
 
 	private boolean mappingsContainsKey(String rpath) {

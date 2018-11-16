@@ -36,7 +36,6 @@ public class TestWebsocket implements IGatewayAppSiteWayWebView{
 		back.send(f1, c1);
 		back.closePipeline();
 //		back.releasePipeline();
-		
 		IOutputer output=selector.select("website2");
 		Frame f=new Frame(String.format("put /website2/ http/1.1"));
 		f.content().writeBytes(doc.html().getBytes());

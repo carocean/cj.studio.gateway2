@@ -1,5 +1,8 @@
 package cj.studio.gateway.socket.app.valve;
 
+import static io.netty.handler.codec.http.HttpHeaders.isKeepAlive;
+import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
@@ -10,15 +13,28 @@ import cj.studio.ecm.frame.IFlowContent;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.net.web.HttpCircuit;
 import cj.studio.ecm.net.web.HttpFrame;
+import cj.studio.gateway.server.util.DefaultHttpMineTypeFactory;
+import cj.studio.gateway.socket.IChunkVisitor;
+import cj.studio.gateway.socket.chunk.HttpChunkVisitor;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.DefaultHttpContent;
+import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.FileUpload;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
@@ -28,6 +44,8 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 
 public class FirstWayInputValve implements IInputValve, SocketContants {
 	private long uploadFileLimitLength;
+	public static final String HTTP_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
+	public static final String HTTP_DATE_GMT_TIMEZONE = "GMT";
 
 	public FirstWayInputValve(long uploadFileLimitLength) {
 		this.uploadFileLimitLength = uploadFileLimitLength;
@@ -49,7 +67,11 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 	@Override
 	public void flow(Object request, Object response, IIPipeline pipeline) throws CircuitException {
 		if (request instanceof FullHttpRequest) {
-			flowHttp(request, response, pipeline);
+			flowHttpReq(request, response/* http 过来的是ctx */, pipeline);
+			return;
+		}
+		if (request instanceof HttpContent) {// http块
+			flowHttpContent(request, response/* http 过来的是ctx */, pipeline);
 			return;
 		}
 		if (request instanceof WebSocketFrame) {
@@ -87,7 +109,12 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 		c.dispose();
 	}
 
-	private void flowHttp(Object request, Object response, IIPipeline pipeline) throws CircuitException {
+	private void flowHttpContent(Object request, Object response, IIPipeline pipeline) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void flowHttpReq(Object request, Object context, IIPipeline pipeline) throws CircuitException {
 		FullHttpRequest req = (FullHttpRequest) request;
 		String uri = req.getUri();
 		Frame frame = convertToFrame(uri, req);
@@ -96,8 +123,106 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 		frame.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
 		Circuit circuit = new HttpCircuit(String.format("%s 200 OK", req.getProtocolVersion().text()));
 		pipeline.nextFlow(frame, circuit, this);
-		FullHttpResponse res = (FullHttpResponse) response;
-		fillToResponse(circuit, res);
+		IChunkVisitor visitor = (IChunkVisitor) circuit.attribute(__circuit_chunk_visitor);
+		ChannelHandlerContext ctx = (ChannelHandlerContext) context;
+		if (visitor == null) {
+			if (circuit.content().readableBytes() > 2 * 1024 * 1024) {
+				throw new CircuitException("503", "回路内容超过上限2M，请使用IChunkVisitor机制");
+			}
+			DefaultFullHttpResponse res = new DefaultFullHttpResponse(HttpVersion.valueOf(frame.protocol()),
+					HttpResponseStatus.OK);
+			fillToResponse(circuit, res);
+			doResponse(ctx, (FullHttpRequest) req, res);
+			return;
+		}
+		// 以下是处理块
+		
+		if (visitor instanceof HttpChunkVisitor) {
+			HttpChunkVisitor http = (HttpChunkVisitor) visitor;
+			try {
+				doHttpChunkVisitor(http, ctx, req, circuit);
+			} catch (Exception e) {
+				throw e;
+			} finally {
+				http.close();
+			}
+			return;
+		}
+	}
+
+	private void doHttpChunkVisitor(HttpChunkVisitor visitor, ChannelHandlerContext ctx, FullHttpRequest req,
+			Circuit circuit) {
+		DefaultHttpResponse res = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
+		if (circuit.containsHead("Content-Length")) {
+			HttpHeaders.setContentLength(res, Long.valueOf(circuit.head("Content-Length")));
+		} else {
+			HttpHeaders.setContentLength(res, visitor.getContentLength());
+		}
+
+		if (circuit.containsContentType()) {
+			res.headers().set(HttpHeaders.Names.CONTENT_TYPE, circuit.contentType());
+		} else {
+//			String mime = "text/html; charset=utf-8";
+			String extName = req.getUri();
+			int pos = extName.lastIndexOf(".");
+			extName = extName.substring(pos + 1, extName.length());
+			if (DefaultHttpMineTypeFactory.containsMime(extName)) {
+				String mime = DefaultHttpMineTypeFactory.mime(extName);
+				res.headers().set(HttpHeaders.Names.CONTENT_TYPE, mime);
+			}
+		}
+		if (isKeepAlive(req)) {
+			res.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+		}
+		ctx.writeAndFlush(res);
+		if (circuit.content().readableBytes() > 0) {
+			HttpContent chunk = new DefaultHttpContent(circuit.content().raw());
+			ctx.writeAndFlush(chunk);
+		}
+		int read = 0;
+		byte[] b = new byte[10240];
+		while ((read = visitor.readChunk(b, 0, b.length)) > -1) {
+			ByteBuf buf = Unpooled.buffer(read);
+			buf.writeBytes(b,0,read);
+			HttpContent chunk = new DefaultHttpContent(buf);
+			ctx.writeAndFlush(chunk);
+		}
+		ChannelFuture lastContentFuture = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
+		if (!isKeepAlive(req)) {
+			lastContentFuture.addListener(ChannelFutureListener.CLOSE);
+		}
+	}
+
+	protected void doResponse(ChannelHandlerContext ctx, FullHttpRequest req, FullHttpResponse res) {
+		HttpHeaders headers = res.headers();
+		if (res.getStatus().code() != 200) {
+			setContentLength(res, res.content().readableBytes());
+		} else {
+			if (!headers.contains(HttpHeaders.Names.CONTENT_LENGTH.toString())) {
+				setContentLength(res, res.content().readableBytes());
+			}
+		}
+		String ctypeKey = HttpHeaders.Names.CONTENT_TYPE.toString();
+		if (!headers.contains(ctypeKey)) {
+			if (req.headers().contains(ctypeKey)) {
+				headers.add(ctypeKey, req.headers().get(ctypeKey));
+			} else {
+				if (!headers.contains(ctypeKey)) {
+					String extName = req.getUri();
+					int pos = extName.lastIndexOf(".");
+					extName = extName.substring(pos + 1, extName.length());
+					if (DefaultHttpMineTypeFactory.containsMime(extName)) {
+						headers.add(ctypeKey, DefaultHttpMineTypeFactory.mime(extName));
+					}
+				}
+			}
+		}
+		// Send the response and close the connection if necessary.
+		ChannelFuture f = ctx.channel().writeAndFlush(res);
+		if (!isKeepAlive(req) || res.getStatus().code() != 200) {
+			f.addListener(ChannelFutureListener.CLOSE);
+		}
+
 	}
 
 	private void fillToResponse(Circuit circuit, FullHttpResponse res) {

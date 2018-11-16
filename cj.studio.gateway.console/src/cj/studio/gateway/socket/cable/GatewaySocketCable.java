@@ -125,6 +125,9 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		if ("$.prop.wspath".equals(name)) {
 			return wspath;
 		}
+		if ("$.wires.count".equals(name)) {
+			return wires.size();
+		}
 		return parent.getService(name);
 	}
 

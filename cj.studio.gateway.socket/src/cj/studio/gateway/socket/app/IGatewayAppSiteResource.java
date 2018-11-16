@@ -1,5 +1,7 @@
 package cj.studio.gateway.socket.app;
 
+import java.io.File;
+
 import org.jsoup.nodes.Document;
 
 import cj.studio.ecm.frame.Circuit;
@@ -15,4 +17,5 @@ public interface IGatewayAppSiteResource {
 	public String resourceText(String relativedUrl) throws CircuitException;
 	public byte[] resource(String relativedUrl) throws CircuitException;
 	String getRealHttpSiteRootPath();
+	public File realFileName(String rpath)throws CircuitException;
 }
