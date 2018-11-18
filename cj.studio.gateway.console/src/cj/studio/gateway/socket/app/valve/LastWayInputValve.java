@@ -14,10 +14,10 @@ import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.script.IJssModule;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
-import cj.studio.gateway.socket.chunk.FileChunkVisitor;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 import cj.studio.gateway.socket.util.SocketContants;
+import cj.studio.gateway.socket.visitor.FileVisitor;
 import cj.ultimate.util.StringUtil;
 
 public class LastWayInputValve implements IInputValve {
@@ -44,9 +44,8 @@ public class LastWayInputValve implements IInputValve {
 	}
 
 	@Override
-	public void onActive(String inputName,  IIPipeline pipeline)
-			throws CircuitException {
-		pipeline.nextOnActive(inputName,  this);
+	public void onActive(String inputName, IIPipeline pipeline) throws CircuitException {
+		pipeline.nextOnActive(inputName, this);
 	}
 
 	@Override
@@ -128,6 +127,9 @@ public class LastWayInputValve implements IInputValve {
 			}
 			IGatewayAppSiteWayWebView view = (IGatewayAppSiteWayWebView) jssview;
 			view.flow(frame, circuit, resource);
+			if (!circuit.containsContentType()) {
+				circuit.contentType("text/html; charset=utf-8");
+			}
 			return true;
 		}
 		return false;
@@ -144,6 +146,9 @@ public class LastWayInputValve implements IInputValve {
 			webview = (IGatewayAppSiteWayWebView) mappings.get(rpath);
 		}
 		webview.flow(frame, circuit, resource);
+		if (!circuit.containsContentType()) {
+			circuit.contentType("text/html; charset=utf-8");
+		}
 	}
 
 	private void renderResource(String rpath, String ext, Frame frame, Circuit circuit) throws CircuitException {
@@ -151,9 +156,9 @@ public class LastWayInputValve implements IInputValve {
 			circuit.contentType(mimes.get(ext));
 		}
 //		circuit.content().writeBytes(resource.resource(rpath));
-		File f=resource.realFileName(rpath);
-		FileChunkVisitor file=new FileChunkVisitor(f);
-		circuit.attribute(SocketContants.__circuit_chunk_visitor,file);
+		File f = resource.realFileName(rpath);
+		FileVisitor file = new FileVisitor(f);
+		circuit.attribute(SocketContants.__circuit_chunk_visitor, file);
 	}
 
 	private boolean mappingsContainsKey(String rpath) {

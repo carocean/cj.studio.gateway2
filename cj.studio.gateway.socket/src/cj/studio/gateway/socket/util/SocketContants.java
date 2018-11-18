@@ -16,4 +16,5 @@ public interface SocketContants {
 	String __http_ws_prop_wsPath="wsPath";
 	
 	String __circuit_chunk_visitor="Chunk-Visitor";
+	String __request_isclose = "Request-Isclose";
 }

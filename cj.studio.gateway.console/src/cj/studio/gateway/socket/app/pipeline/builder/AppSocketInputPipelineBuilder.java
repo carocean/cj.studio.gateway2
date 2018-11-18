@@ -71,7 +71,7 @@ public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 			input=new InputPipeline(first, last);
 		} else {
 			//注意顺序
-			FirstWayInputValve first = new FirstWayInputValve(0);
+			FirstWayInputValve first = new FirstWayInputValve();
 			LastWayInputValve last = new LastWayInputValve(app);
 			input = new InputPipeline(first, last);
 			CheckUrlInputValve checkuri = new CheckUrlInputValve();

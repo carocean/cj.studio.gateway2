@@ -1,5 +1,6 @@
 package cj.test.website.webview;
 
+import cj.studio.ecm.Scope;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.frame.Circuit;
@@ -11,7 +12,7 @@ import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.pipeline.IOutputer;
 import cj.ultimate.util.StringUtil;
 
-@CjService(name = "/test/client/")
+@CjService(name = "/test/client/",scope=Scope.multiton)
 public class TestClient implements IGatewayAppSiteWayWebView {
 	@CjServiceRef(refByName = "$.output.selector")
 	IOutputSelector selector;

@@ -14,8 +14,9 @@ import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.net.web.HttpFrame;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
-import cj.studio.gateway.socket.chunk.HttpChunkVisitor;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
+import cj.studio.gateway.socket.visitor.AbstractHttpGetVisitor;
+import cj.studio.gateway.socket.visitor.IHttpWriter;
 
 @CjService(name="/",scope=Scope.multiton)
 public class Home implements IGatewayAppSiteWayWebView{
@@ -38,7 +39,7 @@ public class Home implements IGatewayAppSiteWayWebView{
 		}
 		circuit.content().writeBytes(doc.html().getBytes());
 		
-		selector.select(circuit).accept(new HttpChunkVisitor() {
+		selector.select(circuit).accept(new AbstractHttpGetVisitor() {
 			String[] content=new String[] {"<html><body><ul>","<li>习近平抵达巴布亚新几内亚 进行国事访问</li>","<li>教师有这些行为要被清出教师队伍</li>","<li>日本网络安全大臣没用过电脑</li>","</ul></body></html>"};
 			int index;
 			@Override
@@ -71,7 +72,15 @@ public class Home implements IGatewayAppSiteWayWebView{
 				content=null;
 				index=0;
 			}
-			
+			@Override
+			public void beginVisit(Frame frame, Circuit circuit) {
+				System.out.println("+++++++HttpPullChunkVisitor.beginVisit++");
+				
+			}
+			@Override
+			public void endVisit(IHttpWriter writer) {
+				System.out.println("+++++++HttpPullChunkVisitor.endVisit++");
+			}
 		});
 	}
 	

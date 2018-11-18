@@ -1,0 +1,118 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Netty Test Form</title>
+</head>
+<body bgcolor="white">
+	<style>
+td {
+	font-size: 12pt;
+}
+</style>
+	<table border="0">
+		<tbody>
+			<tr>
+				<td><h1>Netty Test Form</h1>Choose one FORM</td>
+			</tr>
+		</tbody>
+	</table>
+	<center>
+		GET FORM
+		<hr width="75%" noshade="noshade" color="blue">
+	</center>
+	<form action="/formget" method="GET">
+		<input type="hidden" name="getform" value="GET">
+		<table border="0">
+			<tbody>
+				<tr>
+					<td>Fill with value: <br> <input type="text" name="info"
+						size="10" value="a"></td>
+				</tr>
+				<tr>
+					<td>Fill with value: <br> <input type="text"
+						name="secondinfo" size="20" value="b"></td>
+				</tr>
+				<tr>
+					<td>Fill with value: <br> <textarea name="thirdinfo"
+							cols="40" rows="10">c</textarea></td>
+				</tr>
+				<tr>
+					<td><input type="submit" name="Send" value="Send"></td>
+					<td><input type="reset" name="Clear" value="Clear"></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<center>
+		<hr width="75%" noshade="noshade" color="blue">
+	</center>
+	<center>
+		POST FORM
+		<hr width="75%" noshade="noshade" color="blue">
+	</center>
+	<form action="/formpost" method="POST">
+		<input type="hidden" name="getform" value="POST">
+		<table border="0">
+			<tbody>
+				<tr>
+					<td>Fill with value: <br> <input type="text" name="info"
+						size="10" value="a2"></td>
+				</tr>
+				<tr>
+					<td>Fill with value: <br> <input type="text"
+						name="secondinfo" size="20" value="b2"></td>
+				</tr>
+				<tr>
+					<td>Fill with value: <br> <textarea name="thirdinfo"
+							cols="40" rows="10">c2</textarea></td>
+				</tr>
+				<tr>
+					<td>Fill with file (only file name will be transmitted): <br>
+						<input type="file" name="myfile"></td>
+				</tr>
+				<tr>
+					<td><input type="submit" name="Send" value="Send"></td>
+					<td><input type="reset" name="Clear" value="Clear"></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<center>
+		<hr width="75%" noshade="noshade" color="blue">
+	</center>
+	<center>
+		POST MULTIPART FORM
+		<hr width="75%" noshade="noshade" color="blue">
+	</center>
+	<form action="/formpostmultipart" enctype="multipart/form-data"
+		method="POST">
+		<input type="hidden" name="getform" value="POST">
+		<table border="0">
+			<tbody>
+				<tr>
+					<td>Fill with value: <br> <input type="text" name="info"
+						size="10" value="a1"></td>
+				</tr>
+				<tr>
+					<td>Fill with value: <br> <input type="text"
+						name="secondinfo" size="20" value="b2"></td>
+				</tr>
+				<tr>
+					<td>Fill with value: <br> <textarea name="thirdinfo"
+							cols="40" rows="10">c3</textarea></td>
+				</tr>
+				<tr>
+					<td>Fill with file: <br> <input type="file" name="myfile"></td>
+				</tr>
+				<tr>
+					<td><input type="submit" name="Send" value="Send"></td>
+					<td><input type="reset" name="Clear" value="Clear"></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<center>
+		<hr width="75%" noshade="noshade" color="blue">
+	</center>
+</body>
+</html>

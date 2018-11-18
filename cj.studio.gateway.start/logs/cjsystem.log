@@ -3751,3 +3751,590 @@
 2018年11月16日 14:14:13  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
 2018年11月16日 14:14:18  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
 2018年11月16日 14:14:24  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 21:25:07  信息 : -------------网关启动完毕-------------------
+2018年11月17日 21:25:25  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月17日 21:25:33  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 21:53:44  信息 : -------------网关启动完毕-------------------
+2018年11月17日 21:54:08  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月17日 21:54:09  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:24:23  信息 : -------------网关启动完毕-------------------
+2018年11月17日 22:24:26  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月17日 22:24:27  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:32:20  信息 : -------------网关启动完毕-------------------
+2018年11月17日 22:32:22  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月17日 22:32:22  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:32:59  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:32:59  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:32:59  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:33:47  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:106)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:63)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:98)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月17日 22:36:47  信息 : -------------网关启动完毕-------------------
+2018年11月17日 22:36:49  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月17日 22:36:49  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:36:50  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:36:50  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:36:50  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:106)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:63)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:98)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月17日 22:38:43  信息 : -------------网关启动完毕-------------------
+2018年11月17日 22:38:45  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月17日 22:38:46  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:38:46  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:38:46  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:38:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:109)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:62)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:98)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月17日 22:39:25  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:109)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:62)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:98)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月17日 22:39:39  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:39:39  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:41:16  信息 : -------------网关启动完毕-------------------
+2018年11月17日 22:41:18  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月17日 22:41:19  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:41:19  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月17日 22:41:19  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:06:21  信息 : -------------网关启动完毕-------------------
+2018年11月18日 00:06:24  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 00:06:24  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:06:25  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:06:25  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:06:25  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:06:25  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:108)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:63)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:98)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:159)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月18日 00:06:25  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 00:07:11  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:07:11  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:108)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:63)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:98)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:159)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月18日 00:11:15  信息 : -------------网关启动完毕-------------------
+2018年11月18日 00:11:17  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 00:11:18  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:11:18  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:11:18  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:11:18  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:11:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:107)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:62)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:98)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:159)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月18日 00:11:19  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 00:21:28  信息 : -------------网关启动完毕-------------------
+2018年11月18日 00:21:30  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 00:21:31  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:21:31  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:107)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:62)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:102)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月18日 00:21:32  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:21:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:107)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:62)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:102)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月18日 00:21:32  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:21:32  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:21:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:107)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:62)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:102)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月18日 00:21:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:107)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:62)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:102)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月18日 00:21:32  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:21:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpContent(FirstWayInputValve.java:107)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:62)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:102)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:159)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月18日 00:21:32  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 00:30:31  信息 : -------------网关启动完毕-------------------
+2018年11月18日 00:30:33  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 00:30:33  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:30:34  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:30:34  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:30:35  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:30:35  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 00:30:53  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:31:45  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:57:53  信息 : -------------网关启动完毕-------------------
+2018年11月18日 00:57:57  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 00:57:57  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:57:58  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:57:58  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:57:58  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:57:58  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 00:58:04  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 00:58:11  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:03:10  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:03:52  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:03:52  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:04:01  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:04:19  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:04:37  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:04:38  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:04:39  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:04:40  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:04:42  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:04:45  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:04:46  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:04:47  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:35  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:36  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/apple-touch-icon-precomposed.png
+2018年11月18日 01:05:36  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/apple-touch-icon.png
+2018年11月18日 01:05:48  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:48  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:49  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:51  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:51  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:52  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:53  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:54  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:54  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:55  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:56  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:57  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:57  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:58  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:05:59  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:00  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:01  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:01  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:02  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:03  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:03  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:04  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:05  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:05  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:06  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:09  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:11  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:12  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:12  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:06:13  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:14:36  信息 : -------------网关启动完毕-------------------
+2018年11月18日 01:14:43  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 01:14:44  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:14:44  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 01:17:13  信息 : -------------网关启动完毕-------------------
+2018年11月18日 01:17:19  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 01:17:20  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:17:20  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 01:17:20  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:17:20  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 01:17:20  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:17:20  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 01:17:21  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:17:21  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 01:17:21  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 01:21:47  信息 : -------------网关启动完毕-------------------
+2018年11月18日 01:21:49  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 01:21:50  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 01:21:50  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 01:21:50  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 01:21:50  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:21:50  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 01:22:01  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:formget
+2018年11月18日 01:22:01  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:formget
+2018年11月18日 01:23:27  信息 : -------------网关启动完毕-------------------
+2018年11月18日 01:23:28  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:formget
+2018年11月18日 01:23:52  信息 : -------------网关启动完毕-------------------
+2018年11月18日 01:23:55  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:formget
+2018年11月18日 01:24:43  信息 : -------------网关启动完毕-------------------
+2018年11月18日 01:24:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:formget
+2018年11月18日 01:25:01  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 01:25:01  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 01:25:01  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 01:25:01  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 01:25:01  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 01:25:01  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 02:09:03  信息 : -------------网关启动完毕-------------------
+2018年11月18日 02:09:11  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 02:09:12  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 02:09:12  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 02:09:12  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 02:09:12  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 02:09:12  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 02:11:59  信息 : -------------网关启动完毕-------------------
+2018年11月18日 02:12:02  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 02:12:03  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 02:12:03  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 02:12:03  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 02:12:03  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 02:12:03  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 02:15:22  信息 : -------------网关启动完毕-------------------
+2018年11月18日 02:15:27  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 02:15:27  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 02:15:27  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 02:15:27  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 02:15:27  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 02:15:27  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 02:16:59  信息 : -------------网关启动完毕-------------------
+2018年11月18日 02:17:15  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 02:17:16  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 02:17:16  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 02:17:16  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 02:17:16  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 02:17:16  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 02:29:04  信息 : -------------网关启动完毕-------------------
+2018年11月18日 02:29:08  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 02:29:09  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 02:29:09  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 02:29:09  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 02:29:09  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 02:29:09  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 02:31:34  信息 : -------------网关启动完毕-------------------
+2018年11月18日 02:31:46  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 02:31:46  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 02:31:46  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 02:31:46  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 02:31:46  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 02:31:46  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 09:58:09  信息 : -------------网关启动完毕-------------------
+2018年11月18日 09:58:15  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 09:58:15  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 09:58:15  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 09:58:15  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 09:58:15  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 09:58:15  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 10:47:28  信息 : -------------网关启动完毕-------------------
+2018年11月18日 10:47:40  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 10:47:41  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 10:47:41  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 10:47:41  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 10:47:41  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 10:47:41  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 10:51:14  信息 : -------------网关启动完毕-------------------
+2018年11月18日 10:51:20  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 10:51:21  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 10:51:21  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 10:51:21  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 10:51:21  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 10:51:21  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 10:51:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 10:51:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 10:51:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 10:51:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 10:51:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 10:51:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 10:51:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 10:51:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 10:51:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 10:51:36  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 10:51:37  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 10:51:37  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 10:51:37  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 10:51:37  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 10:51:37  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 10:51:37  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 10:51:45  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 10:51:45  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 10:51:45  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 10:51:45  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 10:51:45  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 10:51:48  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpostmultipart/,在 class cj.test.website.webview.Formpostmultipart
+2018年11月18日 10:51:48  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formget/,在 class cj.test.website.webview.FormGetWebview
+2018年11月18日 10:51:48  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/formpost/,在 class cj.test.website.webview.FormpostWebview
+2018年11月18日 10:51:48  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/test/client/,在 class cj.test.website.webview.TestClient
+2018年11月18日 10:51:48  警告: cj.test.website.WebsiteProgram - webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：/pages/submit.html,在 class cj.test.website.webview.SubmitWebview
+2018年11月18日 10:53:42  信息 : -------------网关启动完毕-------------------
+2018年11月18日 10:53:46  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 10:53:48  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 11:01:41  信息 : -------------网关启动完毕-------------------
+2018年11月18日 11:01:45  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 11:08:12  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 11:21:32  信息 : -------------网关启动完毕-------------------
+2018年11月18日 11:21:40  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 11:21:53  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 12:43:02  信息 : -------------网关启动完毕-------------------
+2018年11月18日 12:43:07  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
+2018年11月18日 12:43:11  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:formpost
+2018年11月18日 12:43:31  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 12:46:16  信息 : -------------网关启动完毕-------------------
+2018年11月18日 12:46:20  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 12:48:04  信息 : -------------网关启动完毕-------------------
+2018年11月18日 12:48:07  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 13:18:45  信息 : -------------网关启动完毕-------------------
+2018年11月18日 13:18:50  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 13:19:02  警告: cj.studio.gateway.socket.app.valve.FirstWayInputValve - POST请求未使用HttpFormDataVisitor：/website/formpostmultipart/
+2018年11月18日 13:21:05  信息 : -------------网关启动完毕-------------------
+2018年11月18日 13:21:09  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 13:53:46  信息 : -------------网关启动完毕-------------------
+2018年11月18日 13:53:50  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 15:52:57  信息 : -------------网关启动完毕-------------------
+2018年11月18日 15:53:03  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 15:59:36  信息 : -------------网关启动完毕-------------------
+2018年11月18日 15:59:44  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 17:58:10  信息 : -------------网关启动完毕-------------------
+2018年11月18日 17:58:15  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月18日 17:59:54  信息 : -------------网关启动完毕-------------------
+2018年11月18日 17:59:57  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 	var euser=$('a.euser');
 	//websocket登录到远程
 	var wsurl=euser.attr('wsurl');//该地址可从程序集的属性文件中读取,并由服务器附加到页面元素上，由此而取到。
