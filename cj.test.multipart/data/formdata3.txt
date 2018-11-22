@@ -1,0 +1,26 @@
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="getform"
+
+POST
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="info"
+Content-Type: image/png
+
+aaa
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="secondinfo"
+
+bbb
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="thirdinfo"
+
+cccc
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="child_input2"
+
+tttt
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="Send"
+
+Send
+-----------------------------66463493214568540771885412692--

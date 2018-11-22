@@ -12,6 +12,7 @@ import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.visitor.HttpPostFreeVisitor;
 import cj.studio.gateway.socket.visitor.IHttpFormDecoder;
 import cj.studio.gateway.socket.visitor.IHttpWriter;
+import cj.studio.gateway.socket.visitor.decoder.MultipartFormDecoder;
 
 @CjService(name = "/formpostmultipart/", scope = Scope.multiton)
 public class Formpostmultipart implements IGatewayAppSiteWayWebView {
@@ -25,10 +26,9 @@ public class Formpostmultipart implements IGatewayAppSiteWayWebView {
 			@Override
 			protected void endvisit(Frame frame, Circuit circuit, IHttpWriter writer) {
 				// TODO Auto-generated method stub
-				System.out.println("****************HttpPostFreeVisitor.endVisitor");
-				writer.write("<ul>".getBytes());
-				for (int i = 0; i < 100; i++) {
-					writer.write("<li>MediaType是application/formpostmultipart的接口测...-博客园</li>".getBytes());
+//				System.out.println("****************HttpPostFreeVisitor.endVisitor");
+				for (int i = 0; i < 10000; i++) {
+					writer.write(String.format("<li>application/formpostmultipart的接口测-博客园-%s</li>",i).getBytes());
 				}
 				writer.write("</ul>".getBytes());
 			}
@@ -36,7 +36,16 @@ public class Formpostmultipart implements IGatewayAppSiteWayWebView {
 			@Override
 			protected IHttpFormDecoder createMultipartFormDecoder(Frame frame, Circuit circuit) {
 				// TODO Auto-generated method stub
-				return null;
+				return new MultipartFormDecoder(frame, circuit) {
+					@Override
+					protected void done(Frame frame, Circuit circuit, IHttpWriter writer) {
+						writer.write("<ul>".getBytes());
+						String arr[] =frame.enumParameterName();
+						for(String key:arr) {
+							writer.write(String.format("<li>%s=%s</li>", key,frame.parameter(key)).getBytes());
+						}
+					}
+				};
 			}
 
 

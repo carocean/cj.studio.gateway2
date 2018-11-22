@@ -1,5 +1,5 @@
 #org.springsource.ide.eclipse.gradle.core.preferences.GradleProjectPreferences
-#Tue Nov 06 14:26:04 CST 2018
-build.family.org.gradle.tooling.model.eclipse.HierarchicalEclipseProject=;cj.studio.gateway.console;cj.studio.gateway.socket;cj.studio.gateway.start;cj.test.website;cj.test.website2;
+#Sun Nov 18 19:54:39 CST 2018
+build.family.org.gradle.tooling.model.eclipse.HierarchicalEclipseProject=;cj.studio.gateway.console;cj.studio.gateway.socket;cj.studio.gateway.start;cj.test.multipart;cj.test.website;cj.test.website2;
 org.springsource.ide.eclipse.gradle.linkedresources=
 org.springsource.ide.eclipse.gradle.rootprojectloc=

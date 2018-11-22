@@ -14,7 +14,6 @@ public class MultipartFormDecoder implements IHttpFormDecoder {
 	private Circuit circuit;
 	HttpFormData formData;
 	HttpFormBoundary bd;
-
 	public MultipartFormDecoder(Frame frame, Circuit circuit) {
 		this.frame = frame;
 		this.circuit = circuit;
@@ -39,8 +38,7 @@ public class MultipartFormDecoder implements IHttpFormDecoder {
 	}
 
 	@Override
-	public void done(IHttpWriter writer) {
-		System.out.println(formData);
+	public final void done(IHttpWriter writer) {
 		HttpFieldData[] arr=formData.fields.toArray(new HttpFieldData[0]);
 		for(HttpFieldData f:arr) {
 			if(f.isFile()) {
@@ -54,12 +52,17 @@ public class MultipartFormDecoder implements IHttpFormDecoder {
 			}
 			frame.parameter(f.getName(),new String(f.data()));
 		}
+		done(frame,circuit,writer);
 		frame = null;
 		circuit = null;
 	}
 	
+	protected  void done(Frame frame, Circuit circuit, IHttpWriter writer) {
+	}
+	
 	@Override
 	public void writeChunk(ByteBuf chunk) {
+		
 		byte[] data = new byte[chunk.readableBytes()];
 		chunk.readBytes(data);
 		for (byte b : data) {
