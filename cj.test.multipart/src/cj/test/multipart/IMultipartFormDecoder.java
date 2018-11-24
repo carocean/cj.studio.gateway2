@@ -1,6 +1,6 @@
 package cj.test.multipart;
 
-public interface IHttpFormDecoder {
+public interface IMultipartFormDecoder {
 	void write(byte b);
 
 }

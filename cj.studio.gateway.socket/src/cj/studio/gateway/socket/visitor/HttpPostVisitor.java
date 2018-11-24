@@ -2,10 +2,10 @@ package cj.studio.gateway.socket.visitor;
 
 import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.frame.Frame;
-import cj.studio.gateway.socket.visitor.decoder.MultipartFormDecoder;
-import cj.studio.gateway.socket.visitor.decoder.UrlencodedFormDecoder;
+import cj.studio.gateway.socket.visitor.decoder.MultipartFormChunkDecoder;
+import cj.studio.gateway.socket.visitor.decoder.UrlEncodedFormChunkDecoder;
 
-public abstract class HttpPostFreeVisitor extends AbstractHttpPostVisitor {
+public abstract class HttpPostVisitor extends AbstractHttpPostVisitor {
 	boolean isMultipart;
 	private Frame frame;
 	private Circuit circuit;
@@ -32,26 +32,26 @@ public abstract class HttpPostFreeVisitor extends AbstractHttpPostVisitor {
 	protected abstract void endvisit(Frame frame, Circuit circuit, IHttpWriter writer);
 
 	@Override
-	public final IHttpFormDecoder createFormDataDecoder() {
-		IHttpFormDecoder decoder = null;
+	public final IHttpFormChunkDecoder createFormDataDecoder() {
+		IHttpFormChunkDecoder decoder = null;
 		if (isMultipart) {
 			decoder = createMultipartFormDecoder(frame, circuit);
 			if (decoder == null) {
-				decoder = new MultipartFormDecoder(frame, circuit);
+				decoder = new MultipartFormChunkDecoder(frame, circuit);
 			}
 			return decoder;
 		}
 		decoder = createUrlencodedFormDecoder(frame, circuit);
 		if (decoder == null) {
-			decoder = new UrlencodedFormDecoder(frame, circuit);
+			decoder = new UrlEncodedFormChunkDecoder(frame, circuit);
 		}
 		return decoder;
 	}
 
-	protected IHttpFormDecoder createUrlencodedFormDecoder(Frame frame, Circuit circuit) {
+	protected IHttpFormChunkDecoder createUrlencodedFormDecoder(Frame frame, Circuit circuit) {
 		return null;
 	}
 
-	protected abstract IHttpFormDecoder createMultipartFormDecoder(Frame frame, Circuit circuit);
+	protected abstract IHttpFormChunkDecoder createMultipartFormDecoder(Frame frame, Circuit circuit);
 
 }

@@ -42,7 +42,7 @@ public class ExpectEndFieldBoundarySiever implements ISiever {
 			return;
 		}
 		index=0;
-		while(cache.readableBytes()>0) {
+		while(cache.isReadable()) {
 			bucket.writeFieldData(cache.readByte());
 		}
 		bucket.writeFieldData(b);

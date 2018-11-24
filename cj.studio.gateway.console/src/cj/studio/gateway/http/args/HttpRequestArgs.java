@@ -1,14 +1,14 @@
 package cj.studio.gateway.http.args;
 
 import cj.studio.gateway.socket.IChunkVisitor;
-import cj.studio.gateway.socket.visitor.IHttpFormDecoder;
+import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
 import cj.ultimate.IDisposable;
 import io.netty.channel.ChannelHandlerContext;
 
 public class HttpRequestArgs implements IDisposable{
 	boolean keepLive;
 	ChannelHandlerContext context;
-	IHttpFormDecoder decoder;
+	IHttpFormChunkDecoder decoder;
 	IChunkVisitor visitor;
 	public HttpRequestArgs(ChannelHandlerContext ctx,boolean keepLive) {
 		super();
@@ -28,10 +28,10 @@ public class HttpRequestArgs implements IDisposable{
 	public void setContext(ChannelHandlerContext context) {
 		this.context = context;
 	}
-	public IHttpFormDecoder getDecoder() {
+	public IHttpFormChunkDecoder getDecoder() {
 		return decoder;
 	}
-	public void setDecoder(IHttpFormDecoder decoder) {
+	public void setDecoder(IHttpFormChunkDecoder decoder) {
 		this.decoder = decoder;
 	}
 	public void setVisitor(IChunkVisitor visitor) {

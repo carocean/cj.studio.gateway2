@@ -1,0 +1,35 @@
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="getform"
+
+POST
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="info"
+Content-Type: multipart/mixed, boundary=---------------------------76463493214568540771885412692
+
+-----------------------------76463493214568540771885412692
+Content-Disposition: attachment; filename="file1.txt"
+Content-Type: image/png
+
+xxxxx
+-----------------------------76463493214568540771885412692
+Content-Disposition: attachment; filename="file2.gif"
+
+yyyyyy
+-----------------------------76463493214568540771885412692--
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="secondinfo"
+
+bbb
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="thirdinfo"
+
+cccc
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="child_input2"
+
+tttt
+-----------------------------66463493214568540771885412692
+Content-Disposition: form-data; name="Send"
+
+Send
+-----------------------------66463493214568540771885412692--

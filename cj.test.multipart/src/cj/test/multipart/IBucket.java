@@ -16,6 +16,12 @@ public interface IBucket {
 	
 	void beginFieldData();
 	void doneFieldData();
+	/**
+	 * 当域为mixed时存在子表单，该方法表示设置子表单所在的mixed域
+	 * @param field
+	 */
+	void setParentField(IFieldInfo field);
+	IFormData getForm();
 	
 	
 }

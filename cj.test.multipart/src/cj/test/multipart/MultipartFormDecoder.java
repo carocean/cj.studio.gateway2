@@ -7,22 +7,23 @@ import cj.test.multipart.siever.ExpectEndFieldBoundarySiever;
 import cj.test.multipart.siever.ExpectTwoHyphenSiever;
 import cj.test.multipart.siever.JumpCrlfSiever;
 
-public class HttpFormDecoder implements IHttpFormDecoder {
-	private String nextStep;
+public class MultipartFormDecoder implements IMultipartFormDecoder {
+	private FormDecodeStep nextStep;
 	private ISiever currentSiever;
 	private IBucket bucket;
 	String boundary;
 
-	public HttpFormDecoder(String boundary) {
+	public MultipartFormDecoder(String boundary, IBucket bucket) {
 		this.boundary = boundary;
-		bucket = new Bucket();
+		this.bucket = bucket;
 	}
+
 	@Override
 	public void write(byte b) {
-		if ("end".equals(nextStep))
+		if (nextStep == FormDecodeStep.end)
 			return;
-		if(null==nextStep||"".equals(nextStep)) {
-			nextStep = "begin";
+		if (null == nextStep) {
+			nextStep = FormDecodeStep.begin;
 			selectNext(1);
 		}
 		if (currentSiever == null) {
@@ -49,55 +50,55 @@ public class HttpFormDecoder implements IHttpFormDecoder {
 
 	private void selectNext(int prevEnd) {
 		switch (nextStep) {
-		case "begin":
+		case begin:
 			bucket.beginForm();
 			currentSiever = new BeginBoundarySiever(this.boundary);
-			nextStep = "jumpCRLF";
+			nextStep = FormDecodeStep.jumpCRLF;
 			break;
-		case "jumpCRLF":
+		case jumpCRLF:
 			bucket.beginField();
 			currentSiever = new JumpCrlfSiever();
-			nextStep = "expectCRLF";
+			nextStep = FormDecodeStep.expectCRLF;
 			break;
-		case "expectCRLF":
+		case expectCRLF:
 			bucket.beginAttributeInfo();
 			currentSiever = new ExpectCrlfSiever();
-			nextStep = "continueCRLF";
+			nextStep = FormDecodeStep.continueCRLF;
 			break;
-		case "continueCRLF":
+		case continueCRLF:
 			currentSiever = new ContinueCrlfSiever();
-			nextStep = "ifEndField";
+			nextStep = FormDecodeStep.ifEndField;
 			break;
-		case "ifEndField":
+		case ifEndField:
 			currentSiever = null;
 			bucket.doneAttributeInfo();
 			if (prevEnd == 1) {
 				bucket.beginFieldData();
-				nextStep = "endField";
+				nextStep = FormDecodeStep.endField;
 			} else if (prevEnd == 2) {
-				nextStep = "expectCRLF";
+				nextStep = FormDecodeStep.expectCRLF;
 			}
 			break;
-		case "endField":
+		case endField:
 			currentSiever = new ExpectEndFieldBoundarySiever(this.boundary);
-			nextStep = "expectTwoHyphen";
+			nextStep = FormDecodeStep.expectTwoHyphen;
 			break;
-		case "expectTwoHyphen":
+		case expectTwoHyphen:
 			currentSiever = new ExpectTwoHyphenSiever();
-			nextStep = "ifEndForm";
+			nextStep = FormDecodeStep.ifEndForm;
 			break;
-		case "ifEndForm":
+		case ifEndForm:
 			currentSiever = null;
 			bucket.doneFieldData();
 			bucket.doneField();
 			if (prevEnd == 1) {
-				nextStep = "end";
+				nextStep = FormDecodeStep.end;
 			} else if (prevEnd == 2) {
 				bucket.beginField();
-				nextStep = "expectCRLF";
+				nextStep = FormDecodeStep.expectCRLF;
 			}
 			break;
-		case "end":
+		case end:
 			// 什么也不做，这样就可以把最后一对\r\n丢弃了
 			bucket.doneForm();
 			break;

@@ -43,7 +43,7 @@ import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
 import cj.studio.gateway.socket.serverchannel.ws.WebsocketServerChannelGatewaySocket;
 import cj.studio.gateway.socket.util.SocketContants;
 import cj.studio.gateway.socket.util.SocketName;
-import cj.studio.gateway.socket.visitor.IHttpFormDecoder;
+import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
 import cj.ultimate.util.FileHelper;
 import cj.ultimate.util.StringUtil;
 import io.netty.buffer.ByteBuf;
@@ -80,7 +80,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	InputPipelineCollection pipelines;
 	private ServerInfo info;
 	boolean keepLive;
-	private IHttpFormDecoder decoder;
+	private IHttpFormChunkDecoder decoder;
 	private IChunkVisitor visitor;
 	public HttpChannelHandler(IServiceProvider parent) {
 		this.parent = parent;
@@ -90,7 +90,6 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		this.pipelines = new InputPipelineCollection();
 		this.info = (ServerInfo) parent.getService("$.server.info");
 	}
-
 	@Override
 	protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
 		if (msg instanceof HttpRequest) {

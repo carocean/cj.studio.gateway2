@@ -21,7 +21,7 @@ import cj.studio.gateway.socket.util.SocketContants;
 import cj.studio.gateway.socket.visitor.AbstractHttpPostVisitor;
 import cj.studio.gateway.socket.visitor.AbstractHttpGetVisitor;
 import cj.studio.gateway.socket.visitor.HttpWriter;
-import cj.studio.gateway.socket.visitor.IHttpFormDecoder;
+import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
 import cj.studio.gateway.socket.visitor.IHttpWriter;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -87,7 +87,7 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 	private void flowHttpContent(Object request, HttpContentArgs args, IIPipeline pipeline) {
 		ChannelHandlerContext ctx = args.getContext();
 		if (request instanceof LastHttpContent) {
-			IHttpFormDecoder decoder = args.getDecoder();
+			IHttpFormChunkDecoder decoder = args.getDecoder();
 			if (decoder != null) {
 				if (request instanceof DefaultLastHttpContent) {
 					DefaultLastHttpContent cnt = (DefaultLastHttpContent) request;
@@ -112,11 +112,12 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			return;
 		}
 		// 接收内容
-		IHttpFormDecoder decoder = args.getDecoder();
+		IHttpFormChunkDecoder decoder = args.getDecoder();
 		if (decoder != null) {
 			HttpContent cnt = (HttpContent) request;
 			decoder.writeChunk(cnt.content());
 		}
+		
 	}
 
 	private void flowHttpRequest(Object request, HttpRequestArgs args, IIPipeline pipeline) throws CircuitException {
@@ -235,7 +236,7 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			ctx.writeAndFlush(chunk);
 		}
 
-		IHttpFormDecoder decoder = visitor.createFormDataDecoder();
+		IHttpFormChunkDecoder decoder = visitor.createFormDataDecoder();
 		args.setDecoder(decoder);
 	}
 
@@ -265,7 +266,7 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			ctx.writeAndFlush(chunk);
 		}
 		int read = 0;
-		byte[] b = new byte[10240];
+		byte[] b = new byte[SocketContants.__pull_chunk_size];
 		while ((read = visitor.readChunk(b, 0, b.length)) > -1) {
 			ByteBuf buf = Unpooled.buffer(read);
 			buf.writeBytes(b, 0, read);

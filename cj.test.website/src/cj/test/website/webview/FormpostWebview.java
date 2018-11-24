@@ -9,8 +9,8 @@ import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
-import cj.studio.gateway.socket.visitor.HttpPostFreeVisitor;
-import cj.studio.gateway.socket.visitor.IHttpFormDecoder;
+import cj.studio.gateway.socket.visitor.HttpPostVisitor;
+import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
 import cj.studio.gateway.socket.visitor.IHttpWriter;
 
 @CjService(name = "/formpost/", scope = Scope.multiton)
@@ -21,7 +21,7 @@ public class FormpostWebview implements IGatewayAppSiteWayWebView {
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
 		System.out.println(frame);
-		selector.select(circuit).accept(new HttpPostFreeVisitor() {
+		selector.select(circuit).accept(new HttpPostVisitor() {
 			@Override
 			protected void endvisit(Frame frame, Circuit circuit, IHttpWriter writer) {
 				// TODO Auto-generated method stub
@@ -34,7 +34,7 @@ public class FormpostWebview implements IGatewayAppSiteWayWebView {
 			}
 
 			@Override
-			protected IHttpFormDecoder createMultipartFormDecoder(Frame frame, Circuit circuit) {
+			protected IHttpFormChunkDecoder createMultipartFormDecoder(Frame frame, Circuit circuit) {
 				// TODO Auto-generated method stub
 				return null;
 			}

@@ -1,0 +1,23 @@
+//回车换行不对。这是rfc上的标准协议范本。在使用jquery等上传时可能会用到mixed模式，现在的浏览器就是多文件上传也是form-data
+
+--AaB03x
+content-disposition: form-data; name="field1"
+
+Joe Blow
+--AaB03x
+content-disposition: form-data; name="pics"
+Content-type: multipart/mixed, boundary=BbC04y
+
+--BbC04y
+Content-disposition: attachment; filename="file1.txt"
+Content-Type: text/plain
+
+... contents of file1.txt ...
+--BbC04y
+Content-disposition: attachment; filename="file2.gif"
+Content-type: image/gif
+Content-Transfer-Encoding: binary
+
+  ...contents of file2.gif...
+--BbC04y--
+--AaB03x--

@@ -4,6 +4,6 @@ import cj.studio.gateway.socket.IChunkVisitor;
 
 public abstract class AbstractHttpPostVisitor implements IChunkVisitor {
 
-	public abstract IHttpFormDecoder createFormDataDecoder();
+	public abstract IHttpFormChunkDecoder createFormDataDecoder();
 	
 }

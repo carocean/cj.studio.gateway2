@@ -1,1 +1,10 @@
-aaa
+-----------------------------76463493214568540771885412692
+Content-Disposition: form-data; name="info_mixed"
+Content-Type: image/png
+
+xxxxx
+-----------------------------76463493214568540771885412692
+Content-Disposition: form-data; name="secondinfo_mixed"
+
+yyyyyy
+-----------------------------76463493214568540771885412692--

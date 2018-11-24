@@ -6,25 +6,25 @@ import java.util.Map;
 import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.net.web.WebUtil;
-import cj.studio.gateway.socket.visitor.IHttpFormDecoder;
+import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
 import cj.studio.gateway.socket.visitor.IHttpWriter;
 import cj.ultimate.util.StringUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
-public class UrlencodedFormDecoder implements IHttpFormDecoder {
+public class UrlEncodedFormChunkDecoder implements IHttpFormChunkDecoder {
 	Frame frame;
 	Circuit circuit;
 	ByteBuf content;
 
-	public UrlencodedFormDecoder(Frame frame, Circuit circuit) {
+	public UrlEncodedFormChunkDecoder(Frame frame, Circuit circuit) {
 		this.frame = frame;
 		this.circuit = circuit;
 		this.content = Unpooled.buffer();
 	}
 
 	@Override
-	public void done(IHttpWriter writer) {
+	public final void done(IHttpWriter writer) {
 		byte[] b = new byte[content.readableBytes()];
 		content.readBytes(b);
 		String chartset = frame.contentChartset();
@@ -42,14 +42,20 @@ public class UrlencodedFormDecoder implements IHttpFormDecoder {
 		for(String key:params.keySet()) {
 			frame.parameter(key,(String)params.get(key));
 		}
+		done(frame,circuit,writer);
 		content.clear();
 		content.release();
 		frame=null;
 		circuit=null;
 	}
 
+	protected void done(Frame frame, Circuit circuit, IHttpWriter writer) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
-	public void writeChunk(ByteBuf chunk) {
+	public final void writeChunk(ByteBuf chunk) {
 		content.writeBytes(chunk);
 	}
 

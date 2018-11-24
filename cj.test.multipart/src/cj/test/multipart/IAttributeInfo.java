@@ -6,4 +6,6 @@ public interface IAttributeInfo {
 
 	void end();
 
+	String getInfo();
+	AttributeType getType();
 }
