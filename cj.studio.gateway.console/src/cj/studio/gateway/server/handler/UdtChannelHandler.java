@@ -28,6 +28,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.udt.UdtMessage;
+import io.netty.handler.timeout.IdleStateEvent;
 
 public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelHandler, SocketContants {
 	IServiceProvider parent;
@@ -36,6 +37,7 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 	private IJunctionTable junctions;
 	InputPipelineCollection pipelines;
 	private ServerInfo info;
+	private int counter;
 
 	public UdtChannelHandler(IServiceProvider parent) {
 		this.parent = parent;
@@ -45,7 +47,20 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 		this.pipelines = new InputPipelineCollection();
 		info = (ServerInfo) parent.getService("$.server.info");
 	}
-
+	@Override
+	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+		if (evt instanceof IdleStateEvent) {
+			// 空闲6s之后触发 (心跳包丢失)
+			if (counter >= 3) {
+				// 连续丢失3个心跳包 (断开连接)
+				ctx.channel().close().sync();
+			} else {
+				counter++;
+			}
+		} else {
+			super.userEventTriggered(ctx, evt);
+		}
+	}
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object data) throws Exception {
 		UdtMessage msg = (UdtMessage) data;
@@ -53,7 +68,11 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 		byte[] b = new byte[bb.readableBytes()];
 		bb.readBytes(b);
 		Frame frame = new Frame(b);
-
+		if ("NET/1.0".equals(frame.protocol())) {
+			if ("heartbeat".equals(frame.command())) {
+				return;
+			}
+		}
 		String uri = frame.url();
 		String gatewayDestInHeader = frame.head(__frame_gatewayDest);
 		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, getClass());
@@ -129,7 +148,7 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 		}
 
 		pipelineRelease(name);
-
+		counter=0;
 		super.channelInactive(ctx);
 	}
 }

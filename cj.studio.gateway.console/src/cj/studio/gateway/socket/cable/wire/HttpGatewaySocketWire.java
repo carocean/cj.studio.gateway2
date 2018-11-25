@@ -82,7 +82,8 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	}
 
 	@Override
-	public Object send(Frame frame) throws CircuitException {
+	public Object send(Object request,Object response) throws CircuitException {
+		Frame frame=(Frame)request;
 		if (!channel.isWritable()) {// 断开连结，且从电缆中移除导线
 			if (channel.isOpen()) {
 				channel.close();

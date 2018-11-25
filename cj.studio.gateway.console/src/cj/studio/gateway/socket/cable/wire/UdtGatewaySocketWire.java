@@ -1,6 +1,7 @@
 package cj.studio.gateway.socket.cable.wire;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -37,6 +38,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.udt.UdtMessage;
 import io.netty.channel.udt.nio.NioUdtProvider;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class UdtGatewaySocketWire implements IGatewaySocketWire {
 	Channel channel;
@@ -89,7 +92,8 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 	}
 
 	@Override
-	public Object send(Frame frame) throws CircuitException {
+	public Object send(Object request, Object response) throws CircuitException {
+		Frame frame = (Frame) request;
 		if (!channel.isWritable()) {// 断开连结，且从电缆中移除导线
 			if (channel.isOpen()) {
 				channel.close();
@@ -135,6 +139,10 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
 			ChannelPipeline pipeline = ch.pipeline();
+			int interval = (int) parent.getService(SocketContants.__key_heartbeat_interval);
+			if (interval > 0) {
+				pipeline.addLast(new IdleStateHandler(0, 0, interval, TimeUnit.SECONDS));
+			}
 			pipeline.addLast(new UdtClientHandler());
 
 		}
@@ -168,6 +176,22 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			@SuppressWarnings("unchecked")
 			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
 			wires.remove(UdtGatewaySocketWire.this);
+		}
+
+		@Override
+		public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+			if (evt instanceof IdleStateEvent) {
+				// 不管是读事件空闲还是写事件空闲都向服务器发送心跳包
+				sendHeartbeatPacket(ctx);
+			} else {
+				super.userEventTriggered(ctx, evt);
+			}
+		}
+
+		private void sendHeartbeatPacket(ChannelHandlerContext ctx) {
+			Frame f = new Frame("heartbeat / net/1.0");
+			UdtMessage msg = new UdtMessage(f.toByteBuf());
+			ctx.writeAndFlush(msg);
 		}
 
 		@Override

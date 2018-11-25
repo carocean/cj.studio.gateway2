@@ -6,7 +6,6 @@ import java.util.List;
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.cable.IGatewaySocketCable;
@@ -32,8 +31,7 @@ public class LastClientInputValve implements IInputValve {
 	}
 
 	@Override
-	public void onActive(String inputName, IIPipeline pipeline)
-			throws CircuitException {
+	public void onActive(String inputName, IIPipeline pipeline) throws CircuitException {
 		// 选择导线,留给app端开发者关闭输出管道时关闭，此处不考虑关闭。
 		// 也就是导线的释放权交由app端输出管道来控制。
 		trytimes = 0;
@@ -48,7 +46,6 @@ public class LastClientInputValve implements IInputValve {
 			CJSystem.logging().error(getClass(), "电缆无可用导线，已尝试3次，请求被丢弃：" + request);
 			return;
 		}
-		Frame frame = (Frame) request;
 		IGatewaySocketWire[] arr = wires.toArray(new IGatewaySocketWire[0]);
 		for (IGatewaySocketWire w : arr) {
 			if (w == null) {
@@ -61,11 +58,11 @@ public class LastClientInputValve implements IInputValve {
 				break;
 			}
 			try {
-				Object obj=w.send(frame);
-				if(obj !=null) {
-					if(obj instanceof Circuit) {
-						Circuit c=(Circuit)obj;
-						Circuit res=(Circuit)response;
+				Object obj = w.send(request,response);
+				if (obj != null) {
+					if (obj instanceof Circuit) {
+						Circuit c = (Circuit) obj;
+						Circuit res = (Circuit) response;
 						res.copyFrom(c, true);
 //						c.dispose();
 					}
@@ -73,7 +70,7 @@ public class LastClientInputValve implements IInputValve {
 				trytimes = 0;
 			} catch (Throwable e) {
 				trytimes++;
-				CJSystem.logging().error(getClass(), e+"");
+				CJSystem.logging().error(getClass(), e + "");
 				select(pipeline);
 				flow(request, response, pipeline);// 重新再来n次，直到可用，select方法会堵塞直到拥有可使用导线
 				break;

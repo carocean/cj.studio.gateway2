@@ -1,6 +1,5 @@
 package cj.studio.gateway.socket.cable;
 
-import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
 import cj.ultimate.IClosable;
 import cj.ultimate.IDisposable;
@@ -34,7 +33,7 @@ public interface IGatewaySocketWire extends IClosable, IDisposable {
 	 * @return 如果是http则返回的是Circuit，其它协议可能返回null
 	 * @throws CircuitException
 	 */
-	Object send(Frame frame) throws CircuitException;
+	Object send(Object frame,Object circuit) throws CircuitException;
 
 	void connect(String ip, int port) throws CircuitException;
 

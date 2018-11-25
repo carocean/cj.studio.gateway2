@@ -4871,3 +4871,1740 @@
 2018年11月25日 00:07:11  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
 2018年11月25日 00:14:52  信息 : -------------网关启动完毕-------------------
 2018年11月25日 00:14:55  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 00:22:22  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 10:03:10  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:05:12  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:05:27  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-638b-00000007-2da03c8a92b9fd60-60f0f02d
+Upgrade-Insecure-Requests: 1
+2018年11月25日 10:05:42  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-638b-00000007-2da03c8a92b9fd60-60f0f02d
+Upgrade-Insecure-Requests: 1
+2018年11月25日 10:05:57  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-638b-00000007-2da03c8a92b9fd60-60f0f02d
+Upgrade-Insecure-Requests: 1
+2018年11月25日 10:05:57  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-638b-00000007-2da03c8a92b9fd60-60f0f02d
+Upgrade-Insecure-Requests: 1
+2018年11月25日 10:05:57  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@7e967a37
+2018年11月25日 10:06:18  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 10:12:42  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6924-00000000-a070c5326dad94fc-8ecce8aa
+Upgrade-Insecure-Requests: 1
+2018年11月25日 10:13:26  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:13:30  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:14:08  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6924-00000000-a070c5326dad94fc-8ecce8aa
+Upgrade-Insecure-Requests: 1
+2018年11月25日 10:14:51  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6924-00000000-a070c5326dad94fc-8ecce8aa
+Upgrade-Insecure-Requests: 1
+2018年11月25日 10:15:11  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6924-00000000-a070c5326dad94fc-8ecce8aa
+Upgrade-Insecure-Requests: 1
+2018年11月25日 10:15:11  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6924-00000000-a070c5326dad94fc-8ecce8aa
+Upgrade-Insecure-Requests: 1
+2018年11月25日 10:15:11  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@156af5b2
+2018年11月25日 10:17:02  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 10:17:03  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:25:39  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:26:09  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:27:02  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:27:07  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:28:17  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:28:21  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:29:19  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@5ab0c648
+2018年11月25日 10:29:34  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@5ab0c648
+2018年11月25日 10:29:49  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@5ab0c648
+2018年11月25日 10:29:49  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@5ab0c648
+2018年11月25日 10:30:56  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6958-00000000-adf8518a14146a7d-373018a2
+Upgrade-Insecure-Requests: 1
+Host: news.163.com:80
+2018年11月25日 10:31:29  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6958-00000000-adf8518a14146a7d-373018a2
+Upgrade-Insecure-Requests: 1
+Host: news.163.com:80
+2018年11月25日 10:31:44  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@5ab0c648
+2018年11月25日 10:31:44  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6958-00000000-adf8518a14146a7d-373018a2
+Upgrade-Insecure-Requests: 1
+Host: news.163.com:80
+2018年11月25日 10:31:44  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6958-00000000-adf8518a14146a7d-373018a2
+Upgrade-Insecure-Requests: 1
+Host: news.163.com:80
+2018年11月25日 10:31:44  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@5ab0c648
+2018年11月25日 10:31:59  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@5ab0c648
+2018年11月25日 10:32:14  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@5ab0c648
+2018年11月25日 10:32:14  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@5ab0c648
+2018年11月25日 10:43:20  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:43:26  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:44:10  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2cbc7d77
+2018年11月25日 10:44:25  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2cbc7d77
+2018年11月25日 10:44:25  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@2cbc7d77
+2018年11月25日 10:44:35  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2cbc7d77
+2018年11月25日 10:44:50  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2cbc7d77
+2018年11月25日 10:44:50  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@2cbc7d77
+2018年11月25日 10:45:44  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:45:47  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:46:02  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@22da0a6b
+2018年11月25日 10:46:17  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@22da0a6b
+2018年11月25日 10:46:17  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@22da0a6b
+2018年11月25日 10:46:54  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@22da0a6b
+2018年11月25日 10:47:09  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@22da0a6b
+2018年11月25日 10:47:09  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@22da0a6b
+2018年11月25日 10:48:10  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:48:13  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:48:28  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6958-00000000-adf8518a14146a7d-373018a2
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 10:48:43  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6958-00000000-adf8518a14146a7d-373018a2
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 10:48:58  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6958-00000000-adf8518a14146a7d-373018a2
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 10:48:58  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6958-00000000-adf8518a14146a7d-373018a2
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 10:48:58  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@7143d0fb
+2018年11月25日 10:49:41  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:49:43  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:49:58  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@172d7e64
+2018年11月25日 10:50:30  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:50:32  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 10:50:47  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6958-00000000-adf8518a14146a7d-373018a2
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 10:51:02  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6958-00000000-adf8518a14146a7d-373018a2
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 10:53:31  信息 : -------------网关启动完毕-------------------
+2018年11月25日 10:53:46  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 10:53:47  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 11:04:09  信息 : -------------网关启动完毕-------------------
+2018年11月25日 11:04:12  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 11:05:13  信息 : -------------网关启动完毕-------------------
+2018年11月25日 11:05:15  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 11:05:30  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 11:05:45  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 11:06:00  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 11:06:00  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 11:06:00  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@3f498161
+2018年11月25日 12:24:55  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:25:03  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:25:10  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:25:12  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:25:18  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:25:25  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:25:25  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6a23-00000000-78757f9c943a0c1c-cc172c3a
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:25:25  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@3f498161
+2018年11月25日 12:26:27  信息 : -------------网关启动完毕-------------------
+2018年11月25日 12:26:39  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 12:26:40  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 12:27:11  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 12:27:54  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET js/index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6aa5-00000000-7aadda01fb3515af-1a803e72; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 12:27:56  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET js/socket.io.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6aa5-00000000-7aadda01fb3515af-1a803e72; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 12:28:39  信息 : -------------网关启动完毕-------------------
+2018年11月25日 12:28:46  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 12:28:55  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 12:28:56  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 12:29:01  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6aa5-00000000-7aadda01fb3515af-1a803e72; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Host: news.163.com:80
+2018年11月25日 12:54:58  信息 : -------------网关启动完毕-------------------
+2018年11月25日 12:55:00  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 12:57:19  信息 : -------------网关启动完毕-------------------
+2018年11月25日 12:57:21  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 12:58:32  信息 : -------------网关启动完毕-------------------
+2018年11月25日 12:58:34  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 12:58:59  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 12:59:00  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 12:59:03  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6ac9-00000000-6be5cc67ff0b27e0-177afe54; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:59:18  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6ac9-00000000-6be5cc67ff0b27e0-177afe54; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:59:33  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6ac9-00000000-6be5cc67ff0b27e0-177afe54; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:59:33  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6ac9-00000000-6be5cc67ff0b27e0-177afe54; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 12:59:34  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@4ce45715
+2018年11月25日 13:00:40  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /js/index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:00:47  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /js/jquery/jquery-2.1.4.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 13:01:05  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:01:12  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /jquery/jquery-2.1.4.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Cache-Control: max-age=0
+Host: news.163.com:80
+2018年11月25日 13:01:27  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:01:27  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:01:27  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@4ce45715
+2018年11月25日 13:01:57  信息 : -------------网关启动完毕-------------------
+2018年11月25日 13:02:02  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 13:02:17  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:02:32  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:02:47  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:02:47  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:02:47  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@4ecd09ba
+2018年11月25日 13:02:48  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:02:53  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:03:03  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:03:08  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:05:01  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:05:17  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:05:17  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:05:17  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@4ecd09ba
+2018年11月25日 13:05:59  信息 : -------------网关启动完毕-------------------
+2018年11月25日 13:06:02  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 13:06:21  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:06:38  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:06:57  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 13:06:57  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 13:06:58  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:06:58  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b11-00000000-5a015ecfc157afe9-8eb5f37e; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543116573; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:07:04  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@41331931
+2018年11月25日 13:07:50  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /js/jquery/jquery-2.1.4.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:07:51  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /js/index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:07:52  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /js/socket.io.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:08:08  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /jquery/jquery-2.1.4.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:08:09  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:08:10  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /socket.io.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:08:23  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /js/index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:08:27  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /js/socket.io.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:08:28  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /jquery-2.1.4.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:08:28  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /jquery-2.1.4.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:08:29  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:08:29  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:08:30  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /js/jquery/jquery-2.1.4.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:08:30  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@41331931
+2018年11月25日 13:08:31  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /socket.io.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:08:31  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /socket.io.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:08:31  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@41331931
+2018年11月25日 13:08:34  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@41331931
+2018年11月25日 13:08:42  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:08:43  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /socket.io.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:08:48  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /jquery/jquery-2.1.4.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:09:00  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:09:00  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /index.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:09:01  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /socket.io.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:09:01  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /socket.io.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:09:05  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET /jquery-2.1.4.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:09:05  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /jquery-2.1.4.js HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Referer: http://localhost:8080/wangyi/
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Host: news.163.com:80
+2018年11月25日 13:09:07  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@41331931
+2018年11月25日 13:09:09  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@41331931
+2018年11月25日 13:09:15  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@41331931
+2018年11月25日 13:15:58  信息 : -------------网关启动完毕-------------------
+2018年11月25日 13:16:54  信息 : -------------网关启动完毕-------------------
+2018年11月25日 13:17:13  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 13:19:44  信息 : -------------网关启动完毕-------------------
+2018年11月25日 13:19:47  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 13:20:47  信息 : -------------网关启动完毕-------------------
+2018年11月25日 13:20:49  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 13:21:35  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:22:42  信息 : -------------网关启动完毕-------------------
+2018年11月25日 13:22:44  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 13:23:22  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:23:40  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：DefaultHttpRequest, decodeResult: success)
+GET / HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b15-00000000-51a3eee54828f91f-be2b0cdf; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Pragma: no-cache
+Cache-Control: no-cache
+Host: news.163.com:80
+2018年11月25日 13:24:00  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@abc08c
+2018年11月25日 13:24:15  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@abc08c
+2018年11月25日 13:24:17  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@abc08c
+2018年11月25日 13:24:30  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@abc08c
+2018年11月25日 13:24:30  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@abc08c
+2018年11月25日 13:24:32  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@abc08c
+2018年11月25日 13:24:32  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@abc08c
+2018年11月25日 13:24:36  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@abc08c
+2018年11月25日 13:24:51  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@abc08c
+2018年11月25日 13:24:51  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@abc08c
+2018年11月25日 13:31:15  信息 : -------------网关启动完毕-------------------
+2018年11月25日 13:31:20  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 13:31:21  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 16:23:41  信息 : -------------网关启动完毕-------------------
+2018年11月25日 16:23:43  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 16:24:38  信息 : -------------网关启动完毕-------------------
+2018年11月25日 16:24:41  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 16:58:21  信息 : -------------网关启动完毕-------------------
+2018年11月25日 16:58:24  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 16:58:39  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@15743298
+2018年11月25日 16:58:54  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@15743298
+2018年11月25日 16:59:09  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@15743298
+2018年11月25日 16:59:09  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@15743298
+2018年11月25日 16:59:09  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@15743298
+2018年11月25日 16:59:19  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b78-00000001-f7db993ee2b25819-b35e03af; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+2018年11月25日 16:59:19  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@15743298
+2018年11月25日 17:00:21  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@15743298
+2018年11月25日 17:01:14  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@15743298
+2018年11月25日 17:03:45  信息 : -------------网关启动完毕-------------------
+2018年11月25日 17:03:47  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 17:04:03  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@15743298
+2018年11月25日 17:05:09  信息 : -------------网关启动完毕-------------------
+2018年11月25日 17:05:12  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 17:05:27  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:05:42  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:05:57  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:05:57  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:05:57  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:06:09  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b78-00000001-f7db993ee2b25819-b35e03af; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+2018年11月25日 17:06:09  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:06:42  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:06:57  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:07:12  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:07:12  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:08:00  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:08:15  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:08:30  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:08:30  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:08:30  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@2c20022e
+2018年11月25日 17:17:16  信息 : -------------网关启动完毕-------------------
+2018年11月25日 17:17:28  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 17:17:49  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:18:04  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:18:19  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:18:19  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:18:19  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b78-00000001-f7db993ee2b25819-b35e03af; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+2018年11月25日 17:18:19  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:19:50  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:19:56  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:00  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:05  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:11  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:15  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:20  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:20  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:20  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b78-00000001-f7db993ee2b25819-b35e03af; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+2018年11月25日 17:20:20  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:26  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:26  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:30  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:20:30  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:22:48  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:23:05  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:23:24  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:23:24  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:23:24  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：DefaultHttpRequest, decodeResult: success)
+GET /wangyi/ HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Cookie: JSESSION=acde480011220000-6b78-00000001-f7db993ee2b25819-b35e03af; UM_distinctid=167491ee7c626-0ca7f6407f80e4-4a516c-13c680-167491ee7c7465; CNZZDATA1256734798=340882626-1543116573-%7C1543121973; CNZZDATA1256336326=757628475-1543118771-%7C1543118771; _antanalysis_s_id=1543120022153; __gads=ID=7cf4a4ab5636a4d7:T=1543120024:S=ALNI_MbjKyxw7FlwYitI2lwZ7CxcDVpNUg
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
+2018年11月25日 17:23:24  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:24:04  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:24:24  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:24:43  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:24:43  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@704b1a6c
+2018年11月25日 17:42:40  信息 : -------------网关启动完毕-------------------
+2018年11月25日 17:42:42  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 17:43:00  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:07  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:17  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:19  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:24  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:32  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:34  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:34  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:39  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:39  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:47  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 505 请求超时：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:43:47  错误: cj.studio.gateway.socket.client.valve.LastClientInputValve - 电缆无可用导线，已尝试3次，请求被丢弃：io.netty.handler.codec.http.LastHttpContent$1@1bd8eeb3
+2018年11月25日 17:45:41  信息 : -------------网关启动完毕-------------------
+2018年11月25日 17:45:44  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 17:46:23  信息 : -------------网关启动完毕-------------------
+2018年11月25日 17:46:26  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 17:48:13  信息 : -------------网关启动完毕-------------------
+2018年11月25日 17:52:17  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 17:55:38  信息 : -------------网关启动完毕-------------------
+2018年11月25日 17:55:41  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 18:00:19  信息 : -------------网关启动完毕-------------------
+2018年11月25日 18:00:41  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 18:02:17  信息 : -------------网关启动完毕-------------------
+2018年11月25日 18:02:18  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 18:09:35  信息 : -------------网关启动完毕-------------------
+2018年11月25日 18:09:37  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 18:10:13  信息 : -------------网关启动完毕-------------------
+2018年11月25日 18:10:13  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 18:10:47  信息 : -------------网关启动完毕-------------------
+2018年11月25日 18:10:49  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 18:11:46  信息 : -------------网关启动完毕-------------------
+2018年11月25日 18:11:48  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NumberFormatException: For input string: "8080/website"
+		at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+		at java.lang.Integer.parseInt(Integer.java:580)
+		at java.lang.Integer.valueOf(Integer.java:766)
+		at cj.studio.gateway.socket.cable.GatewaySocketCable.parseConnStr(GatewaySocketCable.java:282)
+		at cj.studio.gateway.socket.cable.GatewaySocketCable.init(GatewaySocketCable.java:215)
+		at cj.studio.gateway.socket.client.ClientGatewaySocket.connect(ClientGatewaySocket.java:102)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:39)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:284)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月25日 18:12:03  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NumberFormatException: For input string: "8080/website"
+		at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+		at java.lang.Integer.parseInt(Integer.java:580)
+		at java.lang.Integer.valueOf(Integer.java:766)
+		at cj.studio.gateway.socket.cable.GatewaySocketCable.parseConnStr(GatewaySocketCable.java:282)
+		at cj.studio.gateway.socket.cable.GatewaySocketCable.init(GatewaySocketCable.java:215)
+		at cj.studio.gateway.socket.client.ClientGatewaySocket.connect(ClientGatewaySocket.java:102)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:39)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:284)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月25日 18:13:01  信息 : -------------网关启动完毕-------------------
+2018年11月25日 18:13:03  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 18:13:03  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/
+2018年11月25日 18:13:13  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 18:13:53  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/
+2018年11月25日 18:13:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/
+2018年11月25日 18:14:01  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/
+2018年11月25日 18:14:02  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/
+2018年11月25日 18:14:03  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/
+2018年11月25日 18:14:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:test
+2018年11月25日 18:14:28  信息 : -------------网关启动完毕-------------------
+2018年11月25日 18:14:32  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 18:14:34  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 19:28:19  信息 : -------------网关启动完毕-------------------
+2018年11月25日 19:28:23  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 19:28:29  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 19:28:58  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 资源文件不存在:/test/js/jquery/jquery-2.1.4.js
+2018年11月25日 19:28:58  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 资源文件不存在:/test/js/socket.io.js
+2018年11月25日 19:28:58  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 资源文件不存在:/test/js/index.js
+2018年11月25日 19:29:29  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月25日 19:32:47  信息 : -------------网关启动完毕-------------------
+2018年11月25日 19:32:49  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 19:32:52  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 19:37:17  信息 : -------------网关启动完毕-------------------
+2018年11月25日 19:37:21  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 19:37:50  信息 : -------------网关启动完毕-------------------
+2018年11月25日 19:38:03  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 19:39:46  信息 : -------------网关启动完毕-------------------
+2018年11月25日 19:39:49  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 19:40:41  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 19:41:48  信息 : -------------网关启动完毕-------------------
+2018年11月25日 19:41:51  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 19:43:52  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：505 非POST请求使用了HttpFormDataVisitor。请求：GET /website/formpostmultipart/ HTTP/1.1
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpRequest(FirstWayInputValve.java:162)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:66)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:299)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月25日 19:43:59  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：505 非POST请求使用了HttpFormDataVisitor。请求：GET /website/formpostmultipart/ HTTP/1.1
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpRequest(FirstWayInputValve.java:162)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:66)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:299)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月25日 19:44:04  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 22:36:18  信息 : -------------网关启动完毕-------------------
+2018年11月25日 22:36:34  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 22:36:34  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NoClassDefFoundError: Lcj/studio/orm/mybatis/IDBEnvironment;
+		at java.lang.Class.getDeclaredFields0(Class.java:-2)
+		at java.lang.Class.privateGetDeclaredFields(Class.java:2583)
+		at java.lang.Class.getDeclaredFields(Class.java:1916)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolveFields(AnnotationServiceDefinitionResolver.java:130)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolveService(AnnotationServiceDefinitionResolver.java:124)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolve(AnnotationServiceDefinitionResolver.java:102)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolve(AnnotationServiceDefinitionResolver.java:65)
+		at cj.studio.ecm.container.scanner.ServiceDefinitionScanner.scan(ServiceDefinitionScanner.java:75)
+		at cj.studio.ecm.context.ModuleSite.refresh(ModuleSite.java:253)
+		at cj.studio.ecm.Assembly.start(Assembly.java:388)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.scanAssemblyAndLoad(AppGatewaySocket.java:143)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.connect(AppGatewaySocket.java:104)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:35)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:284)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月25日 22:40:09  信息 : -------------网关启动完毕-------------------
+2018年11月25日 22:40:11  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 22:41:10  信息 : -------------网关启动完毕-------------------
+2018年11月25日 22:41:40  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 22:41:40  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NoClassDefFoundError: Lorg/apache/ibatis/session/SqlSessionFactory;
+		at java.lang.Class.getDeclaredFields0(Class.java:-2)
+		at java.lang.Class.privateGetDeclaredFields(Class.java:2583)
+		at java.lang.Class.getDeclaredFields(Class.java:1916)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolveFields(AnnotationServiceDefinitionResolver.java:130)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolveService(AnnotationServiceDefinitionResolver.java:124)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolve(AnnotationServiceDefinitionResolver.java:102)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolve(AnnotationServiceDefinitionResolver.java:65)
+		at cj.studio.ecm.container.scanner.ServiceDefinitionScanner.scan(ServiceDefinitionScanner.java:75)
+		at cj.studio.ecm.context.ModuleSite.refresh(ModuleSite.java:253)
+		at cj.studio.ecm.Assembly.start(Assembly.java:388)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.scanAssemblyAndLoad(AppGatewaySocket.java:143)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.connect(AppGatewaySocket.java:104)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:35)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:284)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月25日 22:43:11  信息 : -------------网关启动完毕-------------------
+2018年11月25日 22:43:58  信息 : -------------网关启动完毕-------------------
+2018年11月25日 22:44:00  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 22:44:45  信息 : -------------网关启动完毕-------------------
+2018年11月25日 22:44:47  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 22:44:47  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NoClassDefFoundError: Lorg/apache/ibatis/session/SqlSessionFactory;
+		at java.lang.Class.getDeclaredFields0(Class.java:-2)
+		at java.lang.Class.privateGetDeclaredFields(Class.java:2583)
+		at java.lang.Class.getDeclaredFields(Class.java:1916)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolveFields(AnnotationServiceDefinitionResolver.java:130)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolveService(AnnotationServiceDefinitionResolver.java:124)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolve(AnnotationServiceDefinitionResolver.java:102)
+		at cj.studio.ecm.container.resolver.AnnotationServiceDefinitionResolver.resolve(AnnotationServiceDefinitionResolver.java:65)
+		at cj.studio.ecm.container.scanner.ServiceDefinitionScanner.scan(ServiceDefinitionScanner.java:75)
+		at cj.studio.ecm.context.ModuleSite.refresh(ModuleSite.java:253)
+		at cj.studio.ecm.Assembly.start(Assembly.java:388)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.scanAssemblyAndLoad(AppGatewaySocket.java:143)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.connect(AppGatewaySocket.java:104)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:35)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:284)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月25日 22:45:10  信息 : -------------网关启动完毕-------------------
+2018年11月25日 22:45:11  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 22:46:55  信息 : -------------网关启动完毕-------------------
+2018年11月25日 22:47:03  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 22:47:04  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.socket.app.GatewayAppSiteProgram.start(GatewayAppSiteProgram.java:76)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.connect(AppGatewaySocket.java:117)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:35)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:284)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月25日 22:48:20  信息 : -------------网关启动完毕-------------------
+2018年11月25日 22:48:22  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 22:48:59  信息 : -------------网关启动完毕-------------------
+2018年11月25日 22:49:01  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 23:03:50  信息 : -------------网关启动完毕-------------------
+2018年11月25日 23:03:53  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 23:03:54  错误: cj.studio.ecm.container.factory.SingleonServiceInstanceFactory - 服务:blogService构建失败，原因：java.lang.IllegalArgumentException: Can not set cj.test.website.dao.BlogDAO field cj.test.website.service.BlogService.blogDAO to cj.studio.ecm.bridge.IBridgeable$$EnhancerByCGLIB$$8b7b3b34
+2018年11月25日 23:03:54  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：cj.studio.ecm.EcmException: java.lang.IllegalArgumentException: Can not set cj.test.website.dao.BlogDAO field cj.test.website.service.BlogService.blogDAO to cj.studio.ecm.bridge.IBridgeable$$EnhancerByCGLIB$$8b7b3b34
+		at cj.studio.ecm.container.factory.SingleonServiceInstanceFactory.instanceSingleonServices(SingleonServiceInstanceFactory.java:78)
+		at cj.studio.ecm.container.factory.SingleonServiceInstanceFactory.refresh(SingleonServiceInstanceFactory.java:46)
+		at cj.studio.ecm.context.ModuleSite.registerAndRefreshInstanceFactories(ModuleSite.java:308)
+		at cj.studio.ecm.context.ModuleSite.refresh(ModuleSite.java:288)
+		at cj.studio.ecm.Assembly.start(Assembly.java:388)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.scanAssemblyAndLoad(AppGatewaySocket.java:143)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.connect(AppGatewaySocket.java:104)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:35)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:284)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+	Cause by:
+		at sun.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(UnsafeFieldAccessorImpl.java:167)
+		at sun.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(UnsafeFieldAccessorImpl.java:171)
+		at sun.reflect.UnsafeObjectFieldAccessorImpl.set(UnsafeObjectFieldAccessorImpl.java:81)
+		at java.lang.reflect.Field.set(Field.java:764)
+		at cj.studio.ecm.adapter.AdapterInterrupter.invoke(AdapterInterrupter.java:101)
+		at cj.studio.ecm.adapter.IObjectSetter$$EnhancerByCGLIB$$d7f06ab4.set(<generated>:-1)
+		at cj.studio.ecm.container.factory.ServiceInstanceFactory.initialServiceRef(ServiceInstanceFactory.java:431)
+		at cj.studio.ecm.container.factory.ServiceInstanceFactory.initialService(ServiceInstanceFactory.java:205)
+		at cj.studio.ecm.container.factory.SingleonServiceInstanceFactory.instanceSingleonServices(SingleonServiceInstanceFactory.java:72)
+		at cj.studio.ecm.container.factory.SingleonServiceInstanceFactory.refresh(SingleonServiceInstanceFactory.java:46)
+		at cj.studio.ecm.context.ModuleSite.registerAndRefreshInstanceFactories(ModuleSite.java:308)
+		at cj.studio.ecm.context.ModuleSite.refresh(ModuleSite.java:288)
+		at cj.studio.ecm.Assembly.start(Assembly.java:388)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.scanAssemblyAndLoad(AppGatewaySocket.java:143)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.connect(AppGatewaySocket.java:104)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:35)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:284)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月25日 23:07:36  信息 : -------------网关启动完毕-------------------
+2018年11月25日 23:07:38  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 23:07:45  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.RuntimeException: java.lang.IllegalArgumentException: Can not set cj.test.website.service.BlogService field cj.test.website.Home.blog to cj.studio.ecm.bridge.IBridgeable$$EnhancerByCGLIB$$4682987d
+		at cj.studio.ecm.container.factory.MultitonServiceInstanceFactory.getService(MultitonServiceInstanceFactory.java:176)
+		at cj.studio.ecm.container.factory.ServiceInstanceFactory.getServices(ServiceInstanceFactory.java:742)
+		at cj.studio.ecm.container.ServiceContainer.getServices(ServiceContainer.java:131)
+		at cj.studio.ecm.context.ModuleSite.getServices(ModuleSite.java:132)
+		at cj.studio.ecm.context.ModuleSite$DelegateSite.getServices(ModuleSite.java:654)
+		at cj.studio.gateway.socket.app.GatewayAppSiteProgram.getWebviewMappings(GatewayAppSiteProgram.java:106)
+		at cj.studio.gateway.socket.app.GatewayAppSiteProgram.getService(GatewayAppSiteProgram.java:36)
+		at cj.studio.gateway.socket.app.valve.LastWayInputValve.<init>(LastWayInputValve.java:36)
+		at cj.studio.gateway.socket.app.pipeline.builder.AppSocketInputPipelineBuilder.createInputPipeline(AppSocketInputPipelineBuilder.java:75)
+		at cj.studio.gateway.socket.app.pipeline.builder.AppSocketInputPipelineBuilder.createPipeline(AppSocketInputPipelineBuilder.java:50)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:290)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+	Cause by:
+		at sun.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(UnsafeFieldAccessorImpl.java:167)
+		at sun.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(UnsafeFieldAccessorImpl.java:171)
+		at sun.reflect.UnsafeObjectFieldAccessorImpl.set(UnsafeObjectFieldAccessorImpl.java:81)
+		at java.lang.reflect.Field.set(Field.java:764)
+		at cj.studio.ecm.container.factory.ServiceInstanceFactory.initialServiceRef(ServiceInstanceFactory.java:433)
+		at cj.studio.ecm.container.factory.ServiceInstanceFactory.initialService(ServiceInstanceFactory.java:205)
+		at cj.studio.ecm.container.factory.MultitonServiceInstanceFactory.getService(MultitonServiceInstanceFactory.java:172)
+		at cj.studio.ecm.container.factory.ServiceInstanceFactory.getServices(ServiceInstanceFactory.java:742)
+		at cj.studio.ecm.container.ServiceContainer.getServices(ServiceContainer.java:131)
+		at cj.studio.ecm.context.ModuleSite.getServices(ModuleSite.java:132)
+		at cj.studio.ecm.context.ModuleSite$DelegateSite.getServices(ModuleSite.java:654)
+		at cj.studio.gateway.socket.app.GatewayAppSiteProgram.getWebviewMappings(GatewayAppSiteProgram.java:106)
+		at cj.studio.gateway.socket.app.GatewayAppSiteProgram.getService(GatewayAppSiteProgram.java:36)
+		at cj.studio.gateway.socket.app.valve.LastWayInputValve.<init>(LastWayInputValve.java:36)
+		at cj.studio.gateway.socket.app.pipeline.builder.AppSocketInputPipelineBuilder.createInputPipeline(AppSocketInputPipelineBuilder.java:75)
+		at cj.studio.gateway.socket.app.pipeline.builder.AppSocketInputPipelineBuilder.createPipeline(AppSocketInputPipelineBuilder.java:50)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:290)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月25日 23:15:43  信息 : -------------网关启动完毕-------------------
+2018年11月25日 23:15:46  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月25日 23:15:47  错误: cj.studio.ecm.container.factory.SingleonServiceInstanceFactory - 服务:blogService构建失败，原因：java.lang.IllegalArgumentException: Can not set cj.test.website.dao.BlogDAO field cj.test.website.service.BlogService.blogDAO to cj.studio.ecm.bridge.IBridgeable$$EnhancerByCGLIB$$8b7b3b34
+2018年11月25日 23:15:47  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：cj.studio.ecm.EcmException: java.lang.IllegalArgumentException: Can not set cj.test.website.dao.BlogDAO field cj.test.website.service.BlogService.blogDAO to cj.studio.ecm.bridge.IBridgeable$$EnhancerByCGLIB$$8b7b3b34
+		at cj.studio.ecm.container.factory.SingleonServiceInstanceFactory.instanceSingleonServices(SingleonServiceInstanceFactory.java:78)
+		at cj.studio.ecm.container.factory.SingleonServiceInstanceFactory.refresh(SingleonServiceInstanceFactory.java:46)
+		at cj.studio.ecm.context.ModuleSite.registerAndRefreshInstanceFactories(ModuleSite.java:308)
+		at cj.studio.ecm.context.ModuleSite.refresh(ModuleSite.java:288)
+		at cj.studio.ecm.Assembly.start(Assembly.java:388)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.scanAssemblyAndLoad(AppGatewaySocket.java:143)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.connect(AppGatewaySocket.java:104)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:35)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:284)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+	Cause by:
+		at sun.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(UnsafeFieldAccessorImpl.java:167)
+		at sun.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(UnsafeFieldAccessorImpl.java:171)
+		at sun.reflect.UnsafeObjectFieldAccessorImpl.set(UnsafeObjectFieldAccessorImpl.java:81)
+		at java.lang.reflect.Field.set(Field.java:764)
+		at cj.studio.ecm.adapter.AdapterInterrupter.invoke(AdapterInterrupter.java:101)
+		at cj.studio.ecm.adapter.IObjectSetter$$EnhancerByCGLIB$$d7f06ab4.set(<generated>:-1)
+		at cj.studio.ecm.container.factory.ServiceInstanceFactory.initialServiceRef(ServiceInstanceFactory.java:431)
+		at cj.studio.ecm.container.factory.ServiceInstanceFactory.initialService(ServiceInstanceFactory.java:205)
+		at cj.studio.ecm.container.factory.SingleonServiceInstanceFactory.instanceSingleonServices(SingleonServiceInstanceFactory.java:72)
+		at cj.studio.ecm.container.factory.SingleonServiceInstanceFactory.refresh(SingleonServiceInstanceFactory.java:46)
+		at cj.studio.ecm.context.ModuleSite.registerAndRefreshInstanceFactories(ModuleSite.java:308)
+		at cj.studio.ecm.context.ModuleSite.refresh(ModuleSite.java:288)
+		at cj.studio.ecm.Assembly.start(Assembly.java:388)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.scanAssemblyAndLoad(AppGatewaySocket.java:143)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.connect(AppGatewaySocket.java:104)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:35)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:284)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:144)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:100)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月26日 00:31:46  信息 : -------------网关启动完毕-------------------
+2018年11月26日 00:31:53  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月26日 00:32:30  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share

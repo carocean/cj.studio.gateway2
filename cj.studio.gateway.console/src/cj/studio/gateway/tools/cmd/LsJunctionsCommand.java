@@ -191,6 +191,8 @@ public class LsJunctionsCommand extends Command {
 			System.out.println(String.format("%s\t\t\t\tactivedWires=%s", indent,
 					((IServiceProvider) cable).getService("$.wires.count")));
 			System.out
+			.println(String.format("%s\t\t\t\theartbeat=%s", indent, cable.getHeartbeat()));
+			System.out
 					.println(String.format("%s\t\t\t\tacquireRetryAttempts=%s", indent, cable.acquireRetryAttempts()));
 			System.out.println(String.format("%s\t\t\t\taggregatorLimit=%s", indent, cable.aggregatorLimit()));
 			System.out.println(String.format("%s\t\t\t\tcheckoutTimeout=%s", indent, cable.checkoutTimeout()));

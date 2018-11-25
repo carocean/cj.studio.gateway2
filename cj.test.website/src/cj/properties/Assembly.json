@@ -36,6 +36,10 @@
 			extName:".jss.js"
 		}],
 		scans : [{
+					package : "cj.studio.orm.mybatis",
+					extName : ".class|.json|.xml",
+					exoterical:"true"
+				},{
 					package : "cj.test.website",
 					extName : ".class|.json|.xml",
 					exoterical:"true"

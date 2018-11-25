@@ -106,4 +106,7 @@ public interface IGatewaySocketCable extends IClosable {
 
 
 	String protocol();
+
+
+	int getHeartbeat();
 }

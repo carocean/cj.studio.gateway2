@@ -77,23 +77,23 @@ public class AddDestinationCommand extends Command {
 
 	@Override
 	public String cmdDesc() {
-		return "添加群族的远程目标，格式：add domain -h xxx 例：add yanxin -h ip:port,ip:port。\r\n"
+		return "添加群族的远程目标，格式：add domain -h xxx 例：add yanxin -h protocol://ip:port,protocol://ip:port。\r\n"
 				+ "注意：域名在同一网关中唯一。"
-				+ "\r\n支持的协议有：tcp,udt,http,ws,jms,app\r\n"
-				+ "如果是app协议，则：uri格式是：app://程序相对目录名:适配类型,例：app://wigo:way,适配类型有：jee,way";
+				+ "\r\n支持的协议有：tcp,udt,http,ws,app。连接参数在地址后面加查询串?heartbeatInterval=10&maxWireSize=3\r\n"
+				+ "app协议的uri格式是：app://程序相对目录名:适配类型,例：app://wigo:way,适配类型有：jee,way";
 	}
 
 	@SuppressWarnings("static-access")
 	@Override
 	public Options options() {
 		Options options = new Options();
-		Option c = new Option("h", "hosts", true, "主机地址（ip:port)，如果有多个则以,号分隔");
+		Option c = new Option("h", "hosts", true, "主机地址（protocol://ip:port)，如果有多个则以,号分隔");
 		options.addOption(c);
-		Option at = new Option("ar", "autorun", false, "自动运行，在网关启动时");
-		options.addOption(at);
+//		Option at = new Option("ar", "autorun", false, "自动运行，在网关启动时");
+//		options.addOption(at);
 		Option p = OptionBuilder.withArgName("property=value").hasArgs(2)
 				.withValueSeparator()
-				.withDescription("设置服务器相关属性,格式为：-Pproperty=value 如心跳间隔：-PheartbeatInterval=1000,-PwaitMax=毫秒（表示连接池满后等待可用的超时时间）,-PmaxTotal=最大连接数").create("P");
+				.withDescription("设置服务器相关属性.").create("P");
 		options.addOption(p);
 		return options;
 	}

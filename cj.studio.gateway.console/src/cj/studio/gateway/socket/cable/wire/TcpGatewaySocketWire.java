@@ -1,6 +1,7 @@
 package cj.studio.gateway.socket.cable.wire;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -40,6 +41,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class TcpGatewaySocketWire implements IGatewaySocketWire {
 	Channel channel;
@@ -92,7 +95,8 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 	}
 
 	@Override
-	public Object send(Frame frame) throws CircuitException {
+	public Object send(Object request, Object response) throws CircuitException {
+		Frame frame = (Frame) request;
 		if (!channel.isWritable()) {// 断开连结，且从电缆中移除导线
 			if (channel.isOpen()) {
 				channel.close();
@@ -139,7 +143,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
 			ChannelPipeline pipeline = ch.pipeline();
-			//心跳就不必加了，电缆是连接池，如果发现某个导线断开，会移除掉重新选择一根，所以永远是连接的。
+			// 心跳就不必加了，电缆是连接池，如果发现某个导线断开，会移除掉重新选择一根，所以永远是连接的。
 //			int heartbeat = (int) parent.getService("$.prop.heartbeat");
 //			if (heartbeat > 0) {
 //				pipeline.addLast(new IdleStateHandler(0, 5, 0));// 写心跳
@@ -149,8 +153,12 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			 * 
 			 * 解码和编码 我将会在下一张为大家详细的讲解。再次暂时不做详细的描述
 			 */
-			pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4))
-					.addLast(new TcpClientHandler());
+			pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
+			int interval=(int)parent.getService(SocketContants.__key_heartbeat_interval);
+			if(interval>0) {
+				pipeline.addLast(new IdleStateHandler(0, 0, interval, TimeUnit.SECONDS));
+			}
+			pipeline.addLast(new TcpClientHandler());
 
 		}
 
@@ -257,6 +265,25 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 				input.headOnInactive(pipelineName);
 				pipelines.remove(pipelineName);
 			}
+
+		}
+
+		@Override
+		public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+			if (evt instanceof IdleStateEvent) {
+				// 不管是读事件空闲还是写事件空闲都向服务器发送心跳包
+				sendHeartbeatPacket(ctx);
+			} else {
+				super.userEventTriggered(ctx, evt);
+			}
+		}
+
+		private void sendHeartbeatPacket(ChannelHandlerContext ctx) {
+			Frame f = new Frame("heartbeat / net/1.0");
+			byte[] box = TcpFrameBox.box(f.toBytes());
+			ByteBuf bb = Unpooled.directBuffer();
+			bb.writeBytes(box);
+			ctx.writeAndFlush(bb);
 
 		}
 

@@ -17,14 +17,18 @@ import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.visitor.AbstractHttpGetVisitor;
 import cj.studio.gateway.socket.visitor.IHttpWriter;
+import cj.test.website.bo.BlogBO;
+import cj.test.website.service.IBlogService;
 
 @CjService(name="/",scope=Scope.multiton)
 public class Home implements IGatewayAppSiteWayWebView{
-	
+	@CjServiceRef(refByName="blogService")
+	IBlogService blog;
 	@CjServiceRef(refByName="$.output.selector")
 	IOutputSelector selector;
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
+		blog.saveBlog(new BlogBO());
 		System.out.println("....home:"+frame);
 		Document doc=resource.html("/index.html");
 		

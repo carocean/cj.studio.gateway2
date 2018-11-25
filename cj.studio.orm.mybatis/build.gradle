@@ -1,0 +1,36 @@
+sourceSets { 
+	 main { 
+	 	java{
+	 		srcDir "$projectDir/src"
+	 	}
+	 } 
+ 	}
+ 	sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+ 	tasks.withType(JavaCompile) {  
+        options.encoding = "UTF-8"  
+    } 
+ repositories { 
+	 flatDir(dirs: "../global/lib") 
+ } 
+
+dependencies {
+	compile group: 'org.mybatis', name: 'mybatis', version: '3.4.6'
+
+	compile fileTree('../global/jee.runtime')
+	compile fileTree('../global/runtime')
+	compile fileTree('../global/cjtools')
+	compile fileTree('src/cj/references')
+	
+}
+
+task releaseToWebsite(type: Copy) {
+ dependsOn "build"
+ from 'build/libs/'
+into '../cj.test.website/src/cj/refembeds'
+ include '**/*.jar'
+ }
+ 
+ task release(type:Copy){
+  dependsOn "releaseToWebsite"
+ }

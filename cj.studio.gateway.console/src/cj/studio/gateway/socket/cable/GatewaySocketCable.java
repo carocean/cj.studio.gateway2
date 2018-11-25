@@ -16,6 +16,7 @@ import cj.studio.gateway.socket.cable.wire.HttpGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.TcpGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.UdtGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.WSGatewaySocketWire;
+import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 
 public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider {
@@ -36,7 +37,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	private int aggregatorLimit;
 	private long requestTimeout;
 	private String wspath;
-
+	private int heartbeat;
 	public GatewaySocketCable(IServiceProvider parent) {
 		this.parent = parent;
 		wires = new CopyOnWriteArrayList<>();
@@ -98,7 +99,10 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	public String protocol() {
 		return protocol;
 	}
-
+	@Override
+	public int getHeartbeat() {
+		return heartbeat;
+	}
 	@Override
 	public Object getService(String name) {
 		if ("$.wires".equals(name)) {
@@ -127,6 +131,9 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		}
 		if ("$.wires.count".equals(name)) {
 			return wires.size();
+		}
+		if(SocketContants.__key_heartbeat_interval.equals(name)) {
+			return heartbeat;
 		}
 		return parent.getService(name);
 	}
@@ -296,6 +303,8 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 				: Integer.valueOf(f.parameter("minWireSize"));
 		this.aggregatorLimit = StringUtil.isEmpty(f.parameter("aggregatorLimit")) ? 5 * 1024 * 1024
 				: Integer.valueOf(f.parameter("aggregatorLimit"));
+		this.heartbeat = StringUtil.isEmpty(f.parameter(SocketContants.__key_heartbeat_interval)) ? -1
+				: Integer.valueOf(f.parameter(SocketContants.__key_heartbeat_interval));
 		if (StringUtil.isEmpty(f.parameter("initialWireSize"))) {
 			initialWireSize = minWireSize;
 		} else {

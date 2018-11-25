@@ -12,10 +12,10 @@
 		{
 			"name": "http://news.163.com",
 			"uris": [
-				"https://news.163.com?minWireSize=4&maxWireSize=10"
+				"https://news.163.com?minWireSize\u003d4\u0026maxWireSize\u003d10"
 			],
 			"props": {
-				"Broadcast-Mode":"unicast"
+				"Broadcast-Mode": "unicast"
 			}
 		},
 		{

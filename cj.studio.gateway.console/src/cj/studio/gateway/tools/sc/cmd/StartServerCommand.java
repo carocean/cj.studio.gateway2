@@ -84,7 +84,7 @@ public class StartServerCommand extends Command {
 		Option t = new Option("t", "protocol", true, "网络协议。目前支持ws,http,tcp,udt,jms");
 		options.addOption(t);
 		Option p = OptionBuilder.withArgName("property=value").hasArgs(2).withValueSeparator()
-				.withDescription("设置服务器相关属性,格式为：-Pproperty=value 如心跳间隔：-PheartbeatInterval=1000;\r\n").create("P");
+				.withDescription("设置服务器相关属性,格式为：-Pproperty=value 如心跳间隔（单位秒）：-PheartbeatInterval=10;\r\n").create("P");
 		options.addOption(p);
 		return options;
 	}

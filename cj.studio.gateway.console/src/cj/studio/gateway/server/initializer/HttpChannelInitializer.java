@@ -23,7 +23,7 @@ public class HttpChannelInitializer extends ChannelInitializer<SocketChannel> {
 		ChannelPipeline pipeline = ch.pipeline();
 		pipeline.addLast("codec-http", new HttpServerCodec(4096, 8192, SocketContants.__upload_chunked_cache_size));
 		pipeline.addLast("deflater", new HttpContentCompressor());
-		ch.pipeline().addLast("http-chunked", new ChunkedWriteHandler());
+		pipeline.addLast("http-chunked", new ChunkedWriteHandler());
 		HttpChannelHandler handler = new HttpChannelHandler(parent);
 		pipeline.addLast("handler", handler);
 	}
