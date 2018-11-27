@@ -13,6 +13,7 @@ import cj.studio.ecm.Scope;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceSite;
+import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.logging.ILogging;
 import cj.studio.ecm.net.layer.ISessionEvent;
 import cj.studio.ecm.script.IJssModule;
@@ -68,7 +69,7 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 	}
 
 	@Override
-	public final void start(Destination dest, String assembliesHome, ProgramAdapterType type) {
+	public final void start(Destination dest, String assembliesHome, ProgramAdapterType type) throws CircuitException {
 		this.type = type;
 		mimes = new HashMap<>();
 		errors = new HashMap<>();
@@ -131,7 +132,7 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 		return mappings;
 	}
 
-	protected abstract void onstart(Destination dest, String assembliesHome, ProgramAdapterType type);
+	protected abstract void onstart(Destination dest, String assembliesHome, ProgramAdapterType type)throws CircuitException;
 
 	private void redoClassloader(ClassLoader oldcl) {
 		Thread.currentThread().setContextClassLoader(oldcl);

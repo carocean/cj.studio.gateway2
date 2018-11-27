@@ -15,8 +15,9 @@ sourceSets {
  } 
 
 dependencies {
-	compile group: 'org.mybatis', name: 'mybatis', version: '3.4.6'
-
+	compile group: 'org.mybatis', name: 'mybatis', version: '3.4.0'
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.47'
 	compile fileTree('../global/jee.runtime')
 	compile fileTree('../global/runtime')
 	compile fileTree('../global/cjtools')
@@ -30,7 +31,12 @@ task releaseToWebsite(type: Copy) {
 into '../cj.test.website/src/cj/refembeds'
  include '**/*.jar'
  }
- 
+task releaseToPlugin(type: Copy) {
+ dependsOn "build"
+ from 'build/libs/'
+into '../cj.test.plugin/src/cj/refembeds'
+ include '**/*.jar'
+ } 
  task release(type:Copy){
-  dependsOn "releaseToWebsite"
+  dependsOn "releaseToWebsite","releaseToPlugin"
  }

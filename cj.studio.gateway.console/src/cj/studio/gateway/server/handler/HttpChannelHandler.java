@@ -82,6 +82,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	boolean keepLive;
 	private IHttpFormChunkDecoder decoder;
 	private IChunkVisitor visitor;
+
 	public HttpChannelHandler(IServiceProvider parent) {
 		this.parent = parent;
 		logger = CJSystem.logging();
@@ -90,30 +91,31 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		this.pipelines = new InputPipelineCollection();
 		this.info = (ServerInfo) parent.getService("$.server.info");
 	}
+
 	@Override
 	protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
 		if (msg instanceof HttpRequest) {
-			HttpRequest req=(HttpRequest)msg;
+			HttpRequest req = (HttpRequest) msg;
 			this.keepLive = req.headers().contains(CONNECTION, HttpHeaders.Values.CLOSE, true)
 					|| req.getProtocolVersion().equals(HttpVersion.HTTP_1_0)
 							&& !req.headers().contains(CONNECTION, HttpHeaders.Values.KEEP_ALIVE, true);
-			handleHttpRequest(ctx,  req);
+			handleHttpRequest(ctx, req);
 		} else if (msg instanceof HttpContent) {
 			String name = SocketName.name(ctx.channel().id(), info.getName());
 			IInputPipeline inputPipeline = pipelines.get(name);
 			if (inputPipeline != null) {
-				HttpContentArgs args=new HttpContentArgs(ctx,decoder,visitor,keepLive);
+				HttpContentArgs args = new HttpContentArgs(ctx, decoder, visitor, keepLive);
 				inputPipeline.headFlow(msg, args);
-				if(args.isDisposed()) {
-					this.decoder=null;
-					this.visitor=null;
+				if (args.isDisposed()) {
+					this.decoder = null;
+					this.visitor = null;
 				}
 				return;
 			}
 		} else if (msg instanceof WebSocketFrame) {
 			handleWebSocketFrame(ctx, (WebSocketFrame) msg);
 		} else {
-			throw new CircuitException("801", "不支持的消息类型："+msg.getClass());
+			throw new CircuitException("801", "不支持的消息类型：" + msg.getClass());
 		}
 	}
 
@@ -174,7 +176,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		if (inputPipeline == null) {
 			throw new CircuitException("404", "目标管道不存在" + name);
 		}
-		WebsocketFrameArgs args=new WebsocketFrameArgs();//留给将来使用
+		WebsocketFrameArgs args = new WebsocketFrameArgs();// 留给将来使用
 		inputPipeline.headFlow(frame, args);
 	}
 
@@ -259,16 +261,16 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		if (StringUtil.isEmpty(gatewayDest) || gatewayDest.endsWith("://")) {
 			throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 		}
-		
-		HttpRequestArgs args=new HttpRequestArgs(ctx,keepLive);
-		
+
+		HttpRequestArgs args = new HttpRequestArgs(ctx, keepLive);
+
 		String name = SocketName.name(ctx.channel().id(), info.getName());
 		IInputPipeline inputPipeline = pipelines.get(name);
 		// 检查目标管道是否存在
 		if (inputPipeline != null) {
 			inputPipeline.headFlow(req, args);
-			this.decoder=args.getDecoder();
-			this.visitor=args.getVisitor();
+			this.decoder = args.getDecoder();
+			this.visitor = args.getVisitor();
 			return;
 		}
 		// 目标管道不存在，以下生成目标管道
@@ -297,9 +299,9 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		inputPipeline.headOnActive(name);// 通知管道激活
 
 		inputPipeline.headFlow(req, args);// 将当前请求发过去
-		
-		this.decoder=args.getDecoder();
-		this.visitor=args.getVisitor();
+
+		this.decoder = args.getDecoder();
+		this.visitor = args.getVisitor();
 	}
 
 	protected void writeResponse(ChannelHandlerContext ctx, HttpRequest req, DefaultFullHttpResponse res) {
@@ -413,7 +415,6 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		if (e instanceof CircuitException) {
 
 			DefaultFullHttpResponse res = null;
-			String err = "";
 			CircuitException c = ((CircuitException) e);
 			if ("404".equals(c.getStatus())) {
 				HttpResponseStatus status = new HttpResponseStatus(Integer.parseInt(c.getStatus()),
@@ -422,15 +423,12 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 				StringWriter sw = new StringWriter();
 				PrintWriter pw = new PrintWriter(sw);
 				cause.printStackTrace(pw);
-				err = sw.toString();
 			} else {
 				String msg = e.getMessage().replace("\r", "").replace("\n", "<br/>");// netty的HttpResponseStatus构造对\r\n作了错误异常
 				HttpResponseStatus status = new HttpResponseStatus(Integer.parseInt(c.getStatus()), msg);
 				res = new DefaultFullHttpResponse(HTTP_1_1, status);
-				err = ((CircuitException) e).messageCause();
 			}
-			byte[] error = err.getBytes();
-			res.content().writeBytes(error);
+			printError(e, res);
 			DefaultHttpRequest req = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/");
 			writeResponse(ctx, req, res);
 
@@ -443,10 +441,22 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			}
 			HttpResponseStatus status = new HttpResponseStatus(503, error);
 			DefaultFullHttpResponse res = new DefaultFullHttpResponse(HTTP_1_1, status);
+			printError(e, res);
 			DefaultHttpRequest req = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/");
 			writeResponse(ctx, req, res);
 		}
 		ctx.close();
+	}
+
+	private void printError(Throwable e, DefaultFullHttpResponse res) {
+		StringWriter out = new StringWriter();
+		PrintWriter writer = new PrintWriter(out);
+		if (!(e instanceof CircuitException)) {
+			out.append(String.format("%s", res.getStatus().toString()));
+		}
+		e.printStackTrace(writer);
+		StringBuffer sb = out.getBuffer();
+		res.content().writeBytes(sb.toString().getBytes());
 	}
 
 	private void errorWebsocketCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {

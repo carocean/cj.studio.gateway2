@@ -30,9 +30,8 @@ public class CheckErrorInputVavle implements IInputValve {
 	}
 
 	@Override
-	public void onActive(String inputName,  IIPipeline pipeline)
-			throws CircuitException {
-		pipeline.nextOnActive(inputName,  this);
+	public void onActive(String inputName, IIPipeline pipeline) throws CircuitException {
+		pipeline.nextOnActive(inputName, this);
 	}
 
 	@Override
@@ -56,27 +55,29 @@ public class CheckErrorInputVavle implements IInputValve {
 
 		try {
 			pipeline.nextFlow(f, c, this);
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			CircuitException ce = CircuitException.search(e);
-			if (ce != null) {
-				boolean isDoc = WebUtil.documentMatch(f.path(), documentType);
-				if (isDoc) {
-					String page = errors.get(ce.getStatus());
-					if (!StringUtil.isEmpty(page)) {
-						String old = f.url();
-						String rootName = f.rootName();
-						f.url(String.format("/%s%s?onerror=%s", rootName, page, old));
-						try {
-							pipeline.nextFlow(f, c, this);
-						} catch (Throwable e2) {
-							throw e2;
-						}
-						return;
-					}
-				}
-				throw ce;
+			if (ce == null) {
+				ce = new CircuitException("503", e);
 			}
-			throw e;
+			boolean isDoc = WebUtil.documentMatch(f.path(), documentType);
+			if (isDoc) {
+				String page = errors.get(ce.getStatus());
+				if (!StringUtil.isEmpty(page)) {
+					String old = f.url();
+					String rootName = f.rootName();
+					f.url(String.format("/%s%s?onerror=%s", rootName, page, old));
+					try {
+						c.content().clear();
+						c.cause(ce.messageCause());
+						pipeline.nextFlow(f, c, this);
+					} catch (Throwable e2) {
+						throw e2;
+					}
+					return;
+				}
+			}
+			throw ce;
 		}
 
 	}

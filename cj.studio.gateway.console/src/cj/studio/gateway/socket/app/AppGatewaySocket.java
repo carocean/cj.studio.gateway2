@@ -1,14 +1,18 @@
 package cj.studio.gateway.socket.app;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FilenameFilter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cj.studio.ecm.Assembly;
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IAssembly;
 import cj.studio.ecm.IServiceProvider;
+import cj.studio.ecm.IWorkbin;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.net.layer.ISessionEvent;
@@ -110,10 +114,6 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 			sessionManager.getEvents().addAll(events);
 		}
 
-//		IOutputSelector selector=new OutputSelector(this);
-//		IServiceSite site=(IServiceSite)wprog.getService("$.app.site");
-//		site.addService("$.output.selector", selector);
-
 		wprog.start(dest, assembliesHome, type);
 		isConnected = true;
 	}
@@ -138,7 +138,8 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		}
 		String fn = assemblies[0].getAbsolutePath();
 		IAssembly target = Assembly.loadAssembly(fn, share);
-		target.parent(new AppCoreService());
+		Map<String, IGatewayAppSitePlugin> plugins = scanPluginsAndLoad(home,share);
+		target.parent(new AppCoreService(plugins));
 
 		target.start();
 
@@ -158,6 +159,49 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		return program;
 	}
 
+	private Map<String, IGatewayAppSitePlugin> scanPluginsAndLoad(String assemblyHome, ClassLoader share) {
+		String dir=assemblyHome;
+		if(!dir.endsWith(File.separator)) {
+			dir+=File.separator;
+		}
+		dir=String.format("%splugins", dir);
+		File dirFile=new File(dir);
+		if(!dirFile.exists()) {
+			dirFile.mkdirs();
+		}
+		File[] pluginDirs=dirFile.listFiles(new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				return pathname.isDirectory();
+			}
+		});
+		Map<String, IGatewayAppSitePlugin> map=new HashMap<>();
+		if(pluginDirs.length==0) {
+			return map;
+		}
+		for(File f:pluginDirs) {
+			File[] pluginFiles=f.listFiles(new FilenameFilter() {
+
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.endsWith(".jar");
+				}
+			});
+			for(File pluginFile:pluginFiles) {
+				IAssembly assembly=Assembly.loadAssembly(pluginFile.getAbsolutePath(),share);
+				assembly.start();
+				IWorkbin bin=assembly.workbin();
+				IGatewayAppSitePlugin plugin=(IGatewayAppSitePlugin)bin.part("$.studio.gateway.app.plugin");
+				if(plugin!=null) {
+					String name=bin.chipInfo().getName();
+					map.put(name, plugin);
+				}
+			}
+		}
+		return map;
+	}
+
 	@Override
 	public void close() throws CircuitException {
 		isConnected = false;
@@ -171,6 +215,11 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 
 	class AppCoreService implements IServiceProvider {
 		IOutputSelector selector;
+		Map<String, IGatewayAppSitePlugin> plugins;
+
+		public AppCoreService(Map<String, IGatewayAppSitePlugin> plugins) {
+			this.plugins = plugins;
+		}
 
 		@Override
 		public Object getService(String name) {
@@ -179,6 +228,19 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 					selector = new OutputSelector(AppGatewaySocket.this);
 				}
 				return selector;
+			}
+			if (!plugins.isEmpty()) {
+				int pos = name.indexOf(".");
+				if (pos > 0) {
+					String key = name.substring(0, pos);
+					String sid = name.substring(pos + 1, name.length());
+					IGatewayAppSitePlugin plugin = plugins.get(key);
+					if (plugin == null)
+						return null;
+					Object obj = plugin.getService(sid);
+					if (obj != null)
+						return obj;
+				}
 			}
 			return null;
 		}

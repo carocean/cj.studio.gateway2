@@ -1,0 +1,41 @@
+sourceSets { 
+	 main { 
+	 	java{
+	 		srcDir "$projectDir/src"
+	 	}
+	 } 
+ 	}
+ 	sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+ 	tasks.withType(JavaCompile) {  
+        options.encoding = "UTF-8"  
+    } 
+ repositories { 
+	 flatDir(dirs: "../global/lib") 
+ } 
+
+dependencies {
+	// https://mvnrepository.com/artifact/org.mongodb/mongodb-driver
+	compile group: 'org.mongodb', name: 'mongodb-driver', version: '3.4.2'
+	compile fileTree('../global/jee.runtime')
+	compile fileTree('../global/runtime')
+	compile fileTree('../global/cjtools')
+	compile fileTree('src/cj/references')
+	
+}
+
+task releaseToWebsite(type: Copy) {
+ dependsOn "build"
+ from 'build/libs/'
+into '../cj.test.website/src/cj/refembeds'
+ include '**/*.jar'
+ }
+task releaseToPlugin(type: Copy) {
+ dependsOn "build"
+ from 'build/libs/'
+into '../cj.test.plugin/src/cj/refembeds'
+ include '**/*.jar'
+ } 
+ task release(type:Copy){
+  dependsOn "releaseToWebsite","releaseToPlugin"
+ }

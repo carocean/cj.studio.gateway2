@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cj.test.plugin.ArticleDAO">
+
+	<resultMap id="resultMap" type="cj.test.plugin.ArticleBO">
+		<result column="id" property="id" jdbcType="CHAR" />
+		<result column="name" property="name" jdbcType="CHAR" />
+	</resultMap>
+	<!--添加 -->
+	<insert id="save" parameterType="cj.test.plugin.ArticleBO">
+		insert into article(id,name)
+		value(#{id,jdbcType=CHAR},#{name,jdbcType=CHAR})
+	</insert>
+	<!--查询 -->
+	<select id="query" resultMap="resultMap">
+		select * from article
+	</select>
+	<!--删除 -->
+	<delete id="delete" parameterType="java.lang.String">
+		delete from article where
+		id=#{id,jdbcType=CHAR}
+	</delete>
+
+</mapper>

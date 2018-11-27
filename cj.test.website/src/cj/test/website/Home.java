@@ -1,10 +1,12 @@
 package cj.test.website;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import cj.lns.chip.sos.cube.framework.ICube;
 import cj.studio.ecm.Scope;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -18,17 +20,39 @@ import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.visitor.AbstractHttpGetVisitor;
 import cj.studio.gateway.socket.visitor.IHttpWriter;
 import cj.test.website.bo.BlogBO;
+import cj.test.website.bo.UserBO;
 import cj.test.website.service.IBlogService;
+import cj.test.website.service.IUserService;
 
 @CjService(name="/",scope=Scope.multiton)
 public class Home implements IGatewayAppSiteWayWebView{
 	@CjServiceRef(refByName="blogService")
-	IBlogService blog;
+	IBlogService blogService;
+	@CjServiceRef
+	IUserService userService;
 	@CjServiceRef(refByName="$.output.selector")
 	IOutputSelector selector;
+	@CjServiceRef(refByName="plugin.text")
+	String text;
+	@CjServiceRef(refByName="plugin.mongodb.cctv.home")
+	ICube cube;
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
-		blog.saveBlog(new BlogBO());
+		BlogBO blog=new BlogBO();
+		blog.setId(frame.hashCode()+"");
+		blog.setName("....");
+		blogService.saveBlog(blog);
+		
+		UserBO user=new UserBO();
+		user.setId(frame.hashCode()+"");
+		user.setName("zhaoxb");
+		userService.saveUser(user);
+		
+		List<UserBO> users=userService.query();
+		System.out.println("----users--"+users.size());
+		
+		System.out.println("--------cube is "+cube);
+		
 		System.out.println("....home:"+frame);
 		Document doc=resource.html("/index.html");
 		

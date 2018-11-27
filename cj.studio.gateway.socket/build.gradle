@@ -56,6 +56,6 @@ dependencies {
      }
      //com.ly.wigo.shop.gateway
      task release(type:Copy){
-      dependsOn "releaseToCmdline","releaseToGateway","releaseToTestWebsite","releaseToTestWebsite2"
+      dependsOn "releaseToCmdline","releaseToGateway","releaseToTestWebsite","releaseToTestWebsite2","javadocJar"
      }
      
