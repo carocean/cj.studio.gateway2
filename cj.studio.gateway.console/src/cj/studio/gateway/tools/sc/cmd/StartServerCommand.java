@@ -49,7 +49,9 @@ public class StartServerCommand extends Command {
 		}
 		String host = line.getOptionValue("h");
 		item.setHost(host);
-
+		if(line.hasOption("r")) {
+			item.setRoad(line.getOptionValue("r"));
+		}
 		Map<String, String> props = item.getProps();
 		if (line.hasOption("P")) {
 			Properties list = line.getOptionProperties("P");
@@ -81,8 +83,10 @@ public class StartServerCommand extends Command {
 		Options options = new Options();
 		Option c = new Option("h", "host", true, "主机地址（ip:port)");
 		options.addOption(c);
-		Option t = new Option("t", "protocol", true, "网络协议。目前支持ws,http,tcp,udt,jms");
+		Option t = new Option("t", "protocol", true, "网络协议。目前支持ws,http,tcp,udt");
 		options.addOption(t);
+		Option r = new Option("r", "road", true, "过路器。用于将客端信息经过网关转发给远程目标");
+		options.addOption(r);
 		Option p = OptionBuilder.withArgName("property=value").hasArgs(2).withValueSeparator()
 				.withDescription("设置服务器相关属性,格式为：-Pproperty=value 如心跳间隔（单位秒）：-PheartbeatInterval=10;\r\n").create("P");
 		options.addOption(p);

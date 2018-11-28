@@ -6,6 +6,7 @@ import cj.studio.ecm.Scope;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.graph.CircuitException;
+import cj.studio.gateway.road.RoadGatewaySocket;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.app.AppGatewaySocket;
@@ -29,9 +30,18 @@ public class DestinationLoader implements IDestinationLoader, IServiceSetter, IS
 		if (uri.startsWith("app://")) {
 			isApp = true;
 		}
+		boolean isRoad = false;
+		if (dest.getName().startsWith("road://")) {
+			isRoad=true;
+		}
 		IGatewaySocket socket = null;
 		if (isApp) {
 			socket = new AppGatewaySocket(this);
+			socket.connect(dest);
+			return socket;
+		}
+		if (isRoad) {
+			socket = new RoadGatewaySocket(this);
 			socket.connect(dest);
 			return socket;
 		}

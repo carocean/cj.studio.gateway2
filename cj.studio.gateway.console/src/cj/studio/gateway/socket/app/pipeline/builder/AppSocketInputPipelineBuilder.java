@@ -31,7 +31,7 @@ import cj.studio.gateway.socket.util.SocketContants;
 
 public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 	IServiceProvider parent;
-	private Map<String, String> props;
+	private Map<String, Object> props;
 	private String name;
 	static ILogging logger=CJSystem.logging();
 	public AppSocketInputPipelineBuilder(IServiceProvider parent) {
@@ -43,7 +43,6 @@ public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 		this.name=name;
 		return this;
 	}
-
 	@Override
 	public IInputPipeline createPipeline() throws CircuitException {
 		IGatewayAppSiteProgram prog = ((IGatewayAppSiteProgram) parent.getService("$.app.program"));
@@ -55,7 +54,7 @@ public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 		if(props!=null) {
 			Set<String> set=props.keySet();
 			for(String key:set) {
-				input.prop(key, props.get(key));
+				input.prop(key, (String)props.get(key));
 			}
 		}
 		return input;
@@ -112,7 +111,7 @@ public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 	}
 
 	@Override
-	public IInputPipelineBuilder prop(String name, String value) {
+	public IInputPipelineBuilder prop(String name, Object value) {
 		if(props==null) {
 			props=new HashMap<>();
 		}

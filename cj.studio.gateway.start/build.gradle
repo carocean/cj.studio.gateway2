@@ -60,7 +60,7 @@ task releaseGatewayStart(dependsOn: runnableJar,type: Copy) {
  	}
  	
 task release(type: Copy) {
-     dependsOn ":cj.studio.gateway.socket:release",":cj.studio.gateway.console:release","releaseGatewayStart",":cj.studio.orm.mybatis:release",":cj.studio.orm.mongodb:release",":cj.test.website:release",":cj.test.website2:release",":cj.test.plugin:release"
+     dependsOn ":cj.studio.gateway.socket:release",":cj.studio.gateway.console:release","releaseGatewayStart",":cj.studio.orm.mybatis:release",":cj.studio.orm.mongodb:release",":cj.test.website:release",":cj.test.website2:release",":cj.test.plugin:release",":cj.test.road:release"
  		doLast {
 			println 'gateway 环境发布完毕!'
 		}

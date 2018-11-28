@@ -5,6 +5,7 @@ import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.gateway.IGatewayServer;
 import cj.studio.gateway.conf.ServerInfo;
+import cj.studio.gateway.road.http.HttpServerInitializer;
 import cj.studio.gateway.server.initializer.HttpChannelInitializer;
 import cj.ultimate.util.StringUtil;
 import io.netty.bootstrap.ServerBootstrap;
@@ -27,11 +28,11 @@ public class HttpGatewayServer implements IGatewayServer, IServiceProvider {
 	}
 
 	@Override
-	public Object getService(String  name) {
-		if("$.server.info".equals(name)) {
+	public Object getService(String name) {
+		if ("$.server.info".equals(name)) {
 			return info;
 		}
-		if("$.server.name".equals(name)) {
+		if ("$.server.name".equals(name)) {
 			return this.netName();
 		}
 		return parent.getService(name);
@@ -69,12 +70,17 @@ public class HttpGatewayServer implements IGatewayServer, IServiceProvider {
 			workerGroup = new NioEventLoopGroup(wcnt);
 		}
 		ServerBootstrap b = new ServerBootstrap();
-		
-		try {
-			b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
-					.childOption(ChannelOption.SO_KEEPALIVE, true)
-					.childHandler(createChannelInitializer());
 
+		try {
+			if (StringUtil.isEmpty(info.getRoad())) {
+				b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+						.childOption(ChannelOption.SO_KEEPALIVE, true).childHandler(createChannelInitializer());
+			} else {
+	            b.group(bossGroup, workerGroup)
+	             .channel(NioServerSocketChannel.class)
+	             .childHandler(new HttpServerInitializer(this))
+	             .childOption(ChannelOption.AUTO_READ, false);//这个属性很关键，如果为true则浏览器一直悬停
+			}
 			Channel ch = null;
 			if ("localhost".equals(ip())) {
 				ch = b.bind(port()).sync().channel();

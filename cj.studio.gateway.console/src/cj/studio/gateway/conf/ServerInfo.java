@@ -12,6 +12,7 @@ public class ServerInfo {
 	String name;
 	String protocol;
 	String host;
+	String road;
 	Map<String, String> props;
 	private transient Key jwtkey;
 
@@ -22,6 +23,12 @@ public class ServerInfo {
 	public ServerInfo(String name) {
 		this();
 		this.name = name;
+	}
+	public String getRoad() {
+		return road;
+	}
+	public void setRoad(String road) {
+		this.road = road;
 	}
 	public String getHandshakeDelegater() {
 		if(props==null)return "";

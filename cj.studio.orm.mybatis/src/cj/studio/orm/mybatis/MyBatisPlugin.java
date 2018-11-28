@@ -68,7 +68,23 @@ public class MyBatisPlugin implements IChipPlugin {
 			throw new EcmException(String.format("%s, 在程序集：%s", e.getMessage(), title));
 		}
 		Configuration conf = sqlfactory.getConfiguration();
-		IProperty prop = (IProperty) args.getNode("mappings");
+		addClasses(conf,args);
+		addPackages(conf,args);
+	}
+
+	private void addPackages(Configuration conf, IElement args) {
+		IProperty prop = (IProperty) args.getNode("packages");
+		if (prop != null) {
+			String json = prop.getValue() == null ? "[]" : prop.getValue().getName();
+			List<String> list = new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
+			}.getType());
+			for (String packageStr : list) {
+				conf.addMappers(packageStr);
+			}
+		}
+	}
+	private void addClasses(Configuration conf, IElement args) {
+		IProperty prop = (IProperty) args.getNode("classes");
 		if (prop != null) {
 			String json = prop.getValue() == null ? "[]" : prop.getValue().getName();
 			List<String> list = new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
@@ -85,7 +101,6 @@ public class MyBatisPlugin implements IChipPlugin {
 			}
 		}
 	}
-
 	private String getAssemblyTitle(IAssemblyContext ctx) {
 		IElement root = ctx.getElement();
 		INode infoNode = root.getNode("assemblyInfo");

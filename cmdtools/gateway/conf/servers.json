@@ -1,5 +1,14 @@
 [
 	{
+		"name": "httpSite2",
+		"protocol": "http",
+		"host": "localhost:9090",
+		"road": "road://test:way",
+		"props": {
+			
+		}
+	},
+	{
 		"name": "udtSite",
 		"protocol": "udt",
 		"host": "localhost:8083",

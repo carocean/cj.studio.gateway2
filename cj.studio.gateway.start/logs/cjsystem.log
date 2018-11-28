@@ -11388,3 +11388,452 @@ Cache-Control: no-cache
 2018年11月28日 01:41:15  信息 : -------------网关启动完毕-------------------
 2018年11月28日 01:41:17  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
 2018年11月28日 01:41:20  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 01:46:15  信息 : -------------网关启动完毕-------------------
+2018年11月28日 01:46:21  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/
+2018年11月28日 01:46:22  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/apple-touch-icon-precomposed.png
+2018年11月28日 01:46:22  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 缺少路由目标，请求侦被丢掉：/apple-touch-icon.png
+2018年11月28日 01:46:23  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 01:46:26  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 01:48:52  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
+2018年11月28日 01:50:01  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：505 非POST请求使用了HttpFormDataVisitor。请求：GET /website/formpostmultipart/ HTTP/1.1
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpRequest(FirstWayInputValve.java:162)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:66)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:301)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:146)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:102)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月28日 01:50:36  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：505 非POST请求使用了HttpFormDataVisitor。请求：GET /website/formpostmultipart/ HTTP/1.1
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpRequest(FirstWayInputValve.java:162)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:66)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:271)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:146)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:102)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月28日 01:52:59  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：505 非POST请求使用了HttpFormDataVisitor。请求：GET /website/formpostmultipart/ HTTP/1.1
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttpRequest(FirstWayInputValve.java:162)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:66)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:301)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:146)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:102)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
+		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月28日 01:54:50  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
+2018年11月28日 01:54:50  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
+2018年11月28日 08:36:23  信息 : -------------网关启动完毕-------------------
+2018年11月28日 08:36:40  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 08:36:44  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 08:39:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000001f0-6c63a026523bc44a-577a38a4@httpSite
+2018年11月28日 08:39:22  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000229-ae9e96bfd23bce57-c9b095bd@httpSite
+2018年11月28日 08:39:24  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000247-472cbd86d23bd560-e51bd1cc@httpSite
+2018年11月28日 08:39:24  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000247-472cbd86d23bd560-e51bd1cc@httpSite
+2018年11月28日 08:39:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000002e8-e8943a41923bf4ad-05a53dd4@httpSite
+2018年11月28日 08:39:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000002e8-e8943a41923bf4ad-05a53dd4@httpSite
+2018年11月28日 08:39:33  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:11，系统为之分配为：11
+2018年11月28日 08:39:39  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000002f4-162f65ae923bf7b6-e9e90d89@httpSite
+2018年11月28日 08:39:43  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：505 对点网络已不可写，无法处理回推侦：put /ss/bb.txt G/1.0
+		at cj.studio.gateway.socket.serverchannel.ws.valve.LastWebsocketServerChannelInputValve.flow(LastWebsocketServerChannelInputValve.java:28)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:105)
+		at cj.studio.gateway.socket.serverchannel.ws.valve.FirstWebsocketServerChannelInputValve.flow(FirstWebsocketServerChannelInputValve.java:17)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.socket.app.valve.LastWayOutputValve.flow(LastWayOutputValve.java:43)
+		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:129)
+		at cj.test.website.valve.OutputValve2.flow(OutputValve2.java:15)
+		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:129)
+		at cj.test.website.valve.OutputValve1.flow(OutputValve1.java:15)
+		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:129)
+		at cj.studio.gateway.socket.app.valve.FirstWayOutputValve.flow(FirstWayOutputValve.java:17)
+		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:123)
+		at cj.studio.gateway.socket.pipeline.OutputPipeline.headFlow(OutputPipeline.java:64)
+		at cj.studio.gateway.socket.pipeline.OutputPipeline$Outputer.send(OutputPipeline.java:232)
+		at cj.test.website.ws.TestWebsocket.flow(TestWebsocket.java:36)
+		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:148)
+		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:66)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:105)
+		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:105)
+		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:105)
+		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:105)
+		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:44)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:105)
+		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:65)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:105)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:311)
+		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:74)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:99)
+		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:76)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleWebSocketFrame(HttpChannelHandler.java:180)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:116)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
+		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
+		at java.lang.Thread.run(Thread.java:748)
+2018年11月28日 08:39:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
+2018年11月28日 08:39:47  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000407-0f573ac3b23bb3a8-fd2e78fd@httpSite
+2018年11月28日 08:39:48  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000409-d7426903b23bb3ac-42ca4005@httpSite
+2018年11月28日 08:39:51  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000447-e810a0acb23bbf0a-77f8b6ba@httpSite
+2018年11月28日 08:39:51  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000447-e810a0acb23bbf0a-77f8b6ba@httpSite
+2018年11月28日 08:39:55  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000004ab-ee5e293c4238503f-57abd328@httpSite
+2018年11月28日 08:39:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000004cd-89b78b73c238555f-2318e45c@httpSite
+2018年11月28日 08:39:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000004cd-89b78b73c238555f-2318e45c@httpSite
+2018年11月28日 08:39:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000004da-bcf63e8dc238587f-dc8dfe72@httpSite
+2018年11月28日 08:39:58  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000004f2-78f4ec86c2385ba0-6a8c7b7c@httpSite
+2018年11月28日 08:39:58  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000004f2-78f4ec86c2385ba0-6a8c7b7c@httpSite
+2018年11月28日 08:40:03  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000055d-d0dddf4202386e49-6027044f@httpSite
+2018年11月28日 08:40:04  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000582-93672d88023873b5-6638a2f8@httpSite
+2018年11月28日 08:40:05  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000594-a1bf5b1382387753-05b44948@httpSite
+2018年11月28日 08:40:05  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000594-a1bf5b1382387753-05b44948@httpSite
+2018年11月28日 08:40:12  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000627-51c8122a623810c7-05d01ce9@httpSite
+2018年11月28日 08:40:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000064c-cc08178fe2381760-4a535c4b@httpSite
+2018年11月28日 08:40:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000064c-cc08178fe2381760-4a535c4b@httpSite
+2018年11月28日 08:40:15  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000673-ef53c931e2381ccb-ba568e72@httpSite
+2018年11月28日 08:40:15  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000673-ef53c931e2381ccb-ba568e72@httpSite
+2018年11月28日 08:40:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000006c0-e4e3ff4f223827f6-6bf5082d@httpSite
+2018年11月28日 08:40:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000006c0-e4e3ff4f223827f6-6bf5082d@httpSite
+2018年11月28日 08:40:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000006c0-e4e3ff4f223827f6-6bf5082d@httpSite
+2018年11月28日 08:40:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000006c0-e4e3ff4f223827f6-6bf5082d@httpSite
+2018年11月28日 08:40:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000006c0-e4e3ff4f223827f6-6bf5082d@httpSite
+2018年11月28日 08:40:26  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000007a3-cad7971f5a38ca2a-ee8d0c40@httpSite
+2018年11月28日 08:40:28  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000007cf-3f2060195a38d077-c91af6fb@httpSite
+2018年11月28日 08:40:28  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000007cf-3f2060195a38d077-c91af6fb@httpSite
+2018年11月28日 08:40:33  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000083d-54945462da38e37a-74bba933@httpSite
+2018年11月28日 08:40:33  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000083d-54945462da38e37a-74bba933@httpSite
+2018年11月28日 08:40:33  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000083d-54945462da38e37a-74bba933@httpSite
+2018年11月28日 08:40:35  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000086a-a7592abf1a38eb8d-7abae4b5@httpSite
+2018年11月28日 08:40:35  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000086a-a7592abf1a38eb8d-7abae4b5@httpSite
+2018年11月28日 08:40:39  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000008d7-80944f379a38fb30-26adabb9@httpSite
+2018年11月28日 08:40:40  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000008f9-430bd88d9a38803f-1176f8f8@httpSite
+2018年11月28日 08:40:40  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000008f9-430bd88d9a38803f-1176f8f8@httpSite
+2018年11月28日 08:40:40  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000008f9-430bd88d9a38803f-1176f8f8@httpSite
+2018年11月28日 08:40:42  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000091e-ef0c1c129a3885f4-867b6d23@httpSite
+2018年11月28日 08:40:43  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000944-7439b2277a388b77-0ed1057d@httpSite
+2018年11月28日 08:40:49  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000009db-96d8a101fa38a2be-a0131dba@httpSite
+2018年11月28日 08:40:49  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000009db-96d8a101fa38a2be-a0131dba@httpSite
+2018年11月28日 08:40:49  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000009db-96d8a101fa38a2be-a0131dba@httpSite
+2018年11月28日 08:40:49  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000009db-96d8a101fa38a2be-a0131dba@httpSite
+2018年11月28日 08:40:54  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000a66-c5116cea3a38b87b-fe3fa9b2@httpSite
+2018年11月28日 08:40:55  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000a71-93b718e03a38bb9f-1e466657@httpSite
+2018年11月28日 08:40:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000a95-c9c1866bba3940d1-c84d0d50@httpSite
+2018年11月28日 08:40:58  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000ab3-d4e7fbe1ba3943fe-3167abae@httpSite
+2018年11月28日 08:40:58  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000ab3-d4e7fbe1ba3943fe-3167abae@httpSite
+2018年11月28日 08:40:58  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00000ab3-d4e7fbe1ba3943fe-3167abae@httpSite
+2018年11月28日 08:45:05  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00001e4e-359b8948583c89e9-8d331b3e@httpSite
+2018年11月28日 08:49:03  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00002ee4-6b4c7f1d43cc2ba2-ea3c8489@httpSite
+2018年11月28日 08:51:53  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00003a7f-eede2738a5cb442c-18d7d7d5@httpSite
+2018年11月28日 08:52:22  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00003c64-9a94187a3dcb354d-9ea8e4c9@httpSite
+2018年11月28日 08:52:41  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00003daa-60e031238dcbff53-1b277014@httpSite
+2018年11月28日 08:52:41  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00003daa-60e031238dcbff53-1b277014@httpSite
+2018年11月28日 08:52:41  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00003daa-60e031238dcbff53-1b277014@httpSite
+2018年11月28日 08:52:59  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00003eff-a50a9d51adc8474b-5465be3c@httpSite
+2018年11月28日 08:54:14  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000446a-0d3e4c6459c96a0b-19b6fe49@httpSite
+2018年11月28日 08:54:14  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000446a-0d3e4c6459c96a0b-19b6fe49@httpSite
+2018年11月28日 08:54:35  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004494-2b37ad24f9c93e07-415ff52d@httpSite
+2018年11月28日 08:55:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000044e8-58505d9ca9d667b4-9ca1d49c@httpSite
+2018年11月28日 08:56:23  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000455f-d41c0ed826d76560-5a5c6a18@httpSite
+2018年11月28日 08:56:24  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000455f-d41c0ed826d76560-5a5c6a18@httpSite
+2018年11月28日 08:57:09  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000045df-0be6cd66ced795af-5a6a0a36@httpSite
+2018年11月28日 08:57:09  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000045df-0be6cd66ced795af-5a6a0a36@httpSite
+2018年11月28日 08:57:09  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000045df-0be6cd66ced795af-5a6a0a36@httpSite
+2018年11月28日 08:57:51  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004634-01a8e23592d439f5-7eb0b25a@httpSite
+2018年11月28日 08:57:51  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004634-01a8e23592d439f5-7eb0b25a@httpSite
+2018年11月28日 08:57:51  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004634-01a8e23592d439f5-7eb0b25a@httpSite
+2018年11月28日 08:57:51  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004634-01a8e23592d439f5-7eb0b25a@httpSite
+2018年11月28日 08:58:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000465d-6ed790a642d49190-46190c24@httpSite
+2018年11月28日 08:58:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000465d-6ed790a642d49190-46190c24@httpSite
+2018年11月28日 08:58:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000465d-6ed790a642d49190-46190c24@httpSite
+2018年11月28日 08:58:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000465d-6ed790a642d49190-46190c24@httpSite
+2018年11月28日 08:58:34  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004686-9218de19e2d56526-cc99b6b5@httpSite
+2018年11月28日 08:58:35  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004686-9218de19e2d56526-cc99b6b5@httpSite
+2018年11月28日 08:58:35  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004686-9218de19e2d56526-cc99b6b5@httpSite
+2018年11月28日 08:58:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000046b0-0a6d4dc11ad53759-85fbe5ff@httpSite
+2018年11月28日 08:59:17  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000046da-f835d70dbad58a44-82913550@httpSite
+2018年11月28日 08:59:17  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000046da-f835d70dbad58a44-82913550@httpSite
+2018年11月28日 08:59:17  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000046da-f835d70dbad58a44-82913550@httpSite
+2018年11月28日 08:59:39  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004704-3fca15c66ad26137-8fa6a031@httpSite
+2018年11月28日 08:59:45  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004730-840b4e54ead276b2-dd877094@httpSite
+2018年11月28日 08:59:45  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004730-840b4e54ead276b2-dd877094@httpSite
+2018年11月28日 08:59:45  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004730-840b4e54ead276b2-dd877094@httpSite
+2018年11月28日 08:59:45  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004730-840b4e54ead276b2-dd877094@httpSite
+2018年11月28日 09:00:05  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000475a-3505f88214d2c823-e6b5903e@httpSite
+2018年11月28日 09:01:10  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000047d7-e9a505badcd3c513-117e577d@httpSite
+2018年11月28日 09:01:31  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004800-ed2cd5ea3cd3984f-933c7e55@httpSite
+2018年11月28日 09:02:15  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004856-fcbcbd6850d0c437-1e379bab@httpSite
+2018年11月28日 09:02:15  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004856-fcbcbd6850d0c437-1e379bab@httpSite
+2018年11月28日 09:02:15  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004856-fcbcbd6850d0c437-1e379bab@httpSite
+2018年11月28日 09:02:16  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004856-fcbcbd6850d0c437-1e379bab@httpSite
+2018年11月28日 09:02:16  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004856-fcbcbd6850d0c437-1e379bab@httpSite
+2018年11月28日 09:02:16  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004856-fcbcbd6850d0c437-1e379bab@httpSite
+2018年11月28日 09:02:36  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004880-fc3e49acf0d09630-a12616a7@httpSite
+2018年11月28日 09:02:36  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004880-fc3e49acf0d09630-a12616a7@httpSite
+2018年11月28日 09:02:36  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004880-fc3e49acf0d09630-a12616a7@httpSite
+2018年11月28日 09:02:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000048aa-3f6ec0d200d1679d-ab57475a@httpSite
+2018年11月28日 09:02:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000048aa-3f6ec0d200d1679d-ab57475a@httpSite
+2018年11月28日 09:02:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000048aa-3f6ec0d200d1679d-ab57475a@httpSite
+2018年11月28日 09:02:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000048aa-3f6ec0d200d1679d-ab57475a@httpSite
+2018年11月28日 09:03:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000048d4-ec3f8e3ea0d13a49-958a2ef1@httpSite
+2018年11月28日 09:03:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000048d4-ec3f8e3ea0d13a49-958a2ef1@httpSite
+2018年11月28日 09:03:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000048d4-ec3f8e3ea0d13a49-958a2ef1@httpSite
+2018年11月28日 09:03:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000048d4-ec3f8e3ea0d13a49-958a2ef1@httpSite
+2018年11月28日 09:03:39  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000048fe-47fe758978d18bd3-76a21014@httpSite
+2018年11月28日 09:03:39  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000048fe-47fe758978d18bd3-76a21014@httpSite
+2018年11月28日 09:04:02  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004926-dfed3ef2c8de630b-50a1d249@httpSite
+2018年11月28日 09:04:02  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004926-dfed3ef2c8de630b-50a1d249@httpSite
+2018年11月28日 09:04:23  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004951-c415633228de36f3-e384820c@httpSite
+2018年11月28日 09:04:23  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004951-c415633228de36f3-e384820c@httpSite
+2018年11月28日 09:04:44  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000497b-79e43f86975e888e-648fc1d3@httpSite
+2018年11月28日 09:04:44  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000497b-79e43f86975e888e-648fc1d3@httpSite
+2018年11月28日 09:04:44  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000497b-79e43f86975e888e-648fc1d3@httpSite
+2018年11月28日 09:05:06  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000049a5-c4bfc56e475f5d02-3e016b2b@httpSite
+2018年11月28日 09:05:06  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000049a5-c4bfc56e475f5d02-3e016b2b@httpSite
+2018年11月28日 09:05:06  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000049a5-c4bfc56e475f5d02-3e016b2b@httpSite
+2018年11月28日 09:05:49  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000049fa-80410db21f5f868e-c1e3d627@httpSite
+2018年11月28日 09:05:49  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000049fa-80410db21f5f868e-c1e3d627@httpSite
+2018年11月28日 09:05:49  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000049fa-80410db21f5f868e-c1e3d627@httpSite
+2018年11月28日 09:06:10  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004a21-6ef9b4c6bf5c57fb-e2bdb8f6@httpSite
+2018年11月28日 09:06:53  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004a73-04161f32d35c822a-15acca1d@httpSite
+2018年11月28日 09:06:53  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004a73-04161f32d35c822a-15acca1d@httpSite
+2018年11月28日 09:06:54  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004a73-04161f32d35c822a-15acca1d@httpSite
+2018年11月28日 09:06:54  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004a73-04161f32d35c822a-15acca1d@httpSite
+2018年11月28日 09:07:15  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004a9f-43397542335d55a4-ff9306ea@httpSite
+2018年11月28日 09:07:38  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004af6-b1475447635d2fd9-a6668e67@httpSite
+2018年11月28日 09:07:38  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004af6-b1475447635d2fd9-a6668e67@httpSite
+2018年11月28日 09:07:59  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004b20-385993505b5d8223-703b31ac@httpSite
+2018年11月28日 09:07:59  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004b20-385993505b5d8223-703b31ac@httpSite
+2018年11月28日 09:08:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004b48-1cb55e01fb5a4d4a-e0d982e7@httpSite
+2018年11月28日 09:08:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004b48-1cb55e01fb5a4d4a-e0d982e7@httpSite
+2018年11月28日 09:08:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004b48-1cb55e01fb5a4d4a-e0d982e7@httpSite
+2018年11月28日 09:08:40  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004b72-780bef0d0b5a2018-2e4cd75f@httpSite
+2018年11月28日 09:08:40  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004b72-780bef0d0b5a2018-2e4cd75f@httpSite
+2018年11月28日 09:09:22  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004bc5-de178385755b46de-4bdfc296@httpSite
+2018年11月28日 09:09:22  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004bc5-de178385755b46de-4bdfc296@httpSite
+2018年11月28日 09:10:06  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004c1a-0d938bc6255bf2b5-22a09769@httpSite
+2018年11月28日 09:10:06  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004c1a-0d938bc6255bf2b5-22a09769@httpSite
+2018年11月28日 09:10:06  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004c1a-0d938bc6255bf2b5-22a09769@httpSite
+2018年11月28日 09:10:49  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004c70-2353fd114d5818f8-1ac8d717@httpSite
+2018年11月28日 09:11:10  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004c9a-c8ef1e7ded58eb76-781512ef@httpSite
+2018年11月28日 09:11:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004cc4-4d5ca1461159422b-ee4ad1f6@httpSite
+2018年11月28日 09:11:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004cc4-4d5ca1461159422b-ee4ad1f6@httpSite
+2018年11月28日 09:11:53  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004cee-a891933db1591352-acc0277f@httpSite
+2018年11月28日 09:11:53  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004cee-a891933db1591352-acc0277f@httpSite
+2018年11月28日 09:12:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004d06-729f8b836159e3de-224d013f@httpSite
+2018年11月28日 09:12:14  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004d1b-7c40304d6159e6d5-8a5607cb@httpSite
+2018年11月28日 09:12:36  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004d41-43e16439d959bd37-f36974fe@httpSite
+2018年11月28日 09:12:40  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004da1-1d9e371d19664c24-fcb596df@httpSite
+2018年11月28日 09:12:41  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004dc6-3db229ca196651d2-f0b9500b@httpSite
+2018年11月28日 09:12:41  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004dc6-3db229ca196651d2-f0b9500b@httpSite
+2018年11月28日 09:13:03  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004e00-cf6220a4b96626a7-3f9d0513@httpSite
+2018年11月28日 09:13:03  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004e00-cf6220a4b96626a7-3f9d0513@httpSite
+2018年11月28日 09:13:25  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004e2a-7ba0cfda6966fa24-a991159f@httpSite
+2018年11月28日 09:13:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004e50-a5efa6b4d6674efa-17bc2a52@httpSite
+2018年11月28日 09:13:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004e50-a5efa6b4d6674efa-17bc2a52@httpSite
+2018年11月28日 09:13:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004e50-a5efa6b4d6674efa-17bc2a52@httpSite
+2018年11月28日 09:13:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004e50-a5efa6b4d6674efa-17bc2a52@httpSite
+2018年11月28日 09:13:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004e50-a5efa6b4d6674efa-17bc2a52@httpSite
+2018年11月28日 09:14:28  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004ea4-3efe3b668667f1cc-7c932992@httpSite
+2018年11月28日 09:14:28  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004ea4-3efe3b668667f1cc-7c932992@httpSite
+2018年11月28日 09:15:11  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004eef-ed2507a6fe6419c5-688155cd@httpSite
+2018年11月28日 09:15:11  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004eef-ed2507a6fe6419c5-688155cd@httpSite
+2018年11月28日 09:15:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004f1a-5a2489e90e64ec74-0cb84486@httpSite
+2018年11月28日 09:15:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004f1a-5a2489e90e64ec74-0cb84486@httpSite
+2018年11月28日 09:15:53  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004f40-26155bddae64bf0c-f822709b@httpSite
+2018年11月28日 09:15:53  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004f40-26155bddae64bf0c-f822709b@httpSite
+2018年11月28日 09:16:14  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004f65-1b428da572651138-0e6e664c@httpSite
+2018年11月28日 09:17:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004fd8-22e367439a620add-4488b2f6@httpSite
+2018年11月28日 09:17:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004fd8-22e367439a620add-4488b2f6@httpSite
+2018年11月28日 09:17:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00004fd8-22e367439a620add-4488b2f6@httpSite
+2018年11月28日 09:18:01  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005020-cbae6cafea62b18b-6a0a14a1@httpSite
+2018年11月28日 09:18:01  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005020-cbae6cafea62b18b-6a0a14a1@httpSite
+2018年11月28日 09:18:22  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005048-e8b4bf48d4630362-26a91394@httpSite
+2018年11月28日 09:18:22  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005048-e8b4bf48d4630362-26a91394@httpSite
+2018年11月28日 09:18:43  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005070-53ae4f403463d637-d83b7406@httpSite
+2018年11月28日 09:18:43  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005070-53ae4f403463d637-d83b7406@httpSite
+2018年11月28日 09:19:04  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005096-9fd7da5c8463a99b-f5e5a0d0@httpSite
+2018年11月28日 09:19:04  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005096-9fd7da5c8463a99b-f5e5a0d0@httpSite
+2018年11月28日 09:19:04  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005096-9fd7da5c8463a99b-f5e5a0d0@httpSite
+2018年11月28日 09:20:08  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000510c-19b8fc7e0c60a0cd-bbd0c23d@httpSite
+2018年11月28日 09:20:08  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000510c-19b8fc7e0c60a0cd-bbd0c23d@httpSite
+2018年11月28日 09:20:08  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000510c-19b8fc7e0c60a0cd-bbd0c23d@httpSite
+2018年11月28日 09:20:28  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005131-90eccb11ac6171e8-390e5cf1@httpSite
+2018年11月28日 09:20:28  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005131-90eccb11ac6171e8-390e5cf1@httpSite
+2018年11月28日 09:20:50  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005155-da5199117061c5c7-625a41ca@httpSite
+2018年11月28日 09:21:11  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000517d-eaf1e5adc06197e6-a1790313@httpSite
+2018年11月28日 09:21:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000051a4-b62377db206e6a5d-29507917@httpSite
+2018年11月28日 09:22:35  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005216-5ab9bfc8686f614e-c9af340b@httpSite
+2018年11月28日 09:22:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000523c-3749078cd7af3338-b68f721d@httpSite
+2018年11月28日 09:22:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000523c-3749078cd7af3338-b68f721d@httpSite
+2018年11月28日 09:23:17  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005262-0b8261ca37af84db-84aa9f80@httpSite
+2018年11月28日 09:24:20  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000052d4-6206a095ffacf9dd-e4ed352a@httpSite
+2018年11月28日 09:24:20  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000052d4-6206a095ffacf9dd-e4ed352a@httpSite
+2018年11月28日 09:24:20  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000052d4-6206a095ffacf9dd-e4ed352a@httpSite
+2018年11月28日 09:25:02  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005320-416688f7afad1d0d-49487c9a@httpSite
+2018年11月28日 09:25:23  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005344-d49a837893adefcd-4ef75659@httpSite
+2018年11月28日 09:25:44  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000536c-1e49a66843aa4335-89988370@httpSite
+2018年11月28日 09:25:44  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000536c-1e49a66843aa4335-89988370@httpSite
+2018年11月28日 09:26:05  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005390-29b0f44ce3aa153e-f153b800@httpSite
+2018年11月28日 09:26:26  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000053bc-7873c6641baae7d5-b5dfdf49@httpSite
+2018年11月28日 09:26:26  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000053bc-7873c6641baae7d5-b5dfdf49@httpSite
+2018年11月28日 09:26:26  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000053bc-7873c6641baae7d5-b5dfdf49@httpSite
+2018年11月28日 09:26:26  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000053bc-7873c6641baae7d5-b5dfdf49@httpSite
+2018年11月28日 09:26:47  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000053e0-3b636c22bbaaba28-76e2c6ea@httpSite
+2018年11月28日 09:27:08  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000540b-bc1b1c066bab0c36-d78660c7@httpSite
+2018年11月28日 09:27:09  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000540b-bc1b1c066bab0c36-d78660c7@httpSite
+2018年11月28日 09:27:29  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005432-813d5811d5abde85-6fa7a408@httpSite
+2018年11月28日 09:27:29  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005432-813d5811d5abde85-6fa7a408@httpSite
+2018年11月28日 09:27:51  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005458-ca87802d35abb091-3a0c58ac@httpSite
+2018年11月28日 09:27:51  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005458-ca87802d35abb091-3a0c58ac@httpSite
+2018年11月28日 09:27:51  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005458-ca87802d35abb091-3a0c58ac@httpSite
+2018年11月28日 09:27:51  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005458-ca87802d35abb091-3a0c58ac@httpSite
+2018年11月28日 09:28:11  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000547c-33f16f6b85a80239-ca25e5d2@httpSite
+2018年11月28日 09:28:11  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000547c-33f16f6b85a80239-ca25e5d2@httpSite
+2018年11月28日 09:28:11  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000547c-33f16f6b85a80239-ca25e5d2@httpSite
+2018年11月28日 09:28:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000054a3-5bb333375da8d39c-20047bda@httpSite
+2018年11月28日 09:28:32  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000054a3-5bb333375da8d39c-20047bda@httpSite
+2018年11月28日 09:28:53  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000054ca-86c17da87da8a5fd-1aa41888@httpSite
+2018年11月28日 09:29:35  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005519-8d2b9e242da9ca9a-a3a18a52@httpSite
+2018年11月28日 09:29:35  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005519-8d2b9e242da9ca9a-a3a18a52@httpSite
+2018年11月28日 09:29:35  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005519-8d2b9e242da9ca9a-a3a18a52@httpSite
+2018年11月28日 09:29:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000553d-fb33bb9291a99d34-90de92d2@httpSite
+2018年11月28日 09:29:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000553d-fb33bb9291a99d34-90de92d2@httpSite
+2018年11月28日 09:29:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000553d-fb33bb9291a99d34-90de92d2@httpSite
+2018年11月28日 09:29:57  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000553d-fb33bb9291a99d34-90de92d2@httpSite
+2018年11月28日 09:30:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000556a-926416e241b67036-328b622c@httpSite
+2018年11月28日 09:30:18  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000556a-926416e241b67036-328b622c@httpSite
+2018年11月28日 09:31:00  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000055b6-e88ebbad19b692d7-ad4e17ed@httpSite
+2018年11月28日 09:32:01  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000562d-95bdcf8256b7833d-b9eb3e0d@httpSite
+2018年11月28日 09:32:01  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000562d-95bdcf8256b7833d-b9eb3e0d@httpSite
+2018年11月28日 09:32:01  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000562d-95bdcf8256b7833d-b9eb3e0d@httpSite
+2018年11月28日 09:32:43  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000567b-c103e3fd06b425e5-bacaf9ac@httpSite
+2018年11月28日 09:33:04  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000056a3-3f1b5d35a6b4f8cc-6f67ce69@httpSite
+2018年11月28日 09:33:25  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000056c8-c08664337eb54a9d-c09e1646@httpSite
+2018年11月28日 09:33:25  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000056c8-c08664337eb54a9d-c09e1646@httpSite
+2018年11月28日 09:33:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000056ef-3053ddbfceb51d7e-3afe277a@httpSite
+2018年11月28日 09:33:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000056ef-3053ddbfceb51d7e-3afe277a@httpSite
+2018年11月28日 09:33:46  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000056ef-3053ddbfceb51d7e-3afe277a@httpSite
+2018年11月28日 09:34:07  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005714-bf98d8c8eeb5eeea-3cbc70d1@httpSite
+2018年11月28日 09:34:28  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000573a-844063bc12b24114-2fc842a1@httpSite
+2018年11月28日 09:34:28  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000573a-844063bc12b24114-2fc842a1@httpSite
+2018年11月28日 09:35:10  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005786-5275906a62b2e60e-7869fb20@httpSite
+2018年11月28日 09:35:31  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000057a9-24b270cedab2b82d-b4dcbf39@httpSite
+2018年11月28日 09:35:31  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000057a9-24b270cedab2b82d-b4dcbf39@httpSite
+2018年11月28日 09:35:31  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000057a9-24b270cedab2b82d-b4dcbf39@httpSite
+2018年11月28日 09:35:31  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000057a9-24b270cedab2b82d-b4dcbf39@httpSite
+2018年11月28日 09:36:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000057fd-8959ff7d8ab3dbf3-26a1d0db@httpSite
+2018年11月28日 09:36:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000057fd-8959ff7d8ab3dbf3-26a1d0db@httpSite
+2018年11月28日 09:36:13  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000057fd-8959ff7d8ab3dbf3-26a1d0db@httpSite
+2018年11月28日 09:36:34  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005823-1607fdb554b3aef9-689dd653@httpSite
+2018年11月28日 09:36:34  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005823-1607fdb554b3aef9-689dd653@httpSite
+2018年11月28日 09:36:34  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005823-1607fdb554b3aef9-689dd653@httpSite
+2018年11月28日 09:36:55  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005848-b25b3a23f4b00036-8b901d49@httpSite
+2018年11月28日 09:36:55  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-00005848-b25b3a23f4b00036-8b901d49@httpSite
+2018年11月28日 09:37:16  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000586d-d03a88d704b0d2b5-36c8b93e@httpSite
+2018年11月28日 09:37:16  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-0000586d-d03a88d704b0d2b5-36c8b93e@httpSite
+2018年11月28日 09:37:37  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000058bb-ef49c7b424b0a242-577b8284@httpSite
+2018年11月28日 09:37:37  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000058bb-ef49c7b424b0a242-577b8284@httpSite
+2018年11月28日 09:37:48  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 簇中缺少目标:acde480011220000-951c-000059a4-541b8271dcb14e20-7db46bea@httpSite
+2018年11月28日 14:27:45  信息 : -------------网关启动完毕-------------------
+2018年11月28日 14:27:58  信息 : -------------网关启动完毕-------------------
+2018年11月28日 15:06:44  信息 : -------------网关启动完毕-------------------
+2018年11月28日 15:06:54  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 15:06:59  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 23:15:08  信息 : -------------网关启动完毕-------------------
+2018年11月28日 23:16:40  信息 : -------------网关启动完毕-------------------
+2018年11月28日 23:24:53  信息 : -------------网关启动完毕-------------------
+2018年11月28日 23:25:34  信息 : -------------网关启动完毕-------------------
+2018年11月28日 23:25:39  警告: cj.studio.gateway.socket.client.ClientGatewaySocket - 配置的线程：1 小于电缆需要的线程数:5，系统为之分配为：5
+2018年11月28日 23:27:08  信息 : -------------网关启动完毕-------------------
+2018年11月28日 23:32:44  信息 : -------------网关启动完毕-------------------
+2018年11月28日 23:33:10  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 23:39:35  信息 : -------------网关启动完毕-------------------
+2018年11月28日 23:39:55  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 23:41:30  信息 : -------------网关启动完毕-------------------
+2018年11月28日 23:41:49  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 23:49:12  信息 : -------------网关启动完毕-------------------
+2018年11月28日 23:49:25  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月28日 23:55:44  信息 : -------------网关启动完毕-------------------
+2018年11月28日 23:55:47  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月29日 00:00:53  信息 : -------------网关启动完毕-------------------
+2018年11月29日 00:00:58  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月29日 00:02:29  信息 : -------------网关启动完毕-------------------
+2018年11月29日 00:02:32  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月29日 00:05:01  信息 : -------------网关启动完毕-------------------
+2018年11月29日 00:05:07  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月29日 00:12:23  信息 : -------------网关启动完毕-------------------
+2018年11月29日 00:13:44  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月29日 00:14:41  信息 : -------------网关启动完毕-------------------
+2018年11月29日 00:14:47  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
+2018年11月29日 00:14:50  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share

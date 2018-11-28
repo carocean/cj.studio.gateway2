@@ -16,7 +16,7 @@ import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.channel.Channel;
 
 public class TcpServerChannelInputPipelineBuilder implements IInputPipelineBuilder {
-	private Map<String, String> props;
+	private Map<String, Object> props;
 	private Channel channel;
 	String name;
 	private IServiceProvider parent;
@@ -26,7 +26,6 @@ public class TcpServerChannelInputPipelineBuilder implements IInputPipelineBuild
 		this.parent=parent;
 		
 	}
-
 	@Override
 	public IInputPipelineBuilder name(String name) {
 		this.name=name;
@@ -34,7 +33,7 @@ public class TcpServerChannelInputPipelineBuilder implements IInputPipelineBuild
 	}
 
 	@Override
-	public IInputPipelineBuilder prop(String name, String value) {
+	public IInputPipelineBuilder prop(String name, Object value) {
 		if(props==null) {
 			props=new HashMap<>();
 		}
@@ -56,7 +55,7 @@ public class TcpServerChannelInputPipelineBuilder implements IInputPipelineBuild
 		if(props!=null) {
 			Set<String> set=props.keySet();
 			for(String key:set) {
-				input.prop(key, props.get(key));
+				input.prop(key, (String)props.get(key));
 			}
 		}
 		return input;

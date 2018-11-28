@@ -17,7 +17,7 @@ import cj.studio.gateway.socket.util.SocketContants;
 
 public class ClientSocketInputPipelineBuilder implements IInputPipelineBuilder {
 	IServiceProvider parent;
-	private Map<String, String> props;
+	private Map<String, Object> props;
 	private String name;
 	static ILogging logger=CJSystem.logging();
 	public ClientSocketInputPipelineBuilder(IServiceProvider parent) {
@@ -28,9 +28,9 @@ public class ClientSocketInputPipelineBuilder implements IInputPipelineBuilder {
 		this.name=name;
 		return this;
 	}
-
+	
 	@Override
-	public IInputPipelineBuilder prop(String name, String value) {
+	public IInputPipelineBuilder prop(String name, Object value) {
 		if(props==null) {
 			props=new HashMap<>();
 		}
@@ -46,7 +46,7 @@ public class ClientSocketInputPipelineBuilder implements IInputPipelineBuilder {
 		IInputPipeline input=new InputPipeline(first, last);
 		if(props!=null) {
 			for(String key:props.keySet()) {
-				input.prop(key, props.get(key));
+				input.prop(key, (String)props.get(key));
 			}
 		}
 		input.prop(SocketContants.__pipeline_name,name);

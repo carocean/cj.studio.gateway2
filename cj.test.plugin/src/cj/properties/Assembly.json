@@ -9,8 +9,10 @@
 				name:"mybatis",
 				class:"cj.studio.orm.mybatis.MyBatisPlugin",
 				parameters:{
-					mappings:"[
+					classes:"[
 						'cj.test.plugin.IStoryDAO'
+					]",
+					packages:"[
 					]"
 				}
 			},{

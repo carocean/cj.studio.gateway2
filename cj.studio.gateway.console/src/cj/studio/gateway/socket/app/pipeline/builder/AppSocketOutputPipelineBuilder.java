@@ -27,7 +27,7 @@ import cj.studio.gateway.socket.util.SocketContants;
 
 public class AppSocketOutputPipelineBuilder implements IOutputPipelineBuilder {
 	IServiceProvider parent;
-	private Map<String, String> props;
+	private Map<String, Object> props;
 	private String name;
 	private OutputPipelineCollection pipelines;
 	static ILogging logger = CJSystem.logging();
@@ -43,7 +43,7 @@ public class AppSocketOutputPipelineBuilder implements IOutputPipelineBuilder {
 	}
 
 	@Override
-	public IOutputPipelineBuilder prop(String name, String value) {
+	public IOutputPipelineBuilder prop(String name, Object value) {
 		if (props == null) {
 			props = new HashMap<>();
 		}
@@ -59,7 +59,7 @@ public class AppSocketOutputPipelineBuilder implements IOutputPipelineBuilder {
 		if(props!=null) {
 			Set<String> set=props.keySet();
 			for(String key:set) {
-				output.prop(key, props.get(key));
+				output.prop(key, (String)props.get(key));
 			}
 		}
 		if (output == null) {
@@ -82,7 +82,7 @@ public class AppSocketOutputPipelineBuilder implements IOutputPipelineBuilder {
 		if(props!=null) {
 			Set<String> set=props.keySet();
 			for(String key:set) {
-				output.prop(key, props.get(key));
+				output.prop(key, (String)props.get(key));
 			}
 		}
 		String socketName=(String)parent.getService("$.socket.name");

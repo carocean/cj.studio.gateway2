@@ -1,6 +1,15 @@
 {
 	"valids": [
 		{
+			"name": "road://test:way",
+			"uris": [
+				"https://news.163.com"
+			],
+			"props": {
+				
+			}
+		},
+		{
 			"name": "website",
 			"uris": [
 				"app://website:way"

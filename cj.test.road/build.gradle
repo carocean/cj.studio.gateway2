@@ -1,0 +1,39 @@
+sourceSets { 
+	 main { 
+	 	java{
+	 		srcDir "$projectDir/src"
+	 	}
+	 	resources{
+		 	srcDir "$projectDir/site-src"
+		 }
+	 } 
+ 	}
+ 	sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+ 	tasks.withType(JavaCompile) {  
+        options.encoding = "UTF-8"  
+    } 
+ repositories { 
+	 flatDir(dirs: "../global/lib") 
+ } 
+
+dependencies {
+	compile group: 'org.jsoup', name: 'jsoup', version: '1.8.1'
+	compile project(':cj.studio.gateway.socket');
+	compile project(':cj.studio.orm.mybatis');
+	compile fileTree('../global/jee.runtime')
+	compile fileTree('../global/runtime')
+	compile fileTree('../global/cjtools')
+	compile fileTree('src/cj/references')
+	
+}
+task releaseToHost(type: Copy) {
+ dependsOn "build"
+ from 'build/libs/'
+into '../cmdtools/gateway/roads/test'
+ include '**/*.jar'
+ }
+ 
+ task release(type:Copy){
+  dependsOn "releaseToHost"
+ }

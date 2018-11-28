@@ -16,6 +16,7 @@ import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.tools.CmdLine;
 import cj.studio.gateway.tools.Command;
 import cj.studio.gateway.tools.Console;
+import cj.ultimate.util.StringUtil;
 
 @CjService(name = "lsServersCommand")
 public class LsServersCommand extends Command {
@@ -36,6 +37,9 @@ public class LsServersCommand extends Command {
 			System.out.println(String.format("%snet名：%s", indent, item.getName()));
 			System.out.println(String.format("%s\t协议：%s", indent, item.getProtocol()));
 			System.out.println(String.format("%s\t主机：%s", indent, item.getHost()));
+			if(!StringUtil.isEmpty(item.getRoad())) {
+				System.out.println(String.format("%s\t选路：%s", indent, item.getRoad()));
+			}
 			System.out.println(String.format("%s\t网络属性：%s", indent, item.getProps()));
 			System.out.println(String.format("%s\t运行情况：", indent));
 			if(!sc.containsServer(item.getName())){
