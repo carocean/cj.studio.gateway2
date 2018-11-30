@@ -23,7 +23,7 @@ dependencies {
             'commons-cli:commons-cli:1.2'
     )
     // compile('org.mongodb:mongo-java-driver:3.2.0')
-     compile 'io.jsonwebtoken:jjwt:0.9.0'
+     //compile 'io.jsonwebtoken:jjwt:0.9.0'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.8.1'
     compile fileTree('../global/jee.runtime')
 	compile fileTree('../global/runtime')
@@ -42,20 +42,9 @@ dependencies {
 	     into '../cj.studio.gateway.console/src/cj/references'
 	     include '**/*.jar'
      }
-      task releaseToTestWebsite(type: Copy){
-      dependsOn "build"
-	     from 'build/libs/'
-	     into '../cj.test.website/src/cj/references'
-	     include '**/*.jar'
-     }
-     task releaseToTestWebsite2(type: Copy){
-      dependsOn "build"
-	     from 'build/libs/'
-	     into '../cj.test.website2/src/cj/references'
-	     include '**/*.jar'
-     }
+     
      //com.ly.wigo.shop.gateway
      task release(type:Copy){
-      dependsOn "releaseToCmdline","releaseToGateway","releaseToTestWebsite","releaseToTestWebsite2","javadocJar"
+      dependsOn "releaseToCmdline","releaseToGateway","javadocJar"
      }
      

@@ -12,14 +12,13 @@ import cj.studio.ecm.net.web.HttpCircuit;
 import cj.studio.ecm.net.web.HttpFrame;
 import cj.studio.gateway.http.args.HttpContentArgs;
 import cj.studio.gateway.http.args.HttpRequestArgs;
-import cj.studio.gateway.http.args.WebsocketFrameArgs;
 import cj.studio.gateway.server.util.DefaultHttpMineTypeFactory;
 import cj.studio.gateway.socket.IChunkVisitor;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 import cj.studio.gateway.socket.util.SocketContants;
-import cj.studio.gateway.socket.visitor.AbstractHttpPostVisitor;
 import cj.studio.gateway.socket.visitor.AbstractHttpGetVisitor;
+import cj.studio.gateway.socket.visitor.AbstractHttpPostVisitor;
 import cj.studio.gateway.socket.visitor.HttpWriter;
 import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
 import cj.studio.gateway.socket.visitor.IHttpWriter;
@@ -39,7 +38,6 @@ import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.handler.codec.http.LastHttpContent;
-import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 
 public class FirstWayInputValve implements IInputValve, SocketContants {
 	public static final String HTTP_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
@@ -68,10 +66,6 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 		}
 		if (request instanceof HttpContent) {// 处理http数据块，last块
 			flowHttpContent(request, (HttpContentArgs) args/* http 过来的是ctx */, pipeline);
-			return;
-		}
-		if (request instanceof WebSocketFrame) {
-			flowWs(request, (WebsocketFrameArgs) args, pipeline);
 			return;
 		}
 		if (request instanceof Frame) {
@@ -117,7 +111,7 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			HttpContent cnt = (HttpContent) request;
 			decoder.writeChunk(cnt.content());
 		}
-		
+
 	}
 
 	private void flowHttpRequest(Object request, HttpRequestArgs args, IIPipeline pipeline) throws CircuitException {
@@ -158,8 +152,8 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			return;
 		}
 		if (visitor instanceof AbstractHttpPostVisitor) {
-			if(!HttpMethod.POST.equals(req.getMethod())) {
-				throw new CircuitException("505", "非POST请求使用了HttpFormDataVisitor。请求："+frame);
+			if (!HttpMethod.POST.equals(req.getMethod())) {
+				throw new CircuitException("505", "非POST请求使用了HttpFormDataVisitor。请求：" + frame);
 			}
 			AbstractHttpPostVisitor formdata = (AbstractHttpPostVisitor) visitor;
 			args.setVisitor(formdata);
@@ -171,8 +165,8 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			}
 			return;
 		}
-		if(HttpMethod.POST.equals(req.getMethod())) {
-			throw new CircuitException("505", "POST请求未使用HttpFormDataVisitor。请求："+frame);
+		if (HttpMethod.POST.equals(req.getMethod())) {
+			throw new CircuitException("505", "POST请求未使用HttpFormDataVisitor。请求：" + frame);
 		}
 	}
 
@@ -197,7 +191,7 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			extName = extName.substring(pos + 1, extName.length());
 			if (DefaultHttpMineTypeFactory.containsMime(extName)) {
 				headers.add(ctypeKey, DefaultHttpMineTypeFactory.mime(extName));
-			}else{
+			} else {
 				String mime = "text/html; charset=utf-8";
 				res.headers().set(HttpHeaders.Names.CONTENT_TYPE, mime);
 			}
@@ -224,7 +218,7 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			if (DefaultHttpMineTypeFactory.containsMime(extName)) {
 				String mime = DefaultHttpMineTypeFactory.mime(extName);
 				res.headers().set(HttpHeaders.Names.CONTENT_TYPE, mime);
-			}else{
+			} else {
 				String mime = "text/html; charset=utf-8";
 				res.headers().set(HttpHeaders.Names.CONTENT_TYPE, mime);
 			}
@@ -254,7 +248,7 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			if (DefaultHttpMineTypeFactory.containsMime(extName)) {
 				String mime = DefaultHttpMineTypeFactory.mime(extName);
 				res.headers().set(HttpHeaders.Names.CONTENT_TYPE, mime);
-			}else{
+			} else {
 				String mime = "text/html; charset=utf-8";
 				res.headers().set(HttpHeaders.Names.CONTENT_TYPE, mime);
 			}
@@ -290,25 +284,4 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 		return f;
 	}
 
-	private void flowWs(Object req, WebsocketFrameArgs args, IIPipeline pipeline) throws CircuitException {
-		WebSocketFrame request = (WebSocketFrame) req;
-		ByteBuf bb = request.content();
-		byte[] b = new byte[bb.readableBytes()];
-		bb.readBytes(b);
-		Frame f = new Frame(b);
-		String sname = pipeline.prop(__pipeline_toWho);
-		String uri = "";
-		if (f.containsQueryString()) {
-			uri = String.format("/%s%s?%s", sname, f.path(), f.queryString());
-		} else {
-			uri = String.format("/%s%s", sname, f.path());
-		}
-		f.url(uri);
-		f.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
-		f.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
-		f.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
-		Circuit c = new Circuit(String.format("%s 200 OK", f.protocol()));
-		pipeline.nextFlow(f, c, this);
-		c.dispose();
-	}
 }

@@ -1,5 +1,7 @@
 package cj.studio.gateway.server.handler;
 
+import java.util.Set;
+
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.frame.Circuit;
@@ -80,8 +82,8 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 		}
 
-		String name = SocketName.name(ctx.channel().id(), info.getName());
-		IInputPipeline inputPipeline = pipelines.get(name);
+		
+		IInputPipeline inputPipeline = pipelines.get(gatewayDest);
 		// 检查目标管道是否存在
 		if (inputPipeline != null) {
 			Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
@@ -90,10 +92,10 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		}
 
 		// 以下生成目标管道
-		pipelineBuild(name, gatewayDest, frame, ctx);
+		pipelineBuild(gatewayDest, frame, ctx);
 	}
 
-	protected void pipelineBuild(String pipelineName, String gatewayDest, Frame frame, ChannelHandlerContext ctx)
+	protected void pipelineBuild(String gatewayDest, Frame frame, ChannelHandlerContext ctx)
 			throws Exception {
 		TcpServerChannelGatewaySocket wsSocket = new TcpServerChannelGatewaySocket(parent, ctx.channel());
 		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
@@ -109,11 +111,11 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			socket = loader.load(destination);
 			sockets.add(socket);
 		}
-
+		String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 		IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "tcp")
 				.prop(__pipeline_fromWho, info.getName()).createPipeline();
-		pipelines.add(pipelineName, inputPipeline);
+		pipelines.add(gatewayDest, inputPipeline);
 
 		ForwardJunction junction = new ForwardJunction(pipelineName);
 		junction.parse(inputPipeline, ctx.channel(), socket);
@@ -138,11 +140,12 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			this.junctions.remove(junction);
 		}
 
-		IInputPipeline input = pipelines.get(pipelineName);
-		if (input != null) {
+		Set<String> dests = pipelines.enumDest();
+		for (String dest : dests) {
+			IInputPipeline input = pipelines.get(dest);
 			input.headOnInactive(pipelineName);
-			pipelines.remove(pipelineName);
 		}
+		pipelines.dispose();
 	}
 
 	@Override

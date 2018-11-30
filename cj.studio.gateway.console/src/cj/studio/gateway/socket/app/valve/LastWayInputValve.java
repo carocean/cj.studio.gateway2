@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IChip;
 import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.IServiceProvider;
@@ -39,7 +40,16 @@ public class LastWayInputValve implements IInputValve {
 		IChip chip = (IChip) parent.getService(IChip.class.getName());
 		IChipInfo info = chip.info();
 		String documentType = info.getProperty(SITE_DOCUMENT);
-		this.httpWelcome = info.getProperty(SITE_HTTP_WELCOME);
+		String welcome = info.getProperty(SITE_HTTP_WELCOME);
+		if(!StringUtil.isEmpty(welcome)) {
+			if(welcome.indexOf(".")<0) {
+				throw new EcmException("HTTP_WELCOME不是文档");
+			}
+			while(welcome.startsWith("/")) {
+				welcome=welcome.substring(1,welcome.length());
+			}
+		}
+		this.httpWelcome=welcome;
 		this.documentPattern = Pattern.compile(String.format("%s$", documentType.replace(".", ".*\\.")));
 	}
 
@@ -154,6 +164,9 @@ public class LastWayInputValve implements IInputValve {
 	private void renderResource(String rpath, String ext, Frame frame, Circuit circuit) throws CircuitException {
 		if (this.mimes.containsKey(ext)) {
 			circuit.contentType(mimes.get(ext));
+		}
+		if(rpath.endsWith("/")) {
+			rpath=String.format("%s%s", httpWelcome);
 		}
 //		circuit.content().writeBytes(resource.resource(rpath));
 		File f = resource.realFileName(rpath);

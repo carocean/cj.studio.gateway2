@@ -7,9 +7,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import cj.lns.chip.sos.cube.framework.ICube;
+import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.Scope;
+import cj.studio.ecm.adapter.IAdaptable;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
+import cj.studio.ecm.annotation.CjServiceSite;
 import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;

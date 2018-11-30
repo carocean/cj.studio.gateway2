@@ -25,7 +25,7 @@ public class OutputSelector implements IOutputSelector, SocketContants {
 	@Override
 	public IAsynchronizer select(Circuit circuit) throws CircuitException {
 		if(!circuit.protocol().startsWith("HTTP")) {
-			throw new CircuitException("503", "不支持的回路,协议："+circuit.protocol());
+			throw new CircuitException("503", "不支持的回路,协议："+circuit.protocol()+"。该方法仅支持http");
 		}
 		Asynchronizer asynchronizer = new Asynchronizer(circuit);
 		return asynchronizer;
@@ -33,10 +33,13 @@ public class OutputSelector implements IOutputSelector, SocketContants {
 
 	@Override
 	public IOutputer select(Frame frame) throws CircuitException {
-		String name = frame.head(__frame_fromPipelineName);
-		if (StringUtil.isEmpty(name)) {
+		String pipelineName = frame.head(__frame_fromPipelineName);
+		if (StringUtil.isEmpty(pipelineName)) {
 			new CircuitException("404", "不确定来源的侦");
 		}
+		String channelId=pipelineName.substring(0, pipelineName.indexOf("@"));
+		String fromWho=frame.head(__frame_fromWho);
+		String name=String.format("%s@%s", channelId,fromWho);
 		return select(name);
 	}
 

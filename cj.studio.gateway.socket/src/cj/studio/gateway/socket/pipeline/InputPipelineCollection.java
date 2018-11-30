@@ -7,24 +7,24 @@ import java.util.Set;
 import cj.ultimate.IDisposable;
 
 public class InputPipelineCollection implements IDisposable{
-	Map<String, IInputPipeline> map;
+	Map<String, IInputPipeline> map;//key是dest目标
 	public InputPipelineCollection() {
 		map=new HashMap<>();
 	}
-	public Set<String> enumName(){
+	public Set<String> enumDest(){
 		return map.keySet();
 	}
-	public boolean containsName(String name) {
-		return map.containsKey(name);
+	public boolean containsName(String dest) {
+		return map.containsKey(dest);
 	}
-	public IInputPipeline get(String name) {
-		return map.get(name);
+	public IInputPipeline get(String dest) {
+		return map.get(dest);
 	}
-	public void add(String name,IInputPipeline pipeline) {
-		map.put(name, pipeline);
+	public void add(String dest,IInputPipeline pipeline) {
+		map.put(dest, pipeline);
 	}
-	public void remove(String name) {
-		map.remove(name);
+	public void remove(String dest) {
+		map.remove(dest);
 	}
 	public boolean isEmpty() {
 		return map.isEmpty();

@@ -18,12 +18,12 @@ sourceSets {
  } 
 
 dependencies {
-	compile group: 'org.jsoup', name: 'jsoup', version: '1.8.1'
 	compile project(':cj.studio.gateway.socket');
 	compile project(':cj.studio.orm.mybatis');
 	compile fileTree('../global/jee.runtime')
 	compile fileTree('../global/runtime')
 	compile fileTree('../global/cjtools')
+	compile fileTree('../global/cjmodules')
 	compile fileTree('src/cj/references')
 	
 }

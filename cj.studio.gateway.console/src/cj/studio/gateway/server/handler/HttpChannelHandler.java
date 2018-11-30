@@ -15,10 +15,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import cj.studio.ecm.CJSystem;
+import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.IServiceProvider;
+import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.logging.ILogging;
@@ -29,7 +32,6 @@ import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.http.args.HttpContentArgs;
 import cj.studio.gateway.http.args.HttpRequestArgs;
-import cj.studio.gateway.http.args.WebsocketFrameArgs;
 import cj.studio.gateway.junction.ForwardJunction;
 import cj.studio.gateway.junction.Junction;
 import cj.studio.gateway.server.util.DefaultHttpMineTypeFactory;
@@ -62,6 +64,7 @@ import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
@@ -82,7 +85,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	boolean keepLive;
 	private IHttpFormChunkDecoder decoder;
 	private IChunkVisitor visitor;
-
+	private String currentUsedGatewayDestForHttp;
 	public HttpChannelHandler(IServiceProvider parent) {
 		this.parent = parent;
 		logger = CJSystem.logging();
@@ -101,8 +104,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 							&& !req.headers().contains(CONNECTION, HttpHeaders.Values.KEEP_ALIVE, true);
 			handleHttpRequest(ctx, req);
 		} else if (msg instanceof HttpContent) {
-			String name = SocketName.name(ctx.channel().id(), info.getName());
-			IInputPipeline inputPipeline = pipelines.get(name);
+			IInputPipeline inputPipeline = pipelines.get(currentUsedGatewayDestForHttp);
 			if (inputPipeline != null) {
 				HttpContentArgs args = new HttpContentArgs(ctx, decoder, visitor, keepLive);
 				inputPipeline.headFlow(msg, args);
@@ -113,7 +115,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 				return;
 			}
 		} else if (msg instanceof WebSocketFrame) {
-			handleWebSocketFrame(ctx, (WebSocketFrame) msg);
+			flowWebSocketFrame(ctx, (WebSocketFrame) msg);
 		} else {
 			throw new CircuitException("801", "不支持的消息类型：" + msg.getClass());
 		}
@@ -156,45 +158,54 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		} else {
 			FullHttpRequestImpl freq = new FullHttpRequestImpl(req);
 			handshaker.handshake(ctx.channel(), freq);
-			websocketActive(ctx, req);
+			websocketActive(ctx, freq);
 		}
 	}
 
-	protected void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) throws CircuitException {
+	protected void flowWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame wsFrame) throws Exception {
 		// Check for closing frame
-		if (frame instanceof CloseWebSocketFrame) {
-			handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
+		if (wsFrame instanceof CloseWebSocketFrame) {
+			handshaker.close(ctx.channel(), (CloseWebSocketFrame) wsFrame.retain());
 			return;
 		}
-		if (frame instanceof PingWebSocketFrame) {
-			ctx.channel().write(new PongWebSocketFrame(frame.content().retain()));
+		if (wsFrame instanceof PingWebSocketFrame) {
+			ctx.channel().write(new PongWebSocketFrame(wsFrame.content().retain()));
 			return;
 		}
 
-		String name = SocketName.name(ctx.channel().id(), info.getName());
-		IInputPipeline inputPipeline = pipelines.get(name);
-		if (inputPipeline == null) {
-			throw new CircuitException("404", "目标管道不存在" + name);
+		ByteBuf bb = null;
+		if (wsFrame instanceof TextWebSocketFrame) {
+			TextWebSocketFrame f = (TextWebSocketFrame) wsFrame;
+			bb = f.content();
+		} else if (wsFrame instanceof BinaryWebSocketFrame) {
+			BinaryWebSocketFrame f = (BinaryWebSocketFrame) wsFrame;
+			bb = f.content();
+		} else {
+			throw new EcmException("不支持此类消息：" + wsFrame.getClass());
 		}
-		WebsocketFrameArgs args = new WebsocketFrameArgs();// 留给将来使用
-		inputPipeline.headFlow(frame, args);
+
+		byte[] b = new byte[bb.readableBytes()];
+		bb.readBytes(b);
+		Frame frame = new Frame(b);
+		String root=frame.rootName();
+		if(!currentUsedGatewayDestForHttp.equals(root)) {
+			frame.url(String.format("/%s%s", currentUsedGatewayDestForHttp,frame.url()));
+		}
+		
+		IInputPipeline inputPipeline = pipelines.get(currentUsedGatewayDestForHttp);
+		if (inputPipeline != null) {
+			Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
+			inputPipeline.headFlow(frame, circuit);
+			return;
+		}
+		
+		pipelineBuild(currentUsedGatewayDestForHttp, frame, ctx);
 	}
 
-	protected void websocketActive(ChannelHandlerContext ctx, HttpRequest req) throws Exception {
+	protected void pipelineBuild(String gatewayDest, Frame frame, ChannelHandlerContext ctx)
+			throws Exception {
 		WebsocketServerChannelGatewaySocket wsSocket = new WebsocketServerChannelGatewaySocket(parent, ctx.channel());
-		sockets.add(wsSocket);// ws是双向通讯端子，故需加入
-		// 以下生成目标管道
-		String uri = req.getUri();
-		try {
-			uri = URLDecoder.decode(uri, "utf-8");
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		}
-		String gatewayDestInHeader = req.headers().get(__frame_gatewayDest);
-		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, getClass());
-		if (StringUtil.isEmpty(gatewayDest) || gatewayDest.endsWith("://")) {
-			throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
-		}
+		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
 
 		IGatewaySocket socket = this.sockets.find(gatewayDest);
 		if (socket == null) {
@@ -208,17 +219,24 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			sockets.add(socket);
 		}
 
+		String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
-		String name = SocketName.name(ctx.channel().id(), info.getName());
-		IInputPipeline inputPipeline = builder.name(name).prop(__pipeline_fromProtocol, "ws")
+		IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "ws")
 				.prop(__pipeline_fromWho, info.getName()).createPipeline();
-		pipelines.add(name, inputPipeline);
+		pipelines.add(gatewayDest, inputPipeline);
 
-		ForwardJunction junction = new ForwardJunction(name);
+		ForwardJunction junction = new ForwardJunction(pipelineName);
 		junction.parse(inputPipeline, ctx.channel(), socket);
 		this.junctions.add(junction);
 
-		inputPipeline.headOnActive(name);// 通知管道激活
+		Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
+		inputPipeline.headOnActive(pipelineName);// 通知管道激活
+
+		inputPipeline.headFlow(frame, circuit);// 再把本次请求发送处理
+	}
+
+	protected void websocketActive(ChannelHandlerContext ctx, FullHttpRequestImpl req) throws Exception {
+		this.currentUsedGatewayDestForHttp=req.getContentPath();
 	}
 
 	@Override
@@ -237,15 +255,17 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			this.junctions.remove(junction);
 		}
 
-		if (sockets.contains(name)) {
+		if (sockets.contains(name)) {// 移除channelSocket而不是destination的socket
 			sockets.remove(name);// 不论是ws还是http增加的，在此安全移除
 		}
 
-		IInputPipeline input = pipelines.get(name);
-		if (input != null) {
+		Set<String> dests = pipelines.enumDest();
+		for (String dest : dests) {
+			IInputPipeline input = pipelines.get(dest);
 			input.headOnInactive(name);
-			pipelines.remove(name);
 		}
+		pipelines.dispose();
+
 		super.channelInactive(ctx);
 	}
 
@@ -264,8 +284,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 		HttpRequestArgs args = new HttpRequestArgs(ctx, keepLive);
 
-		String name = SocketName.name(ctx.channel().id(), info.getName());
-		IInputPipeline inputPipeline = pipelines.get(name);
+		IInputPipeline inputPipeline = pipelines.get(gatewayDest);
 		// 检查目标管道是否存在
 		if (inputPipeline != null) {
 			inputPipeline.headFlow(req, args);
@@ -275,6 +294,11 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		}
 		// 目标管道不存在，以下生成目标管道
 		// 检查并生成目标管道
+		pipelineBuild(gatewayDest,args, req, ctx);
+		
+	}
+	protected void pipelineBuild(String gatewayDest,HttpRequestArgs args, HttpRequest req, ChannelHandlerContext ctx)
+			throws Exception {
 		IGatewaySocket socket = this.sockets.find(gatewayDest);
 		if (socket == null) {
 			ICluster cluster = (ICluster) parent.getService("$.cluster");
@@ -286,24 +310,24 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			socket = loader.load(destination);
 			sockets.add(socket);
 		}
-
+		String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
-		inputPipeline = builder.name(name).prop(__pipeline_fromProtocol, "http")
+		IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "http")
 				.prop(__pipeline_fromWho, info.getName()).createPipeline();
-		pipelines.add(name, inputPipeline);
-
-		ForwardJunction junction = new ForwardJunction(name);
+		pipelines.add(gatewayDest, inputPipeline);
+		this.currentUsedGatewayDestForHttp=gatewayDest;
+		
+		ForwardJunction junction = new ForwardJunction(pipelineName);
 		junction.parse(inputPipeline, ctx.channel(), socket);
 		this.junctions.add(junction);
 
-		inputPipeline.headOnActive(name);// 通知管道激活
+		inputPipeline.headOnActive(pipelineName);// 通知管道激活
 
 		inputPipeline.headFlow(req, args);// 将当前请求发过去
 
 		this.decoder = args.getDecoder();
 		this.visitor = args.getVisitor();
 	}
-
 	protected void writeResponse(ChannelHandlerContext ctx, HttpRequest req, DefaultFullHttpResponse res) {
 		HttpHeaders headers = res.headers();
 		setContentLength(res, res.content().readableBytes());
@@ -372,9 +396,9 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		if (cause instanceof CircuitException) {
 			CircuitException c = (CircuitException) cause;
 			if ("404".equals(c.getStatus())) {
-				logger.error(this.getClass(), cause.getMessage());
+				logger.error(this.getClass(), c.getStatus() + " " + c.getMessage());
 			} else {
-				logger.error(this.getClass(), cause);
+				logger.error(this.getClass(), c);
 			}
 		} else {
 			if (cause instanceof IOException) {
@@ -430,6 +454,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			}
 			printError(e, res);
 			DefaultHttpRequest req = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/");
+			res.headers().add(HttpHeaders.Names.CONTENT_TYPE, DefaultHttpMineTypeFactory.mime("html"));
 			writeResponse(ctx, req, res);
 
 		} else {
@@ -443,6 +468,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			DefaultFullHttpResponse res = new DefaultFullHttpResponse(HTTP_1_1, status);
 			printError(e, res);
 			DefaultHttpRequest req = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/");
+			res.headers().add(HttpHeaders.Names.CONTENT_TYPE, DefaultHttpMineTypeFactory.mime("html"));
 			writeResponse(ctx, req, res);
 		}
 		ctx.close();
@@ -508,7 +534,17 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 				this.headers().add(en.getKey(), en.getValue());
 			}
 		}
-
+		public String getContentPath() {
+			String uri=getUri();
+			while(uri.startsWith("/")) {
+				uri=uri.substring(1,uri.length());
+			}
+			int pos=uri.indexOf("/");
+			if(pos<0) {
+				return "";
+			}
+			return uri.substring(0,pos);
+		}
 		@Override
 		public HttpHeaders trailingHeaders() {
 			return super.headers();

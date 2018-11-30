@@ -137,8 +137,10 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 			throw new EcmException("定义了多个程序集:" + home);
 		}
 		String fn = assemblies[0].getAbsolutePath();
-		IAssembly target = Assembly.loadAssembly(fn, share);
+		
 		Map<String, IGatewayAppSitePlugin> plugins = scanPluginsAndLoad(home,share);
+		
+		IAssembly target = Assembly.loadAssembly(fn, share);
 		target.parent(new AppCoreService(plugins));
 
 		target.start();

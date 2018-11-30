@@ -1,12 +1,9 @@
 package cj.studio.gateway.junction;
 
-import java.net.SocketAddress;
-
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
 
 public class ForwardJunction extends Junction implements SocketContants {
 	String fromWho;
