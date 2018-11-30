@@ -166,7 +166,7 @@ public class LastWayInputValve implements IInputValve {
 			circuit.contentType(mimes.get(ext));
 		}
 		if(rpath.endsWith("/")) {
-			rpath=String.format("%s%s", httpWelcome);
+			rpath=String.format("%s%s",rpath, httpWelcome);
 		}
 //		circuit.content().writeBytes(resource.resource(rpath));
 		File f = resource.realFileName(rpath);
