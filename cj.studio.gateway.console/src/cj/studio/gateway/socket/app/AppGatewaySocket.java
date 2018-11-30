@@ -16,6 +16,7 @@ import cj.studio.ecm.IWorkbin;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.net.layer.ISessionEvent;
+import cj.studio.ecm.resource.JarClassLoader;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.app.pipeline.builder.AppSocketInputPipelineBuilder;
@@ -138,9 +139,8 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		}
 		String fn = assemblies[0].getAbsolutePath();
 		
-		Map<String, IGatewayAppSitePlugin> plugins = scanPluginsAndLoad(home,share);
-		
 		IAssembly target = Assembly.loadAssembly(fn, share);
+		Map<String, IGatewayAppSitePlugin> plugins = scanPluginsAndLoad(home,target.info().getReferences(),share);
 		target.parent(new AppCoreService(plugins));
 
 		target.start();
@@ -161,7 +161,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		return program;
 	}
 
-	private Map<String, IGatewayAppSitePlugin> scanPluginsAndLoad(String assemblyHome, ClassLoader share) {
+	private Map<String, IGatewayAppSitePlugin> scanPluginsAndLoad(String assemblyHome,ClassLoader pcl, ClassLoader share) {
 		String dir=assemblyHome;
 		if(!dir.endsWith(File.separator)) {
 			dir+=File.separator;
@@ -191,7 +191,8 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 				}
 			});
 			for(File pluginFile:pluginFiles) {
-				IAssembly assembly=Assembly.loadAssembly(pluginFile.getAbsolutePath(),share);
+				JarClassLoader parent=new JarClassLoader(pcl);
+				IAssembly assembly=Assembly.loadAssembly(pluginFile.getAbsolutePath(),parent);
 				assembly.start();
 				IWorkbin bin=assembly.workbin();
 				IGatewayAppSitePlugin plugin=(IGatewayAppSitePlugin)bin.part("$.studio.gateway.app.plugin");
