@@ -82,7 +82,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	}
 
 	@Override
-	public Object send(Object request,Object response) throws CircuitException {
+	public synchronized Object send(Object request,Object response) throws CircuitException {
 		Frame frame=(Frame)request;
 		if (!channel.isWritable()) {// 断开连结，且从电缆中移除导线
 			if (channel.isOpen()) {
@@ -130,7 +130,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	}
 
 	@Override
-	public void connect(String ip, int port) throws CircuitException {
+	public synchronized void connect(String ip, int port) throws CircuitException {
 		EventLoopGroup group = (EventLoopGroup) parent.getService("$.eventloop.group");
 		Bootstrap b = new Bootstrap();
 		b.group(group).channel(NioSocketChannel.class).option(ChannelOption.SO_KEEPALIVE, true)
