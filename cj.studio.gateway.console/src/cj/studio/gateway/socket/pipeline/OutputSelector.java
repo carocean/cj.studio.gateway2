@@ -6,11 +6,6 @@ import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.IAsynchronizer;
 import cj.studio.gateway.socket.IChunkVisitor;
-import cj.studio.gateway.socket.pipeline.IOutputPipeline;
-import cj.studio.gateway.socket.pipeline.IOutputPipelineBuilder;
-import cj.studio.gateway.socket.pipeline.IOutputSelector;
-import cj.studio.gateway.socket.pipeline.IOutputer;
-import cj.studio.gateway.socket.pipeline.OutputPipelineCollection;
 import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 
@@ -21,7 +16,6 @@ public class OutputSelector implements IOutputSelector, SocketContants {
 	public OutputSelector(IServiceProvider parent) {
 		this.builder = (IOutputPipelineBuilder) parent.getService("$.pipeline.output.builder");
 	}
-
 	@Override
 	public IAsynchronizer select(Circuit circuit) throws CircuitException {
 		if(!circuit.protocol().startsWith("HTTP")) {

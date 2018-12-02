@@ -54,7 +54,7 @@ public class FileVisitor extends AbstractHttpGetVisitor implements IChunkVisitor
 		
 	}
 	@Override
-	public void endVisit(IHttpWriter writer) {
+	public void endVisit(IHttpVisitorWriter writer) {
 		
 		
 	}

@@ -11,7 +11,7 @@ import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.visitor.HttpPostVisitor;
 import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
-import cj.studio.gateway.socket.visitor.IHttpWriter;
+import cj.studio.gateway.socket.visitor.IHttpVisitorWriter;
 
 @CjService(name = "/formpost/", scope = Scope.multiton)
 public class FormpostWebview implements IGatewayAppSiteWayWebView {
@@ -23,7 +23,7 @@ public class FormpostWebview implements IGatewayAppSiteWayWebView {
 		System.out.println(frame);
 		selector.select(circuit).accept(new HttpPostVisitor() {
 			@Override
-			protected void endvisit(Frame frame, Circuit circuit, IHttpWriter writer) {
+			protected void endvisit(Frame frame, Circuit circuit, IHttpVisitorWriter writer) {
 				// TODO Auto-generated method stub
 				System.out.println("****************HttpPostFreeVisitor.endVisitor");
 				writer.write("<ul>".getBytes());

@@ -5,7 +5,7 @@ import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.gateway.socket.util.SocketContants;
 import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
-import cj.studio.gateway.socket.visitor.IHttpWriter;
+import cj.studio.gateway.socket.visitor.IHttpVisitorWriter;
 import cj.studio.gateway.socket.visitor.decoder.mutipart.Bucket;
 import cj.studio.gateway.socket.visitor.decoder.mutipart.IFieldDataListener;
 import cj.studio.gateway.socket.visitor.decoder.mutipart.IFieldInfo;
@@ -50,7 +50,7 @@ public class MultipartFormChunkDecoder implements IHttpFormChunkDecoder,SocketCo
 	}
 
 	@Override
-	public final void done(IHttpWriter writer) {
+	public final void done(IHttpVisitorWriter writer) {
 		IFormData form=bucket.getForm();
 		String keys[]=form.enumFieldName();
 		for(String name:keys) {
@@ -62,7 +62,7 @@ public class MultipartFormChunkDecoder implements IHttpFormChunkDecoder,SocketCo
 		circuit = null;
 	}
 	
-	protected  void done(Frame frame, Circuit circuit, IHttpWriter writer) {
+	protected  void done(Frame frame, Circuit circuit, IHttpVisitorWriter writer) {
 	}
 	@Override
 	public void writeChunk(ByteBuf chunk) {

@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 
 public interface IHttpFormChunkDecoder {
 
-	void done(IHttpWriter writer);
+	void done(IHttpVisitorWriter writer);
 
 	void writeChunk(ByteBuf chunk);
 

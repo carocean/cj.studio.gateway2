@@ -18,7 +18,7 @@ import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.visitor.AbstractHttpGetVisitor;
-import cj.studio.gateway.socket.visitor.IHttpWriter;
+import cj.studio.gateway.socket.visitor.IHttpVisitorWriter;
 import cj.test.website.bo.BlogBO;
 import cj.test.website.bo.UserBO;
 import cj.test.website.service.IBlogService;
@@ -106,7 +106,7 @@ public class Home implements IGatewayAppSiteWayWebView{
 				
 			}
 			@Override
-			public void endVisit(IHttpWriter writer) {
+			public void endVisit(IHttpVisitorWriter writer) {
 				System.out.println("+++++++HttpPullChunkVisitor.endVisit++");
 			}
 		});

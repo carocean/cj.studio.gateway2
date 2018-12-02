@@ -7,7 +7,7 @@ import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.net.web.WebUtil;
 import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
-import cj.studio.gateway.socket.visitor.IHttpWriter;
+import cj.studio.gateway.socket.visitor.IHttpVisitorWriter;
 import cj.ultimate.util.StringUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -24,7 +24,7 @@ public class UrlEncodedFormChunkDecoder implements IHttpFormChunkDecoder {
 	}
 
 	@Override
-	public final void done(IHttpWriter writer) {
+	public final void done(IHttpVisitorWriter writer) {
 		byte[] b = new byte[content.readableBytes()];
 		content.readBytes(b);
 		String chartset = frame.contentChartset();
@@ -49,7 +49,7 @@ public class UrlEncodedFormChunkDecoder implements IHttpFormChunkDecoder {
 		circuit=null;
 	}
 
-	protected void done(Frame frame, Circuit circuit, IHttpWriter writer) {
+	protected void done(Frame frame, Circuit circuit, IHttpVisitorWriter writer) {
 		// TODO Auto-generated method stub
 		
 	}

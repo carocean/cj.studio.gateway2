@@ -23,13 +23,13 @@ public abstract class HttpPostVisitor extends AbstractHttpPostVisitor {
 	}
 
 	@Override
-	public final void endVisit(IHttpWriter writer) {
+	public final void endVisit(IHttpVisitorWriter writer) {
 		endvisit(frame, circuit, writer);
 		frame = null;
 		circuit = null;
 	}
 
-	protected abstract void endvisit(Frame frame, Circuit circuit, IHttpWriter writer);
+	protected abstract void endvisit(Frame frame, Circuit circuit, IHttpVisitorWriter writer);
 
 	@Override
 	public final IHttpFormChunkDecoder createFormDataDecoder() {

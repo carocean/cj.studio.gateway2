@@ -19,9 +19,9 @@ import cj.studio.gateway.socket.pipeline.IInputValve;
 import cj.studio.gateway.socket.util.SocketContants;
 import cj.studio.gateway.socket.visitor.AbstractHttpGetVisitor;
 import cj.studio.gateway.socket.visitor.AbstractHttpPostVisitor;
-import cj.studio.gateway.socket.visitor.HttpWriter;
+import cj.studio.gateway.socket.visitor.HttpVisitorWriter;
 import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
-import cj.studio.gateway.socket.visitor.IHttpWriter;
+import cj.studio.gateway.socket.visitor.IHttpVisitorWriter;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -87,7 +87,7 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 					DefaultLastHttpContent cnt = (DefaultLastHttpContent) request;
 					decoder.writeChunk(cnt.content());
 				}
-				IHttpWriter writer = new HttpWriter(ctx.channel());
+				IHttpVisitorWriter writer = new HttpVisitorWriter(ctx.channel());
 				try {
 					decoder.done(writer);
 				} finally {
@@ -96,7 +96,7 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			}
 			IChunkVisitor visitor = args.getVisitor();
 			if (visitor != null) {
-				visitor.endVisit(new HttpWriter(ctx.channel()));
+				visitor.endVisit(new HttpVisitorWriter(ctx.channel()));
 			}
 			ChannelFuture f = ctx.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT);
 			if (args.isKeepLive()) {
@@ -122,9 +122,9 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 		frame.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
 		frame.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
 		Circuit circuit = new HttpCircuit(String.format("%s 200 OK", req.getProtocolVersion().text()));
-		pipeline.nextFlow(frame, circuit, this);
-
 		ChannelHandlerContext ctx = args.getContext();
+
+		pipeline.nextFlow(frame, circuit, this);
 
 		if (circuit.content().readableBytes() > 2 * 1024 * 1024) {
 			throw new CircuitException("503", "回路内容超过上限2M，请使用IChunkVisitor机制");

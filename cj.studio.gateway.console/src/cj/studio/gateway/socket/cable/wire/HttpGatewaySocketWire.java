@@ -23,12 +23,13 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.DefaultFullHttpRequest;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.HttpClientCodec;
+import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
-import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpVersion;
+import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.util.AttributeKey;
 
 public class HttpGatewaySocketWire implements IGatewaySocketWire {
@@ -82,8 +83,8 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	}
 
 	@Override
-	public synchronized Object send(Object request,Object response) throws CircuitException {
-		Frame frame=(Frame)request;
+	public synchronized Object send(Object request, Object response) throws CircuitException {
+		Frame frame = (Frame) request;
 		if (!channel.isWritable()) {// 断开连结，且从电缆中移除导线
 			if (channel.isOpen()) {
 				channel.close();
@@ -115,18 +116,21 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 			req.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
 		}
 		ChannelPromise promise = channel.writeAndFlush(req).channel().newPromise();
+
 		AttributeKey<ChannelPromise> promiseKey = AttributeKey.valueOf("Channel-Promise");
+		AttributeKey<Circuit> circuitKey = AttributeKey.valueOf("Http-Circuit");
+		promise.channel().attr(circuitKey).set((Circuit)response);
 		promise.channel().attr(promiseKey).set(promise);
 		try {
-			long requestTimeout=(long)parent.getService("$.prop.requestTimeout");
+			long requestTimeout = (long) parent.getService("$.prop.requestTimeout");
 			if (!promise.await(requestTimeout, TimeUnit.MILLISECONDS)) {
 				throw new CircuitException("505", "请求超时：" + frame);
 			}
 		} catch (InterruptedException e) {
 			throw new CircuitException("800", e);
 		}
-		AttributeKey<Circuit> circuitKey = AttributeKey.valueOf("Http-Circuit");
-		return promise.channel().attr(circuitKey).getAndRemove();
+
+		return response;
 	}
 
 	@Override
@@ -164,10 +168,10 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 //			pipeline.addLast(new HttpResponseDecoder());
 			// 客户端发送的是httprequest，所以要使用HttpRequestEncoder进行编码
 //			pipeline.addLast(new HttpRequestEncoder());
-			int aggregatorLimit=(int)parent.getService("$.prop.aggregatorLimit");
-			
+//			int aggregatorLimit=(int)parent.getService("$.prop.aggregatorLimit");
+
 			pipeline.addLast("http-codec", new HttpClientCodec());
-			ch.pipeline().addLast("aggregator", new HttpObjectAggregator(aggregatorLimit));
+//			ch.pipeline().addLast("aggregator", new HttpObjectAggregator(aggregatorLimit));
 			pipeline.addLast(new HttpClientGatewaySocketHandler());
 
 		}
@@ -177,26 +181,54 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	class HttpClientGatewaySocketHandler extends SimpleChannelInboundHandler<Object> {
 		@Override
 		protected void messageReceived(ChannelHandlerContext ctx, Object response) throws Exception {
-			if (!(response instanceof DefaultFullHttpResponse)) {// 由于使用了HttpObjectAggregator，所以一定是DefaultFullHttpResponse
+//			if (!(response instanceof DefaultFullHttpResponse)) {// 由于使用了HttpObjectAggregator，所以一定是DefaultFullHttpResponse
+//				return;
+//			}
+
+//			DefaultFullHttpResponse res = (DefaultFullHttpResponse) response;
+			AttributeKey<Circuit> circuitKey = AttributeKey.valueOf("Http-Circuit");
+			Circuit circuit = ctx.channel().attr(circuitKey).get();
+			
+			if(response instanceof LastHttpContent) {
+				LastHttpContent last=(LastHttpContent)response;
+				if(circuit.hasFeedback()) {
+					circuit.doneFeeds(last.content());
+				}else {
+					if (last.content().readableBytes() > 0) {
+						circuit.content().writeBytes(last.content());
+					}
+				}
+				AttributeKey<ChannelPromise> promiseKey = AttributeKey.valueOf("Channel-Promise");
+				ChannelPromise promise = ctx.channel().attr(promiseKey).get();
+				promise.setSuccess();
 				return;
 			}
-
-			DefaultFullHttpResponse res = (DefaultFullHttpResponse) response;
-			Circuit circuit = new Circuit(String.format("%s %s", res.getProtocolVersion().text(), res.getStatus()));
-			if (res.content().readableBytes() > 0) {
-				circuit.content().writeBytes(res.content());
+			if (response instanceof HttpResponse) {
+				HttpResponse res=(HttpResponse)response;
+				List<Entry<String, String>> list = res.headers().entries();
+				for (Entry<String, String> en : list) {
+					circuit.head(en.getKey(), en.getValue());
+				}
+				if(circuit.hasFeedback()) {
+					circuit.beginFeeds();
+				}
+				return;
 			}
-			List<Entry<String, String>> list = res.headers().entries();
-			for (Entry<String, String> en : list) {
-				circuit.head(en.getKey(), en.getValue());
+			if(response instanceof HttpContent) {
+				HttpContent content=(HttpContent)response;
+				if(circuit.hasFeedback()) {
+					circuit.writeFeeds(content.content());
+				}else {
+					if (content.content().readableBytes() > 0) {
+						circuit.content().writeBytes(content.content());
+					}
+				}
+				return;
 			}
-			AttributeKey<Circuit> circuitKey = AttributeKey.valueOf("Http-Circuit");
-			ctx.channel().attr(circuitKey).set(circuit);
-
-			AttributeKey<ChannelPromise> promiseKey = AttributeKey.valueOf("Channel-Promise");
-			ChannelPromise promise = ctx.channel().attr(promiseKey).getAndRemove();
-			promise.setSuccess();
+			
+			
 		}
+
 		@Override
 		public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 			@SuppressWarnings("unchecked")
@@ -205,5 +237,5 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 			super.channelInactive(ctx);
 		}
 	}
-	
+
 }

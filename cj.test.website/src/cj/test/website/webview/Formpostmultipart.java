@@ -11,7 +11,7 @@ import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.visitor.HttpPostVisitor;
 import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
-import cj.studio.gateway.socket.visitor.IHttpWriter;
+import cj.studio.gateway.socket.visitor.IHttpVisitorWriter;
 import cj.studio.gateway.socket.visitor.decoder.MultipartFormChunkDecoder;
 import cj.studio.gateway.socket.visitor.decoder.mutipart.IFieldDataListener;
 import cj.studio.gateway.socket.visitor.decoder.mutipart.listener.FileListener;
@@ -26,7 +26,7 @@ public class Formpostmultipart implements IGatewayAppSiteWayWebView {
 		System.out.println(frame);
 		selector.select(circuit).accept(new HttpPostVisitor() {
 			@Override
-			protected void endvisit(Frame frame, Circuit circuit, IHttpWriter writer) {
+			protected void endvisit(Frame frame, Circuit circuit, IHttpVisitorWriter writer) {
 				// TODO Auto-generated method stub
 //				System.out.println("****************HttpPostFreeVisitor.endVisitor");
 				for (int i = 0; i < 10000; i++) {
@@ -40,7 +40,7 @@ public class Formpostmultipart implements IGatewayAppSiteWayWebView {
 				// TODO Auto-generated method stub
 				return new MultipartFormChunkDecoder(frame, circuit) {
 					@Override
-					protected void done(Frame frame, Circuit circuit, IHttpWriter writer) {
+					protected void done(Frame frame, Circuit circuit, IHttpVisitorWriter writer) {
 						writer.write("<ul>".getBytes());
 						String arr[] = frame.enumParameterName();
 						for (String key : arr) {

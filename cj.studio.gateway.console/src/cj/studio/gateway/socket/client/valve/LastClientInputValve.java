@@ -5,7 +5,6 @@ import java.util.List;
 
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.cable.IGatewaySocketCable;
@@ -58,15 +57,15 @@ public class LastClientInputValve implements IInputValve {
 				break;
 			}
 			try {
-				Object obj = w.send(request,response);
-				if (obj != null) {
-					if (obj instanceof Circuit) {
-						Circuit c = (Circuit) obj;
-						Circuit res = (Circuit) response;
-						res.copyFrom(c, true);
-//						c.dispose();
-					}
-				}
+				/*Object obj =*/ w.send(request,response);
+//				if (obj != null) {
+//					if (obj instanceof Circuit) {
+//						Circuit c = (Circuit) obj;
+//						Circuit res = (Circuit) response;
+//						res.copyFrom(c, true);
+////						c.dispose();
+//					}
+//				}
 				trytimes = 0;
 			} catch (Throwable e) {
 				trytimes++;
