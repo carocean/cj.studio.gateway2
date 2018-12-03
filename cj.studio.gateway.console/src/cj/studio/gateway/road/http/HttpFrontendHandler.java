@@ -18,7 +18,6 @@ package cj.studio.gateway.road.http;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.gateway.ICluster;
-import cj.studio.gateway.IDestinationLoader;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.conf.ServerInfo;
@@ -36,7 +35,6 @@ import io.netty.channel.ChannelHandlerContext;
 
 public class HttpFrontendHandler extends ChannelHandlerAdapter implements SocketContants {
 
-	private IServiceProvider parent;
 	IGatewaySocketContainer sockets;
 	private IJunctionTable junctions;
 	InputPipelineCollection pipelines;
@@ -44,7 +42,6 @@ public class HttpFrontendHandler extends ChannelHandlerAdapter implements Socket
 	private Destination destination;
 
 	public HttpFrontendHandler(IServiceProvider parent) {
-		this.parent = parent;
 		sockets = (IGatewaySocketContainer) parent.getService("$.container.socket");
 		junctions = (IJunctionTable) parent.getService("$.junctions");
 		this.pipelines = new InputPipelineCollection();
@@ -64,12 +61,7 @@ public class HttpFrontendHandler extends ChannelHandlerAdapter implements Socket
 
 	protected void pipelineBuild(String pipelineName, ChannelHandlerContext ctx) throws Exception {
 		String gatewayDest = destination.getName();
-		IGatewaySocket socket = this.sockets.find(gatewayDest);
-		if (socket == null) {
-			IDestinationLoader loader = (IDestinationLoader) parent.getService("$.dloader");
-			socket = loader.load(destination);
-			sockets.add(socket);
-		}
+		IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
 
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 		IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_builder_frontend_channel,ctx.channel()).prop(__pipeline_fromProtocol, "http")

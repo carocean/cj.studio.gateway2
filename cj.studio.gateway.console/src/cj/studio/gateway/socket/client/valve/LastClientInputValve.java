@@ -45,33 +45,26 @@ public class LastClientInputValve implements IInputValve {
 			CJSystem.logging().error(getClass(), "电缆无可用导线，已尝试3次，请求被丢弃：" + request);
 			return;
 		}
+		if (wires.isEmpty()) {
+			select(pipeline);
+			return;
+		}
 		IGatewaySocketWire[] arr = wires.toArray(new IGatewaySocketWire[0]);
 		for (IGatewaySocketWire w : arr) {
 			if (w == null) {
 				continue;
 			}
-			if (!w.isWritable() || !w.isOpened()) {
-				trytimes++;
+			if (!w.isWritable() && !w.isOpened()) {
 				select(pipeline);// 重新选择所有导线
-				flow(request, response, pipeline);
 				break;
 			}
 			try {
-				/*Object obj =*/ w.send(request,response);
-//				if (obj != null) {
-//					if (obj instanceof Circuit) {
-//						Circuit c = (Circuit) obj;
-//						Circuit res = (Circuit) response;
-//						res.copyFrom(c, true);
-////						c.dispose();
-//					}
-//				}
+				w.send(request, response);
 				trytimes = 0;
 			} catch (Throwable e) {
-				trytimes++;
+				trytimes++;// 重新再来n次，直到可用，select方法会堵塞直到拥有可使用导线
 				CJSystem.logging().error(getClass(), e + "");
-				select(pipeline);
-				flow(request, response, pipeline);// 重新再来n次，直到可用，select方法会堵塞直到拥有可使用导线
+				flow(request, response, pipeline);
 				break;
 			}
 		}
@@ -79,23 +72,23 @@ public class LastClientInputValve implements IInputValve {
 
 	@Override
 	public void onInactive(String inputName, IIPipeline pipeline) throws CircuitException {
-		// 释放导线
-		close();
+		// 归还导线到电缆
+		returnWire();
 		trytimes = 0;
 	}
 
-	protected void close() {
+	protected void returnWire() {
 		IGatewaySocketWire[] arr = wires.toArray(new IGatewaySocketWire[0]);
 		for (IGatewaySocketWire w : arr) {
 			if (w != null) {
-				w.close();
+				w.used(false);
 			}
 		}
 		wires.clear();
 	}
 
-	protected void select(IIPipeline pipeline) throws CircuitException {
-		close();// 释放导线重新选择
+	protected synchronized void select(IIPipeline pipeline) throws CircuitException {
+		returnWire();// 释放导线重新选择
 		String boardcast = destination.getProps().get("Broadcast-Mode");
 		String name = pipeline.prop(SocketContants.__pipeline_name);
 		if ("unicast".equals(boardcast)) {// 单播是均衡的选一个电缆

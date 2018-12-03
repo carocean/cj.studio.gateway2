@@ -34,7 +34,6 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	boolean isOpened;
 	ReentrantLock lock;
 	Condition waitingForCreateWire;
-	private int aggregatorLimit;
 	private long requestTimeout;
 	private String wspath;
 	private int heartbeat;
@@ -45,10 +44,6 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		waitingForCreateWire = lock.newCondition();
 	}
 
-	@Override
-	public int aggregatorLimit() {
-		return aggregatorLimit;
-	}
 
 	@Override
 	public long requestTimeout() {
@@ -123,9 +118,6 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		if ("$.prop.requestTimeout".equals(name)) {
 			return requestTimeout;
 		}
-		if ("$.prop.aggregatorLimit".equals(name)) {
-			return aggregatorLimit;
-		}
 		if ("$.prop.wspath".equals(name)) {
 			return wspath;
 		}
@@ -155,15 +147,16 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 			}
 			// 需要新建wire
 			if (wires.size() > this.maxWireSize) {// 等待有空闲的导线
-				if (checkoutTimeout == 0) {
+				if (checkoutTimeout <= 0) {
 					waitingForCreateWire.await();
 				} else {
 					boolean elapsed = waitingForCreateWire.await(checkoutTimeout, TimeUnit.MILLISECONDS);// 当wire的close会触发此条件
 					if (!elapsed) {
 						CJSystem.logging().error(getClass(), "waitingForCreateWire超时:" + checkoutTimeout);
-						return null;
 					}
 				}
+				select();
+				return null;
 			}
 			// 以下是新建
 			wire = createWire();
@@ -197,7 +190,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 
 	}
 
-	private IGatewaySocketWire selectInExists() {
+	private synchronized IGatewaySocketWire selectInExists() {
 		// 检查现有导线是否有空闲的
 		for (IGatewaySocketWire wire : wires) {
 			if (wire == null) {
@@ -212,10 +205,24 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 
 	@Override
 	public void close() {
+		IGatewaySocketWire [] arr=this.wires.toArray(new IGatewaySocketWire[0]);
+		for(IGatewaySocketWire w:arr) {
+			if(w==null)continue;
+			w.close();
+		}
+		wires.clear();
 		isOpened = false;
-
 	}
-
+	@Override
+	public void dispose() {
+		IGatewaySocketWire [] arr=this.wires.toArray(new IGatewaySocketWire[0]);
+		for(IGatewaySocketWire w:arr) {
+			if(w==null)continue;
+			w.dispose();
+		}
+		wires.clear();
+		isOpened = false;
+	}
 	@Override
 	public void init(String connStr) throws CircuitException {
 		parseConnStr(connStr);
@@ -289,20 +296,18 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 
 		this.acquireRetryAttempts = StringUtil.isEmpty(f.parameter("acquireRetryAttempts")) ? 10
 				: Integer.valueOf(f.parameter("acquireRetryAttempts"));
-		this.checkoutTimeout = StringUtil.isEmpty(f.parameter("checkoutTimeout")) ? 0
+		this.checkoutTimeout = StringUtil.isEmpty(f.parameter("checkoutTimeout")) ? 300000
 				: Long.valueOf(f.parameter("checkoutTimeout"));
 		this.initialWireSize = StringUtil.isEmpty(f.parameter("initialWireSize")) ? 1
 				: Integer.valueOf(f.parameter("initialWireSize"));
-		this.maxIdleTime = StringUtil.isEmpty(f.parameter("maxIdleTime")) ? 1
+		this.maxIdleTime = StringUtil.isEmpty(f.parameter("maxIdleTime")) ? 10000L
 				: Long.valueOf(f.parameter("maxIdleTime"));
-		this.requestTimeout = StringUtil.isEmpty(f.parameter("requestTimeout")) ? 15000L
+		this.requestTimeout = StringUtil.isEmpty(f.parameter("requestTimeout")) ? Long.MAX_VALUE
 				: Long.valueOf(f.parameter("requestTimeout"));
 		this.maxWireSize = StringUtil.isEmpty(f.parameter("maxWireSize")) ? 4
 				: Integer.valueOf(f.parameter("maxWireSize"));
 		this.minWireSize = StringUtil.isEmpty(f.parameter("minWireSize")) ? 2
 				: Integer.valueOf(f.parameter("minWireSize"));
-		this.aggregatorLimit = StringUtil.isEmpty(f.parameter("aggregatorLimit")) ? 5 * 1024 * 1024
-				: Integer.valueOf(f.parameter("aggregatorLimit"));
 		this.heartbeat = StringUtil.isEmpty(f.parameter(SocketContants.__key_heartbeat_interval)) ? -1
 				: Integer.valueOf(f.parameter(SocketContants.__key_heartbeat_interval));
 		if (StringUtil.isEmpty(f.parameter("initialWireSize"))) {

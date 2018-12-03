@@ -88,7 +88,7 @@ public class LsJunctionsCommand extends Command {
 					continue;
 				ForwardJunction fj = (ForwardJunction) jun;
 				printForwardJunction(sockets, fj, indent);
-				System.out.println();
+				System.out.println(String.format("----------共%s个--------", forwards.length));
 			}
 			return;
 		}
@@ -99,8 +99,18 @@ public class LsJunctionsCommand extends Command {
 					continue;
 				BackwardJunction fj = (BackwardJunction) jun;
 				printBackwardJunction(sockets, fj, indent);
-				System.out.println();
+				System.out.println(String.format("----------共%s个--------", backwards.length));
 			}
+			return;
+		}
+		if (line.hasOption("s")) {
+			IGatewaySocketContainer container = (IGatewaySocketContainer) gateway.getService("$.container.socket");
+			String[] names = container.enumSocketName();
+			for (String name : names) {
+				IGatewaySocket socket = container.find(name);
+				printSocketInfo(socket, indent);
+			}
+			System.out.println(String.format("----------共%s个--------", names.length));
 			return;
 		}
 		Junction[] all = table.toSortedAll();
@@ -114,7 +124,36 @@ public class LsJunctionsCommand extends Command {
 				ForwardJunction fj = (ForwardJunction) jun;
 				printForwardJunction(sockets, fj, indent);
 			}
-			System.out.println();
+			System.out.println(String.format("----------共%s个--------", all.length));
+		}
+	}
+
+	private void printSocketInfo(IGatewaySocket socket, String indent) {
+		System.out.println(String.format("%s%s", indent, socket.name()));
+		System.out.println(String.format("%s--------------------", indent));
+		System.out.println(String.format("%s\t类型:%s", indent, socket.getClass()));
+		Destination dest = (Destination) socket.getService("$.destination");
+		if (dest != null) {
+			System.out.println(String.format("%s\t目标属性:%s", indent, dest.getProps()));
+			System.out.println(String.format("%s\t目标地址:%s", indent, dest.getUris()));
+		}
+		if (socket instanceof ClientGatewaySocket) {
+			ClientGatewaySocket cgs = (ClientGatewaySocket) socket;
+			System.out.println(String.format("%s\t工作线程数:%s", indent, cgs.getService("$.socket.loopsize")));
+			System.out.println(String.format("%s\t工作线程数(udt):%s", indent, cgs.getService("$.socket.loopudtsize")));
+			List<IGatewaySocketCable> cables = (List<IGatewaySocketCable>) cgs.getService("$.cables");
+			for (IGatewaySocketCable cable : cables) {
+				System.out.println(String.format("%s\t电缆:%s://%s:%s", indent, cable.protocol(),cable.host(),cable.port()));
+				System.out.println(String.format("%s\t\t活动导线数:%s", indent,((IServiceProvider)cable).getService("$.wires.count")));
+				System.out.println(String.format("%s\t\t初始化导线数:%s", indent,cable.initialWireSize()));
+				System.out.println(String.format("%s\t\t最小导线数:%s", indent,cable.minWireSize()));
+				System.out.println(String.format("%s\t\t最大导线数:%s", indent,cable.maxWireSize()));
+				System.out.println(String.format("%s\t\t请求超时时间:%s", indent,cable.requestTimeout()));
+				System.out.println(String.format("%s\t\t最大空闲时间:%s", indent,cable.maxIdleTime()));
+				System.out.println(String.format("%s\t\t心跳间隔时间:%s", indent,cable.getHeartbeat()));
+				System.out.println(String.format("%s\t\t电缆满等待连接时间:%s", indent,cable.checkoutTimeout()));
+				System.out.println(String.format("%s\t\t连接重试次数:%s", indent,cable.acquireRetryAttempts()));
+			}
 		}
 	}
 
@@ -164,7 +203,7 @@ public class LsJunctionsCommand extends Command {
 		String[] keys = props.keySet().toArray(new String[0]);
 		System.out.println(String.format("%s\t\t\t属性:", indent));
 		for (String key : keys) {
-			if("workThreadCount".equals(key)) {
+			if ("workThreadCount".equals(key)) {
 				continue;
 			}
 			String v = props.get(key);
@@ -183,18 +222,16 @@ public class LsJunctionsCommand extends Command {
 		List<IGatewaySocketCable> cables = (List<IGatewaySocketCable>) socket.getService("$.cables");
 		IGatewaySocketCable[] arr = cables.toArray(new IGatewaySocketCable[0]);
 		System.out.println(String.format("%s\t\t\t电缆:", indent));
-		for (int i=0;i<arr.length;i++) {
-			System.out.println(String.format("%s\t\t\t\t%s -------------------------------------", indent,i));
-			IGatewaySocketCable cable =arr[i];
+		for (int i = 0; i < arr.length; i++) {
+			System.out.println(String.format("%s\t\t\t\t%s -------------------------------------", indent, i));
+			IGatewaySocketCable cable = arr[i];
 			System.out.println(
 					String.format("%s\t\t\t\turi=%s://%s:%s", indent, cable.protocol(), cable.host(), cable.port()));
 			System.out.println(String.format("%s\t\t\t\tactivedWires=%s", indent,
 					((IServiceProvider) cable).getService("$.wires.count")));
-			System.out
-			.println(String.format("%s\t\t\t\theartbeat=%s", indent, cable.getHeartbeat()));
+			System.out.println(String.format("%s\t\t\t\theartbeat=%s", indent, cable.getHeartbeat()));
 			System.out
 					.println(String.format("%s\t\t\t\tacquireRetryAttempts=%s", indent, cable.acquireRetryAttempts()));
-			System.out.println(String.format("%s\t\t\t\taggregatorLimit=%s", indent, cable.aggregatorLimit()));
 			System.out.println(String.format("%s\t\t\t\tcheckoutTimeout=%s", indent, cable.checkoutTimeout()));
 			System.out.println(String.format("%s\t\t\t\tinitialWireSize=%s", indent, cable.initialWireSize()));
 			System.out.println(String.format("%s\t\t\t\tmaxIdleTime=%s", indent, cable.maxIdleTime()));
@@ -205,7 +242,7 @@ public class LsJunctionsCommand extends Command {
 				System.out.println(String.format("%s\t\t\t\tactivedWires=%s", indent,
 						((IServiceProvider) cable).getService("$.wspath")));
 			}
-			
+
 		}
 	}
 
@@ -226,6 +263,8 @@ public class LsJunctionsCommand extends Command {
 		options.addOption(f);
 		Option b = new Option("b", "backward", false, "仅列出backward连结点");
 		options.addOption(b);
+		Option s = new Option("s", "socket", false, "仅列出sockets");
+		options.addOption(s);
 		Option u = new Option("t", "tt", false, "开启即时监控");
 		options.addOption(u);
 		// Option p = new Option("p", "password",true, "密码");

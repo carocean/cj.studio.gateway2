@@ -91,7 +91,10 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void connect(Destination dest) throws CircuitException {
+	public synchronized void connect(Destination dest) throws CircuitException {
+		if(isConnected) {
+			return;
+		}
 		this.destination = dest;
 		String uri = dest.getUris().get(0);
 

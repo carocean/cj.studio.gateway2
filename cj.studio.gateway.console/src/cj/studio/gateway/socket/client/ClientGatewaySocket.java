@@ -82,7 +82,7 @@ public class ClientGatewaySocket implements IGatewaySocket {
 	}
 
 	@Override
-	public void connect(Destination dest) throws CircuitException {
+	public synchronized void connect(Destination dest) throws CircuitException {
 		if (isConnected) {
 			return;
 		}
@@ -136,7 +136,7 @@ public class ClientGatewaySocket implements IGatewaySocket {
 	@Override
 	public void close() throws CircuitException {
 		for (IGatewaySocketCable cable : cables) {
-			cable.close();
+			cable.dispose();
 		}
 		cables.clear();
 		parent = null;

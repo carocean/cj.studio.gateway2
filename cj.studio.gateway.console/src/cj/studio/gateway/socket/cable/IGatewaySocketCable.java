@@ -2,6 +2,7 @@ package cj.studio.gateway.socket.cable;
 
 import cj.studio.ecm.graph.CircuitException;
 import cj.ultimate.IClosable;
+import cj.ultimate.IDisposable;
 
 /**
  * 电缆
@@ -24,7 +25,7 @@ import cj.ultimate.IClosable;
  * @author caroceanjofers
  *
  */
-public interface IGatewaySocketCable extends IClosable {
+public interface IGatewaySocketCable extends IClosable,IDisposable {
 	/**
 	 * 定义在连接远程获取新连接失败后重复尝试的次数。Default: 3
 	 * 
@@ -72,13 +73,6 @@ public interface IGatewaySocketCable extends IClosable {
 	 * @return
 	 */
 	long requestTimeout();
-	/**
-	 * 聚合器限制聚合的最大大小
-	 * ,单位字节。Default: 3m
-	 * 
-	 * @return
-	 */
-	int aggregatorLimit();
 	/**
 	 * 尝试获取一个可用导线。如果池满且无空闲导线将等待，直到超时。该方法在导线数没达到上限时会新建导线。
 	 * 

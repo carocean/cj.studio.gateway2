@@ -24,7 +24,7 @@ public class DestinationLoader implements IDestinationLoader, IServiceSetter, IS
 	}
 
 	@Override
-	public synchronized IGatewaySocket load(Destination dest) throws CircuitException {
+	public IGatewaySocket load(Destination dest) throws CircuitException {
 		boolean isApp = false;
 		String uri = dest.getUris().get(0);
 		if (uri.startsWith("app://")) {

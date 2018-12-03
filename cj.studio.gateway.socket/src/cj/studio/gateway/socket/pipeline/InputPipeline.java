@@ -128,6 +128,7 @@ public class InputPipeline implements IInputPipeline {
 			prev.next = null;
 			prev.entry = null;
 		}
+		this.props.clear();
 		this.head = null;
 		this.last = null;
 		disposed = true;

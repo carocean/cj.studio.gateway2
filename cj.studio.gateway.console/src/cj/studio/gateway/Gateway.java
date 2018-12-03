@@ -18,6 +18,7 @@ public class Gateway implements IGateway, IServiceProvider {
 	@CjServiceRef(refByName = "gatewayServerContainer")
 	private IGatewayServerContainer servercontainer;
 
+	@CjServiceInvertInjection
 	@CjServiceRef(refByName = "gatewaySocketContainer")
 	private IGatewaySocketContainer socketContainer;
 

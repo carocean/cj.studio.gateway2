@@ -85,7 +85,8 @@ public class RoadGatewaySocket implements IGatewaySocket {
 	}
 
 	@Override
-	public void connect(Destination dest) throws CircuitException {
+	public synchronized void connect(Destination dest) throws CircuitException {
+		if(isConnected)return;
 		// 仅加载app，并不进行连接，留到管道激活时
 		this.destination = dest;
 		String uri = dest.getName();

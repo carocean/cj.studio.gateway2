@@ -8,15 +8,12 @@ import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.logging.ILogging;
-import cj.studio.gateway.ICluster;
-import cj.studio.gateway.IDestinationLoader;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.junction.ForwardJunction;
 import cj.studio.gateway.junction.Junction;
 import cj.studio.gateway.server.util.GetwayDestHelper;
-import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
@@ -100,17 +97,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		TcpServerChannelGatewaySocket wsSocket = new TcpServerChannelGatewaySocket(parent, ctx.channel());
 		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
 
-		IGatewaySocket socket = this.sockets.find(gatewayDest);
-		if (socket == null) {
-			ICluster cluster = (ICluster) parent.getService("$.cluster");
-			Destination destination = cluster.getDestination(gatewayDest);
-			if (destination == null) {
-				throw new CircuitException("404", "簇中缺少目标:" + gatewayDest);
-			}
-			IDestinationLoader loader = (IDestinationLoader) parent.getService("$.dloader");
-			socket = loader.load(destination);
-			sockets.add(socket);
-		}
+		IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
 		String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 		IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "tcp")
@@ -133,15 +120,14 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		super.channelActive(ctx);
 	}
 
-	protected void pipelineRelease(String pipelineName) throws Exception {
-
-		Junction junction = junctions.findInForwards(pipelineName);
-		if (junction != null) {
-			this.junctions.remove(junction);
-		}
-
+	protected void pipelineRelease(ChannelHandlerContext ctx) throws Exception {
 		Set<String> dests = pipelines.enumDest();
 		for (String dest : dests) {
+			String pipelineName = SocketName.name(ctx.channel().id(), dest);
+			Junction junction = junctions.findInForwards(pipelineName);
+			if (junction != null) {
+				this.junctions.remove(junction);
+			}
 			IInputPipeline input = pipelines.get(dest);
 			input.headOnInactive(pipelineName);
 		}
@@ -156,7 +142,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			sockets.remove(name);// 在此安全移除
 		}
 
-		pipelineRelease(name);
+		pipelineRelease(ctx);
 		counter=0;
 		super.channelInactive(ctx);
 	}

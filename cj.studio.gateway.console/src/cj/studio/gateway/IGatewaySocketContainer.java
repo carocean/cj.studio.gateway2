@@ -1,9 +1,10 @@
 package cj.studio.gateway;
 
+import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.IGatewaySocket;
 
 public interface IGatewaySocketContainer {
-
+	IGatewaySocket getAndCreate(String name) throws CircuitException;
 	IGatewaySocket find(String name);
 	void add(IGatewaySocket socket);
 	void remove(String name);

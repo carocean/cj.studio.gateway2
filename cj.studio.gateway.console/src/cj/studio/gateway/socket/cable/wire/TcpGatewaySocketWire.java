@@ -10,15 +10,12 @@ import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.net.nio.netty.tcp.TcpFrameBox;
-import cj.studio.gateway.ICluster;
-import cj.studio.gateway.IDestinationLoader;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.junction.ForwardJunction;
 import cj.studio.gateway.junction.Junction;
 import cj.studio.gateway.server.util.GetwayDestHelper;
-import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.cable.IGatewaySocketWire;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
@@ -47,7 +44,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 public class TcpGatewaySocketWire implements IGatewaySocketWire {
 	Channel channel;
 	IServiceProvider parent;
-	boolean isIdle;
+	volatile boolean isIdle;
 	private long idleBeginTime;
 
 	public TcpGatewaySocketWire(IServiceProvider parent) {
@@ -74,6 +71,17 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 	public void used(boolean b) {
 		isIdle = !b;
 		idleBeginTime = System.currentTimeMillis();
+		if (isIdle) {
+			ReentrantLock lock = (ReentrantLock) parent.getService("$.lock");
+			try {
+				lock.lock();
+				Condition waitingForCreateWire = (Condition) parent.getService("$.waitingForCreateWire");
+				waitingForCreateWire.signalAll();// 通知新建
+
+			} finally {
+				lock.unlock();
+			}
+		}
 	}
 
 	@Override
@@ -226,17 +234,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 					ctx.channel());
 			sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
 
-			IGatewaySocket socket = this.sockets.find(gatewayDest);
-			if (socket == null) {
-				ICluster cluster = (ICluster) parent.getService("$.cluster");
-				Destination destination = cluster.getDestination(gatewayDest);
-				if (destination == null) {
-					throw new CircuitException("404", "簇中缺少目标:" + gatewayDest);
-				}
-				IDestinationLoader loader = (IDestinationLoader) parent.getService("$.dloader");
-				socket = loader.load(destination);
-				sockets.add(socket);
-			}
+			IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
 
 			IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 			IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "tcp")

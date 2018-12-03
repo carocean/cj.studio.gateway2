@@ -35,7 +35,7 @@ import io.netty.util.AttributeKey;
 public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	Channel channel;
 	IServiceProvider parent;
-	boolean isIdle;
+	volatile boolean isIdle;
 	private long idleBeginTime;
 
 	public HttpGatewaySocketWire(IServiceProvider parent) {
@@ -62,6 +62,17 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	public void used(boolean b) {
 		isIdle = !b;
 		idleBeginTime = System.currentTimeMillis();
+		if (isIdle) {
+			ReentrantLock lock = (ReentrantLock) parent.getService("$.lock");
+			try {
+				lock.lock();
+				Condition waitingForCreateWire = (Condition) parent.getService("$.waitingForCreateWire");
+				waitingForCreateWire.signalAll();// 通知新建
+
+			} finally {
+				lock.unlock();
+			}
+		}
 	}
 
 	@Override
@@ -119,7 +130,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 
 		AttributeKey<ChannelPromise> promiseKey = AttributeKey.valueOf("Channel-Promise");
 		AttributeKey<Circuit> circuitKey = AttributeKey.valueOf("Http-Circuit");
-		promise.channel().attr(circuitKey).set((Circuit)response);
+		promise.channel().attr(circuitKey).set((Circuit) response);
 		promise.channel().attr(promiseKey).set(promise);
 		try {
 			long requestTimeout = (long) parent.getService("$.prop.requestTimeout");
@@ -129,7 +140,6 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 		} catch (InterruptedException e) {
 			throw new CircuitException("800", e);
 		}
-
 		return response;
 	}
 
@@ -188,12 +198,12 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 //			DefaultFullHttpResponse res = (DefaultFullHttpResponse) response;
 			AttributeKey<Circuit> circuitKey = AttributeKey.valueOf("Http-Circuit");
 			Circuit circuit = ctx.channel().attr(circuitKey).get();
-			
-			if(response instanceof LastHttpContent) {
-				LastHttpContent last=(LastHttpContent)response;
-				if(circuit.hasFeedback()) {
+
+			if (response instanceof LastHttpContent) {
+				LastHttpContent last = (LastHttpContent) response;
+				if (circuit.hasFeedback()) {
 					circuit.doneFeeds(last.content());
-				}else {
+				} else {
 					if (last.content().readableBytes() > 0) {
 						circuit.content().writeBytes(last.content());
 					}
@@ -204,29 +214,28 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 				return;
 			}
 			if (response instanceof HttpResponse) {
-				HttpResponse res=(HttpResponse)response;
+				HttpResponse res = (HttpResponse) response;
 				List<Entry<String, String>> list = res.headers().entries();
 				for (Entry<String, String> en : list) {
 					circuit.head(en.getKey(), en.getValue());
 				}
-				if(circuit.hasFeedback()) {
+				if (circuit.hasFeedback()) {
 					circuit.beginFeeds();
 				}
 				return;
 			}
-			if(response instanceof HttpContent) {
-				HttpContent content=(HttpContent)response;
-				if(circuit.hasFeedback()) {
+			if (response instanceof HttpContent) {
+				HttpContent content = (HttpContent) response;
+				if (circuit.hasFeedback()) {
 					circuit.writeFeeds(content.content());
-				}else {
+				} else {
 					if (content.content().readableBytes() > 0) {
 						circuit.content().writeBytes(content.content());
 					}
 				}
 				return;
 			}
-			
-			
+
 		}
 
 		@Override
