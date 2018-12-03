@@ -21,12 +21,12 @@ public interface IOutputer {
 	 */
 	boolean canCloseablePipeline();
 	/**
-	 * 关闭管道。如果对端是net将会关闭
+	 * 关闭管道。不论对端是net channel socket或者net destination socket都会关闭整个socket，后者还会关闭所有物理连接,因此要慎用
 	 * @throws CircuitException 
 	 */
 	void closePipeline() throws CircuitException;
 	/**
-	 * 仅释放管道
+	 * 释放管道，如果对端是net channel socket则仅释放与之连接的管道，如果是net destination socket则仅是将导线还给电览，并不真实关闭物理连接
 	 */
 	void releasePipeline()throws CircuitException;
 	

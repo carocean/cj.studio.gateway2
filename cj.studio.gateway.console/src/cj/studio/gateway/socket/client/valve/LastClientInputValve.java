@@ -77,7 +77,7 @@ public class LastClientInputValve implements IInputValve {
 		trytimes = 0;
 	}
 
-	protected void returnWire() {
+	protected synchronized void returnWire() {
 		IGatewaySocketWire[] arr = wires.toArray(new IGatewaySocketWire[0]);
 		for (IGatewaySocketWire w : arr) {
 			if (w != null) {
