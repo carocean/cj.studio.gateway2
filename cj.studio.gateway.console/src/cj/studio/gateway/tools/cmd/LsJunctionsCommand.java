@@ -88,8 +88,8 @@ public class LsJunctionsCommand extends Command {
 					continue;
 				ForwardJunction fj = (ForwardJunction) jun;
 				printForwardJunction(sockets, fj, indent);
-				System.out.println(String.format("----------共%s个--------", forwards.length));
 			}
+			System.out.println(String.format("----------共%s个--------", forwards.length));
 			return;
 		}
 		if (line.hasOption("b")) {
@@ -99,8 +99,8 @@ public class LsJunctionsCommand extends Command {
 					continue;
 				BackwardJunction fj = (BackwardJunction) jun;
 				printBackwardJunction(sockets, fj, indent);
-				System.out.println(String.format("----------共%s个--------", backwards.length));
 			}
+			System.out.println(String.format("----------共%s个--------", backwards.length));
 			return;
 		}
 		if (line.hasOption("s")) {
@@ -124,8 +124,8 @@ public class LsJunctionsCommand extends Command {
 				ForwardJunction fj = (ForwardJunction) jun;
 				printForwardJunction(sockets, fj, indent);
 			}
-			System.out.println(String.format("----------共%s个--------", all.length));
 		}
+		System.out.println(String.format("----------共%s个--------", all.length));
 	}
 
 	private void printSocketInfo(IGatewaySocket socket, String indent) {

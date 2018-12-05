@@ -17,13 +17,13 @@ public class ToBackendWebview2 implements IGatewayAppSiteWayWebView{
 	IOutputSelector selector;
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
-		IOutputer back=selector.select("backend");//回发
-		Frame f1=new Frame("put /uc/ http/1.1");
-		Circuit c1=new Circuit("http/1.1 200 ok");
-		back.send(f1, c1);
-		circuit.copyFrom(c1, true);
-//		back.closePipeline();
-		back.releasePipeline();
+//		IOutputer back=selector.select("backend");//回发
+//		Frame f1=new Frame("put /uc/ http/1.1");
+//		Circuit c1=new Circuit("http/1.1 200 ok");
+//		back.send(f1, c1);
+//		circuit.copyFrom(c1, true);
+////		back.closePipeline();
+//		back.releasePipeline();
 	}
 
 }

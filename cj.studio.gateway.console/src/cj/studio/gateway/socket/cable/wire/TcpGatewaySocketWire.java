@@ -118,6 +118,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		ByteBuf bb = Unpooled.directBuffer();
 		bb.writeBytes(box);
 		channel.writeAndFlush(bb);
+		
 		return null;
 	}
 

@@ -9,7 +9,6 @@ import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IChip;
 import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.IServiceSite;
-import cj.studio.ecm.Scope;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceSite;
@@ -27,14 +26,17 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 	private Map<String, String> errors;
 	private Map<String, String> mimes;
 	private String http_root;
-
+	Map<String, Object> mappings;
 	@Override
 	public final Object getService(String name) {
 		if ("$.app.site".equals(name)) {
 			return site;
 		}
 		if ("$.app.create.webviews".equals(name)) {
-			Map<String, Object> mappings = getWebviewMappings();
+			if(mappings!=null) {
+				return  mappings;
+			}
+			 mappings = getWebviewMappings();
 			return mappings;
 		}
 		if ("$.app.create.resource".equals(name)) {
@@ -116,10 +118,7 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 				logger.error(getClass(), String.format("映射错误：%s 未有CjService注解", view));
 				continue;
 			}
-			if (cs.scope() == Scope.singleon) {
-				logger.warn(getClass(), String.format("webview被声明为Scope.singleon模式，推荐将webview声明为多例或运行时服务。webview：%s,在 %s", cs.name(),
-						view.getClass(), view));
-			}
+			
 			String name = cs.name();
 			if (!name.startsWith("/")) {
 				name = String.format("/%s", name);

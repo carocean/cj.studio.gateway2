@@ -1,6 +1,7 @@
 package cj.studio.gateway.socket.app.valve;
 
 import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
+import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 
 import java.util.Set;
 
@@ -181,6 +182,12 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 			String v = circuit.head(name);
 			headers.add(name, v);
 		}
+		boolean close = headers.contains(CONNECTION, HttpHeaders.Values.CLOSE, true)
+				|| req.getProtocolVersion().equals(HttpVersion.HTTP_1_0)
+						&& !headers.contains(CONNECTION, HttpHeaders.Values.KEEP_ALIVE, true);
+		if(!close) {
+			res.headers().set(CONNECTION,HttpHeaders.Values.KEEP_ALIVE);
+		}
 		setContentLength(res, circuit.content().readableBytes());
 		String ctypeKey = HttpHeaders.Names.CONTENT_TYPE.toString();
 		if (circuit.containsContentType()) {
@@ -196,10 +203,13 @@ public class FirstWayInputValve implements IInputValve, SocketContants {
 				res.headers().set(HttpHeaders.Names.CONTENT_TYPE, mime);
 			}
 		}
-		ctx.writeAndFlush(res);
+		ChannelFuture f = ctx.writeAndFlush(res);
 		if (circuit.content().readableBytes() > 0) {
 			DefaultHttpContent data = new DefaultHttpContent(circuit.content().raw());
-			ctx.writeAndFlush(data);
+			f=ctx.writeAndFlush(data);
+		}
+		if (close) {
+			f.addListener(ChannelFutureListener.CLOSE);
 		}
 	}
 

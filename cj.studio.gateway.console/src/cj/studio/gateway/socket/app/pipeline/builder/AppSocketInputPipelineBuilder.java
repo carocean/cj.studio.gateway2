@@ -63,6 +63,7 @@ public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 	protected IInputPipeline createInputPipeline(IServiceProvider app) {
 		ProgramAdapterType type=(ProgramAdapterType)app.getService("$.app.type");
 		IInputPipeline input = null;
+		
 		if (type == ProgramAdapterType.jee) {
 			FirstJeeInputValve first=new FirstJeeInputValve();
 			LastJeeInputValve last=new LastJeeInputValve();
@@ -80,11 +81,10 @@ public class AppSocketInputPipelineBuilder implements IInputPipelineBuilder {
 			
 			CheckErrorInputVavle error=new CheckErrorInputVavle(app);
 			input.add(error);//添在此位置,error将产生会话，如果不想产生会话可放在sessionValve后面
-			
 			CheckSessionInputValve session = new CheckSessionInputValve(parent,app);
 			input.add(session);
-			
 		}
+		
 		ServiceCollection<IAnnotationInputValve> col=app.getServices(IAnnotationInputValve.class);
 		if(!col.isEmpty()) {
 			List<IAnnotationInputValve> list=col.asList();

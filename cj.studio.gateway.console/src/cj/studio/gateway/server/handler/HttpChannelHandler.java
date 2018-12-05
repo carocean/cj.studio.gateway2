@@ -278,34 +278,43 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		}
 		// 目标管道不存在，以下生成目标管道
 		// 检查并生成目标管道
+		
 		pipelineBuild(gatewayDest, args, req, ctx);
-
 	}
 
 	protected void pipelineBuild(String gatewayDest, HttpRequestArgs args, HttpRequest req, ChannelHandlerContext ctx)
 			throws Exception {
 		IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
+		
 		String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
+		
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 		IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "http")
 				.prop(__pipeline_fromWho, info.getName()).createPipeline();
 		pipelines.add(gatewayDest, inputPipeline);
+		
+		
 		this.currentUsedGatewayDestForHttp = gatewayDest;
 
 		ForwardJunction junction = new ForwardJunction(pipelineName);
 		junction.parse(inputPipeline, ctx.channel(), socket);
 		this.junctions.add(junction);
-
+		
 		inputPipeline.headOnActive(pipelineName);// 通知管道激活
-
 		inputPipeline.headFlow(req, args);// 将当前请求发过去
-
+		
 		this.decoder = args.getDecoder();
 		this.visitor = args.getVisitor();
 	}
 
 	protected void writeResponse(ChannelHandlerContext ctx, HttpRequest req, DefaultFullHttpResponse res) {
 		HttpHeaders headers = res.headers();
+		boolean close = headers.contains(CONNECTION, HttpHeaders.Values.CLOSE, true)
+				|| req.getProtocolVersion().equals(HttpVersion.HTTP_1_0)
+						&& !headers.contains(CONNECTION, HttpHeaders.Values.KEEP_ALIVE, true);
+		if(!close) {
+			res.headers().set(CONNECTION,HttpHeaders.Values.KEEP_ALIVE);
+		}
 		setContentLength(res, res.content().readableBytes());
 		String ctypeKey = HttpHeaders.Names.CONTENT_TYPE.toString();
 		if (!headers.contains(ctypeKey)) {
@@ -324,9 +333,6 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		}
 
 		ChannelFuture f = ctx.writeAndFlush(res);
-		boolean close = req.headers().contains(CONNECTION, HttpHeaders.Values.CLOSE, true)
-				|| req.getProtocolVersion().equals(HttpVersion.HTTP_1_0)
-						&& !req.headers().contains(CONNECTION, HttpHeaders.Values.KEEP_ALIVE, true);
 		if (close) {
 			f.addListener(ChannelFutureListener.CLOSE);
 		}
