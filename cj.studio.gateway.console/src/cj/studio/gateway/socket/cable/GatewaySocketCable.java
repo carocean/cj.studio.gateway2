@@ -2,11 +2,7 @@ package cj.studio.gateway.socket.cable;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
-import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
@@ -16,58 +12,33 @@ import cj.studio.gateway.socket.cable.wire.HttpGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.TcpGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.UdtGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.WSGatewaySocketWire;
-import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 
 public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider {
 	private IServiceProvider parent;
 	private List<IGatewaySocketWire> wires;
-	private int acquireRetryAttempts;
+	private ThreadLocal<IGatewaySocketWire> local;// 每个用户线程一根导线。因为netty对端的server的线程数是固定的，所以不必实现连接池，连接池由于有同步锁机制肯定不是性能最优。
 	private long maxIdleTime;
-	private int maxWireSize;
-	private int minWireSize;
 	private int initialWireSize;
-	private long checkoutTimeout;
 	private String host;
 	private int port;
 	private String protocol;
 	boolean isOpened;
-	ReentrantLock lock;
-	Condition waitingForCreateWire;
-	private long requestTimeout;
 	private String wspath;
 	private int heartbeat;
+	private int workThreadCount;
+	private int maxIdleConnections;
+	private long keepAliveDuration;
+	private long connectTimeout;
+	private long readTimeout;
+	private long writeTimeout;
+	private boolean followRedirects;
+	private boolean retryOnConnectionFailure;
+
 	public GatewaySocketCable(IServiceProvider parent) {
 		this.parent = parent;
 		wires = new CopyOnWriteArrayList<>();
-		lock = new ReentrantLock();
-		waitingForCreateWire = lock.newCondition();
-	}
-
-
-	@Override
-	public long requestTimeout() {
-		return requestTimeout;
-	}
-
-	@Override
-	public int acquireRetryAttempts() {
-		return acquireRetryAttempts;
-	}
-
-	@Override
-	public long maxIdleTime() {
-		return maxIdleTime;
-	}
-
-	@Override
-	public int maxWireSize() {
-		return maxWireSize;
-	}
-
-	@Override
-	public int minWireSize() {
-		return minWireSize;
+		this.local = new ThreadLocal<>();
 	}
 
 	@Override
@@ -76,8 +47,8 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	}
 
 	@Override
-	public long checkoutTimeout() {
-		return checkoutTimeout;
+	public int workThreadCount() {
+		return workThreadCount;
 	}
 
 	@Override
@@ -94,20 +65,19 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	public String protocol() {
 		return protocol;
 	}
+
 	@Override
 	public int getHeartbeat() {
 		return heartbeat;
 	}
+
 	@Override
 	public Object getService(String name) {
 		if ("$.wires".equals(name)) {
 			return wires;
 		}
-		if ("$.waitingForCreateWire".equals(name)) {
-			return waitingForCreateWire;
-		}
-		if ("$.lock".equals(name)) {
-			return lock;
+		if ("$.wires.count".equals(name)) {
+			return wires.size();
 		}
 		if ("$.prop.host".equals(name)) {
 			return host;
@@ -115,18 +85,37 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		if ("$.prop.port".equals(name)) {
 			return port;
 		}
-		if ("$.prop.requestTimeout".equals(name)) {
-			return requestTimeout;
+		if ("$.prop.protocol".equals(name)) {
+			return protocol;
+		}
+		if ("$.prop.heartbeat".equals(name)) {
+			return heartbeat;
+		}
+		if ("$.prop.maxIdleConnections".equals(name)) {
+			return maxIdleConnections;
+		}
+		if ("$.prop.keepAliveDuration".equals(name)) {
+			return keepAliveDuration;
+		}
+		if ("$.prop.connectTimeout".equals(name)) {
+			return connectTimeout;
+		}
+		if ("$.prop.readTimeout".equals(name)) {
+			return readTimeout;
+		}
+		if ("$.prop.writeTimeout".equals(name)) {
+			return writeTimeout;
+		}
+		if ("$.prop.followRedirects".equals(name)) {
+			return followRedirects;
+		}
+		if ("$.prop.retryOnConnectionFailure".equals(name)) {
+			return retryOnConnectionFailure;
 		}
 		if ("$.prop.wspath".equals(name)) {
 			return wspath;
 		}
-		if ("$.wires.count".equals(name)) {
-			return wires.size();
-		}
-		if(SocketContants.__key_heartbeat_interval.equals(name)) {
-			return heartbeat;
-		}
+
 		return parent.getService(name);
 	}
 
@@ -138,43 +127,32 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	@Override
 	public IGatewaySocketWire select() throws CircuitException {
 		// 选择导线后，导线为忙
-		try {
-			lock.lock();
-			IGatewaySocketWire wire = selectInExists();
-			if (wire != null) {
-				wire.used(true);
+		IGatewaySocketWire wire = local.get();
+		if (wire != null) {
+			if (wire.isOpened() && wire.isWritable()) {
+				checkWires();
 				return wire;
 			}
-			// 需要新建wire
-			if (wires.size() > this.maxWireSize) {// 等待有空闲的导线
-				if (checkoutTimeout <= 0) {
-					waitingForCreateWire.await();
-				} else {
-					boolean elapsed = waitingForCreateWire.await(checkoutTimeout, TimeUnit.MILLISECONDS);// 当wire的close会触发此条件
-					if (!elapsed) {
-						CJSystem.logging().error(getClass(), "waitingForCreateWire超时:" + checkoutTimeout);
-					}
-				}
-				select();
-				return null;
-			}
-			// 以下是新建
-			wire = createWire();
-			wire.connect(host, port);
-			wire.used(true);
-			wires.add(wire);
-			checkWires();// 最后检查导线，如果存在多余空闲、不能写、没打开等情况，则移除它。
-			return wire;
-		} catch (Exception e) {
-			throw new CircuitException("505", e);
-		} finally {
-			lock.unlock();
+			wires.remove(wire);
 		}
+		wire = selectInExists();
+		if (wire != null) {
+			local.set(wire);
+			checkWires();
+			return wire;
+		}
+		// 以下是新建
+		wire = createWire();
+		wire.connect(host, port);
+		wire.used(true);
+		wires.add(wire);
+		local.set(wire);
+		checkWires();
+		return wire;
 	}
 
 	private void checkWires() {
-		IGatewaySocketWire[] arr = wires.toArray(new IGatewaySocketWire[0]);
-		for (IGatewaySocketWire w : arr) {
+		for (IGatewaySocketWire w : wires) {
 			if (w == null)
 				continue;
 			if ((System.currentTimeMillis() - w.idleBeginTime()) > this.maxIdleTime) {
@@ -190,13 +168,14 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 
 	}
 
-	private synchronized IGatewaySocketWire selectInExists() {
+	private IGatewaySocketWire selectInExists() {
 		// 检查现有导线是否有空闲的
 		for (IGatewaySocketWire wire : wires) {
 			if (wire == null) {
 				continue;
 			}
 			if (wire.isIdle() && wire.isWritable()) {
+				wire.used(true);
 				return wire;
 			}
 		}
@@ -205,24 +184,26 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 
 	@Override
 	public void close() {
-		IGatewaySocketWire [] arr=this.wires.toArray(new IGatewaySocketWire[0]);
-		for(IGatewaySocketWire w:arr) {
-			if(w==null)continue;
+		for (IGatewaySocketWire w : wires) {
+			if (w == null)
+				continue;
 			w.close();
 		}
 		wires.clear();
 		isOpened = false;
 	}
+
 	@Override
 	public void dispose() {
-		IGatewaySocketWire [] arr=this.wires.toArray(new IGatewaySocketWire[0]);
-		for(IGatewaySocketWire w:arr) {
-			if(w==null)continue;
+		for (IGatewaySocketWire w : wires) {
+			if (w == null)
+				continue;
 			w.dispose();
 		}
 		wires.clear();
 		isOpened = false;
 	}
+
 	@Override
 	public void init(String connStr) throws CircuitException {
 		parseConnStr(connStr);
@@ -294,33 +275,28 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 
 		Frame f = new Frame(String.format("parse /?%s %s/1.0", q, protocol));
 
-		this.acquireRetryAttempts = StringUtil.isEmpty(f.parameter("acquireRetryAttempts")) ? 10
-				: Integer.valueOf(f.parameter("acquireRetryAttempts"));
-		this.checkoutTimeout = StringUtil.isEmpty(f.parameter("checkoutTimeout")) ? 300000
-				: Long.valueOf(f.parameter("checkoutTimeout"));
+		this.workThreadCount = StringUtil.isEmpty(f.parameter("workThreadCount"))
+				? Runtime.getRuntime().availableProcessors() * 2
+				: Integer.valueOf(f.parameter("workThreadCount"));
 		this.initialWireSize = StringUtil.isEmpty(f.parameter("initialWireSize")) ? 1
 				: Integer.valueOf(f.parameter("initialWireSize"));
-		this.maxIdleTime = StringUtil.isEmpty(f.parameter("maxIdleTime")) ? 10000L
-				: Long.valueOf(f.parameter("maxIdleTime"));
-		this.requestTimeout = StringUtil.isEmpty(f.parameter("requestTimeout")) ? Long.MAX_VALUE
-				: Long.valueOf(f.parameter("requestTimeout"));
-		this.maxWireSize = StringUtil.isEmpty(f.parameter("maxWireSize")) ? 4
-				: Integer.valueOf(f.parameter("maxWireSize"));
-		this.minWireSize = StringUtil.isEmpty(f.parameter("minWireSize")) ? 2
-				: Integer.valueOf(f.parameter("minWireSize"));
-		this.heartbeat = StringUtil.isEmpty(f.parameter(SocketContants.__key_heartbeat_interval)) ? -1
-				: Integer.valueOf(f.parameter(SocketContants.__key_heartbeat_interval));
-		if (StringUtil.isEmpty(f.parameter("initialWireSize"))) {
-			initialWireSize = minWireSize;
-		} else {
-			int i = Integer.valueOf(f.parameter("initialWireSize"));
-			if (i < minWireSize || i > maxWireSize) {
-				throw new EcmException(String.format(
-						"initialWireSize取值必须在minWireSize与maxWireSize之间。initialWireSize=%s,minWireSize=%s,maxWireSize=%s",
-						i, minWireSize, maxWireSize));
-			}
-			initialWireSize = i;
-		}
+		this.heartbeat = StringUtil.isEmpty(f.parameter("heartbeat")) ? -1
+				: Integer.valueOf(f.parameter("heartbeat"));
+		this.maxIdleConnections = StringUtil.isEmpty(f.parameter("maxIdleConnections")) ? 5
+				: Integer.valueOf(f.parameter("maxIdleConnections"));
+		this.keepAliveDuration = StringUtil.isEmpty(f.parameter("keepAliveDuration")) ? 300000L
+				: Long.valueOf(f.parameter("keepAliveDuration"));
+		this.connectTimeout = StringUtil.isEmpty(f.parameter("connectTimeout")) ? 10000L
+				: Long.valueOf(f.parameter("connectTimeout"));
+		this.readTimeout = StringUtil.isEmpty(f.parameter("readTimeout")) ? 10000L
+				: Long.valueOf(f.parameter("readTimeout"));
+		this.writeTimeout = StringUtil.isEmpty(f.parameter("writeTimeout")) ? 10000L
+				: Long.valueOf(f.parameter("writeTimeout"));
+		this.followRedirects = StringUtil.isEmpty(f.parameter("followRedirects")) ? true
+				: Boolean.valueOf(f.parameter("followRedirects"));
+		this.retryOnConnectionFailure = StringUtil.isEmpty(f.parameter("retryOnConnectionFailure")) ? true
+				: Boolean.valueOf(f.parameter("retryOnConnectionFailure"));
+
 		if ("ws".equals(protocol)) {
 			wspath = f.parameter("wspath");
 			if (StringUtil.isEmpty(wspath)) {

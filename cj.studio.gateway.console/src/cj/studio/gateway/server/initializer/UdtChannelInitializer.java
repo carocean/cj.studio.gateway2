@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.server.handler.UdtChannelHandler;
-import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.udt.UdtChannel;
@@ -21,8 +20,8 @@ public class UdtChannelInitializer extends ChannelInitializer<UdtChannel> {
 	@Override
 	protected void initChannel(UdtChannel ch) throws Exception {
 		ServerInfo info = (ServerInfo) parent.getService("$.server.info");
-		String interval = info.getProps().get(SocketContants.__key_heartbeat_interval);
 		// DelimiterFrameCodec2());//如果是二进制报文才使用此解码器
+		String interval = info.getProps().get("heartbeat");
 		if (!StringUtil.isEmpty(interval)) {
 			int hb = Integer.valueOf(interval);
 			if (hb <= 0) {

@@ -251,9 +251,11 @@ public class OutputPipeline implements IOutputPipeline {
 
 		@Override
 		public void releasePipeline() throws CircuitException {
+			if(target.isDisposed()){
+				return;
+			}
 			target.headOnInactive();
 			target.dispose();
 		}
-
 	}
 }

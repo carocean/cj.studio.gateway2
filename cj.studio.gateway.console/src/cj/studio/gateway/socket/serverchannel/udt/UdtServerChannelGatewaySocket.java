@@ -6,11 +6,12 @@ import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
+import cj.studio.gateway.socket.serverchannel.AbstractServerChannelSocket;
 import cj.studio.gateway.socket.serverchannel.udt.pipeline.builder.UdtServerChannelInputPipelineBuilder;
 import cj.studio.gateway.socket.util.SocketName;
 import io.netty.channel.Channel;
 
-public class UdtServerChannelGatewaySocket implements IGatewaySocket {
+public class UdtServerChannelGatewaySocket extends AbstractServerChannelSocket implements IGatewaySocket {
 	private IServiceProvider parent;
 	private Channel channel;
 	private IInputPipelineBuilder builder;

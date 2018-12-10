@@ -19,7 +19,6 @@ public class LastClientInputValve implements IInputValve {
 	List<IGatewaySocketWire> wires;
 	private List<IGatewaySocketCable> cables;
 	HashFunction hash;
-	int trytimes;// 重试次数
 
 	@SuppressWarnings("unchecked")
 	public LastClientInputValve(IServiceProvider parent) {
@@ -33,7 +32,6 @@ public class LastClientInputValve implements IInputValve {
 	public void onActive(String inputName, IIPipeline pipeline) throws CircuitException {
 		// 选择导线,留给app端开发者关闭输出管道时关闭，此处不考虑关闭。
 		// 也就是导线的释放权交由app端输出管道来控制。
-		trytimes = 0;
 		select(pipeline);
 	}
 
@@ -41,16 +39,11 @@ public class LastClientInputValve implements IInputValve {
 	public void flow(Object request, Object response, IIPipeline pipeline) throws CircuitException {
 		// 如果发现写失败则重新选择导线
 		// 由于pipeline在同一线程下，所以不必考虑选择或释放导线的并发问题，因为不存在并发
-		if (trytimes >= 3) {
-			CJSystem.logging().error(getClass(), "电缆无可用导线，已尝试3次，请求被丢弃：" + request);
-			return;
-		}
 		if (wires.isEmpty()) {
 			select(pipeline);
 			return;
 		}
-		IGatewaySocketWire[] arr = wires.toArray(new IGatewaySocketWire[0]);
-		for (IGatewaySocketWire w : arr) {
+		for (IGatewaySocketWire w : wires) {
 			if (w == null) {
 				continue;
 			}
@@ -60,12 +53,9 @@ public class LastClientInputValve implements IInputValve {
 			}
 			try {
 				w.send(request, response);
-				trytimes = 0;
 			} catch (Throwable e) {
-				trytimes++;// 重新再来n次，直到可用，select方法会堵塞直到拥有可使用导线
 				CJSystem.logging().error(getClass(), e + "");
-				flow(request, response, pipeline);
-				break;
+				continue;
 			}
 		}
 	}
@@ -74,12 +64,10 @@ public class LastClientInputValve implements IInputValve {
 	public void onInactive(String inputName, IIPipeline pipeline) throws CircuitException {
 		// 归还导线到电缆
 		returnWire();
-		trytimes = 0;
 	}
 
-	protected synchronized void returnWire() {
-		IGatewaySocketWire[] arr = wires.toArray(new IGatewaySocketWire[0]);
-		for (IGatewaySocketWire w : arr) {
+	protected void returnWire() {
+		for (IGatewaySocketWire w : wires) {
 			if (w != null) {
 				w.used(false);
 			}
@@ -87,9 +75,12 @@ public class LastClientInputValve implements IInputValve {
 		wires.clear();
 	}
 
-	protected synchronized void select(IIPipeline pipeline) throws CircuitException {
+	protected void select(IIPipeline pipeline) throws CircuitException {
+		if(cables.size()<0) {
+			return;
+		}
 		returnWire();// 释放导线重新选择
-		String boardcast = destination.getProps().get("Broadcast-Mode");
+		String boardcast = destination.getProps().get("broadcast");
 		String name = pipeline.prop(SocketContants.__pipeline_name);
 		if ("unicast".equals(boardcast)) {// 单播是均衡的选一个电缆
 			long v = hash.hash(name);

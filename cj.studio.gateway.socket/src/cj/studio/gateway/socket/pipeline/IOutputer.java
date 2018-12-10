@@ -7,7 +7,7 @@ import cj.studio.ecm.graph.CircuitException;
  * @author caroceanjofers
  *
  */
-public interface IOutputer {
+public interface IOutputer{
 	/**
 	 * 发送，有的目标支持晌应，有的不支持
 	 * @param request 

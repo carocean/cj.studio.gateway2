@@ -1,86 +1,61 @@
 package cj.studio.gateway.socket.cable.wire;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.frame.Circuit;
 import cj.studio.ecm.frame.Frame;
 import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.socket.cable.IGatewaySocketWire;
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.ChannelPromise;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.http.DefaultFullHttpRequest;
-import io.netty.handler.codec.http.HttpClientCodec;
-import io.netty.handler.codec.http.HttpContent;
-import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpMethod;
-import io.netty.handler.codec.http.HttpResponse;
-import io.netty.handler.codec.http.HttpVersion;
-import io.netty.handler.codec.http.LastHttpContent;
-import io.netty.util.AttributeKey;
+import cj.studio.gateway.socket.client.IExecutorPool;
+import cj.ultimate.util.StringUtil;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.ConnectionPool;
+import okhttp3.Dispatcher;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
+//okhttp: https://www.jianshu.com/p/da4a806e599b
 public class HttpGatewaySocketWire implements IGatewaySocketWire {
-	Channel channel;
 	IServiceProvider parent;
 	volatile boolean isIdle;
 	private long idleBeginTime;
+	private OkHttpClient client;
+	private String domain;
 
 	public HttpGatewaySocketWire(IServiceProvider parent) {
 		this.parent = parent;
-		used(false);
 	}
 
 	@Override
 	public void close() {
-		ReentrantLock lock = (ReentrantLock) parent.getService("$.lock");
-		try {
-			lock.lock();
-			@SuppressWarnings("unchecked")
-			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
-			wires.remove(this);
-			Condition waitingForCreateWire = (Condition) parent.getService("$.waitingForCreateWire");
-			waitingForCreateWire.signalAll();// 通知新建
-		} finally {
-			lock.unlock();
-		}
+		@SuppressWarnings("unchecked")
+		List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
+		wires.remove(this);
 	}
 
 	@Override
 	public void used(boolean b) {
 		isIdle = !b;
 		idleBeginTime = System.currentTimeMillis();
-		if (isIdle) {
-			ReentrantLock lock = (ReentrantLock) parent.getService("$.lock");
-			try {
-				lock.lock();
-				Condition waitingForCreateWire = (Condition) parent.getService("$.waitingForCreateWire");
-				waitingForCreateWire.signalAll();// 通知新建
-
-			} finally {
-				lock.unlock();
-			}
-		}
 	}
 
 	@Override
 	public void dispose() {
 		close();
-		if (channel.isOpen()) {
-			channel.close();
-		}
 	}
 
 	@Override
@@ -94,157 +69,153 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	}
 
 	@Override
-	public synchronized Object send(Object request, Object response) throws CircuitException {
+	public Object send(Object request, Object response) throws CircuitException {
 		Frame frame = (Frame) request;
-		if (!channel.isWritable()) {// 断开连结，且从电缆中移除导线
-			if (channel.isOpen()) {
-				channel.close();
-			}
-			@SuppressWarnings("unchecked")
-			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
-			wires.remove(this);
-			return null;
-		}
-		DefaultFullHttpRequest req = new DefaultFullHttpRequest(HttpVersion.valueOf(frame.protocol()),
-				HttpMethod.valueOf(frame.command()), frame.url());
-		if (frame.content().readableBytes() > 0) {
-			req.content().writeBytes(frame.content().readFully());
-			req.headers().set(HttpHeaders.Names.CONTENT_LENGTH, frame.content().readableBytes());
-		}
+		String fullUri = String.format("%s%s", domain, frame.retrieveUrl());
+		Request.Builder rbuilder = new Request.Builder();
+
 		String[] names = frame.enumHeadName();
 		for (String name : names) {
-			if ("command".equals(name) || "method".equals(name) || "protocol".equals(name) || "url".equals(name)) {
+			if ("command".equals(name) || "url".equals(name) || "protocol".equals(name)) {
 				continue;
 			}
-			String v = frame.head(name);
-			req.headers().add(name, v);
+			rbuilder.addHeader(name, frame.head(name));
 		}
-		if (!req.headers().contains("Host")) {// Host是http协议必须的，否则无响应
-			String host = String.format("%s:%s", parent.getService("$.prop.host"), parent.getService("$.prop.port"));
-			req.headers().add(HttpHeaders.Names.HOST, host);
+		if (!frame.containsHead("Connection")) {
+			rbuilder.addHeader("Connection", "Keep-Alive");
 		}
-		if (!req.headers().contains(HttpHeaders.Names.CONNECTION)) {
-			req.headers().set(HttpHeaders.Names.CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
-		}
-		ChannelPromise promise = channel.writeAndFlush(req).channel().newPromise();
 
-		AttributeKey<ChannelPromise> promiseKey = AttributeKey.valueOf("Channel-Promise");
-		AttributeKey<Circuit> circuitKey = AttributeKey.valueOf("Http-Circuit");
-		promise.channel().attr(circuitKey).set((Circuit) response);
-		promise.channel().attr(promiseKey).set(promise);
-		try {
-			long requestTimeout = (long) parent.getService("$.prop.requestTimeout");
-			if (!promise.await(requestTimeout, TimeUnit.MILLISECONDS)) {
-				throw new CircuitException("505", "请求超时：" + frame);
-			}
-		} catch (InterruptedException e) {
-			throw new CircuitException("800", e);
+		String host = frame.head("Host");
+		if (StringUtil.isEmpty(host)) {
+			int pos = domain.indexOf("://");
+			host = domain.substring(pos + 3, domain.length());
+			rbuilder.addHeader("Host", host);
 		}
-		return response;
+		String contentType = frame.contentType();
+		if (StringUtil.isEmpty(frame.contentType())) {
+			contentType = "text/html; charset=utf-8";
+		}
+		MediaType mt = MediaType.parse(contentType);
+
+		if ("POST".equals(frame.command().toUpperCase())) {
+			if (frame.content().readableBytes() > 0) {
+				byte[] data = frame.content().readFully();
+				RequestBody body = RequestBody.create(mt, data);
+				rbuilder.post(body);
+			}
+		} else if ("GET".equals(frame.command().toUpperCase())) {
+			rbuilder.get();
+		} else {
+			throw new CircuitException("503", "不支持的http方法:" + frame.command());
+		}
+		Request req = rbuilder.url(fullUri)// 默认就是GET请求，可以不写
+				.build();
+		Circuit circuit = (Circuit) response;
+		if (circuit.hasFeedback()) {// 异步
+			circuit.beginFeeds();
+			Call call = client.newCall(req);
+			call.enqueue(new Callback() {
+				ByteBuf content = Unpooled.buffer();
+
+				@Override
+				public void onFailure(Call call, IOException e) {
+					content.clear();
+					CircuitException exc = new CircuitException("505", e);
+					content.writeBytes(exc.messageCause().getBytes());
+					circuit.doneFeeds(content);
+				}
+
+				@Override
+				public void onResponse(Call call, Response response) throws IOException {
+					content.clear();
+					ResponseBody body = response.body();
+					InputStream in = body.byteStream();
+					int len = 0;
+					byte[] b = new byte[content.writableBytes()];
+					while ((len = in.read(b, 0, b.length)) != -1) {
+						content.writeBytes(b, 0, len);
+					}
+					try {
+						circuit.writeFeeds(content);
+					} catch (CircuitException e) {
+						throw new IOException(e.getMessage());
+					}
+					if (response.isSuccessful()) {
+						circuit.doneFeeds(content);
+						content.release();
+					}
+				}
+			});
+			return circuit;
+		}
+		// 以下是同步
+		Call call = client.newCall(req);
+		try {
+			Response res = call.execute();
+			convertToCircuit(circuit, res);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return circuit;
+	}
+
+	private void convertToCircuit(Circuit circuit, Response res) throws CircuitException {
+		Headers headers = res.headers();
+		Set<String> set = headers.names();
+		for (String key : set) {
+			String v = headers.get(key);
+			circuit.head(key, v);
+		}
+		circuit.message(res.message());
+		circuit.status(res.code() + "");
+		ResponseBody body = res.body();
+		if (body != null) {
+			circuit.contentType(body.contentType().toString());
+			circuit.head("Content-Length", body.contentLength() + "");
+			try {
+				circuit.content().writeBytes(body.bytes());
+			} catch (IOException e) {
+				throw new CircuitException("503", e);
+			}
+		}
 	}
 
 	@Override
-	public synchronized void connect(String ip, int port) throws CircuitException {
-		EventLoopGroup group = (EventLoopGroup) parent.getService("$.eventloop.group");
-		Bootstrap b = new Bootstrap();
-		b.group(group).channel(NioSocketChannel.class).option(ChannelOption.SO_KEEPALIVE, true)
-//        .option(ChannelOption.SO_TIMEOUT, this.timeout)
-				.handler(new HttpClientGatewaySocketInitializer());
-		try {
-			this.channel = b.connect(ip, port).sync().channel();
-			channel.closeFuture();
-		} catch (Throwable e) {
-			throw new CircuitException("505", e);
-		}
+	public void connect(String ip, int port) throws CircuitException {
+		int maxIdleConnections = (int) parent.getService("$.prop.maxIdleConnections");
+		long keepAliveDuration = (long) parent.getService("$.prop.keepAliveDuration");
+		long connectTimeout = (long) parent.getService("$.prop.connectTimeout");
+		boolean followRedirects = (boolean) parent.getService("$.prop.followRedirects");
+		long readTimeout = (long) parent.getService("$.prop.readTimeout");
+		long writeTimeout = (long) parent.getService("$.prop.writeTimeout");
+		boolean retryOnConnectionFailure = (boolean) parent.getService("$.prop.retryOnConnectionFailure");
+
+		this.domain = String.format("%s://%s:%s", parent.getService("$.prop.protocol"), ip, port);
+
+		IExecutorPool exepool = (IExecutorPool) parent.getService("$.executor.pool");
+		ExecutorService exe = exepool.getExecutor();
+		ConnectionPool pool = new ConnectionPool(maxIdleConnections, keepAliveDuration, TimeUnit.MILLISECONDS);
+		Dispatcher dispatcher = new Dispatcher(exe);
+		this.client = new OkHttpClient().newBuilder()//
+				.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS) //
+				.followRedirects(followRedirects) //
+				.readTimeout(readTimeout, TimeUnit.MILLISECONDS) //
+				.retryOnConnectionFailure(retryOnConnectionFailure) //
+				.writeTimeout(writeTimeout, TimeUnit.MILLISECONDS)//
+				.dispatcher(dispatcher).connectionPool(pool).build();
+
 		used(false);
 	}
 
 	@Override
 	public boolean isWritable() {
-		return channel.isWritable();
+		return isOpened();
 	}
 
 	@Override
 	public boolean isOpened() {
-		return channel.isOpen();
-	}
-
-	class HttpClientGatewaySocketInitializer extends ChannelInitializer<SocketChannel> {
-
-		@Override
-		protected void initChannel(SocketChannel ch) throws Exception {
-			ChannelPipeline pipeline = ch.pipeline();
-			// 客户端接收到的是httpResponse响应，所以要使用HttpResponseDecoder进行解码
-//			pipeline.addLast(new HttpResponseDecoder());
-			// 客户端发送的是httprequest，所以要使用HttpRequestEncoder进行编码
-//			pipeline.addLast(new HttpRequestEncoder());
-//			int aggregatorLimit=(int)parent.getService("$.prop.aggregatorLimit");
-
-			pipeline.addLast("http-codec", new HttpClientCodec());
-//			ch.pipeline().addLast("aggregator", new HttpObjectAggregator(aggregatorLimit));
-			pipeline.addLast(new HttpClientGatewaySocketHandler());
-
-		}
-
-	}
-
-	class HttpClientGatewaySocketHandler extends SimpleChannelInboundHandler<Object> {
-		@Override
-		protected void messageReceived(ChannelHandlerContext ctx, Object response) throws Exception {
-//			if (!(response instanceof DefaultFullHttpResponse)) {// 由于使用了HttpObjectAggregator，所以一定是DefaultFullHttpResponse
-//				return;
-//			}
-
-//			DefaultFullHttpResponse res = (DefaultFullHttpResponse) response;
-			AttributeKey<Circuit> circuitKey = AttributeKey.valueOf("Http-Circuit");
-			Circuit circuit = ctx.channel().attr(circuitKey).get();
-
-			if (response instanceof LastHttpContent) {
-				LastHttpContent last = (LastHttpContent) response;
-				if (circuit.hasFeedback()) {
-					circuit.doneFeeds(last.content());
-				} else {
-					if (last.content().readableBytes() > 0) {
-						circuit.content().writeBytes(last.content());
-					}
-				}
-				AttributeKey<ChannelPromise> promiseKey = AttributeKey.valueOf("Channel-Promise");
-				ChannelPromise promise = ctx.channel().attr(promiseKey).get();
-				promise.setSuccess();
-				return;
-			}
-			if (response instanceof HttpResponse) {
-				HttpResponse res = (HttpResponse) response;
-				List<Entry<String, String>> list = res.headers().entries();
-				for (Entry<String, String> en : list) {
-					circuit.head(en.getKey(), en.getValue());
-				}
-				if (circuit.hasFeedback()) {
-					circuit.beginFeeds();
-				}
-				return;
-			}
-			if (response instanceof HttpContent) {
-				HttpContent content = (HttpContent) response;
-				if (circuit.hasFeedback()) {
-					circuit.writeFeeds(content.content());
-				} else {
-					if (content.content().readableBytes() > 0) {
-						circuit.content().writeBytes(content.content());
-					}
-				}
-				return;
-			}
-
-		}
-
-		@Override
-		public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-			@SuppressWarnings("unchecked")
-			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
-			wires.remove(HttpGatewaySocketWire.this);
-			super.channelInactive(ctx);
-		}
+		ExecutorService exe = client.dispatcher().executorService();
+		return !exe.isTerminated() && !exe.isShutdown();
 	}
 
 }

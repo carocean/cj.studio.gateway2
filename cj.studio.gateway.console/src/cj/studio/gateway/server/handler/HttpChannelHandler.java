@@ -331,8 +331,10 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 				}
 			}
 		}
-
-		ChannelFuture f = ctx.writeAndFlush(res);
+		if(!ctx.channel().isWritable()) {
+			return;
+		}
+		ChannelFuture f = ctx.channel().writeAndFlush(res);
 		if (close) {
 			f.addListener(ChannelFutureListener.CLOSE);
 		}

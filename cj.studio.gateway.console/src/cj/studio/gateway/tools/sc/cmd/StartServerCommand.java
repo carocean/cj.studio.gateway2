@@ -88,7 +88,7 @@ public class StartServerCommand extends Command {
 		Option r = new Option("r", "road", true, "过路器。用于将客端信息经过网关转发给远程目标");
 		options.addOption(r);
 		Option p = OptionBuilder.withArgName("property=value").hasArgs(2).withValueSeparator()
-				.withDescription("设置服务器相关属性,格式为：-Pproperty=value 如心跳间隔（单位秒）：-PheartbeatInterval=10;\r\n").create("P");
+				.withDescription("设置服务器相关属性,格式为：-Pproperty=value 如心跳间隔（单位秒）：-Pheartbeat=10;\r\n").create("P");
 		options.addOption(p);
 		return options;
 	}

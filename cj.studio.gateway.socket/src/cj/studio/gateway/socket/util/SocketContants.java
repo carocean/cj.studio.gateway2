@@ -21,5 +21,4 @@ public interface SocketContants {
 	String __request_isclose = "Request-Isclose";
 	int __pull_chunk_size = 8192;
 	int __upload_chunked_cache_size = 8192;//8k
-	String __key_heartbeat_interval = "heartbeatInterval";
 }

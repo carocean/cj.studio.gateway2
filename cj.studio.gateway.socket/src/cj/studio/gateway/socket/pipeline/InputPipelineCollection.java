@@ -1,15 +1,15 @@
 package cj.studio.gateway.socket.pipeline;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import cj.ultimate.IDisposable;
 
 public class InputPipelineCollection implements IDisposable{
 	Map<String, IInputPipeline> map;//key是dest目标
 	public InputPipelineCollection() {
-		map=new HashMap<>();
+		map=new ConcurrentHashMap<>();
 	}
 	public Set<String> enumDest(){
 		return map.keySet();

@@ -1,14 +1,11 @@
 package cj.studio.gateway.socket.client;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.graph.CircuitException;
-import cj.studio.ecm.net.nio.netty.udt.UtilThreadFactory;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.cable.GatewaySocketCable;
@@ -16,9 +13,6 @@ import cj.studio.gateway.socket.cable.IGatewaySocketCable;
 import cj.studio.gateway.socket.client.pipeline.builder.ClientSocketInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.ultimate.util.StringUtil;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.udt.nio.NioUdtProvider;
 
 //管理电缆集合
 public class ClientGatewaySocket implements IGatewaySocket {
@@ -27,13 +21,13 @@ public class ClientGatewaySocket implements IGatewaySocket {
 	private Destination destination;
 	private IInputPipelineBuilder inputBuilder;// ClientGatewaySocket不需要输出管道,这与server端向目标端的输出一致。
 	private boolean isConnected;
-	EventLoopGroup eventloopGroup;
-	EventLoopGroup eventloopGroup_Udt;
+	IExecutorPool pool;
 
 	public ClientGatewaySocket(IServiceProvider parent) {
 		this.parent = parent;
-		cables = new ArrayList<>();
+		cables = new CopyOnWriteArrayList<>();
 		inputBuilder = new ClientSocketInputPipelineBuilder(this);
+		pool = new ExecutorPool();
 	}
 
 	@Override
@@ -53,20 +47,11 @@ public class ClientGatewaySocket implements IGatewaySocket {
 		if ("$.cables".equals(name)) {
 			return cables;
 		}
-		if ("$.eventloop.group".equals(name)) {
-			return eventloopGroup;
-		}
-		if ("$.eventloop.group.udt".endsWith(name)) {
-			return eventloopGroup_Udt;
+		if ("$.executor.pool".equals(name)) {
+			return pool;
 		}
 		if ("$.socket.loopsize".equals(name)) {
-			return this.eventloopGroup.children().size();
-		}
-		if ("$.socket.loopudtsize".equals(name)) {
-			if(eventloopGroup_Udt==null) {
-				return 0;
-			}
-			return this.eventloopGroup_Udt.children().size();
+			return this.pool.count();
 		}
 		return parent.getService(name);
 	}
@@ -82,7 +67,7 @@ public class ClientGatewaySocket implements IGatewaySocket {
 	}
 
 	@Override
-	public synchronized void connect(Destination dest) throws CircuitException {
+	public void connect(Destination dest) throws CircuitException {
 		if (isConnected) {
 			return;
 		}
@@ -93,39 +78,36 @@ public class ClientGatewaySocket implements IGatewaySocket {
 			broadcast = "unicast";// multicast
 			dest.getProps().put("Broadcast-Mode", broadcast);
 		}
+
 		List<String> uris = dest.getUris();
 		// 控制台配的目标属性是所有电缆共享的，如总广播策略等；而对于目标内的每个uri由于其属性都可能不同，因此按以下连接串的方式配置
-		int nThread = 0;
-		int nUdtThread = 0;
-		for (String connStr : uris) {// uri表示为connStr： protocol://ip:port?minWireSize=4&maxWireSize=10&xx=...
+		for (String connStr : uris) {// uri表示为connStr：
+										// protocol://ip:port?workThreadCount=4&initialWireSize=4&acquireRetryAttempts=10&xx=...
 			IGatewaySocketCable cable = new GatewaySocketCable(this);
 			cable.init(connStr);
-			if ("udt".equals(cable.protocol())) {
-				nUdtThread += cable.maxWireSize();
-			} else {
-				nThread += cable.maxWireSize();
+			switch (cable.protocol()) {
+			case "http":
+			case "https":
+				pool.requestHttpThreadCount(cable.workThreadCount());
+				break;
+			case "tcp":
+				pool.requestTcpThreadCount(cable.workThreadCount());
+				break;
+			case "ws":
+				pool.requestWsThreadCount(cable.workThreadCount());
+				break;
+			case "udt":
+				pool.requestUdtThreadCount(cable.workThreadCount());
+				break;
+			default:
+				throw new CircuitException("505", "不支持的协议：" + cable.protocol());
 			}
 			cables.add(cable);
 		}
-		nThread += 1;// 多给一个线程
+		pool.ready();
 		
-		String workThreadCount = dest.getProps().get("workThreadCount");
-		if (StringUtil.isEmpty(workThreadCount)) {
-			workThreadCount = "1";
-		}
-		int userNThread = Integer.valueOf(workThreadCount);
-		if (userNThread < nThread) {
-			CJSystem.logging().warn(getClass(),
-					String.format("配置的线程：%s 小于电缆需要的线程数:%s，系统为之分配为：%s", userNThread, nThread, nThread));
-		} else {
-			nThread = userNThread;
-		}
-		dest.getProps().put("workThreadCount", nThread + "");
-		this.eventloopGroup = new NioEventLoopGroup(nThread);
-		if(nUdtThread>0) {
-			ThreadFactory connectFactory = new UtilThreadFactory("udt_wire");
-			this.eventloopGroup_Udt=new NioEventLoopGroup(nUdtThread, connectFactory, NioUdtProvider.MESSAGE_PROVIDER);
-		}
+		dest.getProps().put("workThreadCount", pool.count()+"");
+		
 		for (IGatewaySocketCable cable : cables) {
 			cable.connect();
 		}
@@ -139,9 +121,11 @@ public class ClientGatewaySocket implements IGatewaySocket {
 			cable.dispose();
 		}
 		cables.clear();
+		pool.shutdown();
 		parent = null;
 		isConnected = false;
 		this.inputBuilder = null;
+		
 	}
 
 }

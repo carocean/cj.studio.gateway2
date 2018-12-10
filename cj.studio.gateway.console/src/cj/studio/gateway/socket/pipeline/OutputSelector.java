@@ -11,7 +11,6 @@ import cj.ultimate.util.StringUtil;
 
 public class OutputSelector implements IOutputSelector, SocketContants {
 	IOutputPipelineBuilder builder;
-	OutputPipelineCollection pipelines;
 
 	public OutputSelector(IServiceProvider parent) {
 		this.builder = (IOutputPipelineBuilder) parent.getService("$.pipeline.output.builder");
@@ -36,23 +35,11 @@ public class OutputSelector implements IOutputSelector, SocketContants {
 		String name=String.format("%s@%s", channelId,fromWho);
 		return select(name);
 	}
-
+	//一定是单例模式，每次均申请一个管道，如果持有管道集合，则在多线程下，前面线程正要释放了管道还没从集合中移除，后面又获得了这个管道实例，则会导致拿着已释放的管道使用的bug
 	@Override
 	public IOutputer select(String name) throws CircuitException {
-		if (pipelines == null) {
-			this.pipelines = new OutputPipelineCollection();
-		}
-		IOutputPipeline output = pipelines.get(name);
-		if (output != null) {
-			if (output.isDisposed()) {
-				pipelines.remove(name);
-				output = null;
-			} else {
-				return output.handler();
-			}
-		}
 		// 下面创建outputline
-		output = builder.name(name).service("Output-Pipeline-Col", pipelines).createPipeline();
+		IOutputPipeline output = builder.name(name).createPipeline();
 		// 激活管道
 		try {
 			output.headOnActive();
@@ -63,7 +50,6 @@ public class OutputSelector implements IOutputSelector, SocketContants {
 			}
 			throw e;
 		}
-		pipelines.add(name, output);
 		return output.handler();
 	}
 

@@ -4,6 +4,7 @@ import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IOPipeline;
 import cj.studio.gateway.socket.util.SocketContants;
+import io.netty.channel.Channel;
 
 public class BackwardJunction  extends Junction{
 	String fromWho;
@@ -40,6 +41,18 @@ public class BackwardJunction  extends Junction{
 		this.remoteAddress=(String)toTarget.getService("$.remoteAddress");
 		this.toTargetClazz=toTarget.getClass();
 	}
+	public void parse(IInputPipeline line, Channel channel, IGatewaySocket toTarget) {
+		fromWho=line.prop(SocketContants.__pipeline_fromWho);
+		fromProtocol=line.prop(SocketContants.__pipeline_fromProtocol);
+		toWho=line.prop(SocketContants.__pipeline_toWho);
+		toProtocol=line.prop(SocketContants.__pipeline_toProtocol);
+		fromWho=line.prop(SocketContants.__pipeline_fromWho);
+		fromWho=line.prop(SocketContants.__pipeline_fromWho);
+		this.localAddress=channel.localAddress().toString();
+		this.remoteAddress=channel.remoteAddress().toString();
+		this.toTargetClazz=toTarget.getClass();
+		
+	}
 	public String getFromWho() {
 		return fromWho;
 	}
@@ -61,5 +74,6 @@ public class BackwardJunction  extends Junction{
 	public String getToProtocol() {
 		return toProtocol;
 	}
+	
 
 }

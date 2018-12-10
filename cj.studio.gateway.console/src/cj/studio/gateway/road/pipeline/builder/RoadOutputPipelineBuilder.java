@@ -118,10 +118,5 @@ public class RoadOutputPipelineBuilder implements IOutputPipelineBuilder {
 		return output;
 	}
 
-	@Override
-	public IOutputPipelineBuilder service(String name, Object service) throws CircuitException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

@@ -139,20 +139,26 @@ public class LsJunctionsCommand extends Command {
 		}
 		if (socket instanceof ClientGatewaySocket) {
 			ClientGatewaySocket cgs = (ClientGatewaySocket) socket;
-			System.out.println(String.format("%s\t工作线程数:%s", indent, cgs.getService("$.socket.loopsize")));
-			System.out.println(String.format("%s\t工作线程数(udt):%s", indent, cgs.getService("$.socket.loopudtsize")));
+			System.out.println(String.format("%s\t线程池:%s", indent, cgs.getService("$.socket.loopsize")));
+			@SuppressWarnings("unchecked")
 			List<IGatewaySocketCable> cables = (List<IGatewaySocketCable>) cgs.getService("$.cables");
 			for (IGatewaySocketCable cable : cables) {
-				System.out.println(String.format("%s\t电缆:%s://%s:%s", indent, cable.protocol(),cable.host(),cable.port()));
-				System.out.println(String.format("%s\t\t活动导线数:%s", indent,((IServiceProvider)cable).getService("$.wires.count")));
-				System.out.println(String.format("%s\t\t初始化导线数:%s", indent,cable.initialWireSize()));
-				System.out.println(String.format("%s\t\t最小导线数:%s", indent,cable.minWireSize()));
-				System.out.println(String.format("%s\t\t最大导线数:%s", indent,cable.maxWireSize()));
-				System.out.println(String.format("%s\t\t请求超时时间:%s", indent,cable.requestTimeout()));
-				System.out.println(String.format("%s\t\t最大空闲时间:%s", indent,cable.maxIdleTime()));
-				System.out.println(String.format("%s\t\t心跳间隔时间:%s", indent,cable.getHeartbeat()));
-				System.out.println(String.format("%s\t\t电缆满等待连接时间:%s", indent,cable.checkoutTimeout()));
-				System.out.println(String.format("%s\t\t连接重试次数:%s", indent,cable.acquireRetryAttempts()));
+				System.out.println(
+						String.format("%s\t电缆:%s://%s:%s", indent, cable.protocol(), cable.host(), cable.port()));
+				System.out.println(String.format("%s\t\tactivedWireCount:%s", indent,
+						((IServiceProvider) cable).getService("$.wires.count")));
+				System.out.println(String.format("%s\t\tinitialWireSize:%s", indent, cable.initialWireSize()));
+				System.out.println(String.format("%s\t\theartbeat:%s", indent, cable.getHeartbeat()));
+				System.out.println(String.format("%s\t\tworkThreadCount:%s", indent, cable.workThreadCount()));
+				if ("http".equals(cable.protocol()) || "https".equals(cable.protocol())) {
+					System.out.println(String.format("%s\t\tmaxIdleConnections:%s", indent,((IServiceProvider)cable).getService("$.prop.maxIdleConnections")));
+					System.out.println(String.format("%s\t\tkeepAliveDuration:%s", indent,((IServiceProvider)cable).getService("$.prop.keepAliveDuration")));
+					System.out.println(String.format("%s\t\tconnectTimeout:%s", indent,((IServiceProvider)cable).getService("$.prop.connectTimeout")));
+					System.out.println(String.format("%s\t\treadTimeout:%s", indent,((IServiceProvider)cable).getService("$.prop.readTimeout")));
+					System.out.println(String.format("%s\t\twriteTimeout:%s", indent,((IServiceProvider)cable).getService("$.prop.writeTimeout")));
+					System.out.println(String.format("%s\t\tfollowRedirects:%s", indent,((IServiceProvider)cable).getService("$.prop.followRedirects")));
+					System.out.println(String.format("%s\t\tretryOnConnectionFailure:%s", indent,((IServiceProvider)cable).getService("$.prop.retryOnConnectionFailure")));
+				}
 			}
 		}
 	}
@@ -230,14 +236,16 @@ public class LsJunctionsCommand extends Command {
 			System.out.println(String.format("%s\t\t\t\tactivedWires=%s", indent,
 					((IServiceProvider) cable).getService("$.wires.count")));
 			System.out.println(String.format("%s\t\t\t\theartbeat=%s", indent, cable.getHeartbeat()));
-			System.out
-					.println(String.format("%s\t\t\t\tacquireRetryAttempts=%s", indent, cable.acquireRetryAttempts()));
-			System.out.println(String.format("%s\t\t\t\tcheckoutTimeout=%s", indent, cable.checkoutTimeout()));
 			System.out.println(String.format("%s\t\t\t\tinitialWireSize=%s", indent, cable.initialWireSize()));
-			System.out.println(String.format("%s\t\t\t\tmaxIdleTime=%s", indent, cable.maxIdleTime()));
-			System.out.println(String.format("%s\t\t\t\tmaxWireSize=%s", indent, cable.maxWireSize()));
-			System.out.println(String.format("%s\t\t\t\tminWireSize=%s", indent, cable.minWireSize()));
-			System.out.println(String.format("%s\t\t\t\trequestTimeout=%s", indent, cable.requestTimeout()));
+			if ("http".equals(cable.protocol()) || "https".equals(cable.protocol())) {
+				System.out.println(String.format("%s\t\tmaxIdleConnections:%s", indent,((IServiceProvider)cable).getService("$.prop.maxIdleConnections")));
+				System.out.println(String.format("%s\t\tkeepAliveDuration:%s", indent,((IServiceProvider)cable).getService("$.prop.keepAliveDuration")));
+				System.out.println(String.format("%s\t\tconnectTimeout:%s", indent,((IServiceProvider)cable).getService("$.prop.connectTimeout")));
+				System.out.println(String.format("%s\t\treadTimeout:%s", indent,((IServiceProvider)cable).getService("$.prop.readTimeout")));
+				System.out.println(String.format("%s\t\twriteTimeout:%s", indent,((IServiceProvider)cable).getService("$.prop.writeTimeout")));
+				System.out.println(String.format("%s\t\tfollowRedirects:%s", indent,((IServiceProvider)cable).getService("$.prop.followRedirects")));
+				System.out.println(String.format("%s\t\tretryOnConnectionFailure:%s", indent,((IServiceProvider)cable).getService("$.prop.retryOnConnectionFailure")));
+			}
 			if ("ws".equals(cable.protocol())) {
 				System.out.println(String.format("%s\t\t\t\tactivedWires=%s", indent,
 						((IServiceProvider) cable).getService("$.wspath")));

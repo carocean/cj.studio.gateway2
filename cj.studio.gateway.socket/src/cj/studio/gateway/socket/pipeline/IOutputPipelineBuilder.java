@@ -8,6 +8,5 @@ public interface IOutputPipelineBuilder {
 	IOutputPipelineBuilder prop(String name,Object value);
 
 	IOutputPipeline createPipeline() throws CircuitException;
-	IOutputPipelineBuilder service(String name, Object service) throws CircuitException;
 
 }

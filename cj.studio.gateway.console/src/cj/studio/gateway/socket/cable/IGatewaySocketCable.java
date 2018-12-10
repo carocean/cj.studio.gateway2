@@ -25,82 +25,45 @@ import cj.ultimate.IDisposable;
  * @author caroceanjofers
  *
  */
-public interface IGatewaySocketCable extends IClosable,IDisposable {
-	/**
-	 * 定义在连接远程获取新连接失败后重复尝试的次数。Default: 3
-	 * 
-	 * @return
-	 */
-	int acquireRetryAttempts();
+public interface IGatewaySocketCable extends IClosable, IDisposable {
 
-
-	/**
-	 * 最大空闲时间,n毫秒内未使用则导线被丢弃。若为0则永不丢弃。Default: 0
-	 * 
-	 * @return
-	 */
-	long maxIdleTime();
-
-	/**
-	 * 电缆中保留的最大导线数
-	 * 
-	 * @return
-	 */
-	int maxWireSize();
-
-	/**
-	 * 电缆中保留的最小导线数
-	 * 
-	 * @return
-	 */
-	int minWireSize();
 	/**
 	 * 初始化时建立minWireSize个导线，取值应在minWireSize与maxWireSize之间。Default: minWireSize
+	 * 
 	 * @return
 	 */
 	int initialWireSize();
-	/**
-	 * 当导线用完时调用select()后等待获取新连接的时间，超时后将抛出导常
-	 * ,如设为0则无限期等待。单位毫秒。Default: 0
-	 * 
-	 * @return
-	 */
-	long checkoutTimeout();
-	/**
-	 * 当导线发送请求后等待响应的时间，超时后将抛出导常
-	 * ,如设为0则无限期等待。单位毫秒。Default: 0
-	 * 
-	 * @return
-	 */
-	long requestTimeout();
+
 	/**
 	 * 尝试获取一个可用导线。如果池满且无空闲导线将等待，直到超时。该方法在导线数没达到上限时会新建导线。
 	 * 
 	 * @return
 	 */
 	IGatewaySocketWire select() throws CircuitException;
+
 	/**
 	 * 初始化并解析字符
+	 * 
 	 * @param connStr 连接关描述符，格式：tcp://ip:port?minWireSize=3&maxWireSize=10&checkoutTimeout=30
 	 * @throws CircuitException
 	 */
 	void init(String connStr) throws CircuitException;
+
 	/**
 	 * 启动并建立连接
+	 * 
 	 * @param connStr 连接关描述符，格式：tcp://ip:port?minWireSize=3&maxWireSize=10&checkoutTimeout=30
 	 * @throws CircuitException
 	 */
 	void connect() throws CircuitException;
 
-
 	String host();
-
 
 	int port();
 
-
 	String protocol();
 
-
 	int getHeartbeat();
+
+	int workThreadCount();
 }

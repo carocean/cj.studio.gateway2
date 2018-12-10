@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.server.handler.TcpChannelHandler;
-import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -22,11 +21,11 @@ public class TcpChannelInitializer extends ChannelInitializer<SocketChannel> {
 
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
-		ServerInfo info = (ServerInfo) parent.getService("$.server.info");
-		String interval = info.getProps().get(SocketContants.__key_heartbeat_interval);
-
 		ChannelPipeline pipeline = ch.pipeline();
 		pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
+		
+		ServerInfo info = (ServerInfo) parent.getService("$.server.info");
+		String interval = info.getProps().get("heartbeat");
 		if (!StringUtil.isEmpty(interval)) {
 			int hb=Integer.valueOf(interval);
 			if(hb<=0) {

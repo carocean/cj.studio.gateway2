@@ -20,7 +20,6 @@ public class CheckErrorInputVavle implements IInputValve {
 	Map<String, String> errors;
 	private String documentType;
 	public final static String SITE_DOCUMENT = "site.document";
-
 	@SuppressWarnings("unchecked")
 	public CheckErrorInputVavle(IServiceProvider parent) {
 		errors = (Map<String, String>) parent.getService("$.app.errors");
@@ -64,6 +63,7 @@ public class CheckErrorInputVavle implements IInputValve {
 			if (isDoc) {
 				String page = errors.get(ce.getStatus());
 				if (!StringUtil.isEmpty(page)) {
+					e.printStackTrace();
 					String old = f.url();
 					String rootName = f.rootName();
 					f.url(String.format("/%s%s?onerror=%s", rootName, page, old));

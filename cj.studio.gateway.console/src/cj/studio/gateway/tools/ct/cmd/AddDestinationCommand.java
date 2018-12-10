@@ -79,7 +79,7 @@ public class AddDestinationCommand extends Command {
 	public String cmdDesc() {
 		return "添加群族的远程目标，格式：add domain -h xxx 例：add yanxin -h protocol://ip:port,protocol://ip:port。\r\n"
 				+ "注意：域名在同一网关中唯一。"
-				+ "\r\n支持的协议有：tcp,udt,http,ws,app。连接参数在地址后面加查询串?heartbeatInterval=10&maxWireSize=3\r\n"
+				+ "\r\n支持的协议有：tcp,udt,http,ws,app。连接参数在地址后面加查询串?heartbeat=10\r\n"
 				+ "app协议的uri格式是：app://程序相对目录名:适配类型,例：app://wigo:way,适配类型有：jee,way";
 	}
 

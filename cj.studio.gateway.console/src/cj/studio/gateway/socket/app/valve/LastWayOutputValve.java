@@ -14,6 +14,7 @@ import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOPipeline;
 import cj.studio.gateway.socket.pipeline.IOutputValve;
+import cj.studio.gateway.socket.serverchannel.AbstractServerChannelSocket;
 import cj.studio.gateway.socket.util.SocketContants;
 
 //在该类中对接目标socket中的input端子，如果请求的是cluster目标不存在，则启动它
@@ -68,15 +69,16 @@ public class LastWayOutputValve implements IOutputValve, ICloseableOutputValve, 
 	@Override
 	public void close(IOPipeline pipeline) {
 		if (targetSocket instanceof IGatewaySocket) {
-			try {
-				targetSocket.close();
-			} catch (CircuitException e) {
-				throw new EcmException(e);
+			if (targetSocket instanceof AbstractServerChannelSocket) {
+				try {
+					targetSocket.close();
+					String pipelineName = pipeline.prop(SocketContants.__pipeline_name);// 在backward输出管道中，由于一个输出管道仅对应一个输入管道，因此管道名即为目标
+					this.sockets.remove(pipelineName);
+				} catch (CircuitException e) {
+					throw new EcmException(e);
+				}
 			}
-			String pipelineName = pipeline.prop(SocketContants.__pipeline_name);// 在backward输出管道中，由于一个输出管道仅对应一个输入管道，因此管道名即为目标
-			this.sockets.remove(pipelineName);
 		}
-
 		dispose(pipeline);
 	}
 

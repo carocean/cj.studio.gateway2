@@ -1,13 +1,13 @@
 package cj.studio.gateway.socket.pipeline;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class OutputPipelineCollection {
 	Map<String, IOutputPipeline> map;
 	public OutputPipelineCollection() {
-		map=new HashMap<>();
+		map=new ConcurrentHashMap<>();
 	}
 	public Set<String> enumName(){
 		return map.keySet();

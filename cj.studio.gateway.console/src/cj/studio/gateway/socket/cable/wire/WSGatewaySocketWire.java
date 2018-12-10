@@ -3,8 +3,7 @@ package cj.studio.gateway.socket.cable.wire;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Set;
 
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
@@ -14,7 +13,7 @@ import cj.studio.ecm.graph.CircuitException;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.conf.ServerInfo;
-import cj.studio.gateway.junction.ForwardJunction;
+import cj.studio.gateway.junction.BackwardJunction;
 import cj.studio.gateway.junction.Junction;
 import cj.studio.gateway.server.util.GetwayDestHelper;
 import cj.studio.gateway.socket.IGatewaySocket;
@@ -22,7 +21,6 @@ import cj.studio.gateway.socket.cable.IGatewaySocketWire;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
-import cj.studio.gateway.socket.serverchannel.ws.WebsocketServerChannelGatewaySocket;
 import cj.studio.gateway.socket.util.SocketContants;
 import cj.studio.gateway.socket.util.SocketName;
 import cj.ultimate.util.StringUtil;
@@ -61,39 +59,19 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 
 	public WSGatewaySocketWire(IServiceProvider parent) {
 		this.parent = parent;
-		used(false);
 	}
 
 	@Override
 	public void close() {
-		ReentrantLock lock = (ReentrantLock) parent.getService("$.lock");
-		try {
-			lock.lock();
-			@SuppressWarnings("unchecked")
-			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
-			wires.remove(this);
-			Condition waitingForCreateWire = (Condition) parent.getService("$.waitingForCreateWire");
-			waitingForCreateWire.signalAll();// 通知新建
-		} finally {
-			lock.unlock();
-		}
+		@SuppressWarnings("unchecked")
+		List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
+		wires.remove(this);
 	}
 
 	@Override
 	public void used(boolean b) {
 		isIdle = !b;
 		idleBeginTime = System.currentTimeMillis();
-		if (isIdle) {
-			ReentrantLock lock = (ReentrantLock) parent.getService("$.lock");
-			try {
-				lock.lock();
-				Condition waitingForCreateWire = (Condition) parent.getService("$.waitingForCreateWire");
-				waitingForCreateWire.signalAll();// 通知新建
-
-			} finally {
-				lock.unlock();
-			}
-		}
 	}
 
 	@Override
@@ -115,8 +93,8 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 	}
 
 	@Override
-	public synchronized Object send(Object request,Object response) throws CircuitException {
-		Frame frame=(Frame)request;
+	public synchronized Object send(Object request, Object response) throws CircuitException {
+		Frame frame = (Frame) request;
 		if (!channel.isWritable()) {// 断开连结，且从电缆中移除导线
 			if (channel.isOpen()) {
 				channel.close();
@@ -135,8 +113,8 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 	public void connect(String ip, int port) throws CircuitException {
 		EventLoopGroup group = (EventLoopGroup) parent.getService("$.eventloop.group");
 		Bootstrap b = new Bootstrap();
-		URI uri=null;
-		String url=(String)parent.getService("$.prop.wspath");
+		URI uri = null;
+		String url = (String) parent.getService("$.prop.wspath");
 		try {
 			uri = new URI(url);
 		} catch (URISyntaxException e1) {
@@ -219,16 +197,23 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 
 		@Override
 		public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-			String name = SocketName.name(ctx.channel().id(), info.getName());
+			pipelineRelease(ctx);
+		}
 
-			if (sockets.contains(name)) {
-				sockets.remove(name);// 不论是ws还是http增加的，在此安全移除
+		protected void pipelineRelease(ChannelHandlerContext ctx) throws Exception {
+			Set<String> dests = pipelines.enumDest();
+			for (String dest : dests) {
+				String pipelineName = SocketName.name(ctx.channel().id(), dest);
+				Junction junction = junctions.findInBackwards(pipelineName);
+				if (junction != null) {
+					this.junctions.remove(junction);
+				}
+				IInputPipeline input = pipelines.get(dest);
+				input.headOnInactive(pipelineName);
 			}
+			pipelines.dispose();
 
-			pipelineRelease(name);
-			@SuppressWarnings("unchecked")
-			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
-			wires.remove(WSGatewaySocketWire.this);
+			WSGatewaySocketWire.this.close();
 		}
 
 		@Override
@@ -236,7 +221,6 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			Channel ch = ctx.channel();
 			if (!handshaker.isHandshakeComplete()) {
 				handshaker.finishHandshake(ch, (FullHttpResponse) msg);
-//				System.out.println("WebSocket Client connected!");
 				handshakeFuture.setSuccess();
 				return;
 			}
@@ -273,8 +257,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 				throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 			}
 
-			String name = SocketName.name(ctx.channel().id(), info.getName());
-			IInputPipeline inputPipeline = pipelines.get(name);
+			IInputPipeline inputPipeline = pipelines.get(gatewayDest);
 			// 检查目标管道是否存在
 			if (inputPipeline != null) {
 				Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
@@ -283,23 +266,19 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			}
 
 			// 以下生成目标管道
-			pipelineBuild(name, gatewayDest, frame, ctx);
+			pipelineBuild(gatewayDest, frame, ctx);
 		}
 
-		protected void pipelineBuild(String pipelineName, String gatewayDest, Frame frame, ChannelHandlerContext ctx)
-				throws Exception {
-			WebsocketServerChannelGatewaySocket wsSocket = new WebsocketServerChannelGatewaySocket(parent,
-					ctx.channel());
-			sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
-
+		protected void pipelineBuild(String gatewayDest, Frame frame, ChannelHandlerContext ctx) throws Exception {
 			IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
 
 			IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
+			String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
 			IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "ws")
 					.prop(__pipeline_fromWho, info.getName()).createPipeline();
-			pipelines.add(pipelineName, inputPipeline);
+			pipelines.add(gatewayDest, inputPipeline);
 
-			ForwardJunction junction = new ForwardJunction(pipelineName);
+			BackwardJunction junction = new BackwardJunction(pipelineName);
 			junction.parse(inputPipeline, ctx.channel(), socket);
 			this.junctions.add(junction);
 
@@ -309,29 +288,13 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			inputPipeline.headFlow(frame, circuit);// 再把本次请求发送处理
 		}
 
-		protected void pipelineRelease(String pipelineName) throws Exception {
-
-			Junction junction = junctions.findInForwards(pipelineName);
-			if (junction != null) {
-				this.junctions.remove(junction);
-			}
-
-			IInputPipeline input = pipelines.get(pipelineName);
-			if (input != null) {
-				input.headOnInactive(pipelineName);
-				pipelines.remove(pipelineName);
-			}
-		}
-
 		@Override
 		public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-			cause.printStackTrace();
-
 			if (!handshakeFuture.isDone()) {
 				handshakeFuture.setFailure(cause);
 			}
 
-//			ctx.close();
+			super.exceptionCaught(ctx, cause);
 		}
 	}
 }
