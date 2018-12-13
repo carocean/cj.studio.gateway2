@@ -6,19 +6,15 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
-import cj.studio.ecm.net.layer.ISession;
-import cj.studio.ecm.net.layer.ISessionEvent;
-import cj.studio.ecm.net.layer.Session;
-import cj.studio.ecm.net.layer.SessionInfo;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.http.HttpCircuit;
+import cj.studio.ecm.net.http.HttpFrame;
+import cj.studio.ecm.net.session.ISession;
+import cj.studio.ecm.net.session.ISessionEvent;
+import cj.studio.ecm.net.session.Session;
+import cj.studio.ecm.net.session.SessionInfo;
 import cj.studio.ecm.net.util.IdGenerator;
-import cj.studio.ecm.net.web.HttpCircuit;
-import cj.studio.ecm.net.web.HttpFrame;
-import cj.studio.gateway.socket.app.IAppSiteSessionManager;
 import cj.studio.gateway.socket.util.CookieUtil;
 import cj.ultimate.util.StringUtil;
 /**
@@ -55,16 +51,11 @@ public class AppSiteSessionManager implements IAppSiteSessionManager {
 			return false;// 不是文档，即是资源，资源无需要生成会话
 		if(request instanceof HttpFrame) {
 			return checkSessionForWay((Frame)request);
-		}else if(request instanceof HttpServletRequest){
-			return checkSessionForJee((HttpServletRequest)request);
 		}
 		return false;
 	}
 
-	private boolean checkSessionForJee(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	private boolean checkSessionForWay(Frame request) {
 		HttpFrame f = (HttpFrame) request;
@@ -100,16 +91,11 @@ public class AppSiteSessionManager implements IAppSiteSessionManager {
 		session.lastVisitTime(t);
 		if(request instanceof HttpFrame) {
 			wrapCookieForWay((HttpFrame)request,(HttpCircuit)response,session,sid);
-		}else if(request instanceof HttpServletRequest){
-			wrapCookieForJee((HttpServletRequest)request,(HttpServletResponse)response,session,sid);
 		}
 		
 	}
 
-	private void wrapCookieForJee(HttpServletRequest request, HttpServletResponse response, ISession session,
-			String sid) {
-		
-	}
+	
 
 	private void wrapCookieForWay(HttpFrame f, HttpCircuit c, ISession session, String sid) {
 		f.setSession(session);

@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadFactory;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
-import cj.studio.ecm.net.nio.netty.udt.UtilThreadFactory;
+import cj.studio.ecm.net.util.UtilThreadFactory;
 import cj.studio.gateway.IGatewayServer;
 import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.server.initializer.UdtChannelInitializer;

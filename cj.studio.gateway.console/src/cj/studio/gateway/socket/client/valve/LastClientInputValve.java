@@ -5,7 +5,7 @@ import java.util.List;
 
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.cable.IGatewaySocketCable;
 import cj.studio.gateway.socket.cable.IGatewaySocketWire;
@@ -47,9 +47,8 @@ public class LastClientInputValve implements IInputValve {
 			if (w == null) {
 				continue;
 			}
-			if (!w.isWritable() && !w.isOpened()) {
+			if (!w.isWritable() || !w.isOpened()) {
 				select(pipeline);// 重新选择所有导线
-				break;
 			}
 			try {
 				w.send(request, response);
@@ -96,9 +95,13 @@ public class LastClientInputValve implements IInputValve {
 		// 多播是每个电览选一个导线
 		for (IGatewaySocketCable cable : cables) {
 			IGatewaySocketWire wire = cable.select();
-			if (wire != null) {
-				wires.add(wire);
+			if (wire == null) {
+				continue;
 			}
+			if(!wire.isOpened()) {
+				continue;
+			}
+			wires.add(wire);
 		}
 	}
 }

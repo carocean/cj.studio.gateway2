@@ -1,7 +1,7 @@
 package cj.studio.gateway.socket.app;
 
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.Destination;
 import cj.ultimate.IClosable;
 

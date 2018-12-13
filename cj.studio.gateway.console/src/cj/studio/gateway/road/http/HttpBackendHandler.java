@@ -16,7 +16,7 @@
 package cj.studio.gateway.road.http;
 
 import cj.studio.ecm.EcmException;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.pipeline.IOutputPipeline;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;

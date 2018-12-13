@@ -1,11 +1,8 @@
 package cj.studio.gateway.socket.pipeline;
 
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
-import cj.studio.gateway.socket.IAsynchronizer;
-import cj.studio.gateway.socket.IChunkVisitor;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 
@@ -14,14 +11,6 @@ public class OutputSelector implements IOutputSelector, SocketContants {
 
 	public OutputSelector(IServiceProvider parent) {
 		this.builder = (IOutputPipelineBuilder) parent.getService("$.pipeline.output.builder");
-	}
-	@Override
-	public IAsynchronizer select(Circuit circuit) throws CircuitException {
-		if(!circuit.protocol().startsWith("HTTP")) {
-			throw new CircuitException("503", "不支持的回路,协议："+circuit.protocol()+"。该方法仅支持http");
-		}
-		Asynchronizer asynchronizer = new Asynchronizer(circuit);
-		return asynchronizer;
 	}
 
 	@Override
@@ -53,17 +42,4 @@ public class OutputSelector implements IOutputSelector, SocketContants {
 		return output.handler();
 	}
 
-	class Asynchronizer implements IAsynchronizer {
-		Circuit circuit;
-
-		public Asynchronizer(Circuit circuit) {
-			this.circuit = circuit;
-		}
-
-		@Override
-		public void accept(IChunkVisitor visitor) {
-			circuit.attribute(__circuit_chunk_visitor, visitor);
-		}
-
-	}
 }

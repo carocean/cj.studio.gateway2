@@ -1,15 +1,13 @@
 package cj.studio.gateway.socket.app.valve;
 
-import javax.servlet.http.HttpServletRequest;
-
 import cj.studio.ecm.IChip;
 import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
-import cj.studio.ecm.net.web.HttpFrame;
-import cj.studio.ecm.net.web.WebUtil;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.http.HttpFrame;
+import cj.studio.ecm.net.util.WebUtil;
 import cj.studio.gateway.socket.app.IAppSiteSessionManager;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
@@ -22,7 +20,7 @@ public class CheckSessionInputValve implements IInputValve {
 	private boolean isForbiddenSession;
 	private String documentType;
 
-	public CheckSessionInputValve(IServiceProvider parent,IServiceProvider app) {
+	public CheckSessionInputValve(IServiceProvider parent, IServiceProvider app) {
 		this.sessionManager = (IAppSiteSessionManager) parent.getService("$.sessionManager");
 		IChip chip = (IChip) app.getService(IChip.class.getName());
 		IChipInfo info = chip.info();
@@ -35,9 +33,8 @@ public class CheckSessionInputValve implements IInputValve {
 	}
 
 	@Override
-	public void onActive(String inputName, IIPipeline pipeline)
-			throws CircuitException {
-		pipeline.nextOnActive(inputName,  this);
+	public void onActive(String inputName, IIPipeline pipeline) throws CircuitException {
+		pipeline.nextOnActive(inputName, this);
 	}
 
 	@Override
@@ -46,18 +43,15 @@ public class CheckSessionInputValve implements IInputValve {
 			pipeline.nextFlow(request, response, this);
 			return;
 		}
-		if(!"http".equals(pipeline.prop(SocketContants.__frame_fromProtocol))) {//如果是ws协议则不分配会话，如果开发者想维护状态可在应用层自设。
+		if (!"http".equals(pipeline.prop(SocketContants.__frame_fromProtocol))) {// 如果是ws协议则不分配会话，如果开发者想维护状态可在应用层自设。
 			pipeline.nextFlow(request, response, this);
 			return;
 		}
 		boolean isDoc = false;
-		if(request instanceof HttpFrame) {
-			Frame frame=(Frame)request;
-			isDoc=WebUtil.documentMatch(frame.path(), this.documentType);
-		}else if(request instanceof HttpServletRequest) {
-			//暂不实现
+		if (request instanceof HttpFrame) {
+			Frame frame = (Frame) request;
+			isDoc = WebUtil.documentMatch(frame.path(), this.documentType);
 		}
-		
 		if (sessionManager.checkSession(request, response, isDoc)) {
 			wrapSession(request, response);
 		}
@@ -69,7 +63,6 @@ public class CheckSessionInputValve implements IInputValve {
 			Frame frame = (Frame) request;
 			Circuit circuit = (Circuit) response;
 			sessionManager.wrapCookie(frame, circuit);
-		} else if (request instanceof HttpServletRequest) {// jee将来实现
 
 		} else {// 什么都不做
 

@@ -3,8 +3,8 @@ package cj.studio.gateway.socket.pipeline;
 import java.util.HashMap;
 import java.util.Map;
 
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
 
 public class InputPipeline implements IInputPipeline {
 	LinkEntry head;
@@ -80,14 +80,23 @@ public class InputPipeline implements IInputPipeline {
 				if (response instanceof Circuit) {
 					Circuit c = (Circuit) response;
 					c.status(ce.getStatus());
-					c.message(ce.messageCause());
+					if(e.getMessage()!=null) {
+						c.message(ce.getMessage().replace("\r", "").replace("\n",""));
+					}else {
+						c.message("error at "+getClass());
+					}
+					c.cause(ce.messageCause());
 				}
 				throw ce;
 			}
 			if (response instanceof Circuit) {
 				Circuit c = (Circuit) response;
 				c.status("503");
-				c.message(e.getMessage());
+				if(e.getMessage()!=null) {
+					c.message(e.getMessage().replace("\r", "").replace("\n",""));
+				}else {
+					c.message("error at "+getClass());
+				}
 			}
 			throw e;
 		}

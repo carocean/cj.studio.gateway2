@@ -1,23 +1,32 @@
 package cj.studio.gateway.socket.cable.wire;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.IContentReciever;
+import cj.studio.ecm.net.IInputChannel;
+import cj.studio.ecm.net.IOutputChannel;
+import cj.studio.ecm.net.io.MemoryContentReciever;
+import cj.studio.ecm.net.io.MemoryInputChannel;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
-import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.junction.BackwardJunction;
 import cj.studio.gateway.junction.Junction;
 import cj.studio.gateway.server.util.GetwayDestHelper;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.cable.IGatewaySocketWire;
+import cj.studio.gateway.socket.client.IExecutorPool;
+import cj.studio.gateway.socket.io.WSOutputChannel;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
@@ -49,6 +58,8 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
 
 public class WSGatewaySocketWire implements IGatewaySocketWire {
@@ -77,7 +88,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 	@Override
 	public void dispose() {
 		close();
-		if (channel.isOpen()) {
+		if (channel!=null&&channel.isOpen()) {
 			channel.close();
 		}
 	}
@@ -95,14 +106,14 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 	@Override
 	public synchronized Object send(Object request, Object response) throws CircuitException {
 		Frame frame = (Frame) request;
-		if (!channel.isWritable()) {// 断开连结，且从电缆中移除导线
-			if (channel.isOpen()) {
-				channel.close();
-			}
+		if (!channel.isOpen()) {// 断开连结，且从电缆中移除导线
 			@SuppressWarnings("unchecked")
 			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
 			wires.remove(this);
-			return null;
+			throw new CircuitException("500", "导线已关闭，包丢弃："+request);
+		}
+		if (!frame.content().isAllInMemory()) {
+			throw new CircuitException("503", "ws协议仅支持内存模式，请使用MemoryContentReciever");
 		}
 		WebSocketFrame f = new BinaryWebSocketFrame(frame.toByteBuf());
 		channel.writeAndFlush(f);
@@ -111,7 +122,8 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 
 	@Override
 	public void connect(String ip, int port) throws CircuitException {
-		EventLoopGroup group = (EventLoopGroup) parent.getService("$.eventloop.group");
+		IExecutorPool exepool = (IExecutorPool) parent.getService("$.executor.pool");
+		EventLoopGroup group = exepool.getEventLoopGroup();
 		Bootstrap b = new Bootstrap();
 		URI uri = null;
 		String url = (String) parent.getService("$.prop.wspath");
@@ -156,6 +168,10 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			ChannelPipeline pipeline = ch.pipeline();
 			int aggregatorLimit = (int) parent.getService("$.prop.aggregatorLimit");
 			pipeline.addLast("http-codec", new HttpClientCodec());
+			long interval = (long) parent.getService("$.prop.heartbeat");
+			if (interval > 0) {
+				pipeline.addLast(new IdleStateHandler(0, 0, interval, TimeUnit.MILLISECONDS));
+			}
 			pipeline.addLast("aggregator", new HttpObjectAggregator(aggregatorLimit));
 			pipeline.addLast("ws-handler", handler);
 
@@ -171,14 +187,14 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 		IGatewaySocketContainer sockets;
 		private IJunctionTable junctions;
 		InputPipelineCollection pipelines;
-		private ServerInfo info;
+		private String socketName;
 
 		public WebSocketClientHandler(WebSocketClientHandshaker handshaker) {
 			this.handshaker = handshaker;
 			sockets = (IGatewaySocketContainer) parent.getService("$.container.socket");
 			junctions = (IJunctionTable) parent.getService("$.junctions");
 			this.pipelines = new InputPipelineCollection();
-			info = (ServerInfo) parent.getService("$.server.info");
+			socketName = (String) parent.getService("$.socket.name");
 		}
 
 		public ChannelFuture handshakeFuture() {
@@ -246,9 +262,18 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			} else {
 				throw new EcmException("不支持此类消息：" + msg.getClass());
 			}
+			if (bb.readableBytes() == 0) {
+				return;
+			}
 			byte[] b = new byte[bb.readableBytes()];
 			bb.readBytes(b);
-			Frame frame = new Frame(b);
+			IInputChannel input = new MemoryInputChannel(8192);
+			IContentReciever reciever = new MemoryContentReciever();
+			input.accept(reciever);
+			Frame frame = new Frame(input, b);
+			frame.content().accept(reciever);
+			input.begin(frame);
+			input.done(b, 0, 0);
 
 			String uri = frame.url();
 			String gatewayDestInHeader = frame.head(__frame_gatewayDest);
@@ -257,35 +282,76 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 				throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 			}
 
+			IOutputChannel output = new WSOutputChannel(ctx.channel(), frame);
+			Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
+
 			IInputPipeline inputPipeline = pipelines.get(gatewayDest);
 			// 检查目标管道是否存在
 			if (inputPipeline != null) {
-				Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
-				inputPipeline.headFlow(frame, circuit);
+				flowPipeline(ctx, inputPipeline, frame, circuit);
 				return;
 			}
 
 			// 以下生成目标管道
-			pipelineBuild(gatewayDest, frame, ctx);
+			pipelineBuild(gatewayDest, frame, circuit, ctx);
 		}
 
-		protected void pipelineBuild(String gatewayDest, Frame frame, ChannelHandlerContext ctx) throws Exception {
+		protected void flowPipeline(ChannelHandlerContext ctx, IInputPipeline pipeline, Frame frame, Circuit circuit)
+				throws Exception {
+			frame.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
+			frame.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
+			frame.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
+
+			try {
+				pipeline.headFlow(frame, circuit);
+			} catch (Throwable e) {
+				if (!circuit.content().isCommited()) {
+					circuit.content().clearbuf();
+					circuit.content().flush();
+				}
+				StringWriter out = new StringWriter();
+				e.printStackTrace(new PrintWriter(out));
+				circuit.content().writeBytes(out.toString().getBytes());
+				circuit.content().flush();
+				throw e;
+			} finally {
+				if (!circuit.content().isClosed()) {
+					circuit.content().close();
+				}
+			}
+
+		}
+
+		protected void pipelineBuild(String gatewayDest, Frame frame, Circuit circuit, ChannelHandlerContext ctx)
+				throws Exception {
 			IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
 
 			IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 			String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
 			IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "ws")
-					.prop(__pipeline_fromWho, info.getName()).createPipeline();
+					.prop(__pipeline_fromWho, socketName).createPipeline();
 			pipelines.add(gatewayDest, inputPipeline);
 
 			BackwardJunction junction = new BackwardJunction(pipelineName);
 			junction.parse(inputPipeline, ctx.channel(), socket);
 			this.junctions.add(junction);
 
-			Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
-			inputPipeline.headOnActive(pipelineName);// 通知管道激活
+			try {
+				inputPipeline.headOnActive(pipelineName);// 通知管道激活
+			} catch (Exception e) {
+				if (!circuit.content().isCommited()) {
+					circuit.content().clearbuf();
+					circuit.content().flush();
+				}
+				StringWriter out = new StringWriter();
+				e.printStackTrace(new PrintWriter(out));
+				circuit.content().writeBytes(out.toString().getBytes());
+				circuit.content().close();
+				ctx.close();
+				throw e;
+			}
 
-			inputPipeline.headFlow(frame, circuit);// 再把本次请求发送处理
+			flowPipeline(ctx, inputPipeline, frame, circuit);// 再把本次请求发送处理
 		}
 
 		@Override
@@ -295,6 +361,21 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			}
 
 			super.exceptionCaught(ctx, cause);
+		}
+		
+		@Override
+		public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+			if (evt instanceof IdleStateEvent) {
+				sendHeartbeatPacket(ctx);
+			} else {
+				super.userEventTriggered(ctx, evt);
+			}
+		}
+
+		private void sendHeartbeatPacket(ChannelHandlerContext ctx) {
+			PongWebSocketFrame pong=new PongWebSocketFrame();
+			ctx.writeAndFlush(pong);
+
 		}
 	}
 }

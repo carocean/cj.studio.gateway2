@@ -6,10 +6,10 @@ import cj.studio.ecm.EcmException;
 import cj.studio.ecm.Scope;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
-import cj.studio.ecm.net.web.HttpFrame;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.http.HttpFrame;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
@@ -22,12 +22,14 @@ public class TestWebsocket2 implements IGatewayAppSiteWayWebView{
 	IOutputSelector selector;
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
+		/*
 		System.out.println("..../test/websocket2.html:"+frame);
 		Document doc=resource.html("/index.html");
 		if(frame instanceof HttpFrame) {
 			HttpFrame hf=(HttpFrame)frame;
 			System.out.println("session :"+hf.session());
 		}
+		
 		//注意：ws协议不支持会话，开发可在应用层设计
 		IOutputer back=selector.select(frame);//回发
 		Frame f1=new Frame("put /ss/bb.txt g/1.0");
@@ -49,6 +51,7 @@ public class TestWebsocket2 implements IGatewayAppSiteWayWebView{
 		}
 		output.releasePipeline();
 //		output.closePipeline();
+ * */
 	}
 	
 }

@@ -16,7 +16,6 @@ public interface SocketContants {
 	String __http_ws_prop_aggregatorFileLengthLimit="Aggregator-Limit";
 	String __http_ws_prop_wsPath="wsPath";
 	
-	String __circuit_chunk_visitor="Chunk-Visitor";
 	String __circuit_chunk_writer="Chunk-Writer";
 	String __request_isclose = "Request-Isclose";
 	int __pull_chunk_size = 8192;

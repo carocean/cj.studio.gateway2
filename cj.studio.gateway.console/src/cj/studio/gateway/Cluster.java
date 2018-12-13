@@ -8,8 +8,8 @@ import java.util.Map;
 
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.EcmException;
-import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.logging.ILogging;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.Destination;
 import cj.ultimate.gson2.com.google.gson.Gson;
 import cj.ultimate.gson2.com.google.gson.reflect.TypeToken;

@@ -2,7 +2,7 @@ package cj.studio.gateway;
 
 import java.util.Collection;
 
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.Destination;
 
 public interface ICluster {

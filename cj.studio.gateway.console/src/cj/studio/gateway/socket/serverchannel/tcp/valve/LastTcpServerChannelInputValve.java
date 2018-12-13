@@ -1,8 +1,8 @@
 package cj.studio.gateway.socket.serverchannel.tcp.valve;
 
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
-import cj.studio.ecm.net.nio.netty.tcp.TcpFrameBox;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.util.TcpFrameBox;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 import io.netty.buffer.ByteBuf;
@@ -31,7 +31,7 @@ public class LastTcpServerChannelInputValve implements IInputValve {
 		}
 		Frame frame=(Frame)request;
 		byte[] box = TcpFrameBox.box(frame.toBytes());
-		ByteBuf bbuf = Unpooled.directBuffer();
+		ByteBuf bbuf = Unpooled.buffer();
 		bbuf.writeBytes(box);
 		channel.writeAndFlush(bbuf);
 	}

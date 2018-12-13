@@ -3,9 +3,9 @@ package cj.studio.gateway.socket.util;
 import java.util.HashSet;
 import java.util.Set;
 
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.net.nio.netty.http.CookieHelper;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.http.CookieHelper;
 import cj.ultimate.util.StringUtil;
 import io.netty.handler.codec.http.Cookie;
 import io.netty.handler.codec.http.CookieDecoder;

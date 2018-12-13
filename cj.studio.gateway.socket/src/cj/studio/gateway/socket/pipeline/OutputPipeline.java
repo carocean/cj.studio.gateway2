@@ -3,8 +3,8 @@ package cj.studio.gateway.socket.pipeline;
 import java.util.HashMap;
 import java.util.Map;
 
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
 
 public class OutputPipeline implements IOutputPipeline {
 	LinkEntry head;

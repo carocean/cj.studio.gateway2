@@ -12,9 +12,9 @@ import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceSite;
-import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.logging.ILogging;
-import cj.studio.ecm.net.layer.ISessionEvent;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.session.ISessionEvent;
 import cj.studio.ecm.script.IJssModule;
 import cj.studio.gateway.socket.Destination;
 
@@ -27,16 +27,17 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 	private Map<String, String> mimes;
 	private String http_root;
 	Map<String, Object> mappings;
+
 	@Override
 	public final Object getService(String name) {
 		if ("$.app.site".equals(name)) {
 			return site;
 		}
 		if ("$.app.create.webviews".equals(name)) {
-			if(mappings!=null) {
-				return  mappings;
+			if (mappings != null) {
+				return mappings;
 			}
-			 mappings = getWebviewMappings();
+			mappings = getWebviewMappings();
 			return mappings;
 		}
 		if ("$.app.create.resource".equals(name)) {
@@ -103,11 +104,7 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 
 	private Map<String, Object> getWebviewMappings() {
 		ServiceCollection<?> col = null;
-		if (type == ProgramAdapterType.jee) {
-			col = site.getServices(IGatewayAppSiteJeeWebView.class);
-		} else {
-			col = site.getServices(IGatewayAppSiteWayWebView.class);
-		}
+		col = site.getServices(IGatewayAppSiteWayWebView.class);
 		Map<String, Object> mappings = new HashMap<>();
 		for (Object view : col) {
 			if (view.getClass().getSimpleName().endsWith("$$NashornJavaAdapter")) {
@@ -118,7 +115,7 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 				logger.error(getClass(), String.format("映射错误：%s 未有CjService注解", view));
 				continue;
 			}
-			
+
 			String name = cs.name();
 			if (!name.startsWith("/")) {
 				name = String.format("/%s", name);
@@ -131,7 +128,8 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 		return mappings;
 	}
 
-	protected abstract void onstart(Destination dest, String assembliesHome, ProgramAdapterType type)throws CircuitException;
+	protected abstract void onstart(Destination dest, String assembliesHome, ProgramAdapterType type)
+			throws CircuitException;
 
 	private void redoClassloader(ClassLoader oldcl) {
 		Thread.currentThread().setContextClassLoader(oldcl);

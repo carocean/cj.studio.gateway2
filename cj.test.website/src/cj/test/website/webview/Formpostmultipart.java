@@ -2,59 +2,37 @@ package cj.test.website.webview;
 
 import cj.studio.ecm.Scope;
 import cj.studio.ecm.annotation.CjService;
-import cj.studio.ecm.annotation.CjServiceRef;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
-import cj.studio.gateway.socket.pipeline.IOutputSelector;
-import cj.studio.gateway.socket.visitor.HttpPostVisitor;
-import cj.studio.gateway.socket.visitor.IHttpFormChunkDecoder;
-import cj.studio.gateway.socket.visitor.IHttpVisitorWriter;
-import cj.studio.gateway.socket.visitor.decoder.MultipartFormChunkDecoder;
-import cj.studio.gateway.socket.visitor.decoder.mutipart.IFieldDataListener;
-import cj.studio.gateway.socket.visitor.decoder.mutipart.listener.FileListener;
+import cj.studio.gateway.socket.io.MultipartFormContentReciever;
+import cj.studio.gateway.socket.io.decoder.mutipart.IFieldDataListener;
+import cj.studio.gateway.socket.io.decoder.mutipart.IFieldInfo;
+import cj.studio.gateway.socket.io.decoder.mutipart.IFormData;
+import cj.studio.gateway.socket.io.decoder.mutipart.listener.FileListener;
 
 @CjService(name = "/formpostmultipart/", scope = Scope.multiton)
 public class Formpostmultipart implements IGatewayAppSiteWayWebView {
-	@CjServiceRef(refByName = "$.output.selector")
-	IOutputSelector selector;
 
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
-		System.out.println(frame);
-		selector.select(circuit).accept(new HttpPostVisitor() {
+		frame.content().accept(new MultipartFormContentReciever() {
+
 			@Override
-			protected void endvisit(Frame frame, Circuit circuit, IHttpVisitorWriter writer) {
-				// TODO Auto-generated method stub
-//				System.out.println("****************HttpPostFreeVisitor.endVisitor");
-				for (int i = 0; i < 10000; i++) {
-					writer.write(String.format("<li>application/formpostmultipart的接口测-博客园-%s</li>", i).getBytes());
+			protected void done(Frame frame, IFormData form) {
+				String[] names = form.enumFieldName();
+				for (String name : names) {
+					IFieldInfo f=form.getFieldInfo(name);
+					circuit.content().writeBytes(String.format("%s=%s or %s<br>", name, f.filename(),f.value()).getBytes());
 				}
-				writer.write("</ul>".getBytes());
 			}
 
 			@Override
-			protected IHttpFormChunkDecoder createMultipartFormDecoder(Frame frame, Circuit circuit) {
-				// TODO Auto-generated method stub
-				return new MultipartFormChunkDecoder(frame, circuit) {
-					@Override
-					protected void done(Frame frame, Circuit circuit, IHttpVisitorWriter writer) {
-						writer.write("<ul>".getBytes());
-						String arr[] = frame.enumParameterName();
-						for (String key : arr) {
-							writer.write(String.format("<li>%s=%s</li>", key, frame.parameter(key)).getBytes());
-						}
-					}
-
-					@Override
-					protected IFieldDataListener createFieldDataListener() {
-						return new FileListener("/Users/caroceanjofers/test", 0);
-					}
-				};
+			protected IFieldDataListener createFieldDataListener() {
+				return new FileListener("/Users/caroceanjofers/test/");
 			}
-
 		});
 	}
 

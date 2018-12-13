@@ -1,6 +1,6 @@
 package cj.studio.gateway;
 
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.IGatewaySocket;
 
 public interface IGatewaySocketContainer {

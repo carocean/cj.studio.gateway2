@@ -1,13 +1,21 @@
 package cj.studio.gateway.server.handler;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Set;
 
 import cj.studio.ecm.CJSystem;
+import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.logging.ILogging;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.IInputChannel;
+import cj.studio.ecm.net.IOutputChannel;
+import cj.studio.ecm.net.http.HttpCircuit;
+import cj.studio.ecm.net.io.MemoryContentReciever;
+import cj.studio.ecm.net.io.MemoryInputChannel;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.conf.ServerInfo;
@@ -15,6 +23,8 @@ import cj.studio.gateway.junction.ForwardJunction;
 import cj.studio.gateway.junction.Junction;
 import cj.studio.gateway.server.util.GetwayDestHelper;
 import cj.studio.gateway.socket.IGatewaySocket;
+import cj.studio.gateway.socket.io.UdtInputChannel;
+import cj.studio.gateway.socket.io.UdtOutputChannel;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
@@ -37,6 +47,8 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 	InputPipelineCollection pipelines;
 	private ServerInfo info;
 	private int counter;
+	private Circuit currentCircuit;
+	private IInputChannel inputChannel;
 
 	public UdtChannelHandler(IServiceProvider parent) {
 		this.parent = parent;
@@ -64,14 +76,103 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 	public void channelRead(ChannelHandlerContext ctx, Object data) throws Exception {
 		UdtMessage msg = (UdtMessage) data;
 		ByteBuf bb = msg.content();
+		if(bb.readableBytes()==0) {
+			return;
+		}
 		byte[] b = new byte[bb.readableBytes()];
 		bb.readBytes(b);
-		Frame frame = new Frame(b);
-		if ("NET/1.0".equals(frame.protocol())) {
-			if ("heartbeat".equals(frame.command())) {
-				return;
-			}
+		IInputChannel input = new MemoryInputChannel(8192);
+		MemoryContentReciever reciever = new MemoryContentReciever();
+		input.accept(reciever);
+		Frame pack = new Frame(input, b);
+		pack.content().accept(reciever);
+		input.done(b, 0, 0);
+
+		if (!"GATEWAY/1.0".equals(pack.protocol())) {
+			CJSystem.logging().error(getClass(),"不是网关协议侦:"+pack.protocol());
+			return;
 		}
+		switch (pack.command()) {
+		case "heartbeat":
+			CJSystem.logging().debug(getClass(),"收到心跳包.");
+			return;
+		case "frame":
+			doFramePack(ctx, pack);
+			break;
+		case "content":
+			doContentPack(ctx, pack);
+			break;
+		case "last":
+			doLastPack(ctx, pack);
+			break;
+		default:
+			throw new EcmException("不支持的gateway指令：" + pack.command());
+		}
+		
+	}
+	private void doLastPack(ChannelHandlerContext ctx, Frame pack) throws CircuitException {
+		if (inputChannel == null) {
+			return;
+		}
+		
+		byte[] b=pack.content().readFully();
+		Circuit circuit=this.currentCircuit;
+		try {
+			inputChannel.done(b, 0, b.length);
+			circuit.content().flush();// 到此刷新
+		} catch (Exception e) {
+			if (!circuit.content().isCommited()) {
+				circuit.status("503");
+				circuit.message(e.toString().replace("\r", "").replace("\n", ""));
+				circuit.content().clearbuf();
+				circuit.content().flush();
+			}
+			StringWriter out = new StringWriter();
+			e.printStackTrace(new PrintWriter(out));
+			circuit.content().writeBytes(out.toString().getBytes());
+			circuit.content().flush();
+			throw e;
+		} finally {
+			if (!circuit.content().isClosed()) {
+				circuit.content().close();
+			}
+			this.currentCircuit=null;
+			this.inputChannel=null;
+		}
+	}
+
+	private void doContentPack(ChannelHandlerContext ctx, Frame pack) throws CircuitException {
+		if (inputChannel == null) {
+			return;
+		}
+		
+		byte[] b=pack.content().readFully();
+		Circuit circuit=this.currentCircuit;
+		try {
+			inputChannel.writeBytes(b, 0, b.length);
+		} catch (Exception e) {
+			if (!circuit.content().isCommited()) {
+				circuit.status("503");
+				circuit.message(e.toString().replace("\r", "").replace("\n", ""));
+				circuit.content().clearbuf();
+				circuit.content().flush();
+			}
+			StringWriter out = new StringWriter();
+			e.printStackTrace(new PrintWriter(out));
+			circuit.content().writeBytes(out.toString().getBytes());
+			throw e;
+		}
+	}
+
+	private void doFramePack(ChannelHandlerContext ctx, Frame pack) throws Exception {
+
+		UdtInputChannel input = new UdtInputChannel();
+		Frame frame = input.begin(pack);
+		IOutputChannel output = new UdtOutputChannel(ctx.channel(), frame);
+		Circuit circuit = new HttpCircuit(output, String.format("%s 200 OK", frame.protocol()));
+		this.currentCircuit = circuit;
+		this.inputChannel = input;
+
 		String uri = frame.url();
 		String gatewayDestInHeader = frame.head(__frame_gatewayDest);
 		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, getClass());
@@ -79,20 +180,37 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 			throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 		}
 
-		
 		IInputPipeline inputPipeline = pipelines.get(gatewayDest);
 		// 检查目标管道是否存在
 		if (inputPipeline != null) {
-			Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
-			inputPipeline.headFlow(frame, circuit);
+			flowPipeline(inputPipeline, ctx, frame, circuit);
 			return;
 		}
 
 		// 以下生成目标管道
-		pipelineBuild( gatewayDest, frame, ctx);
+		pipelineBuild(gatewayDest, frame, circuit, ctx);
 	}
+	protected void flowPipeline(IInputPipeline pipeline, ChannelHandlerContext ctx, Frame frame, Circuit circuit)
+			throws Exception {
+		frame.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
+		frame.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
+		frame.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
 
-	protected void pipelineBuild(String gatewayDest, Frame frame, ChannelHandlerContext ctx)
+		try {
+			pipeline.headFlow(frame, circuit);
+		} catch (Throwable e) {
+			if (!circuit.content().isCommited()) {
+				circuit.content().clearbuf();
+				circuit.content().flush();
+			}
+			StringWriter out = new StringWriter();
+			e.printStackTrace(new PrintWriter(out));
+			circuit.content().writeBytes(out.toString().getBytes());
+			circuit.content().flush();
+			throw e;
+		}
+	}
+	protected void pipelineBuild(String gatewayDest, Frame frame,Circuit circuit, ChannelHandlerContext ctx)
 			throws Exception {
 		UdtServerChannelGatewaySocket wsSocket = new UdtServerChannelGatewaySocket(parent, ctx.channel());
 		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
@@ -109,10 +227,22 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 		junction.parse(inputPipeline, ctx.channel(), socket);
 		this.junctions.add(junction);
 
-		Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
-		inputPipeline.headOnActive(pipelineName);// 通知管道激活
+		try {
+			inputPipeline.headOnActive(pipelineName);// 通知管道激活
+		} catch (Exception e) {
+			if (!circuit.content().isCommited()) {
+				circuit.content().clearbuf();
+				circuit.content().flush();
+			}
+			StringWriter out = new StringWriter();
+			e.printStackTrace(new PrintWriter(out));
+			circuit.content().writeBytes(out.toString().getBytes());
+			circuit.content().close();
+			ctx.close();
+			throw e;
+		}
 
-		inputPipeline.headFlow(frame, circuit);// 再把本次请求发送处理
+		flowPipeline(inputPipeline, ctx, frame, circuit);// 再把本次请求发送处理
 	}
 
 	protected void pipelineRelease(ChannelHandlerContext ctx) throws Exception {

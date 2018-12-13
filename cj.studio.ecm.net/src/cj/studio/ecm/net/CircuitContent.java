@@ -1,0 +1,193 @@
+package cj.studio.ecm.net;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+
+import cj.studio.ecm.CJSystem;
+import cj.studio.ecm.EcmException;
+import cj.studio.ecm.net.io.MemoryOutputChannel;
+import io.netty.buffer.ByteBuf;
+
+class CircuitContent implements ICircuitContent {
+	private ByteBuf buf;
+	private int capacity;
+	IOutputChannel output;
+	private byte state;
+	private Circuit owner;
+	private ReentrantLock lock;
+	private Condition waitClose;
+
+	public CircuitContent(Circuit owner, IOutputChannel output, ByteBuf buf, int capacity) {
+		this.buf = buf;
+		this.capacity = capacity;
+		this.output = output;
+		this.owner = owner;
+		this.lock = new ReentrantLock();
+	}
+
+	public CircuitContent(Circuit owner, IOutputChannel writer, ByteBuf buf) {
+		this(owner, writer, buf, 8192);// 默认8K
+	}
+
+	@Override
+	public boolean isAllInMemory() {
+		return output instanceof MemoryOutputChannel;
+	}
+
+	protected void checkError() {
+		if (state == -1) {
+			throw new EcmException("流已关闭");
+		}
+	}
+
+	protected void checkIsFull() {
+		if (output == null)
+			return;
+		if (buf.readableBytes() > capacity) {
+			if (state == 0) {
+				output.begin(owner);
+				state = 1;
+			}
+			byte[] b = readFully(buf);
+			output.write(b, 0, b.length);
+		}
+	}
+
+	private byte[] readFully(ByteBuf buf) {
+		byte[] b = new byte[buf.readableBytes()];
+		buf.readBytes(b, 0, b.length);
+		return b;
+	}
+
+	@Override
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
+	@Override
+	public void clearbuf() {
+		buf.clear();
+	}
+
+	@Override
+	public void flush() {
+		if (output == null)
+			return;
+		if (state == 0) {
+			output.begin(owner);
+			state = 1;
+		}
+		if (buf.readableBytes() > 0) {
+			byte[] b = readFully(buf);
+			output.write(b, 0, b.length);
+		}
+	}
+
+	@Override
+	public void close() {
+		try {
+			checkIsFull();
+			if (output == null)
+				return;
+			if (state == 0) {
+				output.begin(owner);
+				state = 1;
+			}
+			byte[] b = readFully(buf);
+			output.done(b, 0, b.length);
+			state = -1;
+		} finally {
+			if (waitClose != null) {
+				try {
+					lock.lock();
+					waitClose.signalAll();
+				} finally {
+					lock.unlock();
+					waitClose = null;
+				}
+			}
+		}
+	}
+
+	@Override
+	public void writeBytes(byte[] b) {
+		this.writeBytes(b, 0, b.length);
+	}
+
+	@Override
+	public void writeBytes(byte[] b, int pos, int len) {
+		checkError();
+		buf.writeBytes(b, pos, len);
+		checkIsFull();
+	}
+
+	@Override
+	public void writeBytes(byte[] b, int pos) {
+		this.writeBytes(b, pos, b.length);
+	}
+
+	@Override
+	public int capacity() {
+		return capacity;
+	}
+
+	@Override
+	public boolean isCommited() {
+		return state == 1 ? true : false;
+	}
+
+	@Override
+	public boolean isReady() {
+		return state == 0 ? true : false;
+	}
+
+	@Override
+	public boolean isClosed() {
+		return state == -1 ? true : false;
+	}
+
+	@Override
+	public void waitClose() {
+		if (waitClose == null) {
+			throw new EcmException("未调用beginWait");
+		}
+		try {
+			lock.lock();
+			waitClose.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	@Override
+	public void beginWait() {
+		waitClose = lock.newCondition();
+	}
+
+	@Override
+	public void waitClose(long micSeconds) {
+		if (waitClose == null) {
+			throw new EcmException("未调用beginWait");
+		}
+		try {
+			lock.lock();
+			if (!waitClose.await(micSeconds, TimeUnit.MILLISECONDS)) {
+				state = -1;
+				CJSystem.logging().warn(getClass(), "等待关闭超时，系统自动关闭了输出通道。等待时间：" + micSeconds);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	@Override
+	public long writedBytes() {
+		return this.output.writedBytes();
+	}
+
+}

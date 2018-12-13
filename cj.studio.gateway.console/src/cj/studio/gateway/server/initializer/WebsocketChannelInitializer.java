@@ -1,5 +1,7 @@
 package cj.studio.gateway.server.initializer;
 
+import java.util.concurrent.TimeUnit;
+
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.server.handler.WebsocketChannelHandler;
@@ -12,6 +14,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class WebsocketChannelInitializer extends ChannelInitializer<SocketChannel> {
 	IServiceProvider parent;
@@ -31,6 +34,7 @@ public class WebsocketChannelInitializer extends ChannelInitializer<SocketChanne
 			aggregatorstr = "10485760";// 默认是10M
 		}
 		int aggregator = Integer.valueOf(aggregatorstr);
+
 		String path = info.getProps().get(SocketContants.__http_ws_prop_wsPath);
 		if (StringUtil.isEmpty(path)) {
 			path = "/";
@@ -42,6 +46,14 @@ public class WebsocketChannelInitializer extends ChannelInitializer<SocketChanne
 //		 cp.addLast(new WebSocketFrameAggregator(aggregator));
 		cp.addLast(new HttpResponseEncoder());
 		cp.addLast(new WebSocketServerProtocolHandler(path));
+		String interval = info.getProps().get("heartbeat");
+		if (!StringUtil.isEmpty(interval)) {
+			int hb = Integer.valueOf(interval);
+			if (hb <= 0) {
+				hb = 10;
+			}
+			cp.addLast(new IdleStateHandler(hb, 0, 0, TimeUnit.SECONDS));
+		}
 		cp.addLast(new WebsocketChannelHandler(parent));
 
 	}

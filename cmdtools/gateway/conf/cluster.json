@@ -37,9 +37,36 @@
 			}
 		},
 		{
+			"name": "backend-ws",
+			"uris": [
+				"ws://localhost:9091?wspath\u003d/\u0026heartbeat\u003d5000"
+			],
+			"props": {
+				
+			}
+		},
+		{
 			"name": "backend",
 			"uris": [
 				"http://localhost:9090"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "backend-tcp",
+			"uris": [
+				"tcp://localhost:8082"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "backend-udt",
+			"uris": [
+				"udt://localhost:8083"
 			],
 			"props": {
 				

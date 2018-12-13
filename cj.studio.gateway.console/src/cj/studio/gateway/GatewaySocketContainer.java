@@ -6,7 +6,7 @@ import java.util.Map;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.IServiceSetter;
 import cj.studio.ecm.annotation.CjService;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 

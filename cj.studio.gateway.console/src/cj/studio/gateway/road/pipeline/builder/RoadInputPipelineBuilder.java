@@ -12,7 +12,7 @@ import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.Scope;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.road.valve.FirstRoadInputValve;
 import cj.studio.gateway.road.valve.LastRoadInputValve;
 import cj.studio.gateway.socket.app.IGatewayAppSiteProgram;

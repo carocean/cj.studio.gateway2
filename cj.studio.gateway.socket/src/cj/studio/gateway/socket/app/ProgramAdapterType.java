@@ -8,10 +8,6 @@ public enum ProgramAdapterType {
 	/**
 	 * 选路应用
 	 */
-	road,
-	/**
-	 * 适合j2ee程序
-	 */
-	jee
+	road
 	
 }

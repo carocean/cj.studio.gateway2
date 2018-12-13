@@ -1,7 +1,7 @@
 package cj.studio.gateway.socket.serverchannel.ws.valve;
 
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 import io.netty.channel.Channel;

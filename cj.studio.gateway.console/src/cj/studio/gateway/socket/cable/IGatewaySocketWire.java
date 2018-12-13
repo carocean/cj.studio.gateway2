@@ -1,6 +1,6 @@
 package cj.studio.gateway.socket.cable;
 
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.ultimate.IClosable;
 import cj.ultimate.IDisposable;
 

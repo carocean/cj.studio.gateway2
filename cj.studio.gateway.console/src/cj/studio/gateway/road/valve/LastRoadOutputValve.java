@@ -1,7 +1,7 @@
 package cj.studio.gateway.road.valve;
 
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.pipeline.IOPipeline;
 import cj.studio.gateway.socket.pipeline.IOutputValve;
 import io.netty.buffer.Unpooled;

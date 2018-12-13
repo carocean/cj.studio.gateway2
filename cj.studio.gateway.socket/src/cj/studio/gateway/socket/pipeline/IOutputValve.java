@@ -1,7 +1,7 @@
 package cj.studio.gateway.socket.pipeline;
 
 
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 
 public interface IOutputValve {
 

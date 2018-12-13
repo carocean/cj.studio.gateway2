@@ -1,7 +1,7 @@
 package cj.studio.gateway.socket;
 
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 
 public interface IGatewaySocket extends IServiceProvider{
 

@@ -1,6 +1,6 @@
 package cj.studio.gateway.socket.app.valve;
 
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.pipeline.IOPipeline;
 import cj.studio.gateway.socket.pipeline.IOutputValve;
 

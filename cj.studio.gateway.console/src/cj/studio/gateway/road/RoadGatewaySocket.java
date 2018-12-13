@@ -13,7 +13,7 @@ import cj.studio.ecm.IAssembly;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.IWorkbin;
 import cj.studio.ecm.ServiceCollection;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.road.pipeline.builder.RoadInputPipelineBuilder;
 import cj.studio.gateway.road.pipeline.builder.RoadOutputPipelineBuilder;
 import cj.studio.gateway.socket.Destination;

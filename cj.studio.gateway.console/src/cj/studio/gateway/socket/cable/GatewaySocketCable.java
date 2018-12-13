@@ -6,8 +6,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.cable.wire.HttpGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.TcpGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.UdtGatewaySocketWire;
@@ -25,7 +25,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	private String protocol;
 	boolean isOpened;
 	private String wspath;
-	private int heartbeat;
+	private long heartbeat;
 	private int workThreadCount;
 	private int maxIdleConnections;
 	private long keepAliveDuration;
@@ -34,7 +34,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	private long writeTimeout;
 	private boolean followRedirects;
 	private boolean retryOnConnectionFailure;
-
+	private int aggregatorLimit;
 	public GatewaySocketCable(IServiceProvider parent) {
 		this.parent = parent;
 		wires = new CopyOnWriteArrayList<>();
@@ -67,7 +67,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	}
 
 	@Override
-	public int getHeartbeat() {
+	public long getHeartbeat() {
 		return heartbeat;
 	}
 
@@ -115,7 +115,9 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		if ("$.prop.wspath".equals(name)) {
 			return wspath;
 		}
-
+		if ("$.prop.aggregatorLimit".equals(name)) {
+			return aggregatorLimit;
+		}
 		return parent.getService(name);
 	}
 
@@ -130,15 +132,13 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		IGatewaySocketWire wire = local.get();
 		if (wire != null) {
 			if (wire.isOpened() && wire.isWritable()) {
-				checkWires();
 				return wire;
 			}
-			wires.remove(wire);
 		}
+		checkWires();
 		wire = selectInExists();
 		if (wire != null) {
 			local.set(wire);
-			checkWires();
 			return wire;
 		}
 		// 以下是新建
@@ -273,7 +273,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 			this.port = Integer.valueOf(addressArr[1]);
 		}
 
-		Frame f = new Frame(String.format("parse /?%s %s/1.0", q, protocol));
+		Frame f = new Frame(null,String.format("parse /?%s %s/1.0", q, protocol));
 
 		this.workThreadCount = StringUtil.isEmpty(f.parameter("workThreadCount"))
 				? Runtime.getRuntime().availableProcessors() * 2
@@ -281,7 +281,9 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		this.initialWireSize = StringUtil.isEmpty(f.parameter("initialWireSize")) ? 1
 				: Integer.valueOf(f.parameter("initialWireSize"));
 		this.heartbeat = StringUtil.isEmpty(f.parameter("heartbeat")) ? -1
-				: Integer.valueOf(f.parameter("heartbeat"));
+				: Long.valueOf(f.parameter("heartbeat"));
+		this.maxIdleTime = StringUtil.isEmpty(f.parameter("maxIdleTime")) ? 300000L
+				: Long.valueOf(f.parameter("maxIdleTime"));
 		this.maxIdleConnections = StringUtil.isEmpty(f.parameter("maxIdleConnections")) ? 5
 				: Integer.valueOf(f.parameter("maxIdleConnections"));
 		this.keepAliveDuration = StringUtil.isEmpty(f.parameter("keepAliveDuration")) ? 300000L
@@ -296,7 +298,8 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 				: Boolean.valueOf(f.parameter("followRedirects"));
 		this.retryOnConnectionFailure = StringUtil.isEmpty(f.parameter("retryOnConnectionFailure")) ? true
 				: Boolean.valueOf(f.parameter("retryOnConnectionFailure"));
-
+		this.aggregatorLimit = StringUtil.isEmpty(f.parameter("aggregatorLimit")) ? 1024*1024*2
+				: Integer.valueOf(f.parameter("aggregatorLimit"));
 		if ("ws".equals(protocol)) {
 			wspath = f.parameter("wspath");
 			if (StringUtil.isEmpty(wspath)) {

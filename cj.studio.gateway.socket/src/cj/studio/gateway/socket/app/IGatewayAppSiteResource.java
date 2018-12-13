@@ -4,8 +4,8 @@ import java.io.File;
 
 import org.jsoup.nodes.Document;
 
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
 
 public interface IGatewayAppSiteResource {
 	public Document html(String relativedUrl) throws CircuitException;

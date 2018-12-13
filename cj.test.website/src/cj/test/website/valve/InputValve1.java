@@ -2,7 +2,7 @@ package cj.test.website.valve;
 
 import cj.studio.ecm.Scope;
 import cj.studio.ecm.annotation.CjService;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.pipeline.IAnnotationInputValve;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 

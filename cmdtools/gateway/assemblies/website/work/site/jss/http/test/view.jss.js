@@ -25,9 +25,9 @@
  */
 
 var String = Java.type('java.lang.String');
-var WebUtil = Java.type('cj.studio.ecm.net.web.WebUtil');
+var WebUtil = Java.type('cj.studio.ecm.net.util.WebUtil');
 var BigInteger=Java.type('java.math.BigInteger');
-var CircuitException=Java.type('cj.studio.ecm.graph.CircuitException');
+var CircuitException=Java.type('cj.studio.ecm.net.CircuitException');
 var SimpleDateFormat = Java.type('java.text.SimpleDateFormat');
 var Date = Java.type('java.util.Date');
 var Long = Java.type('java.lang.Long');

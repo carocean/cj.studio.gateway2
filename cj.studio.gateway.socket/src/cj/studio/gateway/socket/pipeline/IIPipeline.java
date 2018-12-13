@@ -1,6 +1,6 @@
 package cj.studio.gateway.socket.pipeline;
 
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 
 public interface IIPipeline {
 	void nextFlow(Object request,Object response, IInputValve formthis) throws CircuitException;

@@ -1,6 +1,9 @@
 package cj.studio.gateway.socket.app.valve;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,16 +12,14 @@ import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IChip;
 import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.script.IJssModule;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
-import cj.studio.gateway.socket.util.SocketContants;
-import cj.studio.gateway.socket.visitor.FileVisitor;
 import cj.ultimate.util.StringUtil;
 
 public class LastWayInputValve implements IInputValve {
@@ -41,15 +42,15 @@ public class LastWayInputValve implements IInputValve {
 		IChipInfo info = chip.info();
 		String documentType = info.getProperty(SITE_DOCUMENT);
 		String welcome = info.getProperty(SITE_HTTP_WELCOME);
-		if(!StringUtil.isEmpty(welcome)) {
-			if(welcome.indexOf(".")<0) {
+		if (!StringUtil.isEmpty(welcome)) {
+			if (welcome.indexOf(".") < 0) {
 				throw new EcmException("HTTP_WELCOME不是文档");
 			}
-			while(welcome.startsWith("/")) {
-				welcome=welcome.substring(1,welcome.length());
+			while (welcome.startsWith("/")) {
+				welcome = welcome.substring(1, welcome.length());
 			}
 		}
-		this.httpWelcome=welcome;
+		this.httpWelcome = welcome;
 		this.documentPattern = Pattern.compile(String.format("%s$", documentType.replace(".", ".*\\.")));
 	}
 
@@ -165,13 +166,32 @@ public class LastWayInputValve implements IInputValve {
 		if (this.mimes.containsKey(ext)) {
 			circuit.contentType(mimes.get(ext));
 		}
-		if(rpath.endsWith("/")) {
-			rpath=String.format("%s%s",rpath, httpWelcome);
+		if (rpath.endsWith("/")) {
+			rpath = String.format("%s%s", rpath, httpWelcome);
 		}
-//		circuit.content().writeBytes(resource.resource(rpath));
-		File f = resource.realFileName(rpath);
-		FileVisitor file = new FileVisitor(f);
-		circuit.attribute(SocketContants.__circuit_chunk_visitor, file);
+		File file = resource.realFileName(rpath);
+
+		FileInputStream in = null;
+		try {
+			in = new FileInputStream(file);
+			int read = 0;
+			byte[] b = new byte[8192];
+			while ((read = in.read(b)) != -1) {
+				circuit.content().writeBytes(b,0,read);
+			}
+		} catch (FileNotFoundException e) {
+			throw new CircuitException("404", e);
+		} catch (IOException e) {
+			throw new CircuitException("503", e);
+		} finally {
+			if(in!=null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+
 	}
 
 	private boolean mappingsContainsKey(String rpath) {

@@ -1,6 +1,6 @@
 package cj.studio.gateway.socket.pipeline;
 
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 /**
  * backward输出端子<br>
  * 注意：一定要释放，否则会占用backward连结点资源

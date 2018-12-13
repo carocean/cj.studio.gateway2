@@ -8,14 +8,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.cable.IGatewaySocketWire;
 import cj.studio.gateway.socket.client.IExecutorPool;
 import cj.ultimate.util.StringUtil;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.ConnectionPool;
@@ -98,7 +96,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 		MediaType mt = MediaType.parse(contentType);
 
 		if ("POST".equals(frame.command().toUpperCase())) {
-			if (frame.content().readableBytes() > 0) {
+			if (frame.content().revcievedBytes() > 0) {
 				byte[] data = frame.content().readFully();
 				RequestBody body = RequestBody.create(mt, data);
 				rbuilder.post(body);
@@ -111,44 +109,47 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 		Request req = rbuilder.url(fullUri)// 默认就是GET请求，可以不写
 				.build();
 		Circuit circuit = (Circuit) response;
-		if (circuit.hasFeedback()) {// 异步
-			circuit.beginFeeds();
+		if (!circuit.content().isAllInMemory()) {// 异步
 			Call call = client.newCall(req);
 			call.enqueue(new Callback() {
-				ByteBuf content = Unpooled.buffer();
 
 				@Override
 				public void onFailure(Call call, IOException e) {
-					content.clear();
 					CircuitException exc = new CircuitException("505", e);
-					content.writeBytes(exc.messageCause().getBytes());
-					circuit.doneFeeds(content);
+					byte[] b=exc.messageCause().getBytes();
+					circuit.content().writeBytes(b);
 				}
 
 				@Override
 				public void onResponse(Call call, Response response) throws IOException {
-					content.clear();
+					fillCircut(response);
 					ResponseBody body = response.body();
 					InputStream in = body.byteStream();
 					int len = 0;
-					byte[] b = new byte[content.writableBytes()];
+					byte[] b = new byte[8192];
 					while ((len = in.read(b, 0, b.length)) != -1) {
-						content.writeBytes(b, 0, len);
-					}
-					try {
-						circuit.writeFeeds(content);
-					} catch (CircuitException e) {
-						throw new IOException(e.getMessage());
+						circuit.content().writeBytes(b,0,len);
 					}
 					if (response.isSuccessful()) {
-						circuit.doneFeeds(content);
-						content.release();
+						circuit.content().close();
 					}
+				}
+
+				private void fillCircut(Response res) {
+					Headers headers = res.headers();
+					Set<String> set = headers.names();
+					for (String key : set) {
+						String v = headers.get(key);
+						circuit.head(key, v);
+					}
+					circuit.message(res.message());
+					circuit.status(res.code() + "");
+					
 				}
 			});
 			return circuit;
 		}
-		// 以下是同步
+		 //以下是同步
 		Call call = client.newCall(req);
 		try {
 			Response res = call.execute();
@@ -174,6 +175,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 			circuit.head("Content-Length", body.contentLength() + "");
 			try {
 				circuit.content().writeBytes(body.bytes());
+				circuit.content().close();
 			} catch (IOException e) {
 				throw new CircuitException("503", e);
 			}

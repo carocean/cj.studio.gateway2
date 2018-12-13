@@ -1,14 +1,24 @@
 package cj.studio.gateway.socket.cable.wire;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import cj.studio.ecm.CJSystem;
+import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
-import cj.studio.ecm.net.nio.netty.tcp.TcpFrameBox;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.IInputChannel;
+import cj.studio.ecm.net.IOutputChannel;
+import cj.studio.ecm.net.http.HttpCircuit;
+import cj.studio.ecm.net.io.MemoryContentReciever;
+import cj.studio.ecm.net.io.MemoryInputChannel;
+import cj.studio.ecm.net.io.SimpleInputChannel;
+import cj.studio.ecm.net.util.TcpFrameBox;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.junction.BackwardJunction;
@@ -16,6 +26,10 @@ import cj.studio.gateway.junction.Junction;
 import cj.studio.gateway.server.util.GetwayDestHelper;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.cable.IGatewaySocketWire;
+import cj.studio.gateway.socket.cable.wire.reciever.TcpContentReciever;
+import cj.studio.gateway.socket.client.IExecutorPool;
+import cj.studio.gateway.socket.io.TcpInputChannel;
+import cj.studio.gateway.socket.io.TcpOutputChannel;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
@@ -64,8 +78,10 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 	@Override
 	public void dispose() {
 		close();
-		if (channel.isOpen()) {
-			channel.close();
+		if (channel != null) {
+			if (channel.isOpen()) {
+				channel.close();
+			}
 		}
 	}
 
@@ -81,27 +97,44 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 
 	@Override
 	public synchronized Object send(Object request, Object response) throws CircuitException {
-		Frame frame = (Frame) request;
-		if (!channel.isWritable()) {// 断开连结，且从电缆中移除导线
-			if (channel.isOpen()) {
-				channel.close();
-			}
+		if (!channel.isOpen()) {// 断开连结，且从电缆中移除导线
 			@SuppressWarnings("unchecked")
 			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
 			wires.remove(this);
-			return null;
+			throw new CircuitException("500", "导线已关闭，包丢弃：" + request);
 		}
-		byte[] box = TcpFrameBox.box(frame.toBytes());
-		ByteBuf bb = Unpooled.directBuffer();
+		Frame frame = (Frame) request;
+		TcpContentReciever tcr = new TcpContentReciever(channel);
+		frame.content().accept(tcr);
+
+		byte[] b = null;
+		if (frame.content().isAllInMemory()) {
+			b = frame.content().readFully();
+		}
+
+		MemoryInputChannel in = new MemoryInputChannel(8192);
+		Frame pack = new Frame(in, "frame / gateway/1.0");// 有三种包：frame,content,last。frame包无内容；content和last包有内容无头
+		pack.content().accept(new MemoryContentReciever());
+		in.begin(null);
+		byte[] data = frame.toBytes();
+		in.done(data, 0, data.length);
+
+		byte[] box = TcpFrameBox.box(pack.toBytes());
+		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
 		channel.writeAndFlush(bb);
+
+		if (b != null) {
+			tcr.done(b, 0, b.length);
+		}
 
 		return null;
 	}
 
 	@Override
 	public void connect(String ip, int port) throws CircuitException {
-		EventLoopGroup group = (EventLoopGroup) parent.getService("$.eventloop.group");
+		IExecutorPool exepool = (IExecutorPool) parent.getService("$.executor.pool");
+		EventLoopGroup group = exepool.getEventLoopGroup();
 		Bootstrap b = new Bootstrap();
 
 		b.group(group).channel(NioSocketChannel.class).option(ChannelOption.TCP_NODELAY, true)
@@ -135,7 +168,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			 * 解码和编码 我将会在下一张为大家详细的讲解。再次暂时不做详细的描述
 			 */
 			pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
-			int interval = (int) parent.getService("$.prop.heartbeat");
+			long interval = (long) parent.getService("$.prop.heartbeat");
 			if (interval > 0) {
 				pipeline.addLast(new IdleStateHandler(0, 0, interval, TimeUnit.MILLISECONDS));
 			}
@@ -151,6 +184,8 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		private IJunctionTable junctions;
 		InputPipelineCollection pipelines;
 		private String socketName;
+		private Circuit currentCircuit;
+		private TcpInputChannel inputChannel;
 
 		public TcpClientHandler() {
 			sockets = (IGatewaySocketContainer) parent.getService("$.container.socket");
@@ -162,8 +197,9 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		@Override
 		public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 			pipelineRelease(ctx);
-			
+
 		}
+
 		protected void pipelineRelease(ChannelHandlerContext ctx) throws Exception {
 			Set<String> dests = pipelines.enumDest();
 			for (String dest : dests) {
@@ -176,15 +212,55 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 				input.headOnInactive(pipelineName);
 			}
 			pipelines.dispose();
-			
+
 			TcpGatewaySocketWire.this.close();
 		}
+
 		@Override
 		public void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
+
 			ByteBuf bb = (ByteBuf) msg;
+			if(bb.readableBytes()==0) {
+				return;
+			}
 			byte[] b = new byte[bb.readableBytes()];
 			bb.readBytes(b);
-			Frame frame = new Frame(b);
+			IInputChannel input = new MemoryInputChannel(8192);
+			MemoryContentReciever reciever = new MemoryContentReciever();
+			input.accept(reciever);
+			Frame pack = new Frame(input, b);
+			pack.content().accept(reciever);
+			input.done(b, 0, 0);
+
+			if (!"GATEWAY/1.0".equals(pack.protocol())) {
+				CJSystem.logging().error(getClass(),"不是网关协议侦:"+pack.protocol());
+				return;
+			}
+			switch (pack.command()) {
+			case "heartbeat":
+				return;
+			case "frame":
+				doFramePack(ctx, pack);
+				break;
+			case "content":
+				doContentPack(ctx, pack);
+				break;
+			case "last":
+				doLastPack(ctx, pack);
+				break;
+			default:
+				throw new EcmException("不支持的gateway指令：" + pack.command());
+			}
+
+		}
+
+		private void doFramePack(ChannelHandlerContext ctx, Frame pack) throws Exception {
+			TcpInputChannel input = new TcpInputChannel();
+			Frame frame = input.begin(pack);
+			IOutputChannel output = new TcpOutputChannel(ctx.channel(), frame);
+			Circuit circuit = new HttpCircuit(output, String.format("%s 200 OK", frame.protocol()));
+			this.currentCircuit = circuit;
+			this.inputChannel = input;
 
 			String uri = frame.url();
 			String gatewayDestInHeader = frame.head(__frame_gatewayDest);
@@ -193,21 +269,94 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 				throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 			}
 
-			
 			IInputPipeline inputPipeline = pipelines.get(gatewayDest);
 			// 检查目标管道是否存在
 			if (inputPipeline != null) {
-				Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
-				inputPipeline.headFlow(frame, circuit);
+				flowPipeline(inputPipeline, ctx, frame, circuit);
 				return;
 			}
-			
-			
+
 			// 以下生成目标管道
-			pipelineBuild( gatewayDest, frame, ctx);
+			pipelineBuild(gatewayDest, frame, circuit, ctx);
+
 		}
 
-		protected void pipelineBuild( String gatewayDest, Frame frame, ChannelHandlerContext ctx)
+		private void doContentPack(ChannelHandlerContext ctx, Frame pack) throws Exception {
+			if (inputChannel == null) {
+				return;
+			}
+
+			byte[] b = pack.content().readFully();
+			Circuit circuit = this.currentCircuit;
+			try {
+				inputChannel.writeBytes(b, 0, b.length);
+			} catch (Exception e) {
+				if (!circuit.content().isCommited()) {
+					circuit.status("503");
+					circuit.message(e.toString().replace("\r", "").replace("\n", ""));
+					circuit.content().clearbuf();
+					circuit.content().flush();
+				}
+				StringWriter out = new StringWriter();
+				e.printStackTrace(new PrintWriter(out));
+				circuit.content().writeBytes(out.toString().getBytes());
+				throw e;
+			}
+		}
+
+		private void doLastPack(ChannelHandlerContext ctx, Frame pack) throws Exception {
+			if (inputChannel == null) {
+				return;
+			}
+
+			byte[] b = pack.content().readFully();
+			Circuit circuit = this.currentCircuit;
+			try {
+				inputChannel.done(b, 0, b.length);
+				circuit.content().flush();// 到此刷新
+			} catch (Exception e) {
+				if (!circuit.content().isCommited()) {
+					circuit.status("503");
+					circuit.message(e.toString().replace("\r", "").replace("\n", ""));
+					circuit.content().clearbuf();
+					circuit.content().flush();
+				}
+				StringWriter out = new StringWriter();
+				e.printStackTrace(new PrintWriter(out));
+				circuit.content().writeBytes(out.toString().getBytes());
+				circuit.content().flush();
+				throw e;
+			} finally {
+				if (!circuit.content().isClosed()) {
+					circuit.content().close();
+				}
+				this.currentCircuit = null;
+				this.inputChannel = null;
+			}
+		}
+
+		protected void flowPipeline(IInputPipeline pipeline, ChannelHandlerContext ctx, Frame frame, Circuit circuit)
+				throws Exception {
+			frame.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
+			frame.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
+			frame.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
+
+			try {
+				pipeline.headFlow(frame, circuit);
+			} catch (Throwable e) {
+				if (!circuit.content().isCommited()) {
+					circuit.content().clearbuf();
+					circuit.content().flush();
+				}
+				StringWriter out = new StringWriter();
+				e.printStackTrace(new PrintWriter(out));
+				circuit.content().writeBytes(out.toString().getBytes());
+				circuit.content().flush();
+				throw e;
+			}
+		}
+
+		protected void pipelineBuild(String gatewayDest, Frame frame, Circuit circuit, ChannelHandlerContext ctx)
 				throws Exception {
 
 			IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
@@ -221,13 +370,23 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			junction.parse(inputPipeline, ctx.channel(), socket);
 			this.junctions.add(junction);
 
-			Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
-			inputPipeline.headOnActive(pipelineName);// 通知管道激活
+			try {
+				inputPipeline.headOnActive(pipelineName);// 通知管道激活
+			} catch (Exception e) {
+				if (!circuit.content().isCommited()) {
+					circuit.content().clearbuf();
+					circuit.content().flush();
+				}
+				StringWriter out = new StringWriter();
+				e.printStackTrace(new PrintWriter(out));
+				circuit.content().writeBytes(out.toString().getBytes());
+				circuit.content().close();
+				ctx.close();
+				throw e;
+			}
 
-			inputPipeline.headFlow(frame, circuit);// 再把本次请求发送处理
+			flowPipeline(inputPipeline, ctx, frame, circuit);// 再把本次请求发送处理
 		}
-
-		
 
 		@Override
 		public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
@@ -239,10 +398,11 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			}
 		}
 
-		private void sendHeartbeatPacket(ChannelHandlerContext ctx) {
-			Frame f = new Frame("heartbeat / gateway/1.0");
+		private void sendHeartbeatPacket(ChannelHandlerContext ctx) throws CircuitException {
+			IInputChannel input = new SimpleInputChannel();
+			Frame f = new Frame(input, "heartbeat / gateway/1.0");
 			byte[] box = TcpFrameBox.box(f.toBytes());
-			ByteBuf bb = Unpooled.directBuffer();
+			ByteBuf bb = Unpooled.buffer();
 			bb.writeBytes(box);
 			ctx.writeAndFlush(bb);
 

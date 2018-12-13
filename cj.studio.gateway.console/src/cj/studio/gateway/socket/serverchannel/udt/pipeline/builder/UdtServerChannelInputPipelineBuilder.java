@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IInputValve;

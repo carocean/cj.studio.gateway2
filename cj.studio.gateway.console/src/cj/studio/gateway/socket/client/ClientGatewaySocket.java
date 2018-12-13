@@ -5,7 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.cable.GatewaySocketCable;

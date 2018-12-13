@@ -1,7 +1,7 @@
 package cj.test.road;
 
 import cj.studio.ecm.annotation.CjService;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.app.GatewayAppSiteProgram;
 import cj.studio.gateway.socket.app.ProgramAdapterType;
 

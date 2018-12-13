@@ -1,14 +1,20 @@
 package cj.studio.gateway.server.handler;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Set;
 
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
 import cj.studio.ecm.logging.ILogging;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.IInputChannel;
+import cj.studio.ecm.net.IOutputChannel;
+import cj.studio.ecm.net.io.MemoryContentReciever;
+import cj.studio.ecm.net.io.MemoryInputChannel;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.conf.ServerInfo;
@@ -16,6 +22,7 @@ import cj.studio.gateway.junction.ForwardJunction;
 import cj.studio.gateway.junction.Junction;
 import cj.studio.gateway.server.util.GetwayDestHelper;
 import cj.studio.gateway.socket.IGatewaySocket;
+import cj.studio.gateway.socket.io.WSOutputChannel;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
@@ -28,7 +35,10 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.timeout.IdleStateEvent;
 
 public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 		implements ChannelHandler, SocketContants {
@@ -38,6 +48,8 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 	private IJunctionTable junctions;
 	InputPipelineCollection pipelines;
 	private ServerInfo info;
+	// 心跳丢失计数器
+	private int counter;
 
 	public WebsocketChannelHandler(IServiceProvider parent) {
 		this.parent = parent;
@@ -47,24 +59,55 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 		this.pipelines = new InputPipelineCollection();
 		info = (ServerInfo) parent.getService("$.server.info");
 	}
-	
+
+	@Override
+	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+		if (evt instanceof IdleStateEvent) {
+			// 空闲6s之后触发 (心跳包丢失)
+			if (counter >= 3) {
+				// 连续丢失3个心跳包 (断开连接)
+				ctx.channel().close().sync();
+			} else {
+				counter++;
+			}
+		} else {
+			super.userEventTriggered(ctx, evt);
+		}
+	}
+
 	@Override
 	protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
-		ByteBuf bb =null;
-		if(msg instanceof TextWebSocketFrame) {
-			TextWebSocketFrame f=(TextWebSocketFrame)msg;
-			bb=f.content();
-		}else if(msg instanceof BinaryWebSocketFrame){
-			BinaryWebSocketFrame f=(BinaryWebSocketFrame)msg;
-			bb=f.content();
-		}else {
-			throw new EcmException("不支持此类消息："+msg.getClass());
+		if (msg instanceof PongWebSocketFrame) {
+			return;
 		}
-		
+		if (msg instanceof CloseWebSocketFrame) {
+			ctx.close();
+			return;
+		}
+		ByteBuf bb = null;
+		if (msg instanceof TextWebSocketFrame) {
+			TextWebSocketFrame f = (TextWebSocketFrame) msg;
+			bb = f.content();
+		} else if (msg instanceof BinaryWebSocketFrame) {
+			BinaryWebSocketFrame f = (BinaryWebSocketFrame) msg;
+			bb = f.content();
+		} else {
+			throw new EcmException("不支持此类消息：" + msg.getClass());
+		}
+		if (bb.readableBytes() == 0) {
+			return;
+		}
 		byte[] b = new byte[bb.readableBytes()];
 		bb.readBytes(b);
-		Frame frame = new Frame(b);
-
+		
+		IInputChannel input = new MemoryInputChannel(8192);
+		MemoryContentReciever rec=new MemoryContentReciever();
+		input.accept(rec);
+		Frame frame = new Frame(input, b);
+		frame.content().accept(rec);
+		input.begin(null);
+		input.done(b, 0, 0);
+		
 		String uri = frame.url();
 		String gatewayDestInHeader = frame.head(__frame_gatewayDest);
 		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, getClass());
@@ -72,26 +115,49 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 			throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 		}
 
+		IOutputChannel output = new WSOutputChannel(ctx.channel(), frame);
+		Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
 		
 		IInputPipeline inputPipeline = pipelines.get(gatewayDest);
 		// 检查目标管道是否存在
 		if (inputPipeline != null) {
-			Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
-			inputPipeline.headFlow(frame, circuit);
+			flowPipeline(ctx, inputPipeline, frame, circuit);
 			return;
 		}
 
 		// 以下生成目标管道
-		pipelineBuild(gatewayDest, frame, ctx);
+		pipelineBuild(gatewayDest, frame,circuit, ctx);
 
 	}
 
-	protected void pipelineBuild(String gatewayDest, Frame frame, ChannelHandlerContext ctx)
-			throws Exception {
+	private void flowPipeline(ChannelHandlerContext ctx, IInputPipeline pipeline, Frame frame, Circuit circuit) throws Exception {
+		frame.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
+		frame.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
+		frame.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
+
+		try {
+			pipeline.headFlow(frame, circuit);
+		} catch (Throwable e) {
+			if (!circuit.content().isCommited()) {
+				circuit.content().clearbuf();
+				circuit.content().flush();
+			}
+			StringWriter out = new StringWriter();
+			e.printStackTrace(new PrintWriter(out));
+			circuit.content().writeBytes(out.toString().getBytes());
+			circuit.content().flush();
+			throw e;
+		} finally {
+			if(!circuit.content().isClosed()) {
+				circuit.content().close();
+			}
+		}
+	}
+
+	protected void pipelineBuild(String gatewayDest, Frame frame,Circuit circuit, ChannelHandlerContext ctx) throws Exception {
 		WebsocketServerChannelGatewaySocket wsSocket = new WebsocketServerChannelGatewaySocket(parent, ctx.channel());
 		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
-		
-		
+
 		IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
 
 		String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
@@ -104,10 +170,22 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 		junction.parse(inputPipeline, ctx.channel(), socket);
 		this.junctions.add(junction);
 
-		Circuit circuit = new Circuit(String.format("%s 200 OK", frame.protocol()));
-		inputPipeline.headOnActive(pipelineName);// 通知管道激活
+		try {
+			inputPipeline.headOnActive(pipelineName);// 通知管道激活
+		} catch (Exception e) {
+			if (!circuit.content().isCommited()) {
+				circuit.content().clearbuf();
+				circuit.content().flush();
+			}
+			StringWriter out = new StringWriter();
+			e.printStackTrace(new PrintWriter(out));
+			circuit.content().writeBytes(out.toString().getBytes());
+			circuit.content().close();
+			ctx.close();
+			throw e;
+		}
 
-		inputPipeline.headFlow(frame, circuit);//再把本次请求发送处理
+		flowPipeline(ctx, inputPipeline, frame, circuit);// 再把本次请求发送处理
 	}
 
 	protected void pipelineRelease(ChannelHandlerContext ctx) throws Exception {
@@ -126,7 +204,7 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		
+
 		super.channelActive(ctx);
 	}
 
@@ -142,6 +220,7 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 
 		super.channelInactive(ctx);
 	}
+
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		// TODO Auto-generated method stub

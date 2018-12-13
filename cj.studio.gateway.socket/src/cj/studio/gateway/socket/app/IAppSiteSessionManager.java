@@ -2,8 +2,8 @@ package cj.studio.gateway.socket.app;
 
 import java.util.List;
 
-import cj.studio.ecm.graph.CircuitException;
-import cj.studio.ecm.net.layer.ISessionEvent;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.session.ISessionEvent;
 
 //生成、管理会话
 public interface IAppSiteSessionManager {

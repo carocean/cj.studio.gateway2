@@ -1,6 +1,6 @@
 package cj.studio.gateway.socket.pipeline;
 
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.ultimate.IDisposable;
 
 public interface IOutputPipeline extends IOPipeline,IDisposable{

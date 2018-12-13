@@ -1,11 +1,8 @@
 package cj.studio.gateway.socket.app.valve;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 import cj.studio.gateway.socket.util.SocketContants;
@@ -25,13 +22,6 @@ public class CheckUrlInputValve implements IInputValve {
 		if (request instanceof Frame) {
 			Frame f = (Frame) request;
 			uri = f.path();
-		} else {
-			HttpServletRequest req = (HttpServletRequest) request;
-			uri = req.getRequestURI();
-			int pos = uri.lastIndexOf("?");
-			if (pos > 0) {
-				uri = uri.substring(0, pos);
-			}
 		}
 		int dotpos = uri.lastIndexOf(".");
 		if (dotpos < 0&&"http".equals(pipeline.prop(SocketContants.__pipeline_fromProtocol)) && !uri.endsWith("/")) {// 重定向
@@ -48,18 +38,7 @@ public class CheckUrlInputValve implements IInputValve {
 					fullUrl = String.format("%s/", uri);
 				}
 				c.head("Location", fullUrl);
-			} else {
-				HttpServletResponse res=(HttpServletResponse)response;
-				HttpServletRequest req = (HttpServletRequest) request;
-				String fullUrl = uri;
-				String qstr = req.getQueryString();
-				if (!StringUtil.isEmpty(qstr)) {
-					fullUrl = String.format("%s/?%s", uri, qstr);
-				}else {
-					fullUrl = String.format("%s/", uri);
-				}
-				res.addHeader("Location", fullUrl);
-			}
+			} 
 			return;
 		}
 		pipeline.nextFlow(request, response, this);

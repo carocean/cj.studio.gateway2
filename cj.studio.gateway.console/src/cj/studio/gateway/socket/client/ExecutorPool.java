@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-import cj.studio.ecm.net.nio.netty.udt.UtilThreadFactory;
+import cj.studio.ecm.net.util.UtilThreadFactory;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.udt.nio.NioUdtProvider;

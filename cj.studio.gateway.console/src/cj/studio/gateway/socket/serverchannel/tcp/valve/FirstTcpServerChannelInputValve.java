@@ -1,6 +1,6 @@
 package cj.studio.gateway.socket.serverchannel.tcp.valve;
 
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 

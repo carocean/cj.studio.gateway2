@@ -5,7 +5,7 @@ import cj.studio.ecm.IServiceSetter;
 import cj.studio.ecm.Scope;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.road.RoadGatewaySocket;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;

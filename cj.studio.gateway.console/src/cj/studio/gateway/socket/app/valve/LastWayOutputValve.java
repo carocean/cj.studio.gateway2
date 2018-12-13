@@ -2,8 +2,8 @@ package cj.studio.gateway.socket.app.valve;
 
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
-import cj.studio.ecm.frame.Frame;
-import cj.studio.ecm.graph.CircuitException;
+import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.junction.BackwardJunction;

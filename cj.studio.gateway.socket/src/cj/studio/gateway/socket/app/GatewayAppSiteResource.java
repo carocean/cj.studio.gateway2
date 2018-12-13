@@ -12,9 +12,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import cj.studio.ecm.CJSystem;
-import cj.studio.ecm.frame.Circuit;
-import cj.studio.ecm.graph.CircuitException;
-import cj.studio.ecm.net.nio.NetConstans;
+import cj.studio.ecm.net.Circuit;
+import cj.studio.ecm.net.CircuitException;
 import cj.ultimate.IDisposable;
 import cj.ultimate.util.StringUtil;
 
@@ -75,7 +74,7 @@ class GatewayAppSiteResource implements IGatewayAppSiteResource, IDisposable {
 		try {
 			File f = new File(rp);
 			if (f.length() >= Integer.MAX_VALUE) {
-				throw new CircuitException(NetConstans.STATUS_503,
+				throw new CircuitException("503",
 						String.format("要读取的doc文档太大，不能超过%s个字节", Integer.MAX_VALUE));
 			}
 			FileInputStream in = new FileInputStream(f);
@@ -87,9 +86,9 @@ class GatewayAppSiteResource implements IGatewayAppSiteResource, IDisposable {
 			Document doc = Jsoup.parse(html, charset/* r.getEncoding() */);
 			return doc;
 		} catch (FileNotFoundException e) {
-			throw new CircuitException(NetConstans.STATUS_404, String.format("资源文件不存在:%s", relativedUrl));
+			throw new CircuitException("404", String.format("资源文件不存在:%s", relativedUrl));
 		} catch (IOException e) {
-			throw new CircuitException(NetConstans.STATUS_503, e);
+			throw new CircuitException("503", e);
 		} finally {
 			if (dis != null)
 				try {
@@ -203,7 +202,7 @@ class GatewayAppSiteResource implements IGatewayAppSiteResource, IDisposable {
 		rp = rp.replace("//", "/").replace("/", File.separator);
 		File file=new File(rp);
 		if(!file.exists()) {
-			throw new CircuitException(NetConstans.STATUS_404, String.format("资源文件不存在:%s", relativedUrl));
+			throw new CircuitException("404", String.format("资源文件不存在:%s", relativedUrl));
 		}
 		return file;
 	}
@@ -215,7 +214,7 @@ class GatewayAppSiteResource implements IGatewayAppSiteResource, IDisposable {
 		try {
 			File f = new File(rp);
 			if (f.length() >= Integer.MAX_VALUE) {
-				throw new CircuitException(NetConstans.STATUS_503,
+				throw new CircuitException("503",
 						String.format("要读取的doc文档太大，不能超过%s个字节", Integer.MAX_VALUE));
 			}
 			FileInputStream in = new FileInputStream(f);
@@ -224,9 +223,9 @@ class GatewayAppSiteResource implements IGatewayAppSiteResource, IDisposable {
 			dis.readFully(b);
 			return b;
 		} catch (FileNotFoundException e) {
-			throw new CircuitException(NetConstans.STATUS_404, String.format("资源文件不存在:%s", relativedUrl));
+			throw new CircuitException("404", String.format("资源文件不存在:%s", relativedUrl));
 		} catch (IOException e) {
-			throw new CircuitException(NetConstans.STATUS_503, e);
+			throw new CircuitException("503", e);
 		} finally {
 			if (dis != null)
 				try {
