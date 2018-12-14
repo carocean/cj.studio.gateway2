@@ -57,7 +57,7 @@
 		{
 			"name": "backend-tcp",
 			"uris": [
-				"tcp://localhost:9092"
+				"tcp://localhost:8082"
 			],
 			"props": {
 				

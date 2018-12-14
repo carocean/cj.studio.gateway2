@@ -69,7 +69,9 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 	@Override
 	public void used(boolean b) {
 		isIdle = !b;
-		idleBeginTime = System.currentTimeMillis();
+		if (isIdle) {
+			idleBeginTime = System.currentTimeMillis();
+		}
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			wires.remove(this);
 			throw new CircuitException("500", "导线已关闭，包丢弃：" + request);
 		}
-
+		used(true);
 		Frame frame = (Frame) request;
 		UdtContentReciever tcr = new UdtContentReciever(channel);
 		frame.content().accept(tcr);
@@ -123,7 +125,7 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		if (b != null) {
 			tcr.done(b, 0, b.length);
 		}
-
+		used(false);
 		return null;
 	}
 

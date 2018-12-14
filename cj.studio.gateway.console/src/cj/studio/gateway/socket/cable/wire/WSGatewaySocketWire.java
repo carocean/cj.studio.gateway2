@@ -82,13 +82,15 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 	@Override
 	public void used(boolean b) {
 		isIdle = !b;
-		idleBeginTime = System.currentTimeMillis();
+		if (isIdle) {
+			idleBeginTime = System.currentTimeMillis();
+		}
 	}
 
 	@Override
 	public void dispose() {
 		close();
-		if (channel!=null&&channel.isOpen()) {
+		if (channel != null && channel.isOpen()) {
 			channel.close();
 		}
 	}
@@ -105,18 +107,20 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 
 	@Override
 	public synchronized Object send(Object request, Object response) throws CircuitException {
-		Frame frame = (Frame) request;
 		if (!channel.isOpen()) {// 断开连结，且从电缆中移除导线
 			@SuppressWarnings("unchecked")
 			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
 			wires.remove(this);
-			throw new CircuitException("500", "导线已关闭，包丢弃："+request);
+			throw new CircuitException("500", "导线已关闭，包丢弃：" + request);
 		}
+		used(true);
+		Frame frame = (Frame) request;
 		if (!frame.content().isAllInMemory()) {
 			throw new CircuitException("503", "ws协议仅支持内存模式，请使用MemoryContentReciever");
 		}
 		WebSocketFrame f = new BinaryWebSocketFrame(frame.toByteBuf());
 		channel.writeAndFlush(f);
+		used(false);
 		return null;
 	}
 
@@ -362,7 +366,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 
 			super.exceptionCaught(ctx, cause);
 		}
-		
+
 		@Override
 		public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
 			if (evt instanceof IdleStateEvent) {
@@ -373,7 +377,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 		}
 
 		private void sendHeartbeatPacket(ChannelHandlerContext ctx) {
-			PongWebSocketFrame pong=new PongWebSocketFrame();
+			PongWebSocketFrame pong = new PongWebSocketFrame();
 			ctx.writeAndFlush(pong);
 
 		}

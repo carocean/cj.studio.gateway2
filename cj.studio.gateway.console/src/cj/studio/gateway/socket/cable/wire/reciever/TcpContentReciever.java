@@ -26,6 +26,7 @@ public class TcpContentReciever implements IContentReciever {
 		in.done(b,pos,length);
 		
 		byte[] box = TcpFrameBox.box(pack.toBytes());
+		pack.dispose();
 		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
 		channel.writeAndFlush(bb);
@@ -41,6 +42,7 @@ public class TcpContentReciever implements IContentReciever {
 		in.done(b,pos,length);
 		
 		byte[] box = TcpFrameBox.box(pack.toBytes());
+		pack.dispose();
 		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
 		channel.writeAndFlush(bb);

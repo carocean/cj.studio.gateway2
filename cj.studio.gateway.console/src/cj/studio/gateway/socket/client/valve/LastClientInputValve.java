@@ -41,31 +41,32 @@ public class LastClientInputValve implements IInputValve {
 		// 由于pipeline在同一线程下，所以不必考虑选择或释放导线的并发问题，因为不存在并发
 		if (wires.isEmpty()) {
 			select(pipeline);
-			return;
 		}
+		IGatewaySocketWire seleted = null;
 		for (IGatewaySocketWire w : wires) {
 			if (w == null) {
 				continue;
 			}
 			if (!w.isOpened()) {
-				select(pipeline);// 重新选择所有导线
-			}
-			try {
-				w.send(request, response);
-			} catch (Throwable e) {
-				CJSystem.logging().error(getClass(), e + "");
+				wires.remove(w);
+				select(pipeline);
 				continue;
 			}
+			seleted = w;
+		}
+		if (seleted == null) {
+			throw new CircuitException("404", "未选择到可用导线");
+		}
+		try {
+			seleted.send(request, response);
+		} catch (Throwable e) {
+			CJSystem.logging().error(getClass(), e + "");
 		}
 	}
 
 	@Override
 	public void onInactive(String inputName, IIPipeline pipeline) throws CircuitException {
 		// 归还导线到电缆
-		returnWire();
-	}
-
-	protected void returnWire() {
 		for (IGatewaySocketWire w : wires) {
 			if (w != null) {
 				w.used(false);
@@ -75,10 +76,9 @@ public class LastClientInputValve implements IInputValve {
 	}
 
 	protected void select(IIPipeline pipeline) throws CircuitException {
-		if(cables.size()<0) {
+		if (cables.size() < 0) {
 			return;
 		}
-		returnWire();// 释放导线重新选择
 		String boardcast = destination.getProps().get("broadcast");
 		String name = pipeline.prop(SocketContants.__pipeline_name);
 		if ("unicast".equals(boardcast)) {// 单播是均衡的选一个电缆
@@ -98,7 +98,7 @@ public class LastClientInputValve implements IInputValve {
 			if (wire == null) {
 				continue;
 			}
-			if(!wire.isOpened()) {
+			if (!wire.isOpened()) {
 				continue;
 			}
 			wires.add(wire);

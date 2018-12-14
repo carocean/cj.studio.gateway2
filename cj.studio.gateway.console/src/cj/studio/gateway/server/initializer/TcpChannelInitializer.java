@@ -22,7 +22,7 @@ public class TcpChannelInitializer extends ChannelInitializer<SocketChannel> {
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
-		pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4,false));
+		pipeline.addLast(new LengthFieldBasedFrameDecoder(81920, 0, 4, 0, 4));
 		
 		ServerInfo info = (ServerInfo) parent.getService("$.server.info");
 		String interval = info.getProps().get("heartbeat");

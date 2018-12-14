@@ -13,7 +13,6 @@ import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IInputChannel;
 import cj.studio.ecm.net.IOutputChannel;
-import cj.studio.ecm.net.http.HttpCircuit;
 import cj.studio.ecm.net.io.MemoryContentReciever;
 import cj.studio.ecm.net.io.MemoryInputChannel;
 import cj.studio.gateway.IGatewaySocketContainer;
@@ -62,8 +61,8 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
 		if (evt instanceof IdleStateEvent) {
 			// 空闲6s之后触发 (心跳包丢失)
-			if (counter >= 3) {
-				// 连续丢失3个心跳包 (断开连接)
+			if (counter >= 10) {
+				// 连续丢失10个心跳包 (断开连接)
 				ctx.channel().close().sync();
 			} else {
 				counter++;
@@ -88,7 +87,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		Frame pack = new Frame(input, b);
 		pack.content().accept(reciever);
 		input.done(b, 0, 0);
-
+		
 		if (!"GATEWAY/1.0".equals(pack.protocol())) {
 			CJSystem.logging().error(getClass(),"不是网关协议侦:"+pack.protocol());
 			return;
@@ -172,7 +171,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		TcpInputChannel input = new TcpInputChannel();
 		Frame frame = input.begin(pack);
 		IOutputChannel output = new TcpOutputChannel(ctx.channel(), frame);
-		Circuit circuit = new HttpCircuit(output, String.format("%s 200 OK", frame.protocol()));
+		Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
 		this.currentCircuit = circuit;
 		this.inputChannel = input;
 

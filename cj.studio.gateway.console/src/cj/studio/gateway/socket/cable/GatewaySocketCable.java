@@ -35,6 +35,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	private boolean followRedirects;
 	private boolean retryOnConnectionFailure;
 	private int aggregatorLimit;
+
 	public GatewaySocketCable(IServiceProvider parent) {
 		this.parent = parent;
 		wires = new CopyOnWriteArrayList<>();
@@ -134,12 +135,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 			if (wire.isOpened()) {
 				return wire;
 			}
-		}
-		checkWires();
-		wire = selectInExists();
-		if (wire != null) {
-			local.set(wire);
-			return wire;
+			checkWires();
 		}
 		// 以下是新建
 		wire = createWire();
@@ -147,7 +143,6 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		wire.used(true);
 		wires.add(wire);
 		local.set(wire);
-		checkWires();
 		return wire;
 	}
 
@@ -155,31 +150,17 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		for (IGatewaySocketWire w : wires) {
 			if (w == null)
 				continue;
+			if (!w.isOpened()) {
+				wires.remove(w);
+				continue;
+			}
 			if ((System.currentTimeMillis() - w.idleBeginTime()) > this.maxIdleTime) {
 				w.dispose();// 释放连接，物理关闭
 				wires.remove(w);
 				continue;
 			}
-			if (!w.isOpened()) {
-				wires.remove(w);
-				continue;
-			}
 		}
 
-	}
-
-	private IGatewaySocketWire selectInExists() {
-		// 检查现有导线是否有空闲的
-		for (IGatewaySocketWire wire : wires) {
-			if (wire == null) {
-				continue;
-			}
-			if (wire.isIdle()) {
-				wire.used(true);
-				return wire;
-			}
-		}
-		return null;
 	}
 
 	@Override
@@ -273,15 +254,14 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 			this.port = Integer.valueOf(addressArr[1]);
 		}
 
-		Frame f = new Frame(null,String.format("parse /?%s %s/1.0", q, protocol));
+		Frame f = new Frame(null, String.format("parse /?%s %s/1.0", q, protocol));
 
 		this.workThreadCount = StringUtil.isEmpty(f.parameter("workThreadCount"))
 				? Runtime.getRuntime().availableProcessors() * 2
 				: Integer.valueOf(f.parameter("workThreadCount"));
 		this.initialWireSize = StringUtil.isEmpty(f.parameter("initialWireSize")) ? 1
 				: Integer.valueOf(f.parameter("initialWireSize"));
-		this.heartbeat = StringUtil.isEmpty(f.parameter("heartbeat")) ? -1
-				: Long.valueOf(f.parameter("heartbeat"));
+		this.heartbeat = StringUtil.isEmpty(f.parameter("heartbeat")) ? -1 : Long.valueOf(f.parameter("heartbeat"));
 		this.maxIdleTime = StringUtil.isEmpty(f.parameter("maxIdleTime")) ? 300000L
 				: Long.valueOf(f.parameter("maxIdleTime"));
 		this.maxIdleConnections = StringUtil.isEmpty(f.parameter("maxIdleConnections")) ? 5
@@ -298,7 +278,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 				: Boolean.valueOf(f.parameter("followRedirects"));
 		this.retryOnConnectionFailure = StringUtil.isEmpty(f.parameter("retryOnConnectionFailure")) ? true
 				: Boolean.valueOf(f.parameter("retryOnConnectionFailure"));
-		this.aggregatorLimit = StringUtil.isEmpty(f.parameter("aggregatorLimit")) ? 1024*1024*2
+		this.aggregatorLimit = StringUtil.isEmpty(f.parameter("aggregatorLimit")) ? 1024 * 1024 * 2
 				: Integer.valueOf(f.parameter("aggregatorLimit"));
 		if ("ws".equals(protocol)) {
 			wspath = f.parameter("wspath");

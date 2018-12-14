@@ -48,7 +48,9 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	@Override
 	public void used(boolean b) {
 		isIdle = !b;
-		idleBeginTime = System.currentTimeMillis();
+		if (isIdle) {
+			idleBeginTime = System.currentTimeMillis();
+		}
 	}
 
 	@Override
@@ -68,6 +70,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 
 	@Override
 	public Object send(Object request, Object response) throws CircuitException {
+		used(true);
 		Frame frame = (Frame) request;
 		String fullUri = String.format("%s%s", domain, frame.retrieveUrl());
 		Request.Builder rbuilder = new Request.Builder();
@@ -116,7 +119,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 				@Override
 				public void onFailure(Call call, IOException e) {
 					CircuitException exc = new CircuitException("505", e);
-					byte[] b=exc.messageCause().getBytes();
+					byte[] b = exc.messageCause().getBytes();
 					circuit.content().writeBytes(b);
 				}
 
@@ -128,10 +131,11 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 					int len = 0;
 					byte[] b = new byte[8192];
 					while ((len = in.read(b, 0, b.length)) != -1) {
-						circuit.content().writeBytes(b,0,len);
+						circuit.content().writeBytes(b, 0, len);
 					}
 					if (response.isSuccessful()) {
 						circuit.content().close();
+						used(false);
 					}
 				}
 
@@ -144,12 +148,12 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 					}
 					circuit.message(res.message());
 					circuit.status(res.code() + "");
-					
+
 				}
 			});
 			return circuit;
 		}
-		 //以下是同步
+		// 以下是同步
 		Call call = client.newCall(req);
 		try {
 			Response res = call.execute();
@@ -157,6 +161,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		used(false);
 		return circuit;
 	}
 

@@ -4,14 +4,14 @@ import cj.studio.ecm.EcmException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IContentReciever;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.buffer.Unpooled;
 
 public class MemoryContentReciever implements IContentReciever {
 	ByteBuf buf;
 	boolean isDone;
 
 	public MemoryContentReciever() {
-		buf = PooledByteBufAllocator.DEFAULT.buffer(8192);
+		buf = Unpooled.buffer(8192);
 	}
 
 	@Override
@@ -36,7 +36,9 @@ public class MemoryContentReciever implements IContentReciever {
 		}
 		byte[] b = new byte[buf.readableBytes()];
 		buf.readBytes(b, 0, b.length);
-		buf.release();
+		if(buf.refCnt()>0) {
+			buf.release();
+		}
 		return b;
 	}
 }

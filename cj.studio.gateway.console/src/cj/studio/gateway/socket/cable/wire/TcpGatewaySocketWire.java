@@ -72,7 +72,9 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 	@Override
 	public void used(boolean b) {
 		isIdle = !b;
-		idleBeginTime = System.currentTimeMillis();
+		if (isIdle) {
+			idleBeginTime = System.currentTimeMillis();
+		}
 	}
 
 	@Override
@@ -103,6 +105,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			wires.remove(this);
 			throw new CircuitException("500", "导线已关闭，包丢弃：" + request);
 		}
+		used(true);
 		Frame frame = (Frame) request;
 		TcpContentReciever tcr = new TcpContentReciever(channel);
 		frame.content().accept(tcr);
@@ -127,7 +130,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		if (b != null) {
 			tcr.done(b, 0, b.length);
 		}
-
+		used(false);
 		return null;
 	}
 
@@ -167,7 +170,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			 * 
 			 * 解码和编码 我将会在下一张为大家详细的讲解。再次暂时不做详细的描述
 			 */
-			pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
+			pipeline.addLast(new LengthFieldBasedFrameDecoder(81920, 0, 4, 0, 4));
 			long interval = (long) parent.getService("$.prop.heartbeat");
 			if (interval > 0) {
 				pipeline.addLast(new IdleStateHandler(0, 0, interval, TimeUnit.MILLISECONDS));
@@ -220,7 +223,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		public void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
 
 			ByteBuf bb = (ByteBuf) msg;
-			if(bb.readableBytes()==0) {
+			if (bb.readableBytes() == 0) {
 				return;
 			}
 			byte[] b = new byte[bb.readableBytes()];
@@ -233,7 +236,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			input.done(b, 0, 0);
 
 			if (!"GATEWAY/1.0".equals(pack.protocol())) {
-				CJSystem.logging().error(getClass(),"不是网关协议侦:"+pack.protocol());
+				CJSystem.logging().error(getClass(), "不是网关协议侦:" + pack.protocol());
 				return;
 			}
 			switch (pack.command()) {
