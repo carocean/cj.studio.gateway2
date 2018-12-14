@@ -81,6 +81,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		}
 		byte[] b = new byte[bb.readableBytes()];
 		bb.readBytes(b);
+		bb.release();
 		IInputChannel input = new MemoryInputChannel(8192);
 		MemoryContentReciever reciever = new MemoryContentReciever();
 		input.accept(reciever);
@@ -137,6 +138,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			if (!circuit.content().isClosed()) {
 				circuit.content().close();
 			}
+			currentCircuit.dispose();
 			this.currentCircuit=null;
 			this.inputChannel=null;
 		}

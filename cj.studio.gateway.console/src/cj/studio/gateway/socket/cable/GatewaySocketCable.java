@@ -131,7 +131,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		// 选择导线后，导线为忙
 		IGatewaySocketWire wire = local.get();
 		if (wire != null) {
-			if (wire.isOpened() && wire.isWritable()) {
+			if (wire.isOpened()) {
 				return wire;
 			}
 		}
@@ -160,7 +160,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 				wires.remove(w);
 				continue;
 			}
-			if (!w.isOpened() || !w.isWritable()) {
+			if (!w.isOpened()) {
 				wires.remove(w);
 				continue;
 			}
@@ -174,7 +174,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 			if (wire == null) {
 				continue;
 			}
-			if (wire.isIdle() && wire.isWritable()) {
+			if (wire.isIdle()) {
 				wire.used(true);
 				return wire;
 			}

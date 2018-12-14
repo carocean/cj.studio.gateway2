@@ -37,13 +37,13 @@ public class ToBackendWebview4 implements IGatewayAppSiteWayWebView {
 		Circuit c1=new Circuit(output, "ws/1.0 200 ok");
 		
 		IInputChannel in = new SimpleInputChannel();
-		Frame f1 = new Frame(in, "put /website/tcp/ http/1.1");
+		Frame f1 = new Frame(in, "put /uc/tcp2/ http/1.1");
 		in.begin(f1);
 		f1.parameter("destFileName",fn);
 		back.send(f1, c1);
 		
 		try {
-			FileInputStream fis=new FileInputStream("/Users/caroceanjofers/Downloads/导出.png");
+			FileInputStream fis=new FileInputStream("/Users/caroceanjofers/Downloads/阳光电影www.ygdy8.com.黑暗心灵.BD.720p.中英双字幕.mkv");
 			byte[] b=new byte[8192];
 			int read=0;
 			while((read=fis.read(b))!=-1) {

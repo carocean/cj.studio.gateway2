@@ -1,0 +1,109 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x000000010d0ec078, pid=10718, tid=0x000000000000a903
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_144-b01) (build 1.8.0_144-b01)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.144-b01 mixed mode bsd-amd64 compressed oops)
+# Problematic frame:
+# C  [libbarchart-udt-core-2.3.0-SNAPSHOT.jnilib+0x14078]  CUDTException::CUDTException(CUDTException const&)+0x1a
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f9975321800):  JavaThread "boss-0" [_thread_in_native, id=43267, stack(0x0000700006679000,0x0000700006779000)]
+
+siginfo: si_signo: 11 (SIGSEGV), si_code: 1 (SEGV_MAPERR), si_addr: 0x0000000000000008
+
+Registers:
+RAX=0x000000010d10e830, RBX=0x0000700006778348, RCX=0x0000000000000000, RDX=0x0000000000000000
+RSP=0x0000700006778310, RBP=0x0000700006778330, RSI=0x0000000000000000, RDI=0x0000700006778348
+R8 =0x00007fff9d4e03a0, R9 =0x00007f9978900000, R10=0x00007f9972ec28b0, R11=0x00007fff6a818ac9
+R12=0x00000000ffffffff, R13=0x0000700006778568, R14=0x0000700006778420, R15=0x00007f99753219f8
+RIP=0x000000010d0ec078, EFLAGS=0x0000000000010202, ERR=0x0000000000000004
+  TRAPNO=0x000000000000000e
+
+Top of Stack: (sp=0x0000700006778310)
+0x0000700006778310:   0000700006778330 00007f9972ec3ef0
+0x0000700006778320:   0000700006778420 00007f99753219f8
+0x0000700006778330:   0000700006778400 000000010d0e98ae
+0x0000700006778340:   0000700006778428 000000010d10e830
+0x0000700006778350:   0000000300000006 0000000100000000
+0x0000700006778360:   00007fff9d4248d8 00007fff9d4248d8
+0x0000700006778370:   00007fff9d4248d8 0000000000000000
+0x0000700006778380:   0000000000000000 0000000000000000
+0x0000700006778390:   0000700006778380 0000700006778380
+0x00007000067783a0:   0000000000000000 00000001056a185e
+0x00007000067783b0:   0000000000000000 0000000000000000
+0x00007000067783c0:   00007000067783b0 00007000067783b0
+0x00007000067783d0:   0000000000000000 000000074340e0c0
+0x00007000067783e0:   0000000000000000 0000700006778568
+0x00007000067783f0:   0000700006778448 00007f9975321800
+0x0000700006778400:   0000700006778460 000000010de8603b
+0x0000700006778410:   000000000000000a 0000000000000000
+0x0000700006778420:   00000007433ed948 000000074340e178
+0x0000700006778430:   000000074340e0c0 0000000000000000
+0x0000700006778440:   00007f9978895940 00000007400e5548
+0x0000700006778450:   0000000000000000 000000011ecaee80
+0x0000700006778460:   0000000000000001 000000010d8a5208
+0x0000700006778470:   00000007433ed948 000000074340e178
+0x0000700006778480:   000000074340e0c0 000000000000000a
+0x0000700006778490:   0000000000000001 0000000000000000
+0x00007000067784a0:   00007000067785c0 000000010d9ac654
+0x00007000067784b0:   0000700006778518 000000011ecc6680
+0x00007000067784c0:   00007000067784e0 0000000000000105
+0x00007000067784d0:   000000079ece4868 000000074340e138
+0x00007000067784e0:   0000700006778540 000000010579ebe5
+0x00007000067784f0:   0000700006778558 000000010d672b55
+0x0000700006778500:   00000007c02587c8 000000010d672b55 
+
+Instructions: (pc=0x000000010d0ec078)
+0x000000010d0ec058:   f7 e8 5a 11 01 00 55 48 89 e5 41 57 41 56 53 48
+0x000000010d0ec068:   83 ec 08 48 89 fb 48 8d 05 bb 27 02 00 48 89 03
+0x000000010d0ec078:   8b 46 08 89 43 08 8b 46 0c 89 43 0c 8b 46 10 89
+0x000000010d0ec088:   43 10 4c 8d 73 18 4c 89 f7 e8 4a 10 01 00 4c 8d 
+
+Register to memory mapping:
+
+RAX=0x000000010d10e830: _ZTV13CUDTException+0x10 in /Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cj.studio.gateway.start/lib/bin/lib/x86_64-MacOSX-gpp/jni/libbarchart-udt-core-2.3.0-SNAPSHOT.jnilib at 0x000000010d0d8000
+RBX=0x0000700006778348 is pointing into the stack for thread: 0x00007f9975321800
+RCX=0x0000000000000000 is an unknown value
+RDX=0x0000000000000000 is an unknown value
+RSP=0x0000700006778310 is pointing into the stack for thread: 0x00007f9975321800
+RBP=0x0000700006778330 is pointing into the stack for thread: 0x00007f9975321800
+RSI=0x0000000000000000 is an unknown value
+RDI=0x0000700006778348 is pointing into the stack for thread: 0x00007f9975321800
+R8 =0x00007fff9d4e03a0: _pthread_keys+0 in /usr/lib/system/libsystem_pthread.dylib at 0x00007fff6a8cf000
+R9 =0x00007f9978900000 is an unknown value
+R10=0x00007f9972ec28b0 is an unknown value
+R11=0x00007fff6a818ac9: __error+0 in /usr/lib/system/libsystem_kernel.dylib at 0x00007fff6a817000
+R12=0x00000000ffffffff is an unknown value
+R13=0x0000700006778568 is pointing into the stack for thread: 0x00007f9975321800
+R14=0x0000700006778420 is pointing into the stack for thread: 0x00007f9975321800
+R15=0x00007f99753219f8 is an unknown value
+
+
+Stack: [0x0000700006679000,0x0000700006779000],  sp=0x0000700006778310,  free space=1020k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [libbarchart-udt-core-2.3.0-SNAPSHOT.jnilib+0x14078]  CUDTException::CUDTException(CUDTException const&)+0x1a
+C  [libbarchart-udt-core-2.3.0-SNAPSHOT.jnilib+0x118ae]  Java_com_barchart_udt_SocketUDT_epollWait0+0xce
+J 2481  com.barchart.udt.SocketUDT.epollWait0(ILjava/nio/IntBuffer;Ljava/nio/IntBuffer;Ljava/nio/IntBuffer;J)I (0 bytes) @ 0x000000010de8603b [0x000000010de85f40+0xfb]
+J 4250 C2 com.barchart.udt.SocketUDT.selectEpoll(ILjava/nio/IntBuffer;Ljava/nio/IntBuffer;Ljava/nio/IntBuffer;J)I (85 bytes) @ 0x000000010d8a5208 [0x000000010d8a51e0+0x28]
+J 4237 C1 com.barchart.udt.nio.SelectorUDT.doEpollSelect(J)I (85 bytes) @ 0x000000010d9ac654 [0x000000010d9ac1a0+0x4b4]
+j  com.barchart.udt.nio.SelectorUDT.doEpollExclusive(J)I+6
+j  com.barchart.udt.nio.SelectorUDT.doEpollEnter(J)I+36
+j  com.barchart.udt.nio.SelectorUDT.select(J)I+25
+J 4176 C2 io.netty.channel.nio.NioEventLoop.select()V (235 bytes) @ 0x000000010dea9068 [0x000000010dea8d80+0x2e8]
+j  io.netty.channel.nio.NioEventLoop.run()V+27
+j  io.netty.util.concurrent.SingleThreadEventExecutor$5.run()V+44
+j  java.lang.Thread.run()V+11
+v  ~StubRoutines::call_stub
+V  [libjvm.dylib+0x2ee70a]  JavaCalls::call_helper(JavaValue*, methodHandle*, JavaCallArguments*, Thread*)+0x6ae
+V

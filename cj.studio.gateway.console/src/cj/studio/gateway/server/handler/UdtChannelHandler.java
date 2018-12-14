@@ -81,6 +81,7 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 		}
 		byte[] b = new byte[bb.readableBytes()];
 		bb.readBytes(b);
+		bb.release();
 		IInputChannel input = new MemoryInputChannel(8192);
 		MemoryContentReciever reciever = new MemoryContentReciever();
 		input.accept(reciever);

@@ -47,7 +47,7 @@ public class LastClientInputValve implements IInputValve {
 			if (w == null) {
 				continue;
 			}
-			if (!w.isWritable() || !w.isOpened()) {
+			if (!w.isOpened()) {
 				select(pipeline);// 重新选择所有导线
 			}
 			try {

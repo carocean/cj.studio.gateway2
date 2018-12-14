@@ -42,7 +42,7 @@ public class ToBackendWebview2 implements IGatewayAppSiteWayWebView {
 		circuit.content().beginWait();//开始等待
 		
 		back.send(f1, c1);
-		circuit.content().waitClose(10000L);
+		circuit.content().waitClose(100000L);
 		System.out.println("----等已完成----");
 		back.closePipeline();
 	}
