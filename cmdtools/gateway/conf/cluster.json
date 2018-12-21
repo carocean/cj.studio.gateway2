@@ -55,6 +55,24 @@
 			}
 		},
 		{
+			"name": "/backend/website2/",
+			"uris": [
+				"http://localhost:8080?readTimeout=100000000"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "/backend/uc/",
+			"uris": [
+				"http://localhost:9090?readTimeout=100000000"
+			],
+			"props": {
+				
+			}
+		},
+		{
 			"name": "backend-tcp",
 			"uris": [
 				"tcp://localhost:8082"

@@ -1,0 +1,43 @@
+sourceSets { 
+	 main { 
+	 	java{
+	 		srcDir "$projectDir/src"
+	 	}
+	 	resources{
+		 	srcDir "$projectDir/site-src"
+		 }
+	 } 
+ 	}
+ 	sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+ 	tasks.withType(JavaCompile) {  
+        options.encoding = "UTF-8"  
+    } 
+ repositories { 
+	 flatDir(dirs: "../global/lib") 
+ } 
+
+dependencies {
+	compile project(':cj.studio.gateway.socket');
+	compile project(':cj.studio.gateway.stub');
+	compile fileTree('../global/jee.runtime')
+	compile fileTree('../global/runtime')
+	compile fileTree('../global/cjtools')
+	//compile fileTree('src/cj/references')
+	
+}
+task releaseToWebsite1(type: Copy) {
+ dependsOn "build"
+ from 'build/libs/'
+into '../cj.test.website/src/cj/references'
+ include '**/*.jar'
+ }
+ task releaseToWebsite2(type: Copy) {
+ dependsOn "build"
+ from 'build/libs/'
+into '../cj.test.website2/src/cj/references'
+ include '**/*.jar'
+ }
+ task release(type:Copy){
+  dependsOn "releaseToWebsite1","releaseToWebsite2"
+ }

@@ -1,6 +1,7 @@
 package cj.test.website.webview;
 
 import cj.studio.ecm.Scope;
+import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.Circuit;
@@ -14,33 +15,35 @@ import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.pipeline.IOutputer;
 
-@CjService(name="/backend",scope=Scope.multiton)
-public class ToBackendWebview implements IGatewayAppSiteWayWebView{
-	@CjServiceRef(refByName="$.output.selector")
+@CjBridge(aspects = "rest")
+@CjService(name = "/backend", scope = Scope.multiton)
+public class ToBackendWebview implements IGatewayAppSiteWayWebView {
+	@CjServiceRef(refByName = "$.output.selector")
 	IOutputSelector selector;
-	//同步接收
+
+	// 同步接收
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
-		IOutputer back=selector.select("backend");//回发
-		
-		MemoryInputChannel in=new MemoryInputChannel(8192);
-		Frame f1=new Frame(in,"post /uc/ http/1.1");
+		IOutputer back = selector.select("backend");// 回发
+
+		MemoryInputChannel in = new MemoryInputChannel(8192);
+		Frame f1 = new Frame(in, "post /uc/ http/1.1");
 		f1.contentType("application/x-www-form-urlencoded");
-		
-		MemoryContentReciever mcr=new MemoryContentReciever();
+
+		MemoryContentReciever mcr = new MemoryContentReciever();
 		f1.content().accept(mcr);
 		in.begin(null);
-		byte[] b="name=zhaoxb&type=1&age=10&dept=国务院".getBytes();
+		byte[] b = "name=zhaoxb&type=1&age=10&dept=国务院".getBytes();
 		in.done(b, 0, b.length);
-		
-		MemoryOutputChannel out=new MemoryOutputChannel();
-		Circuit c1=new Circuit(out,"http/1.1 200 ok");
-		
+
+		MemoryOutputChannel out = new MemoryOutputChannel();
+		Circuit c1 = new Circuit(out, "http/1.1 200 ok");
+
 		back.send(f1, c1);
-		
-		byte[] ret=out.readFully();
+
+		byte[] ret = out.readFully();
 		circuit.content().writeBytes(ret);
-		
+
 		back.closePipeline();
 	}
 

@@ -10,6 +10,8 @@ import cj.studio.ecm.IChip;
 import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.ServiceCollection;
+import cj.studio.ecm.adapter.IAdaptable;
+import cj.studio.ecm.adapter.IPrototype;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceSite;
 import cj.studio.ecm.logging.ILogging;
@@ -112,8 +114,15 @@ public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 			}
 			CjService cs = view.getClass().getAnnotation(CjService.class);
 			if (cs == null) {
-				logger.error(getClass(), String.format("映射错误：%s 未有CjService注解", view));
-				continue;
+				if (view instanceof IAdaptable) {
+					IAdaptable a = (IAdaptable) view;
+					IPrototype pt = a.getAdapter(IPrototype.class);
+					cs = pt.unWrapper().getClass().getAnnotation(CjService.class);
+				}
+				if (cs == null) {
+					logger.error(getClass(), String.format("映射错误：%s 未有CjService注解", view));
+					continue;
+				}
 			}
 
 			String name = cs.name();

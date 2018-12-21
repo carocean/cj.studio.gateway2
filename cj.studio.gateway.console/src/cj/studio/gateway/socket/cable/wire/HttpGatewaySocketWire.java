@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.net.Circuit;
@@ -16,8 +15,6 @@ import cj.studio.gateway.socket.client.IExecutorPool;
 import cj.ultimate.util.StringUtil;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.ConnectionPool;
-import okhttp3.Dispatcher;
 import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -31,8 +28,8 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	IServiceProvider parent;
 	volatile boolean isIdle;
 	private long idleBeginTime;
-	private OkHttpClient client;
-	private String domain;
+	OkHttpClient client;
+	String domain;
 
 	public HttpGatewaySocketWire(IServiceProvider parent) {
 		this.parent = parent;
@@ -189,6 +186,9 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 
 	@Override
 	public void connect(String ip, int port) throws CircuitException {
+		if(client!=null) {
+			return;
+		}
 		int maxIdleConnections = (int) parent.getService("$.prop.maxIdleConnections");
 		long keepAliveDuration = (long) parent.getService("$.prop.keepAliveDuration");
 		long connectTimeout = (long) parent.getService("$.prop.connectTimeout");
@@ -199,18 +199,13 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 
 		this.domain = String.format("%s://%s:%s", parent.getService("$.prop.protocol"), ip, port);
 
+		
 		IExecutorPool exepool = (IExecutorPool) parent.getService("$.executor.pool");
 		ExecutorService exe = exepool.getExecutor();
-		ConnectionPool pool = new ConnectionPool(maxIdleConnections, keepAliveDuration, TimeUnit.MILLISECONDS);
-		Dispatcher dispatcher = new Dispatcher(exe);
-		this.client = new OkHttpClient().newBuilder()//
-				.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS) //
-				.followRedirects(followRedirects) //
-				.readTimeout(readTimeout, TimeUnit.MILLISECONDS) //
-				.retryOnConnectionFailure(retryOnConnectionFailure) //
-				.writeTimeout(writeTimeout, TimeUnit.MILLISECONDS)//
-				.dispatcher(dispatcher).connectionPool(pool).build();
-
+		this.client = exepool.httpClientBuilder().maxIdleConnections(maxIdleConnections)
+				.keepAliveDuration(keepAliveDuration).connectTimeout(connectTimeout).followRedirects(followRedirects)
+				.readTimeout(readTimeout).writeTimeout(writeTimeout).retryOnConnectionFailure(retryOnConnectionFailure)
+				.build(exe);
 		used(false);
 	}
 

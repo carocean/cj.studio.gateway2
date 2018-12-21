@@ -17,18 +17,20 @@ class ExecutorPool implements IExecutorPool {
 	private EventLoopGroup eventloopGroup_tcp_ws;
 	private EventLoopGroup eventloopGroup_Udt;
 	private ExecutorService executorService_http;
+	private IHttpClientBuilder builder;
 
 	@Override
 	public void shutdown() {
-		if(eventloopGroup_tcp_ws!=null) {
+		if (eventloopGroup_tcp_ws != null) {
 			eventloopGroup_tcp_ws.shutdownGracefully();
 		}
-		if(eventloopGroup_Udt!=null) {
+		if (eventloopGroup_Udt != null) {
 			eventloopGroup_Udt.shutdownGracefully();
 		}
-		if(executorService_http!=null) {
+		if (executorService_http != null) {
 			executorService_http.shutdown();
 		}
+		this.builder=null;
 	}
 
 	@Override
@@ -53,20 +55,20 @@ class ExecutorPool implements IExecutorPool {
 
 	@Override
 	public void ready() {
-		int nettyThreadCount = this.tcpThreadCount + wsThreadCount;//tcp和ws共享线程池
+		int nettyThreadCount = this.tcpThreadCount + wsThreadCount;// tcp和ws共享线程池
 		if (nettyThreadCount > 0) {
 			EventLoopGroup eventloopGroup_tcp_ws = new NioEventLoopGroup(nettyThreadCount);
-			this.eventloopGroup_tcp_ws=eventloopGroup_tcp_ws;
+			this.eventloopGroup_tcp_ws = eventloopGroup_tcp_ws;
 		}
 		if (udtThreadCount > 0) {
 			ThreadFactory connectFactory = new UtilThreadFactory("udt_wire");
 			EventLoopGroup eventloopGroup_Udt = new NioEventLoopGroup(udtThreadCount, connectFactory,
 					NioUdtProvider.MESSAGE_PROVIDER);
-			this.eventloopGroup_Udt=eventloopGroup_Udt;
+			this.eventloopGroup_Udt = eventloopGroup_Udt;
 		}
 		if (httpThreadCount > 0) {
 			ExecutorService executorService_http = Executors.newFixedThreadPool(httpThreadCount);
-			this.executorService_http=executorService_http;
+			this.executorService_http = executorService_http;
 		}
 
 	}
@@ -91,4 +93,12 @@ class ExecutorPool implements IExecutorPool {
 		return this.executorService_http;
 	}
 
+	@Override
+	public IHttpClientBuilder httpClientBuilder() {
+		if (builder != null) {
+			return builder;
+		}
+		builder = new HttpClientBuilder();
+		return builder;
+	}
 }

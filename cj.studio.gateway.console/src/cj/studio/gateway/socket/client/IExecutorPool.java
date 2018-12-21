@@ -26,4 +26,6 @@ public interface IExecutorPool {
 
 	void shutdown();
 
+	IHttpClientBuilder httpClientBuilder();
+
 }

@@ -92,7 +92,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	public synchronized void connect(Destination dest) throws CircuitException {
-		if(isConnected) {
+		if (isConnected) {
 			return;
 		}
 		this.destination = dest;
@@ -141,9 +141,9 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 			throw new EcmException("定义了多个程序集:" + home);
 		}
 		String fn = assemblies[0].getAbsolutePath();
-		
+
 		IAssembly target = Assembly.loadAssembly(fn, share);
-		Map<String, IGatewayAppSitePlugin> plugins = scanPluginsAndLoad(home,target.info().getReferences(),share);
+		Map<String, IGatewayAppSitePlugin> plugins = scanPluginsAndLoad(home, target.info().getReferences(), share);
 		target.parent(new AppCoreService(plugins));
 
 		target.start();
@@ -164,43 +164,44 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		return program;
 	}
 
-	private Map<String, IGatewayAppSitePlugin> scanPluginsAndLoad(String assemblyHome,ClassLoader pcl, ClassLoader share) {
-		String dir=assemblyHome;
-		if(!dir.endsWith(File.separator)) {
-			dir+=File.separator;
+	private Map<String, IGatewayAppSitePlugin> scanPluginsAndLoad(String assemblyHome, ClassLoader pcl,
+			ClassLoader share) {
+		String dir = assemblyHome;
+		if (!dir.endsWith(File.separator)) {
+			dir += File.separator;
 		}
-		dir=String.format("%splugins", dir);
-		File dirFile=new File(dir);
-		if(!dirFile.exists()) {
+		dir = String.format("%splugins", dir);
+		File dirFile = new File(dir);
+		if (!dirFile.exists()) {
 			dirFile.mkdirs();
 		}
-		File[] pluginDirs=dirFile.listFiles(new FileFilter() {
-			
+		File[] pluginDirs = dirFile.listFiles(new FileFilter() {
+
 			@Override
 			public boolean accept(File pathname) {
 				return pathname.isDirectory();
 			}
 		});
-		Map<String, IGatewayAppSitePlugin> map=new HashMap<>();
-		if(pluginDirs.length==0) {
+		Map<String, IGatewayAppSitePlugin> map = new HashMap<>();
+		if (pluginDirs.length == 0) {
 			return map;
 		}
-		for(File f:pluginDirs) {
-			File[] pluginFiles=f.listFiles(new FilenameFilter() {
+		for (File f : pluginDirs) {
+			File[] pluginFiles = f.listFiles(new FilenameFilter() {
 
 				@Override
 				public boolean accept(File dir, String name) {
 					return name.endsWith(".jar");
 				}
 			});
-			for(File pluginFile:pluginFiles) {
-				JarClassLoader parent=new JarClassLoader(pcl);
-				IAssembly assembly=Assembly.loadAssembly(pluginFile.getAbsolutePath(),parent);
+			for (File pluginFile : pluginFiles) {
+				JarClassLoader parent = new JarClassLoader(pcl);
+				IAssembly assembly = Assembly.loadAssembly(pluginFile.getAbsolutePath(), parent);
 				assembly.start();
-				IWorkbin bin=assembly.workbin();
-				IGatewayAppSitePlugin plugin=(IGatewayAppSitePlugin)bin.part("$.studio.gateway.app.plugin");
-				if(plugin!=null) {
-					String name=bin.chipInfo().getName();
+				IWorkbin bin = assembly.workbin();
+				IGatewayAppSitePlugin plugin = (IGatewayAppSitePlugin) bin.part("$.studio.gateway.app.plugin");
+				if (plugin != null) {
+					String name = bin.chipInfo().getName();
 					map.put(name, plugin);
 				}
 			}
@@ -235,17 +236,18 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 				}
 				return selector;
 			}
+			
 			if (!plugins.isEmpty()) {
 				int pos = name.indexOf(".");
 				if (pos > 0) {
 					String key = name.substring(0, pos);
 					String sid = name.substring(pos + 1, name.length());
 					IGatewayAppSitePlugin plugin = plugins.get(key);
-					if (plugin == null)
-						return null;
-					Object obj = plugin.getService(sid);
-					if (obj != null)
-						return obj;
+					if (plugin != null) {
+						Object obj = plugin.getService(sid);
+						if (obj != null)
+							return obj;
+					}
 				}
 			}
 			return null;

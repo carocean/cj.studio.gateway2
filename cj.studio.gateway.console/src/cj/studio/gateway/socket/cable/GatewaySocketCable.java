@@ -194,11 +194,11 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	public void connect() throws CircuitException {
 		if (isOpened)
 			return;
-		onOpen();
+		onconnect();
 		isOpened = true;
 	}
 
-	private void onOpen() throws CircuitException {
+	private void onconnect() throws CircuitException {
 		for (int i = 0; i < this.initialWireSize; i++) {
 			IGatewaySocketWire wire = createWire();
 			wire.connect(host, port);
