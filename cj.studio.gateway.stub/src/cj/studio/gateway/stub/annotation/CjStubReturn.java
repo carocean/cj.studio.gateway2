@@ -11,6 +11,6 @@ public @interface CjStubReturn {
 
 	String usage();
 
-	Class<String> type();
+	Class<?> type();
 
 }

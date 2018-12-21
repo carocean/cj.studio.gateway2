@@ -15,6 +15,4 @@ import java.lang.annotation.Target;
 @Target({ ElementType.PARAMETER })
 public @interface CjStubInContent {
 	String usage();
-
-	Class<?> type();
 }

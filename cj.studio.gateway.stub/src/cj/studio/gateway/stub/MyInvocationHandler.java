@@ -99,11 +99,11 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 	private Object invoke(IOutputer out, Object obj, Method m, Object[] args) throws Exception {
 		CjStubMethod sm = m.getDeclaredAnnotation(CjStubMethod.class);
 		if (sm == null) {
-			throw new Exception("缺少存根方法注解");
+			throw new Exception("缺少存根方法注解:"+m);
 		}
 		String name = sm.alias();
 		if (name.indexOf("/") > -1) {
-			throw new Exception("CjStubMethod注解错误，别名不能含有/");
+			throw new Exception("CjStubMethod注解错误，别名不能含有/。在："+m);
 		}
 		String uri = contentPath;
 		if (uri.endsWith("/")) {
@@ -161,7 +161,7 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 		byte[] b = oc.readFully();
 		CjStubReturn sr = m.getDeclaredAnnotation(CjStubReturn.class);
 		if (sr == null) {
-			throw new EcmException("缺少CjStubReturn注解");
+			throw new EcmException("缺少CjStubReturn注解。在："+m);
 		}
 		String feed = new String(b);
 		Object ret = convertFrom(m.getReturnType(), feed);

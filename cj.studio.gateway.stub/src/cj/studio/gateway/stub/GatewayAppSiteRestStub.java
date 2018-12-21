@@ -116,7 +116,7 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 			CjStubInContent sic = p.getAnnotation(CjStubInContent.class);
 			if (sic != null) {
 				byte[] b = frame.content().readFully();
-				Object value = new Gson().fromJson(new String(b), sic.type());
+				Object value = new Gson().fromJson(new String(b), p.getType());
 				args[i] = value;
 				continue;
 			}
