@@ -1,6 +1,7 @@
 package cj.studio.gateway.socket.io;
 
 import cj.studio.ecm.EcmException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IContentReciever;
 import cj.studio.gateway.socket.io.decoder.mutipart.Bucket;
@@ -44,18 +45,18 @@ public abstract class MultipartFormContentReciever implements IContentReciever{
 		decoder=new MultipartFormDecoder(bdstr,bucket);
 	}
 	@Override
-	public void recieve(byte[] b, int pos, int length) {
+	public void recieve(byte[] b, int pos, int length) throws CircuitException {
 		if(!isMultipart)return;
 		writeBytes(b,pos,length);
 	}
 	
-	protected  void writeBytes(byte[] b, int pos, int length) {
+	protected  void writeBytes(byte[] b, int pos, int length) throws CircuitException {
 		for(int i=pos;i<length;i++) {
 			decoder.write(b[i]);
 		}
 	}
 	@Override
-	public void done(byte[] b, int pos, int length) {
+	public void done(byte[] b, int pos, int length) throws CircuitException {
 		if(!isMultipart)return;
 		writeBytes(b, pos, length);
 		
@@ -63,7 +64,7 @@ public abstract class MultipartFormContentReciever implements IContentReciever{
 		done(frame,form);
 		frame = null;
 	}
-	protected abstract void done(Frame frame, IFormData form);
+	protected abstract void done(Frame frame, IFormData form) throws CircuitException;
 	protected abstract IFieldDataListener createFieldDataListener();
 	
 }

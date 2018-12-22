@@ -3,6 +3,7 @@ package cj.studio.gateway.socket.io;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IContentReciever;
 import cj.studio.ecm.net.util.WebUtil;
@@ -25,13 +26,13 @@ public abstract class XwwwFormUrlencodedContentReciever implements IContentRecie
 	}
 
 	@Override
-	public final void recieve(byte[] b, int pos, int length) {
+	public final void recieve(byte[] b, int pos, int length)  throws CircuitException{
 		if(!isX_www_form_urlencoded)return;
 		content.writeBytes(b, pos, length);
 	}
 
 	@Override
-	public final void done(byte[] b, int pos, int length) {
+	public final void done(byte[] b, int pos, int length)  throws CircuitException{
 		if(!isX_www_form_urlencoded)return;
 		if (length - pos < 1) {
 			return;
@@ -60,6 +61,6 @@ public abstract class XwwwFormUrlencodedContentReciever implements IContentRecie
 	 * 完成事件，派生类可实现
 	 * @param frame
 	 */
-	protected abstract void done(Frame frame);
+	protected abstract void done(Frame frame) throws CircuitException;
 
 }

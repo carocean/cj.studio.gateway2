@@ -21,7 +21,7 @@ public class MemoryContentReciever implements IContentReciever {
 	}
 
 	@Override
-	public void recieve(byte[] b, int pos, int length) {
+	public void recieve(byte[] b, int pos, int length) throws CircuitException{
 		buf.writeBytes(b, pos, length);
 	}
 
@@ -31,7 +31,7 @@ public class MemoryContentReciever implements IContentReciever {
 		isDone = true;
 	}
 
-	public byte[] readFully() {
+	public byte[] readFully() throws CircuitException{
 		if (!isDone) {
 			throw new EcmException("还没完成");
 		}
