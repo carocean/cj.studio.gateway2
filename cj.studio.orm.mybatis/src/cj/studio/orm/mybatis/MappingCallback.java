@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 
 import org.apache.ibatis.session.SqlSession;
 
+import cj.studio.ecm.EcmException;
 import cj.ultimate.net.sf.cglib.proxy.InvocationHandler;
 
 class MappingCallback implements InvocationHandler {
@@ -25,8 +26,8 @@ class MappingCallback implements InvocationHandler {
 			return ret;
 		} catch (Exception e) {
 			if (e instanceof InvocationTargetException) {
-				InvocationTargetException inv = (InvocationTargetException) e;
-				throw inv;
+				InvocationTargetException inv=(InvocationTargetException)e;
+				throw new EcmException(inv.getTargetException());
 			}
 			throw e;
 		}

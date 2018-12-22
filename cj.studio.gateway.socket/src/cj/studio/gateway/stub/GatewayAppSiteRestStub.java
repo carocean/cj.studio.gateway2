@@ -69,7 +69,7 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 				if (StringUtil.isEmpty(stubClassName)) {
 					stubClassName = frame.parameter(SocketContants.__frame_Head_Rest_Stub_Interface);
 				}
-				Class<?> clazz=GatewayAppSiteRestStub.this.getClass();
+				Class<?> clazz = GatewayAppSiteRestStub.this.getClass();
 				try {
 					Class<?> stub = Class.forName(stubClassName, true, clazz.getClassLoader());
 					if (!stub.isAssignableFrom(clazz)) {
@@ -92,7 +92,7 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 					if (e instanceof CircuitException) {
 						throw (CircuitException) e;
 					}
-					if(e instanceof InvocationTargetException) {
+					if (e instanceof InvocationTargetException) {
 						InvocationTargetException inv=(InvocationTargetException)e;
 						throw new CircuitException("503", inv.getTargetException());
 					}
@@ -100,8 +100,7 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 				}
 			}
 		});
-		
-		
+
 	}
 
 	private Object[] getArgs(Method src, Frame frame) throws CircuitException {
