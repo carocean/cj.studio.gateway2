@@ -8,6 +8,7 @@ import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IInputChannel;
+import cj.studio.ecm.net.io.MemoryContentReciever;
 import cj.studio.ecm.net.io.MemoryInputChannel;
 import cj.studio.ecm.net.io.MemoryOutputChannel;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
@@ -99,11 +100,11 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 	private Object invoke(IOutputer out, Object obj, Method m, Object[] args) throws Exception {
 		CjStubMethod sm = m.getDeclaredAnnotation(CjStubMethod.class);
 		if (sm == null) {
-			throw new Exception("缺少存根方法注解:"+m);
+			throw new Exception("缺少存根方法注解:" + m);
 		}
 		String name = sm.alias();
 		if (name.indexOf("/") > -1) {
-			throw new Exception("CjStubMethod注解错误，别名不能含有/。在："+m);
+			throw new Exception("CjStubMethod注解错误，别名不能含有/。在：" + m);
 		}
 		String uri = contentPath;
 		if (uri.endsWith("/")) {
@@ -130,7 +131,8 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 		String fline = String.format("%s %s %s", sm.command(), uri, sm.protocol());
 		IInputChannel ic = new MemoryInputChannel();
 		Frame frame = new Frame(ic, fline);
-
+		MemoryContentReciever mcr = new MemoryContentReciever();
+		frame.content().accept(mcr);
 		frame.head(SocketContants.__frame_Head_Rest_Command, name);
 		frame.head(SocketContants.__frame_Head_Rest_Stub_Interface, stubClassName);
 
@@ -160,12 +162,14 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 		circuit.content().close();
 		byte[] b = oc.readFully();
 		CjStubReturn sr = m.getDeclaredAnnotation(CjStubReturn.class);
-		if (sr == null) {
-			throw new EcmException("缺少CjStubReturn注解。在："+m);
+		if (!m.getReturnType().equals(Void.TYPE) && sr == null) {
+			throw new EcmException("缺少CjStubReturn注解。在：" + m);
+		} else {
+			String feed = new String(b);
+			Object ret = convertFrom(m.getReturnType(), feed);
+			return ret;
 		}
-		String feed = new String(b);
-		Object ret = convertFrom(m.getReturnType(), feed);
-		return ret;
+
 	}
 
 	private void fillFrame(Frame frame, Annotation a, int i, Object[] args, IInputChannel ic, CjStubMethod sm)

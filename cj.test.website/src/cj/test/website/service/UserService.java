@@ -10,7 +10,7 @@ import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
 import cj.test.website.bo.UserBO;
 import cj.test.website.dao.IUserDAO;
-@CjBridge(aspects="transaction")
+@CjBridge(aspects="@transaction")
 @CjService(name="userService")
 public class UserService implements IUserService {
 	

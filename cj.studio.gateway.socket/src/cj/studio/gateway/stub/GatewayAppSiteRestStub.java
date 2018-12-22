@@ -1,6 +1,7 @@
 package cj.studio.gateway.stub;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URLDecoder;
@@ -10,6 +11,7 @@ import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.io.MemoryContentReciever;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.util.SocketContants;
@@ -24,68 +26,82 @@ import cj.ultimate.util.StringUtil;
 
 public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, StringTypeConverter {
 	public GatewayAppSiteRestStub() {
-		CjService cj=this.getClass().getAnnotation(CjService.class);
-		if(cj==null) {
+		CjService cj = this.getClass().getAnnotation(CjService.class);
+		if (cj == null) {
 			throw new EcmException("必须定义为服务");
 		}
-		checkError(cj.name(),this.getClass());
+		checkError(cj.name(), this.getClass());
 	}
+
 	private void checkError(String name, Class<?> clazz) {
-		CjStubService found=null;
+		CjStubService found = null;
 		do {
-			Class<?>[] faces=clazz.getInterfaces();
-			
-			for(Class<?> c : faces) {
-				CjStubService an=c.getDeclaredAnnotation(CjStubService.class);
-				if(an!=null) {
-					found=an;
+			Class<?>[] faces = clazz.getInterfaces();
+
+			for (Class<?> c : faces) {
+				CjStubService an = c.getDeclaredAnnotation(CjStubService.class);
+				if (an != null) {
+					found = an;
 					break;
 				}
 			}
-			clazz=clazz.getSuperclass();
-		}while(clazz.equals(Object.class));
-		if(found==null) {
+			clazz = clazz.getSuperclass();
+		} while (clazz.equals(Object.class));
+		if (found == null) {
 			throw new EcmException("没有发现存根接口");
 		}
-		if(!name.startsWith(found.bindService())&&!found.bindService().startsWith(name)) {
+		if (!name.startsWith(found.bindService()) && !found.bindService().startsWith(name)) {
 			throw new EcmException("存根接口绑定服务名与宿主服务名不同");
 		}
 	}
+
 	@Override
 	public final void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
-		String restCmd = frame.head(SocketContants.__frame_Head_Rest_Command);
-		if(StringUtil.isEmpty(restCmd)) {
-			restCmd= frame.parameter(SocketContants.__frame_Head_Rest_Command);
-		}
-		String stubClassName = frame.head(SocketContants.__frame_Head_Rest_Stub_Interface);
-		if(StringUtil.isEmpty(stubClassName)) {
-			stubClassName= frame.parameter(SocketContants.__frame_Head_Rest_Stub_Interface);
-		}
-		try {
-			Class<?> stub = Class.forName(stubClassName,true,this.getClass().getClassLoader());
-			if (!stub.isAssignableFrom(this.getClass())) {
-				throw new CircuitException("503", "当前webview未实现存根接口。" + stub + " 在 " + this.getClass());
+		frame.content().accept(new MemoryContentReciever() {
+			@Override
+			public void done(byte[] b, int pos, int length) throws CircuitException {
+				super.done(b, pos, length);
+				String restCmd = frame.head(SocketContants.__frame_Head_Rest_Command);
+				if (StringUtil.isEmpty(restCmd)) {
+					restCmd = frame.parameter(SocketContants.__frame_Head_Rest_Command);
+				}
+				String stubClassName = frame.head(SocketContants.__frame_Head_Rest_Stub_Interface);
+				if (StringUtil.isEmpty(stubClassName)) {
+					stubClassName = frame.parameter(SocketContants.__frame_Head_Rest_Stub_Interface);
+				}
+				Class<?> clazz=GatewayAppSiteRestStub.this.getClass();
+				try {
+					Class<?> stub = Class.forName(stubClassName, true, clazz.getClassLoader());
+					if (!stub.isAssignableFrom(clazz)) {
+						throw new CircuitException("503", "当前webview未实现存根接口。" + stub + " 在 " + clazz);
+					}
+					Method src = findMethod(restCmd, stub);
+					if (src == null) {
+						throw new CircuitException("404", "在存根接口中未找到方法：" + src);
+					}
+					Method dest = findDestMethod(clazz, src);
+					if (dest == null) {
+						throw new CircuitException("404", "在webview中未找到方法：" + dest);
+					}
+					Object[] args = getArgs(src, frame);
+					Object ret = dest.invoke(GatewayAppSiteRestStub.this, args);
+					if (ret != null) {
+						circuit.content().writeBytes(new Gson().toJson(ret).getBytes());
+					}
+				} catch (Exception e) {
+					if (e instanceof CircuitException) {
+						throw (CircuitException) e;
+					}
+					if(e instanceof InvocationTargetException) {
+						InvocationTargetException inv=(InvocationTargetException)e;
+						throw new CircuitException("503", inv.getTargetException());
+					}
+					throw new CircuitException("503", e);
+				}
 			}
-			Method src = findMethod(restCmd, stub);
-			if (src == null) {
-				throw new CircuitException("404", "在存根接口中未找到方法：" + src);
-			}
-			Method dest = findDestMethod(this.getClass(), src);
-			if (dest == null) {
-				throw new CircuitException("404", "在webview中未找到方法：" + dest);
-			}
-			Object[] args = getArgs(src, frame);
-			Object ret = dest.invoke(this, args);
-			if (ret != null) {
-				circuit.content().writeBytes(new Gson().toJson(ret).getBytes());
-			}
-		} catch (Exception e) {
-			if (e instanceof CircuitException) {
-				throw (CircuitException) e;
-			}
-			throw new CircuitException("503", e);
-		}
-
+		});
+		
+		
 	}
 
 	private Object[] getArgs(Method src, Frame frame) throws CircuitException {

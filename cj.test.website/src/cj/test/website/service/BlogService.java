@@ -8,7 +8,7 @@ import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
 import cj.test.website.bo.BlogBO;
 import cj.test.website.dao.IBlogDAO;
-@CjBridge(aspects="transaction")
+@CjBridge(aspects="@transaction")
 @CjService(name="blogService")
 public class BlogService implements IBlogService {
 	

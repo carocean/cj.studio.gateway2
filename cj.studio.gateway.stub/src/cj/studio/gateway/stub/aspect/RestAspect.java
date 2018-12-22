@@ -15,7 +15,7 @@ import cj.studio.gateway.stub.MyInvocationHandler;
 import cj.studio.gateway.stub.annotation.CjStubRef;
 import cj.ultimate.net.sf.cglib.proxy.Enhancer;
 
-@CjService(name = "rest")
+@CjService(name = "@rest")
 public class RestAspect implements IAspect {
 	@CjServiceRef(refByName = "$.output.selector")
 	IOutputSelector selector;

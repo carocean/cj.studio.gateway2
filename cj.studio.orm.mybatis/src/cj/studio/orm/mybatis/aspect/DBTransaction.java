@@ -9,7 +9,7 @@ import cj.studio.ecm.bridge.ICutpoint;
 import cj.studio.orm.mybatis.MyBatisPlugin;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
 
-@CjService(name = "transaction")
+@CjService(name = "@transaction")
 public class DBTransaction implements IAspect {
 
 	@Override

@@ -17,7 +17,7 @@ public class UdtReciever implements IGatewayAppSiteWayWebView{
 		System.out.println("----接收到远端udt发来的消息:"+frame);
 		frame.content().accept(new MemoryContentReciever() {
 			@Override
-			public void done(byte[] b, int pos, int length) {
+			public void done(byte[] b, int pos, int length) throws CircuitException {
 				super.done(b, pos, length);
 				System.out.println(new String(readFully()));
 			}

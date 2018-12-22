@@ -1,6 +1,7 @@
 package cj.studio.ecm.net.io;
 
 import cj.studio.ecm.EcmException;
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IContentReciever;
 import io.netty.buffer.ByteBuf;
@@ -25,7 +26,7 @@ public class MemoryContentReciever implements IContentReciever {
 	}
 
 	@Override
-	public void done(byte[] b, int pos, int length) {
+	public void done(byte[] b, int pos, int length) throws CircuitException {
 		buf.writeBytes(b, pos, length);
 		isDone = true;
 	}

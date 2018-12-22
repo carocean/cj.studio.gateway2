@@ -11,7 +11,7 @@ import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.stub.annotation.CjStubRef;
 
-@CjBridge(aspects = "rest")
+@CjBridge(aspects = "@rest")
 @CjService(name = "/backend7")
 public class ToBackendWebview7 implements IGatewayAppSiteWayWebView {
 

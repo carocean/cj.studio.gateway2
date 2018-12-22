@@ -1,7 +1,6 @@
 package cj.test.website.webview;
 
 import cj.studio.ecm.Scope;
-import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.Circuit;
@@ -15,7 +14,6 @@ import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.pipeline.IOutputer;
 
-@CjBridge(aspects = "rest")
 @CjService(name = "/backend", scope = Scope.multiton)
 public class ToBackendWebview implements IGatewayAppSiteWayWebView {
 	@CjServiceRef(refByName = "$.output.selector")

@@ -30,7 +30,7 @@ dependencies {
 task releaseToOutputs(type: Copy) {
  dependsOn "build"
  from 'build/libs/'
-into '../outputs'
+into '../outputs/embeds'
  include '**/*.jar'
  } 
 task releaseToWebsite(type: Copy) {

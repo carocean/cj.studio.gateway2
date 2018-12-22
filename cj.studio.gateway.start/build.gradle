@@ -34,7 +34,7 @@ dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.8.1'
     compile project(':cj.studio.ecm.net');
     compile project(':cj.studio.gateway.socket');
-    compile project(':cj.studio.gateway.stub');
+ //   compile project(':cj.studio.gateway.stub');
     compile fileTree('../global/jee.runtime')
 	compile fileTree('../global/runtime')
 	compile fileTree('../global/cjtools')
