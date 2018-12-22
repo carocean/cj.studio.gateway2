@@ -114,7 +114,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		}
 	}
 
-	private void handleHttpContent(ChannelHandlerContext ctx, Object msg) throws CircuitException{
+	private void handleHttpContent(ChannelHandlerContext ctx, Object msg) throws CircuitException {
 		if (inputChannel == null) {
 			return;
 		}
@@ -127,7 +127,12 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 				circuit.content().flush();// 到此刷新
 			} catch (Exception e) {
 				if (!circuit.content().isCommited()) {
-					circuit.status("503");
+					CircuitException ce = CircuitException.search(e);
+					if (ce != null) {
+						circuit.status(ce.getStatus());
+					} else {
+						circuit.status("503");
+					}
 					circuit.message(e.toString().replace("\r", "").replace("\n", ""));
 					circuit.content().clearbuf();
 					circuit.content().flush();
@@ -152,7 +157,12 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			inputChannel.writeBytes(b, 0, b.length);
 		} catch (Exception e) {
 			if (!circuit.content().isCommited()) {
-				circuit.status("503");
+				CircuitException ce = CircuitException.search(e);
+				if (ce != null) {
+					circuit.status(ce.getStatus());
+				} else {
+					circuit.status("503");
+				}
 				circuit.message(e.toString().replace("\r", "").replace("\n", ""));
 				circuit.content().clearbuf();
 				circuit.content().flush();
@@ -239,13 +249,13 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		byte[] b = new byte[bb.readableBytes()];
 		bb.readBytes(b);
 		IInputChannel input = new MemoryInputChannel(8192);
-		MemoryContentReciever rec=new MemoryContentReciever();
+		MemoryContentReciever rec = new MemoryContentReciever();
 		input.accept(rec);
 		Frame frame = new Frame(input, b);
 		frame.content().accept(rec);
 		input.begin(null);
 		input.done(b, 0, 0);
-		
+
 		String root = frame.rootName();
 		if (!currentUsedGatewayDestForHttp.equals(root)) {
 			frame.url(String.format("/%s%s", currentUsedGatewayDestForHttp, frame.url()));
@@ -282,7 +292,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			circuit.content().flush();
 			throw e;
 		} finally {
-			if(!circuit.content().isClosed()) {
+			if (!circuit.content().isClosed()) {
 				circuit.content().close();
 			}
 		}
@@ -305,7 +315,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		ForwardJunction junction = new ForwardJunction(pipelineName);
 		junction.parse(inputPipeline, ctx.channel(), socket);
 		this.junctions.add(junction);
-		
+
 		try {
 			inputPipeline.headOnActive(pipelineName);// 通知管道激活
 		} catch (Exception e) {
