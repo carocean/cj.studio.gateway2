@@ -25,6 +25,7 @@ public class TestWebsocket implements IGatewayAppSiteWayWebView{
 		
 		MemoryInputChannel input=new MemoryInputChannel(8192);
 		Frame f1=new Frame(input,"put /ss/bb.txt g/1.0");
+		f1.parameter("name","赵向彬");
 		MemoryContentReciever r=new MemoryContentReciever();
 		f1.content().accept(r);
 		input.begin(f1);
@@ -36,7 +37,7 @@ public class TestWebsocket implements IGatewayAppSiteWayWebView{
 		}
 		
 		for(int i=0;i<10;i++) {
-			byte[] b=("\r\n......"+i).getBytes();
+			byte[] b=("......"+i+"\r\n").getBytes();
 			input.writeBytes(b);
 		}
 		
