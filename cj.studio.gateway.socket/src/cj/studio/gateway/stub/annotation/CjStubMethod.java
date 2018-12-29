@@ -17,7 +17,7 @@ public @interface CjStubMethod {
 	 * 方法别名
 	 * @return
 	 */
-	String alias();
+	String alias()default "";
 	
 	/**
 	 * 用法

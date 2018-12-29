@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.annotation.CjService;
@@ -22,6 +24,7 @@ import cj.studio.gateway.stub.annotation.CjStubMethod;
 import cj.studio.gateway.stub.annotation.CjStubService;
 import cj.studio.gateway.stub.util.StringTypeConverter;
 import cj.ultimate.gson2.com.google.gson.Gson;
+import cj.ultimate.gson2.com.google.gson.reflect.TypeToken;
 import cj.ultimate.util.StringUtil;
 
 public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, StringTypeConverter {
@@ -53,6 +56,7 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 		if (!name.startsWith(found.bindService()) && !found.bindService().startsWith(name)) {
 			throw new EcmException("存根接口绑定服务名与宿主服务名不同");
 		}
+		
 	}
 
 	@Override
@@ -93,7 +97,7 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 						throw (CircuitException) e;
 					}
 					if (e instanceof InvocationTargetException) {
-						InvocationTargetException inv=(InvocationTargetException)e;
+						InvocationTargetException inv = (InvocationTargetException) e;
 						throw new CircuitException("503", inv.getTargetException());
 					}
 					throw new CircuitException("503", e);
@@ -104,15 +108,24 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 	}
 
 	private Object[] getArgs(Method src, Frame frame) throws CircuitException {
+		Map<String, String> postContent = null;
+		if ("post".equalsIgnoreCase(frame.command())) {
+			byte[] b = frame.content().readFully();
+			postContent = new Gson().fromJson(new String(b), new TypeToken<HashMap<String, String>>() {
+			}.getType());
+		}
 		Parameter[] arr = src.getParameters();
 		Object[] args = new Object[arr.length];
+		boolean hasContent=false;
 		for (int i = 0; i < arr.length; i++) {
 			Parameter p = arr[i];
 			CjStubInHead sih = p.getAnnotation(CjStubInHead.class);
 			if (sih != null) {
 				String value = frame.head(sih.key());
 				try {
-					value = URLDecoder.decode(value, "utf-8");
+					if (!StringUtil.isEmpty(value)) {
+						value = URLDecoder.decode(value, "utf-8");
+					}
 				} catch (UnsupportedEncodingException e) {
 				}
 				args[i] = convertFrom(p.getType(), value);
@@ -120,19 +133,30 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 			}
 			CjStubInParameter sip = p.getAnnotation(CjStubInParameter.class);
 			if (sip != null) {
-				try {
-					String value = frame.parameter(sip.key());
-					value = URLDecoder.decode(value, "utf-8");
+				if (postContent != null) {
+					String value = postContent.get(sip.key());
 					args[i] = convertFrom(p.getType(), value);
-				} catch (UnsupportedEncodingException e) {
+				} else {
+					String value = frame.parameter(sip.key());
+					try {
+						if (!StringUtil.isEmpty(value)) {
+							value = URLDecoder.decode(value, "utf-8");
+						}
+					} catch (UnsupportedEncodingException e) {
+					}
+					args[i] = convertFrom(p.getType(), value);
 				}
 				continue;
 			}
 			CjStubInContent sic = p.getAnnotation(CjStubInContent.class);
 			if (sic != null) {
-				byte[] b = frame.content().readFully();
-				Object value = new Gson().fromJson(new String(b), p.getType());
+				if(hasContent) {
+					throw new CircuitException("503", "存在多个内容注解CjStubInContent在方法："+src);
+				}
+				String json = postContent.get("^content$");
+				Object value = new Gson().fromJson(json, p.getType());
 				args[i] = value;
+				hasContent=true;
 				continue;
 			}
 		}

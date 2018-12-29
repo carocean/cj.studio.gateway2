@@ -156,7 +156,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 			Response res = call.execute();
 			convertToCircuit(circuit, res);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new CircuitException("503", e);
 		}
 		used(false);
 		return circuit;

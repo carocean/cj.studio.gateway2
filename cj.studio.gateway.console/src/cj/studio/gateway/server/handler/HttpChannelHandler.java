@@ -492,7 +492,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	}
 
 	protected String getWebSocketLocation(HttpRequest req) {
-		String path = info.getProps().get("Websocket-Path");
+		String path = info.getProps().get(__http_ws_prop_wsPath);
 		if (StringUtil.isEmpty(path)) {
 			path = "/websocket";
 		} else {

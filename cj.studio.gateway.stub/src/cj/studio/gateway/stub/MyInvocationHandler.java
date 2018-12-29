@@ -2,6 +2,9 @@ package cj.studio.gateway.stub;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.HashMap;
+import java.util.Map;
 
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.net.Circuit;
@@ -24,6 +27,7 @@ import cj.studio.gateway.stub.annotation.CjStubService;
 import cj.studio.gateway.stub.util.StringTypeConverter;
 import cj.ultimate.gson2.com.google.gson.Gson;
 import cj.ultimate.net.sf.cglib.proxy.InvocationHandler;
+import cj.ultimate.util.StringUtil;
 
 public class MyInvocationHandler implements InvocationHandler, StringTypeConverter {
 	IOutputSelector selector;
@@ -103,6 +107,9 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 			throw new Exception("缺少存根方法注解:" + m);
 		}
 		String name = sm.alias();
+		if(StringUtil.isEmpty(name)) {
+			name=m.getName();
+		}
 		if (name.indexOf("/") > -1) {
 			throw new Exception("CjStubMethod注解错误，别名不能含有/。在：" + m);
 		}
@@ -136,17 +143,8 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 		frame.head(SocketContants.__frame_Head_Rest_Command, name);
 		frame.head(SocketContants.__frame_Head_Rest_Stub_Interface, stubClassName);
 
-		Annotation[][] arr = m.getParameterAnnotations();
-		for (int i = 0; i < arr.length; i++) {
-			Annotation[] argAnnos = arr[i];
-			if (argAnnos.length < 1)
-				continue;
-			// 方法参数的注解目前只支持一个
-			for (Annotation a : argAnnos) {
-				fillFrame(frame, a, i, args, ic, sm);
-			}
+		fillFrame(frame, ic, m, args, sm);
 
-		}
 		String sline = String.format("%s 200 OK", sm.protocol());
 		MemoryOutputChannel oc = new MemoryOutputChannel();
 		Circuit circuit = new Circuit(oc, sline);
@@ -162,7 +160,7 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 		circuit.content().close();
 		byte[] b = oc.readFully();
 		CjStubReturn sr = m.getDeclaredAnnotation(CjStubReturn.class);
-		if (!m.getReturnType().equals(Void.TYPE) && sr == null) {
+		if (!m.getReturnType().isPrimitive()&&!m.getReturnType().equals(Void.TYPE) && sr == null) {//除了基本型，返回类型如果是抽象基类则无法确认反射实例
 			throw new EcmException("缺少CjStubReturn注解。在：" + m);
 		} else {
 			String feed = new String(b);
@@ -172,56 +170,77 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 
 	}
 
-	private void fillFrame(Frame frame, Annotation a, int i, Object[] args, IInputChannel ic, CjStubMethod sm)
+	private void fillFrame(Frame frame, IInputChannel ic, Method m, Object[] args, CjStubMethod sm)
 			throws CircuitException {
-		if (a instanceof CjStubInHead) {
-			CjStubInHead sih = (CjStubInHead) a;
-			if (sih != null) {
-				String key = sih.key();
-				String v = "";
-				if (args[i].getClass().isPrimitive()) {
-					v = String.valueOf(args[i]);
-				} else {
-					v = new Gson().toJson(args[i]);
+		Map<String, String> postContent = null;
+		if ("post".equalsIgnoreCase(frame.command())) {
+			postContent = new HashMap<>();
+		}
+		Parameter[] arr = m.getParameters();
+		for (int i = 0; i < arr.length; i++) {
+			Annotation[] argAnnos = arr[i].getAnnotations();
+			for (Annotation a : argAnnos) {
+				if (a instanceof CjStubInHead) {
+					CjStubInHead sih = (CjStubInHead) a;
+					if (sih != null) {
+						String key = sih.key();
+						String v = "";
+						if (args[i] == null) {
+							v = "";
+						} else if (args[i].getClass().equals(String.class)) {
+							v = (String) args[i];
+						} else {
+							v = new Gson().toJson(args[i]);
+						}
+						if (v.indexOf("\r") > -1 || v.indexOf("\n") > -1) {
+							throw new EcmException("含有\r或\n");
+						}
+						frame.head(key, v);
+					}
+				} else if (a instanceof CjStubInParameter) {
+					CjStubInParameter sip = (CjStubInParameter) a;
+					if (sip != null) {
+						String key = sip.key();
+						String v = "";
+						if (args[i] == null) {
+							v = "";
+						} else if (args[i].getClass().equals(String.class)) {
+							v = (String) args[i];
+						} else {
+							v = new Gson().toJson(args[i]);
+						}
+						if (postContent != null) {
+							postContent.put(key, v);
+						} else {
+							if (v.indexOf("\r") > -1 || v.indexOf("\n") > -1) {
+								throw new EcmException("含有\r或\n");
+							}
+							frame.parameter(key, v);
+						}
+					}
+				} else if (a instanceof CjStubInContent) {
+					CjStubInContent sic = (CjStubInContent) a;
+					if (sic != null) {
+						if (postContent == null) {
+							throw new EcmException("有内容且command不是post");
+						}
+						String v = "";
+						if (args[i] == null) {
+							v = "";
+						} else if (args[i].getClass().equals(String.class)) {
+							v = (String) args[i];
+						} else {
+							v = new Gson().toJson(args[i]);
+						}
+						postContent.put("^content$", v);
+					}
 				}
-				if (v.indexOf("\r") > -1 || v.indexOf("\n") > -1) {
-					throw new EcmException("含有\r或\n");
-				}
-				frame.head(key, v);
 			}
-		} else if (a instanceof CjStubInParameter) {
-			CjStubInParameter sip = (CjStubInParameter) a;
-			if (sip != null) {
-				String key = sip.key();
-				String v = "";
-				if (args[i].getClass().equals(String.class)) {
-					v = (String) args[i];
-				} else if (args[i].getClass().isPrimitive()) {
-					v = String.valueOf(args[i]);
-				} else {
-					v = new Gson().toJson(args[i]);
-				}
-				if (v.indexOf("\r") > -1 || v.indexOf("\n") > -1) {
-					throw new EcmException("含有\r或\n");
-				}
-				frame.parameter(key, v);
-			}
-		} else if (a instanceof CjStubInContent) {
-			CjStubInContent sic = (CjStubInContent) a;
-			if (sic != null) {
-				if (!"POST".equalsIgnoreCase(sm.command())) {
-					throw new EcmException("有内容且command不是post");
-				}
-				String v = "";
-				if (args[i].getClass().isPrimitive()) {
-					v = String.valueOf(args[i]);
-				} else {
-					v = new Gson().toJson(args[i]);
-				}
-				byte[] b = v.getBytes();
-				ic.begin(frame);
-				ic.done(b, 0, b.length);
-			}
+		}
+		if (postContent != null) {
+			byte[] b = new Gson().toJson(postContent).getBytes();
+			ic.begin(frame);
+			ic.done(b, 0, b.length);
 		}
 	}
 

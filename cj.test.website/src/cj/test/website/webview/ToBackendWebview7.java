@@ -21,7 +21,7 @@ public class ToBackendWebview7 implements IGatewayAppSiteWayWebView {
 	// 异步接收
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
-		UserBO bo = user.getUser("cj");
+		UserBO bo = user.getUser(44);
 		System.out.println("---" + bo);
 	}
 
