@@ -27,7 +27,6 @@ import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
-import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
 import cj.studio.gateway.socket.util.SocketContants;
 import cj.studio.gateway.socket.util.SocketName;
 import io.netty.channel.ChannelHandlerAdapter;
@@ -37,14 +36,13 @@ public class HttpFrontendHandler extends ChannelHandlerAdapter implements Socket
 
 	IGatewaySocketContainer sockets;
 	private IJunctionTable junctions;
-	InputPipelineCollection pipelines;
 	private ServerInfo info;
 	private Destination destination;
+	private IInputPipeline inputPipeline;
 
 	public HttpFrontendHandler(IServiceProvider parent) {
 		sockets = (IGatewaySocketContainer) parent.getService("$.container.socket");
 		junctions = (IJunctionTable) parent.getService("$.junctions");
-		this.pipelines = new InputPipelineCollection();
 		info = (ServerInfo) parent.getService("$.server.info");
 		ICluster cluster = (ICluster) parent.getService("$.cluster");
 		this.destination = (Destination) cluster.getDestination(info.getRoad());
@@ -64,9 +62,10 @@ public class HttpFrontendHandler extends ChannelHandlerAdapter implements Socket
 		IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
 
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
-		IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_builder_frontend_channel,ctx.channel()).prop(__pipeline_fromProtocol, "http")
+		IInputPipeline inputPipeline = builder.name(pipelineName)
+				.prop(__pipeline_builder_frontend_channel, ctx.channel()).prop(__pipeline_fromProtocol, "http")
 				.prop(__pipeline_fromWho, info.getName()).createPipeline();
-		pipelines.add(pipelineName, inputPipeline);
+		this.inputPipeline = inputPipeline;
 
 		ForwardJunction junction = new ForwardJunction(pipelineName);
 		junction.parse(inputPipeline, ctx.channel(), socket);
@@ -77,8 +76,6 @@ public class HttpFrontendHandler extends ChannelHandlerAdapter implements Socket
 
 	@Override
 	public void channelRead(final ChannelHandlerContext ctx, Object msg) throws Exception {
-		String name = SocketName.name(ctx.channel().id(), info.getName());
-		IInputPipeline inputPipeline = pipelines.get(name);
 		inputPipeline.headFlow(msg, ctx);
 	}
 
@@ -89,11 +86,9 @@ public class HttpFrontendHandler extends ChannelHandlerAdapter implements Socket
 			this.junctions.remove(junction);
 		}
 
-		IInputPipeline input = pipelines.get(pipelineName);
-		if (input != null) {
-			input.headOnInactive(pipelineName);
-			pipelines.remove(pipelineName);
-		}
+		inputPipeline.headOnInactive(pipelineName);
+		inputPipeline.dispose();
+		inputPipeline = null;
 	}
 
 	@Override
@@ -113,5 +108,4 @@ public class HttpFrontendHandler extends ChannelHandlerAdapter implements Socket
 		cause.printStackTrace();
 	}
 
-	
 }

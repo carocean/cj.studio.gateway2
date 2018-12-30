@@ -3,7 +3,7 @@
 		{
 			"name": "road://test:way",
 			"uris": [
-				"https://news.163.com"
+				"http://192.168.1.106:8080"
 			],
 			"props": {
 				
