@@ -28,24 +28,42 @@ import cj.ultimate.gson2.com.google.gson.reflect.TypeToken;
 import cj.ultimate.util.StringUtil;
 
 public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, StringTypeConverter {
+	Map<String, Method> __stubMethods;
+
 	public GatewayAppSiteRestStub() {
 		CjService cj = this.getClass().getAnnotation(CjService.class);
 		if (cj == null) {
 			throw new EcmException("必须定义为服务");
 		}
-		checkError(cj.name(), this.getClass());
+		loadStub(cj.name());
 	}
 
-	private void checkError(String name, Class<?> clazz) {
+	private void loadStub(String name) {
+		this.__stubMethods = new HashMap<>();
 		CjStubService found = null;
+		Class<?> clazz = this.getClass();
 		do {
 			Class<?>[] faces = clazz.getInterfaces();
-
 			for (Class<?> c : faces) {
 				CjStubService an = c.getDeclaredAnnotation(CjStubService.class);
-				if (an != null) {
-					found = an;
-					break;
+				if (an == null) {
+					continue;
+				}
+				//
+				found = an;
+				Method[] methods = c.getDeclaredMethods();
+				for (Method m : methods) {
+					CjStubMethod sm = m.getDeclaredAnnotation(CjStubMethod.class);
+					if (sm == null)
+						continue;
+					String mName = sm.alias();
+					if (StringUtil.isEmpty(mName)) {
+						mName = m.getName();
+					}
+					if (__stubMethods.containsKey(mName)) {
+						throw new EcmException("RestStub不支持方法重载。冲突在：" + m);
+					}
+					__stubMethods.put(mName, m);
 				}
 			}
 			clazz = clazz.getSuperclass();
@@ -56,7 +74,6 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 		if (!name.startsWith(found.bindService()) && !found.bindService().startsWith(name)) {
 			throw new EcmException("存根接口绑定服务名与宿主服务名不同");
 		}
-		
 	}
 
 	@Override
@@ -79,7 +96,8 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 					if (!stub.isAssignableFrom(clazz)) {
 						throw new CircuitException("503", "当前webview未实现存根接口。" + stub + " 在 " + clazz);
 					}
-					Method src = findMethod(restCmd, stub);
+//					Method src = findMethod(restCmd, stub);
+					Method src =__stubMethods.get(restCmd);
 					if (src == null) {
 						throw new CircuitException("404", "在存根接口中未找到方法：" + src);
 					}
@@ -116,7 +134,7 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 		}
 		Parameter[] arr = src.getParameters();
 		Object[] args = new Object[arr.length];
-		boolean hasContent=false;
+		boolean hasContent = false;
 		for (int i = 0; i < arr.length; i++) {
 			Parameter p = arr[i];
 			CjStubInHead sih = p.getAnnotation(CjStubInHead.class);
@@ -150,13 +168,13 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 			}
 			CjStubInContent sic = p.getAnnotation(CjStubInContent.class);
 			if (sic != null) {
-				if(hasContent) {
-					throw new CircuitException("503", "存在多个内容注解CjStubInContent在方法："+src);
+				if (hasContent) {
+					throw new CircuitException("503", "存在多个内容注解CjStubInContent在方法：" + src);
 				}
 				String json = postContent.get("^content$");
 				Object value = new Gson().fromJson(json, p.getType());
 				args[i] = value;
-				hasContent=true;
+				hasContent = true;
 				continue;
 			}
 		}
@@ -177,21 +195,21 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 		return m;
 	}
 
-	private Method findMethod(String restCmd, Class<?> stub) {
-		Method[] arr = stub.getDeclaredMethods();
-		for (Method m : arr) {
-			CjStubMethod cm = m.getAnnotation(CjStubMethod.class);
-			if (cm == null) {
-				continue;
-			}
-			String methodName = cm.alias();
-			if (StringUtil.isEmpty(methodName)) {
-				methodName = m.getName();
-			}
-			if (restCmd.equals(methodName)) {
-				return m;
-			}
-		}
-		return null;
-	}
+//	private Method findMethod(String restCmd, Class<?> stub) {
+//		Method[] arr = stub.getDeclaredMethods();
+//		for (Method m : arr) {
+//			CjStubMethod cm = m.getAnnotation(CjStubMethod.class);
+//			if (cm == null) {
+//				continue;
+//			}
+//			String methodName = cm.alias();
+//			if (StringUtil.isEmpty(methodName)) {
+//				methodName = m.getName();
+//			}
+//			if (restCmd.equals(methodName)) {
+//				return m;
+//			}
+//		}
+//		return null;
+//	}
 }
