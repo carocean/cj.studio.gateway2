@@ -39,7 +39,7 @@ public class MongoDBPlugin implements IChipPlugin {
 			if (disks.containsKey(diskName)) {
 				disk = disks.get(diskName);
 			} else {
-				disk = NetDisk.trustOpen(client, diskName);
+				disk = NetDisk.trustOpen(client, diskName,this.getClass().getClassLoader());
 				disks.put(diskName, disk);
 			}
 			return disk;
@@ -50,7 +50,7 @@ public class MongoDBPlugin implements IChipPlugin {
 		if (disks.containsKey(diskName)) {
 			disk = disks.get(diskName);
 		} else {
-			disk = NetDisk.trustOpen(client, diskName);
+			disk = NetDisk.trustOpen(client, diskName,this.getClass().getClassLoader());
 			disks.put(diskName, disk);
 		}
 		ICube cube = StringUtil.isEmpty(cubeName) ? disk.home() : disk.cube(cubeName);
