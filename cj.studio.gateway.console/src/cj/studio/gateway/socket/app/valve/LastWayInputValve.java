@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -168,10 +166,10 @@ public class LastWayInputValve implements IInputValve {
 		if (this.mimes.containsKey(ext)) {
 			circuit.contentType(mimes.get(ext));
 		}
-		try {
-			rpath=URLDecoder.decode(rpath, "utf-8");
-		} catch (UnsupportedEncodingException e1) {
-		}
+//		try {
+//			rpath=URLDecoder.decode(rpath, "utf-8");//为了不影响性能，资源中文名乱码问题留给应用开发者在valve中处理。
+//		} catch (UnsupportedEncodingException e1) {
+//		}
 		if (rpath.endsWith("/")) {
 			rpath = String.format("%s%s", rpath, httpWelcome);
 		}
