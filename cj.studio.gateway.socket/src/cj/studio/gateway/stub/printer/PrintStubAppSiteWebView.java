@@ -26,7 +26,7 @@ public abstract class PrintStubAppSiteWebView implements IGatewayAppSiteWayWebVi
 	IServiceSite __site;
 
 	@Override
-	public final void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
+	public final synchronized void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
 		IChip chip=(IChip)__site.getService(IChip.class.getName());
 		onprintChipInfo(chip.info(),frame,circuit,resource);
 		ServiceCollection<IGatewayAppSiteWayWebView> col = __site.getServices(IGatewayAppSiteWayWebView.class);
