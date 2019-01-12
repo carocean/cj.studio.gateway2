@@ -2,7 +2,7 @@ package cj.test.stub;
 
 import java.math.BigDecimal;
 
-import cj.studio.gateway.stub.annotation.CjStubInContent;
+import cj.studio.gateway.stub.annotation.CjStubInContentKey;
 import cj.studio.gateway.stub.annotation.CjStubInHead;
 import cj.studio.gateway.stub.annotation.CjStubInParameter;
 import cj.studio.gateway.stub.annotation.CjStubMethod;
@@ -21,7 +21,7 @@ public interface ICustomStub {
 	@CjStubReturn(usage = "xxx", type = CustomBO.class)
 	CustomBO find(@CjStubInParameter(key = "name", usage = "xx") String name,
 			@CjStubInParameter(key = "My-Age", usage = "年龄") int age,
-			@CjStubInParameter(key = "v", usage = "xx") Long v, @CjStubInContent(usage = "xx") String cnt);
+			@CjStubInParameter(key = "v", usage = "xx") Long v, @CjStubInContentKey(key="content",usage = "xx") String cnt);
 
 	@CjStubMethod(alias = "test", protocol = "http/1.1", command = "get", usage = "xxx")
 	void test();
@@ -33,5 +33,5 @@ public interface ICustomStub {
 	int limit(@CjStubInHead(key = "max", usage = "xx") int max, @CjStubInParameter(key = "f", usage = "xxx") Float f,
 			@CjStubInParameter(key = "bd", usage = "xxx") BigDecimal bd);
 	@CjStubMethod(protocol = "http/1.1", command = "post", usage = "xxx")
-	void saveCustom(@CjStubInContent(usage="xx")CustomBO bo);
+	void saveCustom(@CjStubInParameter(key = "s", usage = "xxx") Long s,@CjStubInContentKey(key="age",usage="age")int age,@CjStubInContentKey(key="content",usage="content")CustomBO bo);
 }

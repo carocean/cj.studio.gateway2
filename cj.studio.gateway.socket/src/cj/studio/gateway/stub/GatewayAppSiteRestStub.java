@@ -17,7 +17,7 @@ import cj.studio.ecm.net.io.MemoryContentReciever;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.util.SocketContants;
-import cj.studio.gateway.stub.annotation.CjStubInContent;
+import cj.studio.gateway.stub.annotation.CjStubInContentKey;
 import cj.studio.gateway.stub.annotation.CjStubInHead;
 import cj.studio.gateway.stub.annotation.CjStubInParameter;
 import cj.studio.gateway.stub.annotation.CjStubMethod;
@@ -126,17 +126,16 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 	}
 
 	private Object[] getArgs(Method src, Frame frame) throws CircuitException {
-		Map<String, String> postContent = null;
+		Map<String, Object> postContent = null;
 		String cntText = "";
 		if ("post".equalsIgnoreCase(frame.command())) {
 			byte[] b = frame.content().readFully();
 			cntText = new String(b);
-			postContent = new Gson().fromJson(cntText, new TypeToken<HashMap<String, String>>() {
+			postContent = new Gson().fromJson(cntText, new TypeToken<HashMap<String, Object>>() {
 			}.getType());
 		}
 		Parameter[] arr = src.getParameters();
 		Object[] args = new Object[arr.length];
-		boolean hasContent = false;
 		for (int i = 0; i < arr.length; i++) {
 			Parameter p = arr[i];
 			CjStubInHead sih = p.getAnnotation(CjStubInHead.class);
@@ -153,41 +152,47 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 			}
 			CjStubInParameter sip = p.getAnnotation(CjStubInParameter.class);
 			if (sip != null) {
-				if (postContent != null) {
-					String value = postContent.get(sip.key());
-					args[i] = convertFrom(p.getType(), value);
-				} else {
-					String value = frame.parameter(sip.key());
-					try {
-						if (!StringUtil.isEmpty(value)) {
-							value = URLDecoder.decode(value, "utf-8");
-						}
-					} catch (UnsupportedEncodingException e) {
+				String value = frame.parameter(sip.key());
+				try {
+					if (!StringUtil.isEmpty(value)) {
+						value = URLDecoder.decode(value, "utf-8");
 					}
-					args[i] = convertFrom(p.getType(), value);
+				} catch (UnsupportedEncodingException e) {
 				}
+				args[i] = convertFrom(p.getType(), value);
 				continue;
 			}
-			CjStubInContent sic = p.getAnnotation(CjStubInContent.class);
+			CjStubInContentKey sic = p.getAnnotation(CjStubInContentKey.class);
 			if (sic != null) {
-				if (hasContent) {
-					throw new CircuitException("503", "存在多个内容注解CjStubInContent在方法：" + src);
+				if(!postContent.containsKey(sic.key())) {
+					throw new CircuitException("503","缺少key在内容。key:"+sic.key()+" 方法："+src);
 				}
-				Object value = null;
-				if (!postContent.containsKey("^content$")) {
-					value = new Gson().fromJson(cntText, p.getType());
-				} else {
-					String json = postContent.get("^content$");
-					value = new Gson().fromJson(json, p.getType());
+				Object tmp=postContent.get(sic.key());
+				String json = "";
+				if(tmp instanceof String) {
+					json=(String)tmp;
+					Object value = new Gson().fromJson(json, p.getType());
+					args[i] = value;
+				}else {
+					if(tmp!=null) {
+						json=new Gson().toJson(tmp);
+						Object value = new Gson().fromJson(json, p.getType());
+						args[i] = value;
+					}else {
+						if(p.getType().isPrimitive()) {
+							throw new CircuitException("503","必须为基本型参数赋值。key in content:"+sic.key()+" 方法："+src);
+						}
+						args[i] = null;
+					}
 				}
-				args[i] = value;
-				hasContent = true;
+				
 				continue;
 			}
 		}
 
 		return args;
 	}
+
 
 	private Method findDestMethod(Class<?> clazz, Method src) throws NoSuchMethodException, SecurityException {
 		Method m = null;
@@ -202,21 +207,4 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 		return m;
 	}
 
-//	private Method findMethod(String restCmd, Class<?> stub) {
-//		Method[] arr = stub.getDeclaredMethods();
-//		for (Method m : arr) {
-//			CjStubMethod cm = m.getAnnotation(CjStubMethod.class);
-//			if (cm == null) {
-//				continue;
-//			}
-//			String methodName = cm.alias();
-//			if (StringUtil.isEmpty(methodName)) {
-//				methodName = m.getName();
-//			}
-//			if (restCmd.equals(methodName)) {
-//				return m;
-//			}
-//		}
-//		return null;
-//	}
 }

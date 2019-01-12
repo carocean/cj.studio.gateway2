@@ -17,7 +17,7 @@ import cj.studio.ecm.net.io.MemoryOutputChannel;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.pipeline.IOutputer;
 import cj.studio.gateway.socket.util.SocketContants;
-import cj.studio.gateway.stub.annotation.CjStubInContent;
+import cj.studio.gateway.stub.annotation.CjStubInContentKey;
 import cj.studio.gateway.stub.annotation.CjStubInHead;
 import cj.studio.gateway.stub.annotation.CjStubInParameter;
 import cj.studio.gateway.stub.annotation.CjStubMethod;
@@ -107,8 +107,8 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 			throw new Exception("缺少存根方法注解:" + m);
 		}
 		String name = sm.alias();
-		if(StringUtil.isEmpty(name)) {
-			name=m.getName();
+		if (StringUtil.isEmpty(name)) {
+			name = m.getName();
 		}
 		if (name.indexOf("/") > -1) {
 			throw new Exception("CjStubMethod注解错误，别名不能含有/。在：" + m);
@@ -160,7 +160,7 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 		circuit.content().close();
 		byte[] b = oc.readFully();
 		CjStubReturn sr = m.getDeclaredAnnotation(CjStubReturn.class);
-		if (!m.getReturnType().isPrimitive()&&!m.getReturnType().equals(Void.TYPE) && sr == null) {//除了基本型，返回类型如果是抽象基类则无法确认反射实例
+		if (!m.getReturnType().isPrimitive() && !m.getReturnType().equals(Void.TYPE) && sr == null) {// 除了基本型，返回类型如果是抽象基类则无法确认反射实例
 			throw new EcmException("缺少CjStubReturn注解。在：" + m);
 		} else {
 			String feed = new String(b);
@@ -209,17 +209,13 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 						} else {
 							v = new Gson().toJson(args[i]);
 						}
-						if (postContent != null) {
-							postContent.put(key, v);
-						} else {
-							if (v.indexOf("\r") > -1 || v.indexOf("\n") > -1) {
-								throw new EcmException("含有\r或\n");
-							}
-							frame.parameter(key, v);
+						if (v.indexOf("\r") > -1 || v.indexOf("\n") > -1) {
+							throw new EcmException("含有\r或\n");
 						}
+						frame.parameter(key, v);
 					}
-				} else if (a instanceof CjStubInContent) {
-					CjStubInContent sic = (CjStubInContent) a;
+				} else if (a instanceof CjStubInContentKey) {
+					CjStubInContentKey sic = (CjStubInContentKey) a;
 					if (sic != null) {
 						if (postContent == null) {
 							throw new EcmException("有内容且command不是post");
@@ -232,7 +228,7 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 						} else {
 							v = new Gson().toJson(args[i]);
 						}
-						postContent.put("^content$", v);
+						postContent.put(sic.key(), v);
 					}
 				}
 			}

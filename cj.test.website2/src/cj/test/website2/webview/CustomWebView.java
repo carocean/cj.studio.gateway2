@@ -43,7 +43,7 @@ public class CustomWebView extends GatewayAppSiteRestStub implements ICustomStub
 	}
 
 	@Override
-	public void saveCustom(CustomBO bo) {
+	public void saveCustom(Long s,int age,CustomBO bo) {
 		// TODO Auto-generated method stub
 		System.out.println("++++++++"+bo);
 	}

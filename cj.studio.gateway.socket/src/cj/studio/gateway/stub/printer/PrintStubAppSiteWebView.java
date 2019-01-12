@@ -13,7 +13,7 @@ import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
-import cj.studio.gateway.stub.annotation.CjStubInContent;
+import cj.studio.gateway.stub.annotation.CjStubInContentKey;
 import cj.studio.gateway.stub.annotation.CjStubInHead;
 import cj.studio.gateway.stub.annotation.CjStubInParameter;
 import cj.studio.gateway.stub.annotation.CjStubMethod;
@@ -59,7 +59,7 @@ public abstract class PrintStubAppSiteWebView implements IGatewayAppSiteWayWebVi
 						if (sip != null) {
 							onprintStubMethodArgInParameter(sip, p, m, frame, circuit, resource);
 						}
-						CjStubInContent sic = p.getAnnotation(CjStubInContent.class);
+						CjStubInContentKey sic = p.getAnnotation(CjStubInContentKey.class);
 						if (sic != null) {
 							onprintStubMethodArgInContent(sic, p, m, frame, circuit, resource);
 						}
@@ -84,7 +84,7 @@ public abstract class PrintStubAppSiteWebView implements IGatewayAppSiteWayWebVi
 	protected abstract void onprintStubMethod(CjStubMethod sm, CjStubReturn ret, Method m, Frame frame, Circuit circuit,
 			IGatewayAppSiteResource resource);
 
-	protected abstract void onprintStubMethodArgInContent(CjStubInContent sic, Parameter p, Method m, Frame frame,
+	protected abstract void onprintStubMethodArgInContent(CjStubInContentKey sic, Parameter p, Method m, Frame frame,
 			Circuit circuit, IGatewayAppSiteResource resource);
 
 	protected abstract void onprintStubMethodArgInParameter(CjStubInParameter sip, Parameter p, Method m, Frame frame,

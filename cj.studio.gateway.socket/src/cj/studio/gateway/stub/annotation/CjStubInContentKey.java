@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.PARAMETER })
-public @interface CjStubInContent {
+public @interface CjStubInContentKey {
+	String key();
 	String usage();
 }

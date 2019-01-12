@@ -30,6 +30,11 @@ public class ToBackendWebview8 implements IGatewayAppSiteWayWebView {
 		System.out.println(age);
 		int l=user.limit(200, 2.01F, new BigDecimal(3));
 		System.out.println(l);
+		CustomBO bo2 =new CustomBO();
+		bo2.setAge(40);
+		bo2.setName("cj");
+		bo2.setSex(1);
+		user.saveCustom(Long.valueOf(3),55,bo2);
 	}
 
 }
