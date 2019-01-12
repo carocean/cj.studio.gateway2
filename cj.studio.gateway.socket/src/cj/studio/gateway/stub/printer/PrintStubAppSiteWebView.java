@@ -3,6 +3,8 @@ package cj.studio.gateway.stub.printer;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
+import cj.studio.ecm.IChip;
+import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjServiceSite;
@@ -25,6 +27,8 @@ public abstract class PrintStubAppSiteWebView implements IGatewayAppSiteWayWebVi
 
 	@Override
 	public final void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
+		IChip chip=(IChip)__site.getService(IChip.class.getName());
+		onprintChipInfo(chip.info(),frame,circuit,resource);
 		ServiceCollection<IGatewayAppSiteWayWebView> col = __site.getServices(IGatewayAppSiteWayWebView.class);
 		for (IGatewayAppSiteWayWebView view : col) {
 			Class<?>[] faces = view.getClass().getInterfaces();
@@ -42,34 +46,34 @@ public abstract class PrintStubAppSiteWebView implements IGatewayAppSiteWayWebVi
 					if (StringUtil.isEmpty(mName)) {
 						mName = m.getName();
 					}
-					onprintStubMethod(sm, m, frame, circuit, resource);
 					CjStubReturn ret = m.getDeclaredAnnotation(CjStubReturn.class);
-					if (ret != null) {
-						onprintStubMethodReturn(ret, m, frame, circuit, resource);
-					}
+					onprintStubMethod(sm, ret, m, frame, circuit, resource);
 					Parameter[] params = m.getParameters();
 					for (int i = 0; i < params.length; i++) {
 						Parameter p = params[i];
 						CjStubInHead sih = p.getAnnotation(CjStubInHead.class);
 						if (sih != null) {
-							onprintStubMethodArgInHead(sih,p, m, frame, circuit, resource);
+							onprintStubMethodArgInHead(sih, p, m, frame, circuit, resource);
 						}
 						CjStubInParameter sip = p.getAnnotation(CjStubInParameter.class);
 						if (sip != null) {
-							onprintStubMethodArgInParameter(sip,p, m, frame, circuit, resource);
+							onprintStubMethodArgInParameter(sip, p, m, frame, circuit, resource);
 						}
 						CjStubInContent sic = p.getAnnotation(CjStubInContent.class);
 						if (sic != null) {
-							onprintStubMethodArgInContent(sic,p, m, frame, circuit, resource);
+							onprintStubMethodArgInContent(sic, p, m, frame, circuit, resource);
 						}
 					}
-					onprintMethodEnd(frame,circuit,resource);
+					onprintMethodEnd(frame, circuit, resource);
 				}
-				onprintStubServiceEnd(frame,circuit,resource);
+				onprintStubServiceEnd(frame, circuit, resource);
 			}
 		}
-		onprintEnd(frame,circuit,resource);
+		onprintEnd(frame, circuit, resource);
 	}
+
+	protected abstract void onprintChipInfo(IChipInfo info, Frame frame, Circuit circuit,
+			IGatewayAppSiteResource resource);
 
 	protected abstract void onprintEnd(Frame frame, Circuit circuit, IGatewayAppSiteResource resource);
 
@@ -77,20 +81,17 @@ public abstract class PrintStubAppSiteWebView implements IGatewayAppSiteWayWebVi
 
 	protected abstract void onprintMethodEnd(Frame frame, Circuit circuit, IGatewayAppSiteResource resource);
 
-	protected abstract void onprintStubMethod(CjStubMethod sm, Method m, Frame frame, Circuit circuit,
+	protected abstract void onprintStubMethod(CjStubMethod sm, CjStubReturn ret, Method m, Frame frame, Circuit circuit,
 			IGatewayAppSiteResource resource);
 
-	protected abstract void onprintStubMethodArgInContent(CjStubInContent sic,Parameter p , Method m, Frame frame, Circuit circuit,
-			IGatewayAppSiteResource resource);
-
-	protected abstract void onprintStubMethodArgInParameter(CjStubInParameter sip,Parameter p , Method m, Frame frame,
+	protected abstract void onprintStubMethodArgInContent(CjStubInContent sic, Parameter p, Method m, Frame frame,
 			Circuit circuit, IGatewayAppSiteResource resource);
 
-	protected abstract void onprintStubMethodArgInHead(CjStubInHead sih,Parameter p , Method m, Frame frame, Circuit circuit,
-			IGatewayAppSiteResource resource);
+	protected abstract void onprintStubMethodArgInParameter(CjStubInParameter sip, Parameter p, Method m, Frame frame,
+			Circuit circuit, IGatewayAppSiteResource resource);
 
-	protected abstract void onprintStubMethodReturn(CjStubReturn ret, Method m, Frame frame, Circuit circuit,
-			IGatewayAppSiteResource resource);
+	protected abstract void onprintStubMethodArgInHead(CjStubInHead sih, Parameter p, Method m, Frame frame,
+			Circuit circuit, IGatewayAppSiteResource resource);
 
 	protected abstract void onprintStubService(CjStubService ss, Class<?> c, Frame frame, Circuit circuit,
 			IGatewayAppSiteResource resource);

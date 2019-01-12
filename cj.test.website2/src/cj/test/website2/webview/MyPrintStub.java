@@ -3,6 +3,7 @@ package cj.test.website2.webview;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
+import cj.studio.ecm.IChipInfo;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.Frame;
@@ -19,48 +20,58 @@ import cj.studio.gateway.stub.printer.PrintStubAppSiteWebView;
 public class MyPrintStub extends PrintStubAppSiteWebView {
 
 	@Override
-	protected void onprintStubMethodArgInContent(CjStubInContent sic,Parameter p , Method m, Frame frame, Circuit circuit,
-			IGatewayAppSiteResource resource) {
-		circuit.content().writeBytes(String.format("&emsp;&emsp;&emsp;&emsp;content usage:%s<br>", sic.usage()).getBytes());
-
-	}
-
-	@Override
-	protected void onprintStubMethodArgInParameter(CjStubInParameter sip,Parameter p , Method m, Frame frame, Circuit circuit,
-			IGatewayAppSiteResource resource) {
-		circuit.content().writeBytes(
-				String.format("&emsp;&emsp;&emsp;&emsp;paramenter key:%s,usage:%s<br>", sip.key(), sip.usage()).getBytes());
-	}
-
-	@Override
-	protected void onprintStubMethodArgInHead(CjStubInHead sih,Parameter p , Method m, Frame frame, Circuit circuit,
-			IGatewayAppSiteResource resource) {
-		circuit.content().writeBytes(
-				String.format("&emsp;&emsp;&emsp;&emsp;head key:%s,usage:%s<br>", sih.key(), sih.usage()).getBytes());
-	}
-
-	@Override
-	protected void onprintStubMethodReturn(CjStubReturn ret, Method m, Frame frame, Circuit circuit,
-			IGatewayAppSiteResource resource) {
-		circuit.content()
-				.writeBytes(String.format("&emsp;&emsp;&emsp;&emsp;return type:%s,usage:%s<br>", ret.type(), ret.usage()).getBytes());
-
-	}
-
-	@Override
 	protected void onprintStubService(CjStubService ss, Class<?> c, Frame frame, Circuit circuit,
 			IGatewayAppSiteResource resource) {
-		circuit.content().writeBytes(String.format("stub:%s", c.getName()).getBytes());
-		circuit.content().writeBytes(String.format("bindService:%s,usage:%s<br>", ss.bindService(), ss.usage()).getBytes());
+		circuit.content().writeBytes(String.format("<b>%s</b><br>", ss.bindService()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;%s<br>", c.getName()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;用法:%s<br>", ss.usage()).getBytes());
+
+		circuit.content().writeBytes("<br>".getBytes());
 
 	}
 
 	@Override
-	protected void onprintStubMethod(CjStubMethod sm, Method m, Frame frame, Circuit circuit,
+	protected void onprintStubMethod(CjStubMethod sm, CjStubReturn ret, Method m, Frame frame, Circuit circuit,
 			IGatewayAppSiteResource resource) {
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;<b>%s</b><br>", m.getName()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用法:%s<br>", sm.usage()).getBytes());
+		if(ret!=null) {
+			circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回值类型:%s,说明:%s<br>", ret.type().getName(),ret.usage()).getBytes());
+		}
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方法别名:%s<br>", sm.alias()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;命令:%s<br>", sm.command()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;协议:%s<br>", sm.protocol()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;参数:<br>").getBytes());
+	}
+
+	@Override
+	protected void onprintStubMethodArgInContent(CjStubInContent sic, Parameter p, Method m, Frame frame,
+			Circuit circuit, IGatewayAppSiteResource resource) {
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s<br>", p.getName()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型:%s<br>", p.getType().getName()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方式：InContent<br>").getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用法:%s<br>", sic.usage()).getBytes());
+
+	}
+
+	@Override
+	protected void onprintStubMethodArgInParameter(CjStubInParameter sip, Parameter p, Method m, Frame frame,
+			Circuit circuit, IGatewayAppSiteResource resource) {
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s<br>", p.getName()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型:%s<br>", p.getType().getName()).getBytes());
 		circuit.content()
-				.writeBytes(String.format("&emsp;&emsp;&emsp;&emsp;name:%s,alias:%s,command:%s,protocol:%s,usage:%s<br>",
-						m.getName(), sm.alias(), sm.command(), sm.protocol(), sm.usage()).getBytes());
+				.writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方式：InParameter %s<br>", sip.key()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用法:%s<br>", sip.usage()).getBytes());
+	}
+
+	@Override
+	protected void onprintStubMethodArgInHead(CjStubInHead sih, Parameter p, Method m, Frame frame, Circuit circuit,
+			IGatewayAppSiteResource resource) {
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s<br>", p.getName()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型:%s<br>", p.getType().getName()).getBytes());
+		circuit.content()
+				.writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方式：InHeader %s<br>", sih.key()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用法:%s<br>", sih.usage()).getBytes());
 	}
 
 	@Override
@@ -79,6 +90,19 @@ public class MyPrintStub extends PrintStubAppSiteWebView {
 	protected void onprintMethodEnd(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) {
 		// TODO Auto-generated method stub
 		circuit.content().writeBytes("<br>".getBytes());
+	}
+
+	@Override
+	protected void onprintChipInfo(IChipInfo info, Frame frame, Circuit circuit, IGatewayAppSiteResource resource) {
+		circuit.content().writeBytes(String.format("******************************************************<br>").getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s<br>", info.getName()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;标识：%s<br>", info.getId()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;版本：%s<br>", info.getVersion()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;产品：%s<br>", info.getProduct()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司：%s<br>", info.getCompany()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;版权：%s<br>", info.getCopyright()).getBytes());
+		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;描述：%s<br>", info.getDescription()).getBytes());
+		circuit.content().writeBytes(String.format("******************************************************<br>").getBytes());
 	}
 
 }
