@@ -32,4 +32,6 @@ public interface ICustomStub {
 	@CjStubMethod(protocol = "http/1.1", command = "get", usage = "xxx")
 	int limit(@CjStubInHead(key = "max", usage = "xx") int max, @CjStubInParameter(key = "f", usage = "xxx") Float f,
 			@CjStubInParameter(key = "bd", usage = "xxx") BigDecimal bd);
+	@CjStubMethod(protocol = "http/1.1", command = "post", usage = "xxx")
+	void saveCustom(@CjStubInContent(usage="xx")CustomBO bo);
 }

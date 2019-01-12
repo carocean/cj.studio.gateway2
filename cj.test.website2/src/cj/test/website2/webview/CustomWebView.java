@@ -41,4 +41,10 @@ public class CustomWebView extends GatewayAppSiteRestStub implements ICustomStub
 		float s=f+max;
 		return bd.multiply(new BigDecimal(s)).intValue();
 	}
+
+	@Override
+	public void saveCustom(CustomBO bo) {
+		// TODO Auto-generated method stub
+		System.out.println("++++++++"+bo);
+	}
 }

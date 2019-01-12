@@ -97,7 +97,7 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 						throw new CircuitException("503", "当前webview未实现存根接口。" + stub + " 在 " + clazz);
 					}
 //					Method src = findMethod(restCmd, stub);
-					Method src =__stubMethods.get(restCmd);
+					Method src = __stubMethods.get(restCmd);
 					if (src == null) {
 						throw new CircuitException("404", "在存根接口中未找到方法：" + src);
 					}
@@ -127,9 +127,11 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 
 	private Object[] getArgs(Method src, Frame frame) throws CircuitException {
 		Map<String, String> postContent = null;
+		String cntText = "";
 		if ("post".equalsIgnoreCase(frame.command())) {
 			byte[] b = frame.content().readFully();
-			postContent = new Gson().fromJson(new String(b), new TypeToken<HashMap<String, String>>() {
+			cntText = new String(b);
+			postContent = new Gson().fromJson(cntText, new TypeToken<HashMap<String, String>>() {
 			}.getType());
 		}
 		Parameter[] arr = src.getParameters();
@@ -171,8 +173,13 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 				if (hasContent) {
 					throw new CircuitException("503", "存在多个内容注解CjStubInContent在方法：" + src);
 				}
-				String json = postContent.get("^content$");
-				Object value = new Gson().fromJson(json, p.getType());
+				Object value = null;
+				if (!postContent.containsKey("^content$")) {
+					value = new Gson().fromJson(cntText, p.getType());
+				} else {
+					String json = postContent.get("^content$");
+					value = new Gson().fromJson(json, p.getType());
+				}
 				args[i] = value;
 				hasContent = true;
 				continue;
