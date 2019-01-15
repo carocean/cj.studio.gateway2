@@ -38,13 +38,17 @@ public abstract class XwwwFormUrlencodedContentReciever implements IContentRecie
 			return;
 		}
 		content.writeBytes(b, pos, length);
+		
+		byte[] fully=new byte[content.readableBytes()];
+		content.readBytes(fully,0,fully.length);
+		
 		String chartset = frame.contentChartset();
 		if (StringUtil.isEmpty(chartset)) {
 			chartset = "utf-8";
 		}
 		String text = "";
 		try {
-			text = new String(b, chartset);
+			text = new String(fully, chartset);
 		} catch (UnsupportedEncodingException e) {
 		}
 		if (StringUtil.isEmpty(text))
