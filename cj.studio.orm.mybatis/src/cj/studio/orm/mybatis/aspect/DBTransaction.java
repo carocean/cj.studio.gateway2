@@ -13,7 +13,7 @@ import cj.studio.orm.mybatis.annotation.CjTransaction;
 public class DBTransaction implements IAspect {
 
 	@Override
-	public Object cut(Object bridge, Object[] args, ICutpoint point) {
+	public Object cut(Object bridge, Object[] args, ICutpoint point) throws Throwable{
 		CjTransaction p = point.getMethodAnnotation(CjTransaction.class);
 		if (p == null) {
 			throw new EcmException(

@@ -21,7 +21,7 @@ public class RestAspect implements IAspect {
 	IOutputSelector selector;
 
 	@Override
-	public Object cut(Object obj, Object[] args, ICutpoint cut) {
+	public Object cut(Object obj, Object[] args, ICutpoint cut) throws Throwable{
 		return cut.cut(obj, args);
 	}
 
