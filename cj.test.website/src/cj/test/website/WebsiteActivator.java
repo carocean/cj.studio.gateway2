@@ -3,6 +3,8 @@ package cj.test.website;
 import cj.studio.ecm.IEntryPointActivator;
 import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.context.IElement;
+import cj.studio.gateway.IRuntime;
+import cj.studio.gateway.socket.Destination;
 
 public class WebsiteActivator implements IEntryPointActivator{
 
@@ -10,6 +12,10 @@ public class WebsiteActivator implements IEntryPointActivator{
 	public void activate(IServiceSite site, IElement e) {
 		// TODO Auto-generated method stub
 		System.out.println("----activate");
+		IRuntime runtime=(IRuntime)site.getService("$.gateway.runtime");
+		Destination dest=new Destination();
+		runtime.addDestination(dest);
+		System.out.println(runtime);
 	}
 
 	@Override

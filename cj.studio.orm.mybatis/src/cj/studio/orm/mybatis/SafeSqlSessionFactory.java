@@ -23,20 +23,18 @@ class SafeSqlSessionFactory implements ISafeSqlSessionFactory {
 	 * session.TransactionIsolationLevel)
 	 */
 	@Override
-	public SqlSession getSession(TransactionIsolationLevel level) {
+	public synchronized SqlSession getSession(TransactionIsolationLevel level) {
 		SqlSessionWrapper wrapper = sessions.get();
 		if (wrapper == null) {
 			SqlSession session = null;
-			synchronized (this) {
-				if (level == null) {
-					session = factory.openSession(TransactionIsolationLevel.READ_COMMITTED);
-				} else {
-					session = factory.openSession(level);
-				}
-				wrapper = new SqlSessionWrapper();
-				wrapper.session = session;
-				sessions.set(wrapper);
+			if (level == null) {
+				session = factory.openSession(TransactionIsolationLevel.READ_COMMITTED);
+			} else {
+				session = factory.openSession(level);
 			}
+			wrapper = new SqlSessionWrapper();
+			wrapper.session = session;
+			sessions.set(wrapper);
 		}
 		wrapper.refCount++;
 		return wrapper.session;
@@ -63,7 +61,7 @@ class SafeSqlSessionFactory implements ISafeSqlSessionFactory {
 	 * session.SqlSession)
 	 */
 	@Override
-	public void closeSession(SqlSession session) {
+	public synchronized void closeSession(SqlSession session) {
 		SqlSessionWrapper exists = sessions.get();
 		if (exists == null)
 			return;
@@ -71,7 +69,7 @@ class SafeSqlSessionFactory implements ISafeSqlSessionFactory {
 		if (exists.refCount < 1) {
 			sessions.remove();
 			session.close();
-			CJSystem.logging().debug(getClass(),"SqlSession closed.");
+			CJSystem.logging().debug(getClass(), "SqlSession closed.");
 		}
 	}
 

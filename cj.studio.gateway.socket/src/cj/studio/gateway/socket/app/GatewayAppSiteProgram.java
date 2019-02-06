@@ -23,7 +23,7 @@ import cj.studio.gateway.socket.Destination;
 public abstract class GatewayAppSiteProgram implements IGatewayAppSiteProgram {
 	static ILogging logger = CJSystem.logging();
 	@CjServiceSite
-	IServiceSite site;
+	protected IServiceSite site;
 	ProgramAdapterType type;
 	private Map<String, String> errors;
 	private Map<String, String> mimes;

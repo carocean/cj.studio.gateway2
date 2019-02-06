@@ -17,6 +17,9 @@ import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.session.ISessionEvent;
 import cj.studio.ecm.resource.JarClassLoader;
+import cj.studio.gateway.ICluster;
+import cj.studio.gateway.IConfiguration;
+import cj.studio.gateway.IRuntime;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.app.pipeline.builder.AppSocketInputPipelineBuilder;
@@ -250,6 +253,10 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 					}
 				}
 			}
+			if("$.gateway.runtime".equals(name)) {
+				IConfiguration config =(IConfiguration)parent.getService("$.config");
+				return new Runtime(config);
+			}
 			return null;
 		}
 
@@ -259,5 +266,53 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 			return null;
 		}
 
+	}
+	
+	class Runtime implements IRuntime{
+		ICluster cluster;
+		IConfiguration config;
+		public Runtime(IConfiguration config) {
+			this.cluster=config.getCluster();
+			this.config=config;
+		}
+		@Override
+		public void flushCluster() {
+			config.flushCluster();
+		}
+		@Override
+		public void addDestination(Destination dest) {
+			cluster.addDestination(dest);
+		}
+
+		@Override
+		public void removeDestination(String domain) {
+			cluster.removeDestination(domain);
+		}
+
+		@Override
+		public Destination getDestination(String domain) {
+			return cluster.getDestination(domain);
+		}
+
+		@Override
+		public boolean containsValid(String domain) {
+			return cluster.containsValid(domain);
+		}
+
+		@Override
+		public void validDestination(String domain) {
+			cluster.validDestination(domain);
+		}
+
+		@Override
+		public boolean containsInvalid(String domain) {
+			return cluster.containsInvalid(domain);
+		}
+
+		@Override
+		public void invalidDestination(String domain, String cause) {
+			cluster.invalidDestination(domain, cause);
+		}
+		
 	}
 }
