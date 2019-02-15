@@ -21,6 +21,7 @@ import cj.studio.gateway.stub.annotation.CjStubInContentKey;
 import cj.studio.gateway.stub.annotation.CjStubInHead;
 import cj.studio.gateway.stub.annotation.CjStubInParameter;
 import cj.studio.gateway.stub.annotation.CjStubMethod;
+import cj.studio.gateway.stub.annotation.CjStubReturn;
 import cj.studio.gateway.stub.annotation.CjStubService;
 import cj.studio.gateway.stub.util.StringTypeConverter;
 import cj.ultimate.gson2.com.google.gson.Gson;
@@ -108,7 +109,17 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 					Object[] args = getArgs(src, frame);
 					Object ret = dest.invoke(GatewayAppSiteRestStub.this, args);
 					if (ret != null) {
-						circuit.content().writeBytes(new Gson().toJson(ret).getBytes());
+						CjStubReturn sr = dest.getDeclaredAnnotation(CjStubReturn.class);
+						Class<?> retType = sr == null ? null : sr.type();
+						if (retType == null) {
+							retType = dest.getReturnType();
+						}
+						if (retType.equals(String.class)) {
+							String str = (String) ret;
+							circuit.content().writeBytes(str.getBytes());
+						} else {
+							circuit.content().writeBytes(new Gson().toJson(ret).getBytes());
+						}
 					}
 				} catch (Exception e) {
 					if (e instanceof CircuitException) {
@@ -164,35 +175,34 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 			}
 			CjStubInContentKey sic = p.getAnnotation(CjStubInContentKey.class);
 			if (sic != null) {
-				if(!postContent.containsKey(sic.key())) {
-					throw new CircuitException("503","缺少key在内容。key:"+sic.key()+" 方法："+src);
+				if (!postContent.containsKey(sic.key())) {
+					throw new CircuitException("503", "缺少key在内容。key:" + sic.key() + " 方法：" + src);
 				}
-				Object tmp=postContent.get(sic.key());
+				Object tmp = postContent.get(sic.key());
 				String json = "";
-				if(tmp instanceof String) {
-					json=(String)tmp;
+				if (tmp instanceof String) {
+					json = (String) tmp;
 					Object value = new Gson().fromJson(json, p.getType());
 					args[i] = value;
-				}else {
-					if(tmp!=null) {
-						json=new Gson().toJson(tmp);
+				} else {
+					if (tmp != null) {
+						json = new Gson().toJson(tmp);
 						Object value = new Gson().fromJson(json, p.getType());
 						args[i] = value;
-					}else {
-						if(p.getType().isPrimitive()) {
-							throw new CircuitException("503","必须为基本型参数赋值。key in content:"+sic.key()+" 方法："+src);
+					} else {
+						if (p.getType().isPrimitive()) {
+							throw new CircuitException("503", "必须为基本型参数赋值。key in content:" + sic.key() + " 方法：" + src);
 						}
 						args[i] = null;
 					}
 				}
-				
+
 				continue;
 			}
 		}
 
 		return args;
 	}
-
 
 	private Method findDestMethod(Class<?> clazz, Method src) throws NoSuchMethodException, SecurityException {
 		Method m = null;

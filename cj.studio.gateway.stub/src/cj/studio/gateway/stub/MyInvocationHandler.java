@@ -160,13 +160,17 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 		circuit.content().close();
 		byte[] b = oc.readFully();
 		CjStubReturn sr = m.getDeclaredAnnotation(CjStubReturn.class);
-		if (!m.getReturnType().isPrimitive() && !m.getReturnType().equals(Void.TYPE) && sr == null) {// 除了基本型，返回类型如果是抽象基类则无法确认反射实例
-			throw new EcmException("缺少CjStubReturn注解。在：" + m);
-		} else {
-			String feed = new String(b);
-			Object ret = convertFrom(m.getReturnType(), feed);
-			return ret;
+//		if (!m.getReturnType().isPrimitive() && !m.getReturnType().equals(Void.TYPE) && sr == null) {// 除了基本型，返回类型如果是抽象基类则无法确认反射实例
+//			throw new EcmException("缺少CjStubReturn注解。在：" + m);
+//		} else {
+		Class<?> retType = sr == null ? null : sr.type();
+		if (retType == null) {
+			retType = m.getReturnType();
 		}
+		String feed = new String(b);
+		Object ret = convertFrom(retType, feed);
+		return ret;
+//		}
 
 	}
 
