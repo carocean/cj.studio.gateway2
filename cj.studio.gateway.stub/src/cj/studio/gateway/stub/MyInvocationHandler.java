@@ -3,6 +3,7 @@ package cj.studio.gateway.stub;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -164,11 +165,21 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 //			throw new EcmException("缺少CjStubReturn注解。在：" + m);
 //		} else {
 		Class<?> retType = sr == null ? null : sr.type();
-		if (retType == null) {
-			retType = m.getReturnType();
+		Class<?> eleType[] = sr == null ? null : sr.elementType();
+		Class<?> rawType = m.getReturnType();
+		if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
+			if(retType!=null&&!rawType.isAssignableFrom(retType)) {
+				throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其定义的type不是方法返回类型或其派生类型", args));
+			}
+			if (eleType == null || eleType.equals(Void.class)) {
+				throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其elementType为Void.type", args));
+			}
+		}
+		if (retType == null||retType.equals(Void.class)) {
+			retType = rawType;
 		}
 		String feed = new String(b);
-		Object ret = convertFrom(retType, feed);
+		Object ret = convertFrom(retType,eleType, feed,String.format("方法：%s,返回类型：%s", m,retType));
 		return ret;
 //		}
 

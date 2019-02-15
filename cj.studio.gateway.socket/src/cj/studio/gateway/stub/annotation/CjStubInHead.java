@@ -15,4 +15,6 @@ import java.lang.annotation.Target;
 public @interface CjStubInHead {
 	String usage();
 	String key();
+	Class<?> type() default Void.class;
+	Class<?>[] elementType() default Void.class;
 }

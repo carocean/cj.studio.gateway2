@@ -1,6 +1,9 @@
 package cj.test.website2.webview;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.gateway.stub.GatewayAppSiteRestStub;
@@ -46,5 +49,14 @@ public class CustomWebView extends GatewayAppSiteRestStub implements ICustomStub
 	public void saveCustom(Long s,int age,CustomBO bo) {
 		// TODO Auto-generated method stub
 		System.out.println("++++++++"+bo);
+	}
+
+	@Override
+	public List<CustomBO> save(Map<String, CustomBO> map, CustomBO[] key) {
+		System.out.println(map);
+		System.out.println(key);
+		List<CustomBO> list=new ArrayList<>();
+		list.addAll(map.values());
+		return list;
 	}
 }

@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URLDecoder;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -158,7 +159,22 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 					}
 				} catch (UnsupportedEncodingException e) {
 				}
-				args[i] = convertFrom(p.getType(), value);
+				Class<?> pType = sih == null ? null : sih.type();
+				Class<?>[] eleType = sih == null ? null : sih.elementType();
+				Class<?> rawType = p.getType();
+				if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
+					if(pType!=null&&!rawType.isAssignableFrom(pType)) {
+						throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其定义的type不是方法返回类型或其派生类型", args));
+					}
+					if (eleType == null || eleType.equals(Void.class)) {
+						throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其elementType为Void.type", args));
+					}
+				}
+				
+				if (pType == null||pType.equals(Void.class)) {
+					pType = rawType;
+				}
+				args[i] = convertFrom(pType,eleType,value,String.format("方法：%s,参数：%s", src,p.getName()));
 				continue;
 			}
 			CjStubInParameter sip = p.getAnnotation(CjStubInParameter.class);
@@ -170,7 +186,21 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 					}
 				} catch (UnsupportedEncodingException e) {
 				}
-				args[i] = convertFrom(p.getType(), value);
+				Class<?> pType = sip == null ? null : sip.type();
+				Class<?> eleType[] = sip == null ? null : sip.elementType();
+				Class<?> rawType = p.getType();
+				if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
+					if(pType!=null&&!rawType.isAssignableFrom(pType)) {
+						throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其定义的type不是方法返回类型或其派生类型", args));
+					}
+					if (eleType == null || eleType.equals(Void.class)) {
+						throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其elementType为Void.type", args));
+					}
+				}
+				if (pType == null||pType.equals(Void.class)) {
+					pType = rawType;
+				}
+				args[i] = convertFrom(pType,eleType, value,String.format("方法：%s,参数：%s", src,p.getName()));
 				continue;
 			}
 			CjStubInContentKey sic = p.getAnnotation(CjStubInContentKey.class);
@@ -187,7 +217,21 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 				} else {
 					if (tmp != null) {
 						json = new Gson().toJson(tmp);
-						Object value = new Gson().fromJson(json, p.getType());
+						Class<?> pType = sic == null ? null : sic.type();
+						Class<?> eleType[] = sic == null ? null : sic.elementType();
+						Class<?> rawType = p.getType();
+						if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
+							if(pType!=null&&!rawType.isAssignableFrom(pType)) {
+								throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其定义的type不是方法返回类型或其派生类型", args));
+							}
+							if (eleType == null || eleType.equals(Void.class)) {
+								throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其elementType为Void.type", args));
+							}
+						}
+						if (pType == null||pType.equals(Void.class)) {
+							pType = rawType;
+						}
+						Object value = convertFrom(pType,eleType, json,String.format("方法：%s,参数：%s", src,p.getName()));
 						args[i] = value;
 					} else {
 						if (p.getType().isPrimitive()) {
