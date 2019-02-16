@@ -168,12 +168,10 @@ public class MyInvocationHandler implements InvocationHandler, StringTypeConvert
 		Class<?> eleType[] = sr == null ? null : sr.elementType();
 		Class<?> rawType = m.getReturnType();
 		if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
-			if(retType!=null&&!rawType.isAssignableFrom(retType)) {
+			if(retType!=null&&retType!=Void.class&&!rawType.isAssignableFrom(retType)) {
 				throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其定义的type不是方法返回类型或其派生类型", args));
 			}
-			if (eleType == null || eleType.equals(Void.class)) {
-				throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其elementType为Void.type", args));
-			}
+			
 		}
 		if (retType == null||retType.equals(Void.class)) {
 			retType = rawType;

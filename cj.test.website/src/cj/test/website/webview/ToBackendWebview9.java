@@ -1,5 +1,6 @@
 package cj.test.website.webview;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +32,10 @@ public class ToBackendWebview9 implements IGatewayAppSiteWayWebView {
 		bo2.setSex(1);
 		Map<String, CustomBO> map=new HashMap<>();
 		map.put("xx", bo2);
-		List<CustomBO> list=user.save(map, new CustomBO[] {bo2});
-		System.out.println(list);
+		List<CustomBO> al=new ArrayList<>();
+		al.add(bo2);
+		List<CustomBO> list=user.save(map,al, new CustomBO[] {bo2});
+		System.out.println("ret:"+list);
 	}
 
 }

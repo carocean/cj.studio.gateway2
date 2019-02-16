@@ -13,12 +13,12 @@ class ParameterizedTypeImpl implements ParameterizedType {
         	this.actualTypeArguments = actualTypeArguments;
             this.rawType=rawType;
             if(Map.class.isAssignableFrom(rawType)) {
-        		if(actualTypeArguments==null||actualTypeArguments.length!=2) {
+        		if(actualTypeArguments[0]!=Void.class&&actualTypeArguments.length!=2) {
         			throw new RuntimeException("缺少Map及其派生类的元素Key和value的类型声明,在："+onmessage);
         		}
         	}
         	if(Collection.class.isAssignableFrom(rawType)) {
-        		if(actualTypeArguments==null||actualTypeArguments.length!=1) {
+        		if(actualTypeArguments[0]!=Void.class&&actualTypeArguments.length!=1) {
         			throw new RuntimeException("缺少Collection及其派生类的元素类型声明,在："+onmessage);
         		}
         	}

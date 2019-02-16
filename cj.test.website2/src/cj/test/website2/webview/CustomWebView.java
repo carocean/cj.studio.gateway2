@@ -7,8 +7,8 @@ import java.util.Map;
 
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.gateway.stub.GatewayAppSiteRestStub;
-import cj.test.stub.ICustomStub;
 import cj.test.stub.CustomBO;
+import cj.test.stub.ICustomStub;
 
 @CjService(name = "/custom/")
 public class CustomWebView extends GatewayAppSiteRestStub implements ICustomStub {
@@ -52,8 +52,10 @@ public class CustomWebView extends GatewayAppSiteRestStub implements ICustomStub
 	}
 
 	@Override
-	public List<CustomBO> save(Map<String, CustomBO> map, CustomBO[] key) {
-		System.out.println(map);
+	public List<CustomBO> save(Map<String, CustomBO> map,List<CustomBO> al, CustomBO[] key) {
+		System.out.println(map==null);
+		System.out.println("map:"+map);
+		System.out.println("al:"+al);
 		System.out.println(key);
 		List<CustomBO> list=new ArrayList<>();
 		list.addAll(map.values());

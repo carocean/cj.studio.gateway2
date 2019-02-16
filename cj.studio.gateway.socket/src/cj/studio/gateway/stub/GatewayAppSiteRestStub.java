@@ -159,19 +159,16 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 					}
 				} catch (UnsupportedEncodingException e) {
 				}
-				Class<?> pType = sih == null ? null : sih.type();
-				Class<?>[] eleType = sih == null ? null : sih.elementType();
+				Class<?> pType =  sih.type();
+				Class<?>[] eleType =  sih.elementType();
 				Class<?> rawType = p.getType();
 				if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
-					if(pType!=null&&!rawType.isAssignableFrom(pType)) {
-						throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其定义的type不是方法返回类型或其派生类型", args));
-					}
-					if (eleType == null || eleType.equals(Void.class)) {
-						throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其elementType为Void.type", args));
+					if(pType!=Void.class&&!rawType.isAssignableFrom(pType)) {
+						throw new EcmException(String.format("方法返回集合时注解CjStubReturn定义的type不是方法返回类型或其派生类型", args));
 					}
 				}
 				
-				if (pType == null||pType.equals(Void.class)) {
+				if (pType.equals(Void.class)) {
 					pType = rawType;
 				}
 				args[i] = convertFrom(pType,eleType,value,String.format("方法：%s,参数：%s", src,p.getName()));
@@ -186,18 +183,15 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 					}
 				} catch (UnsupportedEncodingException e) {
 				}
-				Class<?> pType = sip == null ? null : sip.type();
-				Class<?> eleType[] = sip == null ? null : sip.elementType();
+				Class<?> pType = sip.type();
+				Class<?> eleType[] = sip.elementType();
 				Class<?> rawType = p.getType();
 				if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
-					if(pType!=null&&!rawType.isAssignableFrom(pType)) {
-						throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其定义的type不是方法返回类型或其派生类型", args));
-					}
-					if (eleType == null || eleType.equals(Void.class)) {
-						throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其elementType为Void.type", args));
+					if(pType!=Void.class&&!rawType.isAssignableFrom(pType)) {
+						throw new EcmException(String.format("方法返回集合时注解CjStubReturn定义的type不是方法返回类型或其派生类型", args));
 					}
 				}
-				if (pType == null||pType.equals(Void.class)) {
+				if (pType.equals(Void.class)) {
 					pType = rawType;
 				}
 				args[i] = convertFrom(pType,eleType, value,String.format("方法：%s,参数：%s", src,p.getName()));
@@ -212,23 +206,32 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 				String json = "";
 				if (tmp instanceof String) {
 					json = (String) tmp;
-					Object value = new Gson().fromJson(json, p.getType());
+					Class<?> pType = sic.type();
+					Class<?> eleType[] = sic.elementType();
+					Class<?> rawType = p.getType();
+					if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
+						if(pType!=Void.class&&!rawType.isAssignableFrom(pType)) {
+							throw new EcmException(String.format("方法返回集合时注解CjStubReturn定义的type不是方法返回类型或其派生类型", args));
+						}
+					}
+					if (pType.equals(Void.class)) {
+						pType = rawType;
+					}
+					Object value = convertFrom(pType,eleType, json,String.format("方法：%s,参数：%s", src,p.getName()));
+					
 					args[i] = value;
 				} else {
 					if (tmp != null) {
 						json = new Gson().toJson(tmp);
-						Class<?> pType = sic == null ? null : sic.type();
-						Class<?> eleType[] = sic == null ? null : sic.elementType();
+						Class<?> pType = sic.type();
+						Class<?> eleType[] = sic.elementType();
 						Class<?> rawType = p.getType();
 						if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
-							if(pType!=null&&!rawType.isAssignableFrom(pType)) {
-								throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其定义的type不是方法返回类型或其派生类型", args));
-							}
-							if (eleType == null || eleType.equals(Void.class)) {
-								throw new EcmException(String.format("方法返回集合时注解CjStubReturn未定义或其elementType为Void.type", args));
+							if(pType!=Void.class&&!rawType.isAssignableFrom(pType)) {
+								throw new EcmException(String.format("方法返回集合时注解CjStubReturn定义的type不是方法返回类型或其派生类型", args));
 							}
 						}
-						if (pType == null||pType.equals(Void.class)) {
+						if (pType.equals(Void.class)) {
 							pType = rawType;
 						}
 						Object value = convertFrom(pType,eleType, json,String.format("方法：%s,参数：%s", src,p.getName()));
