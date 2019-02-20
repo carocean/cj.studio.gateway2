@@ -10,7 +10,7 @@
 				<property name="driver" value="com.mysql.jdbc.Driver" />
 				<property name="url" value="jdbc:mysql://localhost:3306/test?useSSL=false" />
 				<property name="username" value="cj" />
-				<property name="password" value="123456" />
+				<property name="password" value="mysql123" />
 			</dataSource>
 		</environment>
 	</environments>

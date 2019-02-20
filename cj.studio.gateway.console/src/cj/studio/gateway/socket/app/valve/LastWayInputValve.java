@@ -90,12 +90,19 @@ public class LastWayInputValve implements IInputValve {
 			renderJavaDocument(rpath, frame, circuit);
 			return;
 		}
-
-		// 余下的如果路径以/结束必不是jss服务
-		if (!rpath.endsWith("/")) {// 尝试加载jss服务
-			boolean exists = renderJssDocument(rpath, frame, circuit);
+		// 是否是首页，如果是首页拼合welcome找下jss服务看是否存在
+		if (rpath.equals("/")) {
+			boolean exists = renderJssDocument("/"+httpWelcome, frame, circuit);
 			if (exists) {
 				return;
+			}
+		} else {
+			// 余下的如果路径以/结束必不是jss服务
+			if (!rpath.endsWith("/")) {// 尝试加载jss服务
+				boolean exists = renderJssDocument(rpath, frame, circuit);
+				if (exists) {
+					return;
+				}
 			}
 		}
 		// 以上都试过了尝试按资源加载，如果不存在则在该方法中产生404
@@ -181,14 +188,14 @@ public class LastWayInputValve implements IInputValve {
 			int read = 0;
 			byte[] b = new byte[8192];
 			while ((read = in.read(b)) != -1) {
-				circuit.content().writeBytes(b,0,read);
+				circuit.content().writeBytes(b, 0, read);
 			}
 		} catch (FileNotFoundException e) {
 			throw new CircuitException("404", e);
 		} catch (IOException e) {
 			throw new CircuitException("503", e);
 		} finally {
-			if(in!=null) {
+			if (in != null) {
 				try {
 					in.close();
 				} catch (IOException e) {
