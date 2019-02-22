@@ -5,7 +5,9 @@ import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaders.Names.HOST;
 import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
 import static io.netty.handler.codec.http.HttpResponseStatus.FORBIDDEN;
-
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_HEADERS;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_METHODS;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -382,6 +384,11 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		Frame frame = input.begin(req);
 		IOutputChannel output = new HttpOutputChannel(ctx.channel(), frame);
 		Circuit circuit = new HttpCircuit(output, String.format("%s 200 OK", req.getProtocolVersion().text()));
+		if ("false".equals(info.getProps().get(__circuit_same_origin_policy))) {
+			circuit.head(ACCESS_CONTROL_ALLOW_ORIGIN.toString(), "*");
+			circuit.head(ACCESS_CONTROL_ALLOW_HEADERS.toString(), "Origin, X-Requested-With, Content-Type, Accept");
+			circuit.head(ACCESS_CONTROL_ALLOW_METHODS.toString(), "GET, POST, PUT,DELETE");
+		}
 		this.circuit = circuit;
 		this.inputChannel = input;
 

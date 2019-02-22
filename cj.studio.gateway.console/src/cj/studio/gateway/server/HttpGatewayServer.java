@@ -78,8 +78,9 @@ public class HttpGatewayServer implements IGatewayServer, IServiceProvider {
 			} else {
 	            b.group(bossGroup, workerGroup)
 	             .channel(NioServerSocketChannel.class)
-	             .childHandler(new HttpServerInitializer(this))
-	             .childOption(ChannelOption.AUTO_READ, false);//这个属性很关键，如果为true则浏览器一直悬停
+	             .childHandler(new HttpServerInitializer(this));
+	            //下面一行注掉原因：经测，在win10上netty报主机主动关闭连接错误，而在linux上不报该错。就是去掉这句，在linux工作正常
+//	             .childOption(ChannelOption.AUTO_READ, false);//这个属性很关键，如果为true则浏览器一直悬停。
 			}
 			Channel ch = null;
 			if ("localhost".equals(ip())) {

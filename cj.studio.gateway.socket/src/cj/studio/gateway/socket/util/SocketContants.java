@@ -22,4 +22,5 @@ public interface SocketContants {
 	int __upload_chunked_cache_size = 8192;//8k
 	String __frame_Head_Rest_Command = "Rest-Command";
 	String __frame_Head_Rest_Stub_Interface = "Rest-StubFace";
+	String __circuit_same_origin_policy="Same-Origin-Policy";//跨域调用
 }
