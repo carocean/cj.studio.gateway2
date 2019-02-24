@@ -71,7 +71,7 @@ public class Home implements IGatewayAppSiteWayWebView{
 //			
 //			@Override
 //			public void run() {
-				for(int i=0;i<500;i++) {
+				for(int i=0;i<50;i++) {
 					circuit.content().writeBytes(("推动金融业高质量发展 习近平这样部署"+"<br>").getBytes());
 				}
 				

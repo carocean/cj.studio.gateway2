@@ -184,7 +184,7 @@ public class LastWayInputValve implements IInputValve {
 		RandomAccessFile raf = null;
 		try {
 			raf = new RandomAccessFile(file, "r");
-			circuit.head("Content-Length",raf.length()+"");
+//			circuit.head("Content-Length",raf.length()+"");
 			int read = 0;
 			byte[] b = new byte[8192];
 			while ((read = raf.read(b)) != -1) {

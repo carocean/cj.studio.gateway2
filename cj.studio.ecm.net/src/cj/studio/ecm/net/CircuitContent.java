@@ -118,9 +118,14 @@ class CircuitContent implements ICircuitContent {
 
 	@Override
 	public void writeBytes(byte[] b, int pos, int len) {
-		checkError();
-		buf.writeBytes(b, pos, len);
-		checkIsFull();
+		try {
+			lock.lock();//每次请求仅生成一次circuitContent实例，故在该实例内上锁不会堵塞别的请求的写操作。
+			checkError();
+			buf.writeBytes(b, pos, len);
+			checkIsFull();
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	@Override

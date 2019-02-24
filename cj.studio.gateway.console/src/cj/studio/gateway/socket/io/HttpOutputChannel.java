@@ -8,7 +8,6 @@ import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IOutputChannel;
 import cj.studio.gateway.server.util.DefaultHttpMineTypeFactory;
-import cj.ultimate.util.StringUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -64,12 +63,12 @@ public class HttpOutputChannel implements IOutputChannel {
 		if (!close) {
 			res.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
 		}
-		String cntlen = circuit.head("Content-Length");
-		if (StringUtil.isEmpty(cntlen)) {
+//		String cntlen = circuit.head("Content-Length");
+//		if (StringUtil.isEmpty(cntlen)) {
 			setContentLength(res, circuit.content().writedBytes());
-		} else {
-			setContentLength(res, Long.valueOf(cntlen));
-		}
+//		} else {
+//			setContentLength(res, Long.valueOf(cntlen));
+//		}
 
 		String ctypeKey = HttpHeaders.Names.CONTENT_TYPE.toString();
 		if (circuit.containsContentType()) {
