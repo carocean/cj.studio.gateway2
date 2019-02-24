@@ -66,6 +66,18 @@ public class Home implements IGatewayAppSiteWayWebView{
 		for(UserBO bo:users) {
 			circuit.content().writeBytes((new Gson().toJson(bo)+"<br>").getBytes());
 		}
+//		circuit.content().beginWait();
+//		new Thread(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+				for(int i=0;i<500;i++) {
+					circuit.content().writeBytes(("推动金融业高质量发展 习近平这样部署"+"<br>").getBytes());
+				}
+				
+//			}
+//		}).start();
+//		circuit.content().waitClose();
 	}
 	
 }

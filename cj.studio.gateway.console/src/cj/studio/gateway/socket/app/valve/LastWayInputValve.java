@@ -1,9 +1,9 @@
 package cj.studio.gateway.socket.app.valve;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -92,7 +92,7 @@ public class LastWayInputValve implements IInputValve {
 		}
 		// 是否是首页，如果是首页拼合welcome找下jss服务看是否存在
 		if (rpath.equals("/")) {
-			boolean exists = renderJssDocument("/"+httpWelcome, frame, circuit);
+			boolean exists = renderJssDocument("/" + httpWelcome, frame, circuit);
 			if (exists) {
 				return;
 			}
@@ -181,13 +181,13 @@ public class LastWayInputValve implements IInputValve {
 			rpath = String.format("%s%s", rpath, httpWelcome);
 		}
 		File file = resource.realFileName(rpath);
-
-		FileInputStream in = null;
+		RandomAccessFile raf = null;
 		try {
-			in = new FileInputStream(file);
+			raf = new RandomAccessFile(file, "r");
+			circuit.head("Content-Length",raf.length()+"");
 			int read = 0;
 			byte[] b = new byte[8192];
-			while ((read = in.read(b)) != -1) {
+			while ((read = raf.read(b)) != -1) {
 				circuit.content().writeBytes(b, 0, read);
 			}
 		} catch (FileNotFoundException e) {
@@ -195,13 +195,33 @@ public class LastWayInputValve implements IInputValve {
 		} catch (IOException e) {
 			throw new CircuitException("503", e);
 		} finally {
-			if (in != null) {
+			if (raf != null) {
 				try {
-					in.close();
+					raf.close();
 				} catch (IOException e) {
 				}
 			}
 		}
+//		FileInputStream in = null;
+//		try {
+//			in = new FileInputStream(file);
+//			int read = 0;
+//			byte[] b = new byte[8192];
+//			while ((read = in.read(b)) != -1) {
+//				circuit.content().writeBytes(b, 0, read);
+//			}
+//		} catch (FileNotFoundException e) {
+//			throw new CircuitException("404", e);
+//		} catch (IOException e) {
+//			throw new CircuitException("503", e);
+//		} finally {
+//			if (in != null) {
+//				try {
+//					in.close();
+//				} catch (IOException e) {
+//				}
+//			}
+//		}
 
 	}
 

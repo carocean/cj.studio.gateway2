@@ -44,7 +44,7 @@ class CircuitContent implements ICircuitContent {
 	protected void checkIsFull() {
 		if (output == null)
 			return;
-		if (buf.readableBytes() > capacity) {
+		if (buf.readableBytes() >= capacity) {
 			if (state == 0) {
 				output.begin(owner);
 				state = 1;
@@ -57,6 +57,7 @@ class CircuitContent implements ICircuitContent {
 	private byte[] readFully(ByteBuf buf) {
 		byte[] b = new byte[buf.readableBytes()];
 		buf.readBytes(b, 0, b.length);
+		buf.clear();
 		return b;
 	}
 
