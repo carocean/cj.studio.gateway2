@@ -1,13 +1,14 @@
 package cj.studio.gateway.server.handler;
 
 import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_HEADERS;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_METHODS;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaders.Names.HOST;
 import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
 import static io.netty.handler.codec.http.HttpResponseStatus.FORBIDDEN;
-import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_HEADERS;
-import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_METHODS;
-import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -89,6 +90,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	private String currentUsedGatewayDestForHttp;
 	private HttpInputChannel inputChannel;
 	private Circuit circuit;
+	private boolean isWindowPlatform;
 
 	public HttpChannelHandler(IServiceProvider parent) {
 		this.parent = parent;
@@ -97,6 +99,10 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		junctions = (IJunctionTable) parent.getService("$.junctions");
 		this.pipelines = new InputPipelineCollection();
 		this.info = (ServerInfo) parent.getService("$.server.info");
+		String osname=System.getProperties().getProperty("os.name");
+		if(!StringUtil.isEmpty(osname)) {
+			isWindowPlatform=osname.toLowerCase().startsWith("window")?true:false;
+		}
 	}
 
 	@Override
@@ -192,6 +198,12 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			return;
 		}
 		if ("/favicon.ico".equals(req.getUri())) {
+			if(isWindowPlatform) {
+				//在windows上那怕是回写空的对favicon的响应均会报错，但好像仅有chrome浏览器少出现该问题
+				logger.debug(getClass(),"在windows服务器上部署不支favicon。原因：浏览器在请求favicon图标时会主动关闭连接,导致netty在调用windows平台的nio输出响应时在上报错：你的主机中的软件中止了一个已建立的连接。该错误是windows nio的bug，此时netty触发了该bug，linux上不存在此问题。");
+				reset();
+				return;
+			}
 			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), HttpResponseStatus.OK);
 			IChipInfo cinfo = (IChipInfo) parent.getService("$.chipinfo");
 			InputStream gatewayLogo = cinfo.getIconStream();
