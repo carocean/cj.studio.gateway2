@@ -35,6 +35,7 @@ public class MemoryContentReciever implements IContentReciever {
 		if (!isDone) {
 			throw new EcmException("还没完成");
 		}
+		if(buf.refCnt()<1)return new byte[0];
 		byte[] b = new byte[buf.readableBytes()];
 		buf.readBytes(b, 0, b.length);
 		if(buf.refCnt()>0) {

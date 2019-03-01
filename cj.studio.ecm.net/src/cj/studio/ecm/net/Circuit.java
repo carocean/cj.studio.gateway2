@@ -22,12 +22,13 @@ import io.netty.buffer.Unpooled;
 public class Circuit implements IPrinter, IDisposable {
 	private Map<String, String> headmap;
 	private Map<String, Object> attributemap;
-	protected ICircuitContent content;
-	static final String CODE = "utf-8";
+	protected transient ICircuitContent content;
+	static transient final String CODE = "utf-8";
 
 	public Circuit(String frame_line) {
-		this(new MemoryOutputChannel(),frame_line);
+		this(new MemoryOutputChannel(), frame_line);
 	}
+
 	public Circuit(IOutputChannel output, String frame_line) {
 		init(output);
 		String[] arr = frame_line.split(" ");

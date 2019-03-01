@@ -37,21 +37,28 @@ import io.netty.buffer.Unpooled;
 public class Frame implements IPrinter, IDisposable {
 	protected Map<String, String> headmap;
 	protected Map<String, String> parametermap;
-	protected IFrameContent content;
-	static final String CODE = "utf-8";
-	static String QUERY_STRING_REG = "(^|\\?|&)\\s*%s\\s*=\\s*([^&]*)(&|$)";
+	protected transient IFrameContent content;
+	static transient final String CODE = "utf-8";
+	static transient String QUERY_STRING_REG = "(^|\\?|&)\\s*%s\\s*=\\s*([^&]*)(&|$)";
 
 	@Override
 	public void dispose() {
 		headmap.clear();
 		parametermap.clear();
 	}
+
+	Frame() {
+
+	}
+
 	public Frame(String frame_line) {
-		this(new MemoryInputChannel(8192),frame_line);
+		this(new MemoryInputChannel(8192), frame_line);
 	}
-	public Frame(byte[] frameRaw) throws CircuitException{
-		this(new MemoryInputChannel(8192),frameRaw);
+
+	public Frame(byte[] frameRaw) throws CircuitException {
+		this(new MemoryInputChannel(8192), frameRaw);
 	}
+
 	/**
 	 * 传入侦头
 	 * 
@@ -89,6 +96,10 @@ public class Frame implements IPrinter, IDisposable {
 		init(writer);
 	}
 
+	public Frame(IInputChannel input, byte[] frameRaw) throws CircuitException {
+		this(input, new MemoryContentReciever(), frameRaw);
+	}
+
 	/**
 	 * 通过侦数据构造侦
 	 * 
@@ -102,8 +113,9 @@ public class Frame implements IPrinter, IDisposable {
 	 * 
 	 * @param frameRaw
 	 */
-	public Frame(IInputChannel input, byte[] frameRaw) throws CircuitException{
+	public Frame(IInputChannel input, IContentReciever reciever, byte[] frameRaw) throws CircuitException {
 		init(input);
+		content.accept(reciever);
 		int up = 0;
 		int down = 0;
 		byte field = 0;// 0=heads;1=params;2=content
@@ -165,6 +177,7 @@ public class Frame implements IPrinter, IDisposable {
 			}
 			down++;
 		}
+		input.done(new byte[0], 0, 0);
 	}
 
 	public <T extends Frame> T fillToFrame(Class<T> ft) throws CircuitException {
@@ -189,7 +202,7 @@ public class Frame implements IPrinter, IDisposable {
 		return new FrameContent(input);
 	}
 
-	public synchronized byte[] toBytes() throws CircuitException{
+	public synchronized byte[] toBytes() throws CircuitException {
 		ByteBuf b = toByteBuf();
 		byte[] newArr = new byte[b.readableBytes()];
 		b.readBytes(newArr);
@@ -372,13 +385,13 @@ public class Frame implements IPrinter, IDisposable {
 	 * { "head":{"key1":"v1","key2":"v2"}, "para":{"key1":"v1","key2":"v2"},
 	 * "content":"" }
 	 */
-	public String toJson() {
+	public String toJson() throws CircuitException {
 		StringBuffer sb = new StringBuffer();
 		sb.append("{");
 		if (headmap.isEmpty()) {
-			sb.append("\"head\":{}");
+			sb.append("\"headers\":{}");
 		} else {
-			sb.append("\"head\":{");
+			sb.append("\"headers\":{");
 		}
 		for (String key : headmap.keySet()) {
 			String v = headmap.get(key);
@@ -391,9 +404,9 @@ public class Frame implements IPrinter, IDisposable {
 			sb.append("#$#}");
 		}
 		if (parametermap.isEmpty()) {
-			sb.append(",\"para\":{}");
+			sb.append(",\"parameters\":{}");
 		} else {
-			sb.append(",\"para\":{");
+			sb.append(",\"parameters\":{");
 		}
 		for (String key : parametermap.keySet()) {
 			String v = parametermap.get(key);
@@ -405,10 +418,22 @@ public class Frame implements IPrinter, IDisposable {
 		if (!parametermap.isEmpty()) {
 			sb.append("#$#}");
 		}
+		if (this.content != null && this.content.revcievedBytes() > 0) {
+			FrameContent cnt = (FrameContent) content;
+			IContentReciever cr = cnt.reciever;
+			if (!(cr instanceof MemoryContentReciever)) {
+				throw new CircuitException("500", "该方法只有在的内容接收器是MemoryContentReciever时才可用");
+			}
+			MemoryContentReciever mcr = (MemoryContentReciever) cr;
+			byte[] data = mcr.readFully();
+			sb.append(String.format(",\"content\":\"%s\"}", new String(data).replace("\"", "'")));
+		} else {
+			sb.append("}");
+		}
 		return sb.toString().replace(",#$#", "");
 	}
 
-	public static Frame createFrame(String json, Class<? extends Frame> type) {
+	public static Frame createFrame(String json, Class<? extends Frame> type) throws CircuitException {
 		try {
 			Object o = type.newInstance();
 			Frame f = (Frame) o;
@@ -419,29 +444,44 @@ public class Frame implements IPrinter, IDisposable {
 		}
 	}
 
-	public void fromJson(String text) {
+	public void fromJson(String text) throws CircuitException {
 		Gson gson = new Gson();
 		JsonElement e = gson.fromJson(text, JsonElement.class);
 		JsonObject f = e.getAsJsonObject();
-		JsonElement heade = f.get("head");
+		JsonElement heade = f.get("headers");
 		if (heade != null) {
+			if (headmap == null) {
+				headmap = new HashMap<>();
+			}
 			JsonObject head = heade.getAsJsonObject();
 			for (Map.Entry<String, JsonElement> en : head.entrySet()) {
 				headmap.put(en.getKey(), en.getValue() == null ? "" : en.getValue().getAsString());
 			}
 		}
-		JsonElement parae = f.get("para");
-		if (heade != null) {
+		JsonElement parae = f.get("parameters");
+		if (parae != null) {
+			if (parametermap == null) {
+				parametermap = new HashMap<>();
+			}
 			JsonObject para = parae.getAsJsonObject();
 			for (Map.Entry<String, JsonElement> en : para.entrySet()) {
 				parametermap.put(en.getKey(), en.getValue() == null ? "" : en.getValue().getAsString());
 			}
 		}
-//		JsonElement conte = f.get("content");
-//		if (conte != null) {
-//			byte[] b = conte.getAsString().getBytes();
-//			input.write(b, 0, b.length);
-//		}
+		JsonElement conte = f.get("content");
+		if (conte != null) {
+			if (content != null) {
+				byte[] b = conte.getAsString().getBytes();
+				((FrameContent) content).input.done(b, 0, b.length);
+			} else {
+				MemoryInputChannel input = new MemoryInputChannel();
+				content = new FrameContent(input);
+				content.accept(new MemoryContentReciever());
+				input.begin(this);
+				byte[] b = conte.getAsString().getBytes();
+				input.done(b, 0, b.length);
+			}
+		}
 	}
 
 	public void removeParameter(String key) {
@@ -856,18 +896,18 @@ public class Frame implements IPrinter, IDisposable {
 	/**
 	 */
 	@Override
-	public void print(StringBuffer sb) throws CircuitException{
+	public void print(StringBuffer sb) throws CircuitException {
 		print(sb, null);
 	}
 
 	@Override
-	public void print(StringBuffer sb, String indent) throws CircuitException{
+	public void print(StringBuffer sb, String indent) throws CircuitException {
 		if (sb == null)
 			return;
 		sb.append(new String(toBytes()));
 	}
 
-	public ByteBuf toByteBuf()throws CircuitException {
+	public ByteBuf toByteBuf() throws CircuitException {
 		ByteBuf b = Unpooled.buffer();
 		byte[] crcf = null;
 		try {
@@ -906,11 +946,11 @@ public class Frame implements IPrinter, IDisposable {
 		}
 		b.writeBytes(crcf);
 		if (this.content.revcievedBytes() > 0) {
-			FrameContent cnt=(FrameContent)content;
-			IContentReciever cr=cnt.reciever;
-			if(cr instanceof MemoryContentReciever) {
-				MemoryContentReciever mcr=(MemoryContentReciever)cr;
-				byte[] data=mcr.readFully();
+			FrameContent cnt = (FrameContent) content;
+			IContentReciever cr = cnt.reciever;
+			if (cr instanceof MemoryContentReciever) {
+				MemoryContentReciever mcr = (MemoryContentReciever) cr;
+				byte[] data = mcr.readFully();
 				b.writeBytes(data);
 			}
 		}
