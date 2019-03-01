@@ -426,11 +426,17 @@ public class Frame implements IPrinter, IDisposable {
 			}
 			MemoryContentReciever mcr = (MemoryContentReciever) cr;
 			byte[] data = mcr.readFully();
-			sb.append(String.format(",\"content\":\"%s\"}", new String(data).replace("\"", "'")));
+			sb.append(String.format(",\"content\":\"%s\"}", new String(data).replace("\"", "\\\"")));
 		} else {
 			sb.append("}");
 		}
 		return sb.toString().replace(",#$#", "");
+	}
+
+	public static Frame createFrame(String json) throws CircuitException {
+		Frame f = new Frame();
+		f.fromJson(json);
+		return f;
 	}
 
 	public static Frame createFrame(String json, Class<? extends Frame> type) throws CircuitException {
