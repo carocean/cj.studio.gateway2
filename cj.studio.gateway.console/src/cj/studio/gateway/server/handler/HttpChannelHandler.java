@@ -99,9 +99,9 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		junctions = (IJunctionTable) parent.getService("$.junctions");
 		this.pipelines = new InputPipelineCollection();
 		this.info = (ServerInfo) parent.getService("$.server.info");
-		String osname=System.getProperties().getProperty("os.name");
-		if(!StringUtil.isEmpty(osname)) {
-			isWindowPlatform=osname.toLowerCase().startsWith("window")?true:false;
+		String osname = System.getProperties().getProperty("os.name");
+		if (!StringUtil.isEmpty(osname)) {
+			isWindowPlatform = osname.toLowerCase().startsWith("window") ? true : false;
 		}
 	}
 
@@ -198,9 +198,10 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			return;
 		}
 		if ("/favicon.ico".equals(req.getUri())) {
-			if(isWindowPlatform) {
-				//在windows上那怕是回写空的对favicon的响应均会报错，但好像仅有chrome浏览器少出现该问题
-				logger.debug(getClass(),"在windows服务器上部署不支favicon。原因：浏览器在请求favicon图标时会主动关闭连接,导致netty在调用windows平台的nio输出响应时在上报错：你的主机中的软件中止了一个已建立的连接。该错误是windows nio的bug，此时netty触发了该bug，linux上不存在此问题。");
+			if (isWindowPlatform) {
+				// 在windows上那怕是回写空的对favicon的响应均会报错，但好像仅有chrome浏览器少出现该问题
+				logger.debug(getClass(),
+						"在windows服务器上部署不支favicon。原因：浏览器在请求favicon图标时会主动关闭连接,导致netty在调用windows平台的nio输出响应时在上报错：你的主机中的软件中止了一个已建立的连接。该错误是windows nio的bug，此时netty触发了该bug，linux上不存在此问题。");
 				reset();
 				return;
 			}
@@ -220,7 +221,11 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		}
 
 		// Handshake
-		WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(getWebSocketLocation(req),
+		String wsPath=getWebSocketLocation(req);
+		if(!info.getProps().containsKey(__http_ws_prop_wsPath)) {
+			info.getProps().put(__http_ws_prop_wsPath, "/websocket");
+		}
+		WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(wsPath,
 				null, false, 10485760);
 		handshaker = wsFactory.newHandshaker(req);
 		if (handshaker == null) {
@@ -240,15 +245,19 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 	protected void flowWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame wsFrame) throws Exception {
 		// Check for closing frame
-		if (wsFrame instanceof CloseWebSocketFrame) {
-			handshaker.close(ctx.channel(), (CloseWebSocketFrame) wsFrame.retain());
+		if (wsFrame instanceof PingWebSocketFrame) {
+			ctx.channel().write(new PingWebSocketFrame(wsFrame.content().retain()));
 			return;
 		}
-		if (wsFrame instanceof PingWebSocketFrame) {
+		if (wsFrame instanceof PongWebSocketFrame) {
 			ctx.channel().write(new PongWebSocketFrame(wsFrame.content().retain()));
 			return;
 		}
-
+		if (wsFrame instanceof CloseWebSocketFrame) {
+			handshaker.close(ctx.channel(), (CloseWebSocketFrame) wsFrame.retain());
+			ctx.close();
+			return;
+		}
 		ByteBuf bb = null;
 		if (wsFrame instanceof TextWebSocketFrame) {
 			TextWebSocketFrame f = (TextWebSocketFrame) wsFrame;
@@ -264,15 +273,16 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		bb.readBytes(b);
 		IInputChannel input = new MemoryInputChannel(8192);
 		MemoryContentReciever rec = new MemoryContentReciever();
-		input.accept(rec);
-		Frame frame = new Frame(input, b);
-		frame.content().accept(rec);
+		Frame frame = new Frame(input,rec, b);
 		input.begin(null);
 		input.done(b, 0, 0);
 
 		String root = frame.rootName();
+		if(StringUtil.isEmpty(currentUsedGatewayDestForHttp)) {
+			currentUsedGatewayDestForHttp=root;
+		}
 		if (!currentUsedGatewayDestForHttp.equals(root)) {
-			frame.url(String.format("/%s%s", currentUsedGatewayDestForHttp, frame.url()));
+			frame.url(String.format("/%s%s",currentUsedGatewayDestForHttp, frame.url()));
 		}
 
 		IOutputChannel output = new InnerWSOutputChannel(ctx.channel(), frame);
@@ -284,7 +294,8 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			return;
 		}
 
-		pipelineWSBuild(currentUsedGatewayDestForHttp, frame, circuit, ctx);
+		inputPipeline = pipelineWSBuild(currentUsedGatewayDestForHttp, circuit, ctx);
+		flowWSPipeline(ctx, inputPipeline, frame, circuit);// 再把本次请求发送处理
 	}
 
 	protected void flowWSPipeline(ChannelHandlerContext ctx, IInputPipeline pipeline, Frame frame, Circuit circuit)
@@ -313,7 +324,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 	}
 
-	protected void pipelineWSBuild(String gatewayDest, Frame frame, Circuit circuit, ChannelHandlerContext ctx)
+	protected IInputPipeline pipelineWSBuild(String gatewayDest, Circuit circuit, ChannelHandlerContext ctx)
 			throws Exception {
 		WebsocketServerChannelGatewaySocket wsSocket = new WebsocketServerChannelGatewaySocket(parent, ctx.channel());
 		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
@@ -344,8 +355,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			ctx.close();
 			throw e;
 		}
-
-		flowWSPipeline(ctx, inputPipeline, frame, circuit);// 再把本次请求发送处理
+		return inputPipeline;
 	}
 
 	protected void websocketActive(ChannelHandlerContext ctx, FullHttpRequestImpl req) throws Exception {

@@ -36,8 +36,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.timeout.IdleStateEvent;
 
 public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
@@ -78,6 +80,11 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 	@Override
 	protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
 		if (msg instanceof PongWebSocketFrame) {
+			ctx.channel().write(new PongWebSocketFrame(((WebSocketFrame) msg).content().retain()));
+			return;
+		}
+		if (msg instanceof PingWebSocketFrame) {
+			ctx.channel().write(new PingWebSocketFrame(((WebSocketFrame) msg).content().retain()));
 			return;
 		}
 		if (msg instanceof CloseWebSocketFrame) {
@@ -99,25 +106,21 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 		}
 		byte[] b = new byte[bb.readableBytes()];
 		bb.readBytes(b);
-		
+
 		IInputChannel input = new MemoryInputChannel(8192);
-		MemoryContentReciever rec=new MemoryContentReciever();
-		input.accept(rec);
-		Frame frame = new Frame(input, b);
-		frame.content().accept(rec);
+		MemoryContentReciever rec = new MemoryContentReciever();
+		Frame frame = new Frame(input, rec, b);
 		input.begin(null);
 		input.done(b, 0, 0);
-		
+
 		String uri = frame.url();
 		String gatewayDestInHeader = frame.head(__frame_gatewayDest);
 		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, getClass());
 		if (StringUtil.isEmpty(gatewayDest) || gatewayDest.endsWith("://")) {
 			throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 		}
-
 		IOutputChannel output = new WSOutputChannel(ctx.channel(), frame);
 		Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
-		
 		IInputPipeline inputPipeline = pipelines.get(gatewayDest);
 		// 检查目标管道是否存在
 		if (inputPipeline != null) {
@@ -126,11 +129,12 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 		}
 
 		// 以下生成目标管道
-		pipelineBuild(gatewayDest, frame,circuit, ctx);
-
+		inputPipeline = pipelineBuild(gatewayDest, circuit, ctx);
+		flowPipeline(ctx, inputPipeline, frame, circuit);// 再把本次请求发送处理
 	}
 
-	private void flowPipeline(ChannelHandlerContext ctx, IInputPipeline pipeline, Frame frame, Circuit circuit) throws Exception {
+	private void flowPipeline(ChannelHandlerContext ctx, IInputPipeline pipeline, Frame frame, Circuit circuit)
+			throws Exception {
 		frame.head(__frame_fromProtocol, pipeline.prop(__pipeline_fromProtocol));
 		frame.head(__frame_fromWho, pipeline.prop(__pipeline_fromWho));
 		frame.head(__frame_fromPipelineName, pipeline.prop(__pipeline_name));
@@ -148,13 +152,14 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 			circuit.content().flush();
 			throw e;
 		} finally {
-			if(!circuit.content().isClosed()) {
+			if (!circuit.content().isClosed()) {
 				circuit.content().close();
 			}
 		}
 	}
 
-	protected void pipelineBuild(String gatewayDest, Frame frame,Circuit circuit, ChannelHandlerContext ctx) throws Exception {
+	protected IInputPipeline pipelineBuild(String gatewayDest, Circuit circuit, ChannelHandlerContext ctx)
+			throws Exception {
 		WebsocketServerChannelGatewaySocket wsSocket = new WebsocketServerChannelGatewaySocket(parent, ctx.channel());
 		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
 
@@ -184,8 +189,7 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 			ctx.close();
 			throw e;
 		}
-
-		flowPipeline(ctx, inputPipeline, frame, circuit);// 再把本次请求发送处理
+		return inputPipeline;
 	}
 
 	protected void pipelineRelease(ChannelHandlerContext ctx) throws Exception {
@@ -204,8 +208,22 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-
 		super.channelActive(ctx);
+		String gatewayDests = this.info.getProps().get(__channel_onchannelEvent_notify_dests);
+		if (StringUtil.isEmpty(gatewayDests)) {
+			CJSystem.logging().warn(getClass(), String.format(
+					"服务器：%s 未指定通道激活或失活事件的通知目标。应用仅能在之后第一次请求时才能收到激活或失活事件。请在该net的属性中指定：OnChannelEvent-Notify-Dest=destination1",
+					info.getName()));
+			return;
+		}
+		String arr[] = gatewayDests.split(",");
+		for (String gatewayDest : arr) {
+			if(StringUtil.isEmpty(gatewayDest))continue;
+			Frame frame = new Frame(String.format("onactive /%s/ ws/1.0", gatewayDest));
+			WSOutputChannel output = new WSOutputChannel(ctx.channel(), frame);
+			Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
+			pipelineBuild(gatewayDest, circuit, ctx);
+		}
 	}
 
 	@Override

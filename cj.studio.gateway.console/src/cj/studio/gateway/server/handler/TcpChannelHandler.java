@@ -24,6 +24,7 @@ import cj.studio.gateway.server.util.GetwayDestHelper;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.io.TcpInputChannel;
 import cj.studio.gateway.socket.io.TcpOutputChannel;
+import cj.studio.gateway.socket.io.WSOutputChannel;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
@@ -75,7 +76,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		ByteBuf bb = (ByteBuf) msg;
-		if(bb.readableBytes()==0) {
+		if (bb.readableBytes() == 0) {
 			return;
 		}
 		byte[] b = new byte[bb.readableBytes()];
@@ -84,17 +85,16 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		IInputChannel input = new MemoryInputChannel(8192);
 		MemoryContentReciever reciever = new MemoryContentReciever();
 		input.accept(reciever);
-		Frame pack = new Frame(input, b);
-		pack.content().accept(reciever);
+		Frame pack = new Frame(input, reciever, b);
 		input.done(b, 0, 0);
-		
+
 		if (!"GATEWAY/1.0".equals(pack.protocol())) {
-			CJSystem.logging().error(getClass(),"不是网关协议侦:"+pack.protocol());
+			CJSystem.logging().error(getClass(), "不是网关协议侦:" + pack.protocol());
 			return;
 		}
 		switch (pack.command()) {
 		case "heartbeat":
-			CJSystem.logging().debug(getClass(),"收到心跳包.");
+			CJSystem.logging().debug(getClass(), "收到心跳包.");
 			return;
 		case "frame":
 			doFramePack(ctx, pack);
@@ -115,9 +115,9 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		if (inputChannel == null) {
 			return;
 		}
-		
-		byte[] b=pack.content().readFully();
-		Circuit circuit=this.currentCircuit;
+
+		byte[] b = pack.content().readFully();
+		Circuit circuit = this.currentCircuit;
 		try {
 			inputChannel.done(b, 0, b.length);
 			circuit.content().flush();// 到此刷新
@@ -138,8 +138,8 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 				circuit.content().close();
 			}
 			currentCircuit.dispose();
-			this.currentCircuit=null;
-			this.inputChannel=null;
+			this.currentCircuit = null;
+			this.inputChannel = null;
 		}
 	}
 
@@ -147,9 +147,9 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		if (inputChannel == null) {
 			return;
 		}
-		
-		byte[] b=pack.content().readFully();
-		Circuit circuit=this.currentCircuit;
+
+		byte[] b = pack.content().readFully();
+		Circuit circuit = this.currentCircuit;
 		try {
 			inputChannel.writeBytes(b, 0, b.length);
 		} catch (Exception e) {
@@ -190,7 +190,8 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		}
 
 		// 以下生成目标管道
-		pipelineBuild(gatewayDest, frame, circuit, ctx);
+		inputPipeline = pipelineBuild(gatewayDest, circuit, ctx);
+		flowPipeline(inputPipeline, ctx, frame, circuit);// 再把本次请求发送处理
 	}
 
 	protected void flowPipeline(IInputPipeline pipeline, ChannelHandlerContext ctx, Frame frame, Circuit circuit)
@@ -214,7 +215,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		}
 	}
 
-	protected void pipelineBuild(String gatewayDest, Frame frame, Circuit circuit, ChannelHandlerContext ctx)
+	protected IInputPipeline pipelineBuild(String gatewayDest, Circuit circuit, ChannelHandlerContext ctx)
 			throws Exception {
 		TcpServerChannelGatewaySocket wsSocket = new TcpServerChannelGatewaySocket(parent, ctx.channel());
 		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
@@ -229,7 +230,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		ForwardJunction junction = new ForwardJunction(pipelineName);
 		junction.parse(inputPipeline, ctx.channel(), socket);
 		this.junctions.add(junction);
-		
+
 		try {
 			inputPipeline.headOnActive(pipelineName);// 通知管道激活
 		} catch (Exception e) {
@@ -244,14 +245,27 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			ctx.close();
 			throw e;
 		}
+		return inputPipeline;
 
-		flowPipeline(inputPipeline, ctx, frame, circuit);// 再把本次请求发送处理
 	}
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		// TODO Auto-generated method stub
 		super.channelActive(ctx);
+		String gatewayDests = this.info.getProps().get(__channel_onchannelEvent_notify_dests);
+		if (StringUtil.isEmpty(gatewayDests)) {
+			CJSystem.logging().warn(getClass(), String.format(
+					"服务器：%s 未指定通道激活或失活事件的通知目标。应用仅能在之后第一次请求时才能收到激活或失活事件。请在该net的属性中指定：OnChannelEvent-Notify-Dest=destination1",
+					info.getName()));
+			return;
+		}
+		String arr[] = gatewayDests.split(",");
+		for (String gatewayDest : arr) {
+			Frame frame = new Frame(String.format("onactive /%s/ tcp/1.0", gatewayDest));
+			WSOutputChannel output = new WSOutputChannel(ctx.channel(), frame);
+			Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
+			pipelineBuild(gatewayDest, circuit, ctx);
+		}
 	}
 
 	protected void pipelineRelease(ChannelHandlerContext ctx) throws Exception {
