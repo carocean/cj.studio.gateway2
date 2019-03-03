@@ -38,7 +38,7 @@ public class Rest implements IRest {
 			en.setClassLoader(stub.getClassLoader());
 			en.setSuperclass(Object.class);
 			en.setInterfaces(new Class<?>[] { stub, IAdaptable.class });
-			en.setCallback(new MyInvocationHandler(_selector, remote, stub));
+			en.setCallback(new SyncInvocationHandler(_selector, remote, stub));
 			return (T) en.create();
 		}
 

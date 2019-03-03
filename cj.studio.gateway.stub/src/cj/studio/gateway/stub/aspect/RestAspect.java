@@ -11,7 +11,8 @@ import cj.studio.ecm.bridge.ICutpoint;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
-import cj.studio.gateway.stub.MyInvocationHandler;
+import cj.studio.gateway.stub.AsyncInvocationHandler;
+import cj.studio.gateway.stub.SyncInvocationHandler;
 import cj.studio.gateway.stub.annotation.CjStubRef;
 import cj.ultimate.net.sf.cglib.proxy.Enhancer;
 
@@ -21,7 +22,7 @@ public class RestAspect implements IAspect {
 	IOutputSelector selector;
 
 	@Override
-	public Object cut(Object obj, Object[] args, ICutpoint cut) throws Throwable{
+	public Object cut(Object obj, Object[] args, ICutpoint cut) throws Throwable {
 		return cut.cut(obj, args);
 	}
 
@@ -58,10 +59,12 @@ public class RestAspect implements IAspect {
 		en.setClassLoader(sr.stub().getClassLoader());
 		en.setSuperclass(Object.class);
 		en.setInterfaces(new Class<?>[] { sr.stub(), IAdaptable.class });
-		en.setCallback(new MyInvocationHandler(selector, sr));
-		return  en.create();
+		if (sr.async()) {
+			en.setCallback(new AsyncInvocationHandler(selector, sr));
+		} else {
+			en.setCallback(new SyncInvocationHandler(selector, sr));
+		}
+		return en.create();
 	}
-	
-	
 
 }

@@ -73,6 +73,15 @@
 			}
 		},
 		{
+			"name": "/udt/website2/",
+			"uris": [
+				"udt://localhost:8083"
+			],
+			"props": {
+				
+			}
+		},
+		{
 			"name": "/backend/uc/",
 			"uris": [
 				"http://localhost:9090?readTimeout=100000000"
