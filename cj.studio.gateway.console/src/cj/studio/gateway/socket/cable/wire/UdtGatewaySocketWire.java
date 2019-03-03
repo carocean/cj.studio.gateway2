@@ -104,13 +104,11 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		}
 		used(true);
 		Frame frame = (Frame) request;
+		if(!frame.content().canAccept()) {
+			throw new CircuitException("503", "开发者调用Udt发送时不得指定内容接受器." + frame);
+		}
 		UdtContentReciever tcr = new UdtContentReciever(channel);
 		frame.content().accept(tcr);
-
-		byte[] b = null;
-		if (frame.content().isAllInMemory()) {
-			b = frame.content().readFully();
-		}
 
 		MemoryInputChannel in = new MemoryInputChannel(8192);
 		Frame pack = new Frame(in, "frame / gateway/1.0");// 有三种包：frame,content,last。frame包无内容；content和last包有内容无头
@@ -122,9 +120,6 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		UdtMessage msg = new UdtMessage(pack.toByteBuf());
 		channel.writeAndFlush(msg);
 
-		if (b != null) {
-			tcr.done(b, 0, b.length);
-		}
 		used(false);
 		return null;
 	}
@@ -237,9 +232,7 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			bb.readBytes(b);
 			IInputChannel input = new MemoryInputChannel(8192);
 			MemoryContentReciever reciever = new MemoryContentReciever();
-			input.accept(reciever);
-			Frame pack = new Frame(input, b);
-			pack.content().accept(reciever);
+			Frame pack = new Frame(input,reciever, b);
 			input.done(b, 0, 0);
 
 			if (!"GATEWAY/1.0".equals(pack.protocol())) {

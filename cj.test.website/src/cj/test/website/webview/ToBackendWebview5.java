@@ -43,20 +43,16 @@ public class ToBackendWebview5 implements IGatewayAppSiteWayWebView {
 		back.send(f1, c1);
 		
 		try {
-			FileInputStream fis=new FileInputStream("/Users/caroceanjofers/Downloads/阳光电影www.ygdy8.com.黑暗心灵.BD.720p.中英双字幕.mkv");
+			FileInputStream fis=new FileInputStream("/Users/caroceanjofers/Downloads/movie.mkv");
 			byte[] b=new byte[8192];
 			int read=0;
 			while((read=fis.read(b))!=-1) {
-				Thread.sleep(1);
 				in.writeBytes(b, 0, read);
 			}
 			fis.close();
 		} catch ( IOException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		
 		byte[] b=new byte[0];
 		in.done(b, 0, b.length);

@@ -95,9 +95,14 @@ public class Frame implements IPrinter, IDisposable {
 	Frame(IInputChannel writer) {
 		init(writer);
 	}
-
+	/**
+	 * 该构造没有内容接收器(注：如果frameRaw中的内容则丢失）
+	 * @param input
+	 * @param frameRaw
+	 * @throws CircuitException
+	 */
 	public Frame(IInputChannel input, byte[] frameRaw) throws CircuitException {
-		this(input, new MemoryContentReciever(), frameRaw);
+		this(input, null, frameRaw);
 	}
 
 	/**
@@ -115,7 +120,9 @@ public class Frame implements IPrinter, IDisposable {
 	 */
 	public Frame(IInputChannel input, IContentReciever reciever, byte[] frameRaw) throws CircuitException {
 		init(input);
-		content.accept(reciever);
+		if (reciever != null) {
+			content.accept(reciever);
+		}
 		int up = 0;
 		int down = 0;
 		byte field = 0;// 0=heads;1=params;2=content

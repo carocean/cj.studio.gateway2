@@ -55,7 +55,7 @@ public class Home implements IGatewayAppSiteWayWebView{
 		Document doc=resource.html("/index.html");
 		
 		Element e=doc.select("a.euser").first();
-		e.attr("wsurl",String.format("ws://%s%s/websocket",frame.head("Host"), frame.rootPath()));
+		e.attr("wsurl",String.format("ws://%s/myChannel",frame.head("Host")));
 		
 		System.out.println(this+"");
 		if(frame instanceof HttpFrame) {

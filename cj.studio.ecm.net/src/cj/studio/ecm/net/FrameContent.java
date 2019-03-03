@@ -10,7 +10,10 @@ class FrameContent implements IFrameContent {
 	public FrameContent(IInputChannel input) {
 		this.input = input;
 	}
-
+	@Override
+	public boolean canAccept() {
+		return reciever==null?true:false;
+	}
 	@Override
 	public void accept(IContentReciever reciever) throws CircuitException {
 		if(this.reciever!=null) {

@@ -84,7 +84,6 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		bb.release();
 		IInputChannel input = new MemoryInputChannel(8192);
 		MemoryContentReciever reciever = new MemoryContentReciever();
-		input.accept(reciever);
 		Frame pack = new Frame(input, reciever, b);
 		input.done(b, 0, 0);
 

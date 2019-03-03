@@ -44,24 +44,16 @@ public class ToBackendWebview4 implements IGatewayAppSiteWayWebView {
 
 		try {
 			FileInputStream fis = new FileInputStream(
-					"/Users/caroceanjofers/Downloads/阳光电影www.ygdy8.com.黑暗心灵.BD.720p.中英双字幕.mkv");
+					"/Users/caroceanjofers/Downloads/movie.mkv");
 			byte[] b = new byte[8192];
 			int read = 0;
 			while ((read = fis.read(b)) != -1) {
-				if ((Runtime.getRuntime().totalMemory() + Runtime.getRuntime().freeMemory()) >( Runtime.getRuntime()
-						.maxMemory() / 1.5) ){
-					Thread.sleep(1);//流量控制一下，在localhost通讯时，由于传得太快，jvm来不及释放内存，会导致内存溢出
-				}
 				in.writeBytes(b, 0, read);
 			}
 			fis.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
 		byte[] b = new byte[0];
 		in.done(b, 0, b.length);
 

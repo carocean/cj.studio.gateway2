@@ -273,9 +273,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			bb.readBytes(b);
 			IInputChannel input = new MemoryInputChannel(8192);
 			IContentReciever reciever = new MemoryContentReciever();
-			input.accept(reciever);
-			Frame frame = new Frame(input, b);
-			frame.content().accept(reciever);
+			Frame frame = new Frame(input,reciever, b);
 			input.begin(frame);
 			input.done(b, 0, 0);
 
