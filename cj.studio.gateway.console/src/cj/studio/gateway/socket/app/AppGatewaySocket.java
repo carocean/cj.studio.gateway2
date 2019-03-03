@@ -200,6 +200,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 			for (File pluginFile : pluginFiles) {
 				JarClassLoader parent = new JarClassLoader(pcl);
 				IAssembly assembly = Assembly.loadAssembly(pluginFile.getAbsolutePath(), parent);
+				assembly.parent(new AppCoreService(new HashMap<>()));
 				assembly.start();
 				IWorkbin bin = assembly.workbin();
 				IGatewayAppSitePlugin plugin = (IGatewayAppSitePlugin) bin.part("$.studio.gateway.app.plugin");
