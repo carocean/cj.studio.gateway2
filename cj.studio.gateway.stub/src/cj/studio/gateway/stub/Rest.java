@@ -25,10 +25,13 @@ public class Rest implements IRest {
 			this._selector = _selector;
 			this.remote = remote;
 		}
-
-		@SuppressWarnings("unchecked")
 		@Override
 		public <T> T open(Class<T> stub) throws CircuitException {
+			return open(stub,false);
+		}
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T> T open(Class<T> stub,boolean aync) throws CircuitException {
 			if (!stub.isInterface()) {
 				throw new CircuitException("503", "不是接口类型：" + stub);
 			}
@@ -38,7 +41,11 @@ public class Rest implements IRest {
 			en.setClassLoader(stub.getClassLoader());
 			en.setSuperclass(Object.class);
 			en.setInterfaces(new Class<?>[] { stub, IAdaptable.class });
-			en.setCallback(new SyncInvocationHandler(_selector, remote, stub));
+			if(aync) {
+				en.setCallback(new AsyncInvocationHandler(_selector, remote, stub));
+			}else {
+				en.setCallback(new SyncInvocationHandler(_selector, remote, stub));
+			}
 			return (T) en.create();
 		}
 
