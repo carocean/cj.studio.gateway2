@@ -269,7 +269,7 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 		String gatewayDests = this.info.getProps().get(__channel_onchannelEvent_notify_dests);
 		if (StringUtil.isEmpty(gatewayDests)) {
 			CJSystem.logging().warn(getClass(), String.format(
-					"服务器：%s 未指定通道激活或失活事件的通知目标。应用仅能在之后第一次请求时才能收到激活或失活事件。请在该net的属性中指定：OnChannelEvent-Notify-Dest=destination1",
+					"服务器：%s 未指定通道激活或失活事件的通知目标。应用仅能在之后第一次请求时才能收到激活或失活事件。请在该net的属性中指定：OnChannelEvent-Notify-Dests=dest1,dest2",
 					info.getName()));
 			return;
 		}
