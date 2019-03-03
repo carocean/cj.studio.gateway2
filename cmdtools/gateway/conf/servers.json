@@ -29,7 +29,7 @@
 		"protocol": "http",
 		"host": "localhost:8080",
 		"props": {
-			
+			"wsPath": "/myChannel"
 		}
 	},
 	{

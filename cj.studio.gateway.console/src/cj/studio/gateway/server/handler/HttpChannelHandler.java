@@ -87,7 +87,6 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	InputPipelineCollection pipelines;
 	private ServerInfo info;
 	boolean keepLive;
-	private String currentUsedGatewayDestForHttp;
 	private HttpInputChannel inputChannel;
 	private Circuit circuit;
 	private boolean isWindowPlatform;
@@ -221,21 +220,71 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		}
 
 		// Handshake
-		String wsPath=getWebSocketLocation(req);
-		if(!info.getProps().containsKey(__http_ws_prop_wsPath)) {
-			info.getProps().put(__http_ws_prop_wsPath, "/websocket");
+		if (!info.getProps().containsKey(__http_ws_prop_wsPath)) {// 开发者未指定ws路径则默认为不开启ws服务
+			reset();
+			return;
 		}
-		WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(wsPath,
-				null, false, 10485760);
+		String wsPath = getWebSocketLocation(req);
+		String rwspath = getRequestWsLocation(req);
+		if (!wsPath.equals(rwspath)) {
+			throw new EcmException(String.format("Deny connection. Reason: The connection address you requested:%s is not the WS service address:%s", rwspath, wsPath));
+		}
+		WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(wsPath, null, false,
+				10485760);
 		handshaker = wsFactory.newHandshaker(req);
 		if (handshaker == null) {
 			WebSocketServerHandshakerFactory.sendUnsupportedWebSocketVersionResponse(ctx.channel());
 		} else {
 			FullHttpRequestImpl freq = new FullHttpRequestImpl(req);
 			handshaker.handshake(ctx.channel(), freq);
-			websocketActive(ctx, freq);
 		}
 		reset();
+	}
+
+	protected String getRequestWsLocation(HttpRequest req) {
+		String host = req.headers().get(HOST);
+		String uri = req.getUri();
+		String cntpath = "";
+		int pos = uri.indexOf("?");
+		String remaining = uri;
+		if (pos > 0) {
+			remaining = uri.substring(0, pos);
+		}
+		while (remaining.startsWith("/")) {
+			remaining = remaining.substring(1, remaining.length());
+		}
+		pos = remaining.indexOf("/");
+		if (pos > 0) {
+			cntpath = remaining.substring(0, pos);
+		}else {
+			cntpath=remaining;
+		}
+		if (StringUtil.isEmpty(cntpath)) {
+			cntpath = "/";
+		}
+		if (!cntpath.startsWith("/")) {
+			cntpath = "/" + cntpath;
+		}
+
+		String reqServicePath = String.format("ws://%s%s", host, cntpath);
+		return reqServicePath;
+	}
+
+	protected String getWebSocketLocation(HttpRequest req) {
+		String wspath = info.getProps().get(__http_ws_prop_wsPath);
+		if (StringUtil.isEmpty(wspath)) {
+			wspath = "/";
+		} else {
+			if (!wspath.startsWith("/")) {
+				wspath = "/" + wspath;
+			}
+			while(wspath.endsWith("/")) {
+				wspath=wspath.substring(0,wspath.length()-1);
+			}
+		}
+		String host = req.headers().get(HOST);
+		String wsServicePath = String.format("ws://%s%s", host, wspath);
+		return wsServicePath;
 	}
 
 	private void reset() {
@@ -273,28 +322,27 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		bb.readBytes(b);
 		IInputChannel input = new MemoryInputChannel(8192);
 		MemoryContentReciever rec = new MemoryContentReciever();
-		Frame frame = new Frame(input,rec, b);
+		Frame frame = new Frame(input, rec, b);
 		input.begin(null);
 		input.done(b, 0, 0);
 
-		String root = frame.rootName();
-		if(StringUtil.isEmpty(currentUsedGatewayDestForHttp)) {
-			currentUsedGatewayDestForHttp=root;
-		}
-		if (!currentUsedGatewayDestForHttp.equals(root)) {
-			frame.url(String.format("/%s%s",currentUsedGatewayDestForHttp, frame.url()));
+		String uri = frame.url();
+		String gatewayDestInHeader = frame.head(__frame_gatewayDest);
+		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, getClass());
+		if (StringUtil.isEmpty(gatewayDest) || gatewayDest.endsWith("://")) {
+			throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 		}
 
 		IOutputChannel output = new InnerWSOutputChannel(ctx.channel(), frame);
 		Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
 
-		IInputPipeline inputPipeline = pipelines.get(currentUsedGatewayDestForHttp);
+		IInputPipeline inputPipeline = pipelines.get(gatewayDest);
 		if (inputPipeline != null) {
 			flowWSPipeline(ctx, inputPipeline, frame, circuit);
 			return;
 		}
 
-		inputPipeline = pipelineWSBuild(currentUsedGatewayDestForHttp, circuit, ctx);
+		inputPipeline = pipelineWSBuild(gatewayDest, circuit, ctx);
 		flowWSPipeline(ctx, inputPipeline, frame, circuit);// 再把本次请求发送处理
 	}
 
@@ -356,10 +404,6 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			throw e;
 		}
 		return inputPipeline;
-	}
-
-	protected void websocketActive(ChannelHandlerContext ctx, FullHttpRequestImpl req) throws Exception {
-		this.currentUsedGatewayDestForHttp = req.getContentPath();
 	}
 
 	@Override
@@ -460,8 +504,6 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 				.prop(__pipeline_fromWho, info.getName()).createPipeline();
 		pipelines.add(gatewayDest, inputPipeline);
 
-		this.currentUsedGatewayDestForHttp = gatewayDest;
-
 		ForwardJunction junction = new ForwardJunction(pipelineName);
 		junction.parse(inputPipeline, ctx.channel(), socket);
 		this.junctions.add(junction);
@@ -518,34 +560,6 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			return false;
 		return ((req.headers().get("Connection").contains("Upgrade"))
 				&& "websocket".equalsIgnoreCase(req.headers().get("Upgrade")));
-	}
-
-	protected String getWebSocketLocation(HttpRequest req) {
-		String path = info.getProps().get(__http_ws_prop_wsPath);
-		if (StringUtil.isEmpty(path)) {
-			path = "/websocket";
-		} else {
-			if (!path.startsWith("/")) {
-				path = "/" + path;
-			}
-		}
-
-		String uri = req.getUri();
-		int pos = uri.lastIndexOf("?");
-		if (pos > 0) {
-			uri = uri.substring(0, pos);
-		}
-		if ("/".equals(uri)) {
-			return "ws://" + req.headers().get(HOST) + path;
-		}
-		while (uri.startsWith("/")) {
-			uri = uri.substring(1, uri.length());
-		}
-		pos = uri.indexOf("/");
-		if (pos > 0) {
-			uri = uri.substring(0, pos);
-		}
-		return "ws://" + req.headers().get(HOST) + "/" + uri + path;
 	}
 
 	@Override
