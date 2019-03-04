@@ -29,7 +29,7 @@ import cj.ultimate.gson2.com.google.gson.Gson;
 import cj.ultimate.gson2.com.google.gson.reflect.TypeToken;
 import cj.ultimate.util.StringUtil;
 
-public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, StringTypeConverter {
+public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, StringTypeConverter {
 	Map<String, Method> __stubMethods;
 
 	public GatewayAppSiteRestStub() {
@@ -108,6 +108,7 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 						throw new CircuitException("404", "在webview中未找到方法：" + dest);
 					}
 					Object[] args = getArgs(src, frame);
+					doMethodBefore(dest,args,frame,circuit);
 					Object ret = dest.invoke(GatewayAppSiteRestStub.this, args);
 					if (ret != null) {
 						CjStubReturn sr = dest.getDeclaredAnnotation(CjStubReturn.class);
@@ -122,6 +123,7 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 							circuit.content().writeBytes(new Gson().toJson(ret).getBytes());
 						}
 					}
+					doMethodAfter(dest,args,frame,circuit);
 				} catch (Exception e) {
 					if (e instanceof CircuitException) {
 						throw (CircuitException) e;
@@ -136,6 +138,10 @@ public class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebView, String
 		});
 
 	}
+
+	protected  void doMethodAfter(Method m, Object[] args, Frame frame, Circuit circuit)throws CircuitException {};
+
+	protected  void doMethodBefore(Method m, Object[] args, Frame frame, Circuit circuit)throws CircuitException {};
 
 	private Object[] getArgs(Method src, Frame frame) throws CircuitException {
 		Map<String, Object> postContent = null;
