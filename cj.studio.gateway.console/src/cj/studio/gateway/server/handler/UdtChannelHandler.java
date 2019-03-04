@@ -217,7 +217,7 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 
 	protected IInputPipeline pipelineBuild(String gatewayDest, Circuit circuit, ChannelHandlerContext ctx)
 			throws Exception {
-		UdtServerChannelGatewaySocket wsSocket = new UdtServerChannelGatewaySocket(parent, ctx.channel());
+		UdtServerChannelGatewaySocket wsSocket = new UdtServerChannelGatewaySocket(parent,gatewayDest, ctx.channel());
 		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
 
 		IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);

@@ -374,7 +374,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 	protected IInputPipeline pipelineWSBuild(String gatewayDest, Circuit circuit, ChannelHandlerContext ctx)
 			throws Exception {
-		WebsocketServerChannelGatewaySocket wsSocket = new WebsocketServerChannelGatewaySocket(parent, ctx.channel());
+		WebsocketServerChannelGatewaySocket wsSocket = new WebsocketServerChannelGatewaySocket(parent,gatewayDest, ctx.channel());
 		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
 
 		IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);

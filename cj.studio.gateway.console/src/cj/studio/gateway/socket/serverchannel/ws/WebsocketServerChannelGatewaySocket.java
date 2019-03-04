@@ -15,10 +15,11 @@ public class WebsocketServerChannelGatewaySocket extends AbstractServerChannelSo
 	private IServiceProvider parent;
 	private Channel channel;
 	private IInputPipelineBuilder builder;
-
-	public WebsocketServerChannelGatewaySocket(IServiceProvider parent, Channel channel) {
+	String gatewayDest;
+	public WebsocketServerChannelGatewaySocket(IServiceProvider parent,String gatewayDest, Channel channel) {
 		this.parent = parent;
 		this.channel = channel;
+		this.gatewayDest=gatewayDest;
 		this.builder = new WebsocketServerChannelInputPipelineBuilder(parent,channel);
 	}
 
@@ -43,8 +44,8 @@ public class WebsocketServerChannelGatewaySocket extends AbstractServerChannelSo
 
 	@Override
 	public String name() {
-		String netName = (String) parent.getService("$.server.name");
-		return SocketName.name(channel.id(), netName);
+//		String netName = (String) parent.getService("$.server.name");
+		return SocketName.name(channel.id(), gatewayDest);
 	}
 
 	@Override

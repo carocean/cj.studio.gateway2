@@ -15,10 +15,11 @@ public class UdtServerChannelGatewaySocket extends AbstractServerChannelSocket i
 	private IServiceProvider parent;
 	private Channel channel;
 	private IInputPipelineBuilder builder;
-
-	public UdtServerChannelGatewaySocket(IServiceProvider parent, Channel channel) {
+	String gatewayDest;
+	public UdtServerChannelGatewaySocket(IServiceProvider parent,String gatewayDest, Channel channel) {
 		this.parent = parent;
 		this.channel = channel;
+		this.gatewayDest=gatewayDest;
 		this.builder = new UdtServerChannelInputPipelineBuilder(parent,channel);
 	}
 
@@ -43,8 +44,8 @@ public class UdtServerChannelGatewaySocket extends AbstractServerChannelSocket i
 
 	@Override
 	public String name() {
-		String netName = (String) parent.getService("$.server.name");
-		return SocketName.name(channel.id(), netName);
+//		String netName = (String) parent.getService("$.server.name");
+		return SocketName.name(channel.id(), gatewayDest);
 	}
 
 	@Override
