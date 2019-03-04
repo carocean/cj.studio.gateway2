@@ -14,7 +14,7 @@ import cj.studio.ecm.net.IInputChannel;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.io.IFeedback;
-import cj.studio.gateway.socket.io.DefaultFeedback;
+import cj.studio.gateway.socket.io.DefaultFeedbackToCircuit;
 
 @CjService(name = "/tcp", scope = Scope.multiton)
 public class TcpWebview implements IGatewayAppSiteWayWebView {
@@ -34,7 +34,7 @@ public class TcpWebview implements IGatewayAppSiteWayWebView {
 		frame.content().accept(new FileContentReciever());
 
 		// 发送头侦,头侦无内容
-		IFeedback feedback = new DefaultFeedback(circuit);
+		IFeedback feedback = new DefaultFeedbackToCircuit(circuit);
 		Frame first = feedback.createFirst("get /website/tcp/reciever/ net/1.0");
 		first.head("test", "1323233");
 		feedback.commitFirst(first);
