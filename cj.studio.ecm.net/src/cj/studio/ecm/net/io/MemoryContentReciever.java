@@ -14,7 +14,9 @@ public class MemoryContentReciever implements IContentReciever {
 	public MemoryContentReciever() {
 		buf = Unpooled.buffer(8192);
 	}
-
+	public MemoryContentReciever(int size) {
+		buf = Unpooled.buffer(size);
+	}
 	@Override
 	public void begin(Frame frame) {
 		isDone=false;

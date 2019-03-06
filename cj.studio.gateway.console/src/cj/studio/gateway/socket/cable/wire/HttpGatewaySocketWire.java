@@ -96,11 +96,15 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 		MediaType mt = MediaType.parse(contentType);
 
 		if ("POST".equals(frame.command().toUpperCase())) {
+			RequestBody body = null;
+			byte[] data = null;
 			if (frame.content().revcievedBytes() > 0) {
-				byte[] data = frame.content().readFully();
-				RequestBody body = RequestBody.create(mt, data);
-				rbuilder.post(body);
+				data = frame.content().readFully();
+			} else {
+				data = new byte[0];
 			}
+			body = RequestBody.create(mt, data);
+			rbuilder.post(body);
 		} else if ("GET".equals(frame.command().toUpperCase())) {
 			rbuilder.get();
 		} else {
@@ -186,7 +190,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 
 	@Override
 	public void connect(String ip, int port) throws CircuitException {
-		if(client!=null) {
+		if (client != null) {
 			return;
 		}
 		int maxIdleConnections = (int) parent.getService("$.prop.maxIdleConnections");
@@ -199,7 +203,6 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 
 		this.domain = String.format("%s://%s:%s", parent.getService("$.prop.protocol"), ip, port);
 
-		
 		IExecutorPool exepool = (IExecutorPool) parent.getService("$.executor.pool");
 		ExecutorService exe = exepool.getExecutor();
 		this.client = exepool.httpClientBuilder().maxIdleConnections(maxIdleConnections)

@@ -19,7 +19,9 @@ public class ToBackendWebview6 implements IGatewayAppSiteWayWebView {
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
 		ICustomStub user=rest.forRemote("rest://backend/website2/").open(ICustomStub.class);
-		CustomBO bo=user.getCustom("cj",34);
+		CustomBO bo=new CustomBO();
+		bo.setName("cj");
+		user.saveCustom(33L, 23, bo);
 		System.out.println("---"+bo.getName()+" "+bo.getAge());
 	}
 
