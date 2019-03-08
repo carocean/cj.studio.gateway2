@@ -1,14 +1,18 @@
 package cj.studio.gateway.socket.cable.wire.reciever;
 
+import java.util.concurrent.TimeUnit;
+
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IContentReciever;
 import cj.studio.ecm.net.io.MemoryContentReciever;
 import cj.studio.ecm.net.io.MemoryInputChannel;
 import cj.studio.ecm.net.util.TcpFrameBox;
+import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 
 public class TcpContentReciever implements IContentReciever {
 	Channel channel;
@@ -29,7 +33,12 @@ public class TcpContentReciever implements IContentReciever {
 		pack.dispose();
 		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
-		channel.writeAndFlush(bb);
+		ChannelFuture future =channel.writeAndFlush(bb);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -45,7 +54,12 @@ public class TcpContentReciever implements IContentReciever {
 		pack.dispose();
 		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
-		channel.writeAndFlush(bb);
+		ChannelFuture future =channel.writeAndFlush(bb);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -3,11 +3,14 @@ package cj.studio.gateway.socket.io;
 import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 
+import java.util.concurrent.TimeUnit;
+
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IOutputChannel;
 import cj.studio.gateway.server.util.DefaultHttpMineTypeFactory;
+import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -30,16 +33,23 @@ public class HttpOutputChannel implements IOutputChannel {
 		this.channel = channel;
 		this.frame = frame;
 	}
+
 	@Override
 	public boolean isClosed() {
 		return !channel.isActive();
 	}
+
 	@Override
 	public void write(byte[] b, int pos, int length) {
 		ByteBuf bb = Unpooled.buffer(length - pos);
 		bb.writeBytes(b, pos, length);
 		DefaultHttpContent cnt = new DefaultHttpContent(bb);
-		channel.writeAndFlush(cnt);
+		ChannelFuture future = channel.writeAndFlush(cnt);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		writedBytes += length - pos;
 	}
 
@@ -68,7 +78,7 @@ public class HttpOutputChannel implements IOutputChannel {
 		}
 //		String cntlen = circuit.head("Content-Length");
 //		if (StringUtil.isEmpty(cntlen)) {
-			setContentLength(res, circuit.content().writedBytes());
+		setContentLength(res, circuit.content().writedBytes());
 //		} else {
 //			setContentLength(res, Long.valueOf(cntlen));
 //		}
@@ -103,7 +113,12 @@ public class HttpOutputChannel implements IOutputChannel {
 		ByteBuf bb = Unpooled.buffer(length - pos);
 		bb.writeBytes(b, pos, length);
 		LastHttpContent cnt = new DefaultLastHttpContent(bb);
-		channel.writeAndFlush(cnt);
+		ChannelFuture future = channel.writeAndFlush(cnt);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		writedBytes += length - pos;
 		this.channel = null;
 		this.frame = null;

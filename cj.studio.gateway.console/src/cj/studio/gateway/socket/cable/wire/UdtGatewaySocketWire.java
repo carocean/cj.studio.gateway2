@@ -38,6 +38,7 @@ import cj.ultimate.util.StringUtil;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -124,8 +125,12 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		in.done(data, 0, data.length);
 
 		UdtMessage msg = new UdtMessage(pack.toByteBuf());
-		channel.writeAndFlush(msg);
-		
+		ChannelFuture future =channel.writeAndFlush(msg);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		if(b!=null) {//发送端如果将侦内容接收到内存，则是一次性发送全部数据，所以使用done方法。注意：在发送者使用非MemoryContentReciever时，要放到out.send之后done，如果是MemoryContentReciever则放在out.send前
 			tcr.done(b, 0, b.length);
 		}

@@ -1,11 +1,15 @@
 package cj.studio.gateway.socket.cable.wire.reciever;
 
+import java.util.concurrent.TimeUnit;
+
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IContentReciever;
 import cj.studio.ecm.net.io.MemoryContentReciever;
 import cj.studio.ecm.net.io.MemoryInputChannel;
+import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.udt.UdtMessage;
 
 public class UdtContentReciever implements IContentReciever {
@@ -24,7 +28,14 @@ public class UdtContentReciever implements IContentReciever {
 		in.done(b,pos,length);
 		
 		UdtMessage msg = new UdtMessage(pack.toByteBuf());
-		channel.writeAndFlush(msg);
+		//这种每次都等待写入完成的方式，udt比着tcp慢十倍。
+		//但又不能不用此方式，因为在开发者写入后紧接着就调用outputer.closePipeline()方法时，会在nio未真正传输时关闭连接，导致丢数。
+		ChannelFuture future =channel.writeAndFlush(msg);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -37,7 +48,12 @@ public class UdtContentReciever implements IContentReciever {
 		in.done(b,pos,length);
 		
 		UdtMessage msg = new UdtMessage(pack.toByteBuf());
-		channel.writeAndFlush(msg);
+		ChannelFuture future =channel.writeAndFlush(msg);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

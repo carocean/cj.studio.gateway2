@@ -1,11 +1,15 @@
 package cj.studio.gateway.socket.serverchannel.ws.valve;
 
+import java.util.concurrent.TimeUnit;
+
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 import cj.studio.gateway.socket.pipeline.IValveDisposable;
+import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 public class LastWebsocketServerChannelInputValve implements IInputValve, IValveDisposable {
@@ -32,7 +36,12 @@ public class LastWebsocketServerChannelInputValve implements IInputValve, IValve
 //		BinaryWebSocketFrame binf = new BinaryWebSocketFrame();
 		TextWebSocketFrame binf = new TextWebSocketFrame();
 		binf.content().writeBytes(frame.toByteBuf());
-		channel.writeAndFlush(binf);
+		ChannelFuture future =channel.writeAndFlush(binf);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

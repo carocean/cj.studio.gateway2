@@ -57,7 +57,7 @@ public class ToBackendUdt implements IGatewayAppSiteWayWebView {
 		byte[] b=new byte[0];
 		in.done(b, 0, b.length);
 		
-		back.releasePipeline();
+		back.closePipeline();
 		circuit.content().writeBytes("由TcpReciever服务接收到达的消息".getBytes());
 	}
 

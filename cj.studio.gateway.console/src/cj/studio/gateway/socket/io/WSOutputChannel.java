@@ -1,10 +1,14 @@
 package cj.studio.gateway.socket.io;
 
+import java.util.concurrent.TimeUnit;
+
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IOutputChannel;
+import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 public class WSOutputChannel implements IOutputChannel {
@@ -24,7 +28,12 @@ public class WSOutputChannel implements IOutputChannel {
 	public void write(byte[] b, int pos, int length) {
 		TextWebSocketFrame binf = new TextWebSocketFrame();
 		binf.content().writeBytes(b, 0, length);
-		channel.writeAndFlush(binf);
+		ChannelFuture future =channel.writeAndFlush(binf);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		writedBytes += length - pos;
 	}
 
@@ -43,7 +52,12 @@ public class WSOutputChannel implements IOutputChannel {
 		}
 		TextWebSocketFrame binf = new TextWebSocketFrame();
 		binf.content().writeBytes(b, 0, length);
-		channel.writeAndFlush(binf);
+		ChannelFuture future =channel.writeAndFlush(binf);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		writedBytes += length - pos;
 		this.channel = null;
 		this.frame = null;

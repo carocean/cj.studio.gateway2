@@ -1,5 +1,7 @@
 package cj.studio.gateway.socket.serverchannel.udt.valve;
 
+import java.util.concurrent.TimeUnit;
+
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.io.MemoryContentReciever;
@@ -8,7 +10,9 @@ import cj.studio.gateway.socket.cable.wire.reciever.UdtContentReciever;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 import cj.studio.gateway.socket.pipeline.IValveDisposable;
+import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.udt.UdtMessage;
 
 public class LastUdtServerChannelInputValve implements IInputValve,IValveDisposable {
@@ -52,8 +56,12 @@ public class LastUdtServerChannelInputValve implements IInputValve,IValveDisposa
 		in.done(data, 0, data.length);
 
 		UdtMessage okmsg = new UdtMessage(pack.toByteBuf());
-		channel.writeAndFlush(okmsg);
-//		
+		ChannelFuture future =channel.writeAndFlush(okmsg);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		if (b != null) {
 			tcr.done(b, 0, b.length);
 		}

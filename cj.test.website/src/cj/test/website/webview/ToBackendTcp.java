@@ -34,14 +34,15 @@ public class ToBackendTcp implements IGatewayAppSiteWayWebView {
 		IOutputer back = selector.select("backend-tcp");// 回发
 
 		IOutputChannel output = new MemoryOutputChannel();
-		Circuit c1 = new Circuit(output, "ws/1.0 200 ok");
+		Circuit c1 = new Circuit(output, "tcp/1.0 200 ok");
 
 		IInputChannel in = new SimpleInputChannel();
 		Frame f1 = new Frame(in, "put /website/tcp/ http/1.1");
 		in.begin(f1);
 		f1.parameter("destFileName", fn);
+		
 		back.send(f1, c1);
-
+		
 		try {
 			FileInputStream fis = new FileInputStream(
 					"/Users/caroceanjofers/Downloads/归档.zip");
@@ -56,8 +57,8 @@ public class ToBackendTcp implements IGatewayAppSiteWayWebView {
 		}
 		byte[] b = new byte[0];
 		in.done(b, 0, b.length);
-
-		back.releasePipeline();
+		
+		back.closePipeline();
 		circuit.content().writeBytes("由TcpReciever服务接收到达的消息".getBytes());
 	}
 

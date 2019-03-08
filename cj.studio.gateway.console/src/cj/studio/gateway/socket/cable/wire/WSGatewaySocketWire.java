@@ -119,7 +119,12 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			throw new CircuitException("503", "ws协议仅支持内存模式，请使用MemoryContentReciever");
 		}
 		WebSocketFrame f = new BinaryWebSocketFrame(frame.toByteBuf());
-		channel.writeAndFlush(f);
+		ChannelFuture future =channel.writeAndFlush(f);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		used(false);
 		return null;
 	}

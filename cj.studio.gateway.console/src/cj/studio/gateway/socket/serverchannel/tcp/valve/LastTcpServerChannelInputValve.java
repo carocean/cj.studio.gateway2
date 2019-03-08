@@ -1,5 +1,7 @@
 package cj.studio.gateway.socket.serverchannel.tcp.valve;
 
+import java.util.concurrent.TimeUnit;
+
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.io.MemoryContentReciever;
@@ -9,9 +11,11 @@ import cj.studio.gateway.socket.cable.wire.reciever.TcpContentReciever;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 import cj.studio.gateway.socket.pipeline.IValveDisposable;
+import cj.studio.gateway.socket.util.SocketContants;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 
 public class LastTcpServerChannelInputValve implements IInputValve,IValveDisposable {
 	Channel channel;
@@ -56,8 +60,12 @@ public class LastTcpServerChannelInputValve implements IInputValve,IValveDisposa
 		byte[] box = TcpFrameBox.box(pack.toBytes());
 		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
-		channel.writeAndFlush(bb);
-//		
+		ChannelFuture future =channel.writeAndFlush(bb);
+		try {
+			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		if (b != null) {
 			tcr.done(b, 0, b.length);
 		}

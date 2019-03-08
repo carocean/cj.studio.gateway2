@@ -24,4 +24,5 @@ public interface SocketContants {
 	String __frame_Head_Rest_Stub_Interface = "Rest-StubFace";
 	String __circuit_same_origin_policy="Same-Origin-Policy";//跨域调用
 	String __channel_onchannelEvent_notify_dests="OnChannelEvent-Notify-Dests";
+	long __channel_write_await_timeout = 10000L;
 }
