@@ -96,7 +96,7 @@ public class SyncInvocationHandler implements InvocationHandler, StringTypeConve
 		} finally {
 			if (out != null) {
 				local.remove();
-				out.closePipeline();
+				out.releasePipeline();
 			}
 		}
 

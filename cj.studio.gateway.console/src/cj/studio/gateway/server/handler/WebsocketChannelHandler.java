@@ -200,6 +200,9 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 			if (junction != null) {
 				this.junctions.remove(junction);
 			}
+			if (sockets.contains(pipelineName)) {
+				sockets.remove(pipelineName);// 不论是ws还是http增加的，在此安全移除
+			}
 			IInputPipeline input = pipelines.get(dest);
 			input.headOnInactive(pipelineName);
 		}
@@ -228,11 +231,6 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-		String name = SocketName.name(ctx.channel().id(), info.getName());
-
-		if (sockets.contains(name)) {
-			sockets.remove(name);// 不论是ws还是http增加的，在此安全移除
-		}
 
 		pipelineRelease(ctx);
 

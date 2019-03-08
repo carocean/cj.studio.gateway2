@@ -14,4 +14,6 @@ public interface IInputPipeline extends IIPipeline,IDisposable{
 	 
 	 void prop(String name,String value);
 	 boolean isDisposed();
+
+	void dispose(boolean disposeCloseableOutputValve);
 }

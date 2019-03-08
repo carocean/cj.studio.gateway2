@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.cable.GatewaySocketCable;
@@ -105,9 +106,9 @@ public class ClientGatewaySocket implements IGatewaySocket {
 			cables.add(cable);
 		}
 		pool.ready();
-		
-		dest.getProps().put("workThreadCount", pool.count()+"");
-		
+
+		dest.getProps().put("workThreadCount", pool.count() + "");
+
 		for (IGatewaySocketCable cable : cables) {
 			cable.connect();
 		}
@@ -117,6 +118,10 @@ public class ClientGatewaySocket implements IGatewaySocket {
 
 	@Override
 	public void close() throws CircuitException {
+		IGatewaySocketContainer container = (IGatewaySocketContainer) parent.getService("$.container.socket");
+		if (container != null) {
+			container.remove(name());
+		}
 		for (IGatewaySocketCable cable : cables) {
 			cable.dispose();
 		}
@@ -125,7 +130,7 @@ public class ClientGatewaySocket implements IGatewaySocket {
 		parent = null;
 		isConnected = false;
 		this.inputBuilder = null;
-		
+
 	}
 
 }

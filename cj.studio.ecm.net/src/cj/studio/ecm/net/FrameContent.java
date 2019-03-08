@@ -11,14 +11,11 @@ class FrameContent implements IFrameContent {
 		this.input = input;
 	}
 	@Override
-	public boolean canAccept() {
-		return reciever==null?true:false;
+	public boolean hasReciever() {
+		return reciever==null?false:true;
 	}
 	@Override
 	public void accept(IContentReciever reciever) throws CircuitException {
-		if(this.reciever!=null) {
-			throw new CircuitException("505", "已存在接收器："+this.reciever.getClass());
-		}
 		input.accept(reciever);
 		this.reciever=reciever;
 	}

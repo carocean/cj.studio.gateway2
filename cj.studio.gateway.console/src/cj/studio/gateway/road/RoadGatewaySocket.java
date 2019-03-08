@@ -14,6 +14,7 @@ import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.IWorkbin;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.road.pipeline.builder.RoadInputPipelineBuilder;
 import cj.studio.gateway.road.pipeline.builder.RoadOutputPipelineBuilder;
 import cj.studio.gateway.socket.Destination;
@@ -191,6 +192,10 @@ public class RoadGatewaySocket implements IGatewaySocket {
 	
 	@Override
 	public void close() throws CircuitException {
+		IGatewaySocketContainer container = (IGatewaySocketContainer) parent.getService("$.container.socket");
+		if (container != null) {
+			container.remove(name());
+		}
 		isConnected = false;
 		program.close();
 		this.inputBuilder = null;

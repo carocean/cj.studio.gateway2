@@ -4,24 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cj.studio.ecm.CJSystem;
+import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.Destination;
+import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.cable.IGatewaySocketCable;
 import cj.studio.gateway.socket.cable.IGatewaySocketWire;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
+import cj.studio.gateway.socket.pipeline.IValveDisposable;
 import cj.studio.gateway.socket.util.HashFunction;
 import cj.studio.gateway.socket.util.SocketContants;
 
-public class LastClientInputValve implements IInputValve {
+public class LastClientInputValve implements IInputValve, IValveDisposable {
 	private Destination destination;
 	List<IGatewaySocketWire> wires;
 	private List<IGatewaySocketCable> cables;
 	HashFunction hash;
+	private IGatewaySocket socket;
 
 	@SuppressWarnings("unchecked")
 	public LastClientInputValve(IServiceProvider parent) {
+		socket = (IGatewaySocket) parent.getService("$.socket");
 		destination = (Destination) parent.getService("$.destination");
 		cables = (List<IGatewaySocketCable>) parent.getService("$.cables");
 		hash = new HashFunction();
@@ -103,5 +108,20 @@ public class LastClientInputValve implements IInputValve {
 			}
 			wires.add(wire);
 		}
+	}
+
+	@Override
+	public void dispose(boolean isCloseableOutputValve) {
+		if (isCloseableOutputValve) {
+			try {
+				socket.close();
+			} catch (CircuitException e) {
+				throw new EcmException(e);
+			}
+		}
+		this.cables=null;
+		this.destination=null;
+		this.socket=null;
+		this.wires=null;
 	}
 }

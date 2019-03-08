@@ -10,6 +10,7 @@ import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.logging.ILogging;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.DefaultSegmentCircuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IInputChannel;
 import cj.studio.ecm.net.IOutputChannel;
@@ -170,7 +171,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		TcpInputChannel input = new TcpInputChannel();
 		Frame frame = input.begin(pack);
 		IOutputChannel output = new TcpOutputChannel(ctx.channel(), frame);
-		Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
+		Circuit circuit = new DefaultSegmentCircuit(output, String.format("%s 200 OK", frame.protocol()));
 		this.currentCircuit = circuit;
 		this.inputChannel = input;
 
@@ -262,7 +263,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 		for (String gatewayDest : arr) {
 			Frame frame = new Frame(String.format("onactive /%s/ tcp/1.0", gatewayDest));
 			WSOutputChannel output = new WSOutputChannel(ctx.channel(), frame);
-			Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
+			Circuit circuit = new DefaultSegmentCircuit(output, String.format("%s 200 OK", frame.protocol()));
 			pipelineBuild(gatewayDest, circuit, ctx);
 		}
 	}
@@ -275,6 +276,9 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			if (junction != null) {
 				this.junctions.remove(junction);
 			}
+			if (sockets.contains(pipelineName)) {
+				sockets.remove(pipelineName);// 在此安全移除
+			}
 			IInputPipeline input = pipelines.get(dest);
 			input.headOnInactive(pipelineName);
 		}
@@ -283,11 +287,6 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-		String name = SocketName.name(ctx.channel().id(), info.getName());
-
-		if (sockets.contains(name)) {
-			sockets.remove(name);// 在此安全移除
-		}
 
 		pipelineRelease(ctx);
 		counter = 0;

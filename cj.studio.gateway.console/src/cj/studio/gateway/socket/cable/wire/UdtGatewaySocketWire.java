@@ -104,8 +104,14 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		}
 		used(true);
 		Frame frame = (Frame) request;
-		if(!frame.content().canAccept()) {
-			throw new CircuitException("503", "开发者调用Udt发送时不得指定内容接受器." + frame);
+		byte[] b=null;
+		if(frame.content().hasReciever()) {
+			if(!frame.content().isAllInMemory()) {
+				throw new CircuitException("503", "UDT仅支持MemoryContentReciever或者内容接收器为空." + frame);
+			}
+			if (frame.content().revcievedBytes() > 0) {
+				b = frame.content().readFully();
+			}
 		}
 		UdtContentReciever tcr = new UdtContentReciever(channel);
 		frame.content().accept(tcr);
@@ -119,7 +125,10 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 
 		UdtMessage msg = new UdtMessage(pack.toByteBuf());
 		channel.writeAndFlush(msg);
-
+		
+		if(b!=null) {//发送端如果将侦内容接收到内存，则是一次性发送全部数据，所以使用done方法。注意：在发送者使用非MemoryContentReciever时，要放到out.send之后done，如果是MemoryContentReciever则放在out.send前
+			tcr.done(b, 0, b.length);
+		}
 		used(false);
 		return null;
 	}

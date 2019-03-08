@@ -8,7 +8,7 @@ public interface IFrameContent {
 	boolean isAllInMemory();
 	byte[] readFully()throws CircuitException;
 	void accept(IContentReciever reciever) throws CircuitException;
-	boolean canAccept();
 	long revcievedBytes() throws CircuitException;
+	boolean hasReciever();
 
 }

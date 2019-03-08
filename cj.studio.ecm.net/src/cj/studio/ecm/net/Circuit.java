@@ -65,13 +65,13 @@ public class Circuit implements IPrinter, IDisposable {
 
 	private void init(IOutputChannel output) {
 		headmap = new Hashtable<String, String>(4);
-		content = createContent(output, 8192);
+		this.content = createContent(output, 8192);
 	}
 
 	protected ICircuitContent createContent(IOutputChannel output, int capacity) {
 		ByteBuf buf = null;
 		buf = Unpooled./* directBuffer */buffer(capacity);
-		return new CircuitContent(this, output, buf, capacity);
+		return new DefaultCircuitContent(this, output, buf, capacity);
 	}
 
 	public byte[] toBytes() {
@@ -98,7 +98,7 @@ public class Circuit implements IPrinter, IDisposable {
 		b.writeBytes(crcf);
 //		b.writeBytes(crcf);
 		if (content.isAllInMemory()) {
-			CircuitContent cnt = (CircuitContent) content;
+			DefaultCircuitContent cnt = (DefaultCircuitContent) content;
 			MemoryOutputChannel moc = (MemoryOutputChannel) cnt.output;
 			b.writeBytes(moc.readFully());
 		}

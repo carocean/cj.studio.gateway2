@@ -144,9 +144,18 @@ public class OutputPipeline implements IOutputPipeline {
 
 	@Override
 	public void dispose() {
+		dispose(false);
+	}
+
+	@Override
+	public void dispose(boolean isCloseableOutputValve) {
 		LinkEntry next = head;
 		LinkEntry prev = null;
-		while (next.next != null) {
+		while (next != null) {
+			if (next.entry instanceof IValveDisposable) {
+				IValveDisposable a = (IValveDisposable) next.entry;
+				a.dispose(isCloseableOutputValve);
+			}
 			prev = next;
 			next = next.next;
 			prev.next = null;
@@ -154,6 +163,11 @@ public class OutputPipeline implements IOutputPipeline {
 		}
 		this.head = null;
 		this.last = null;
+		
+		this.props.clear();
+		this.handler=null;
+		this.adapter=null;
+		this.props=null;
 		disposed = true;
 	}
 
@@ -232,30 +246,24 @@ public class OutputPipeline implements IOutputPipeline {
 			this.target.headFlow(request, response);
 		}
 
+
 		@Override
-		public boolean canCloseablePipeline() {
-			if (target.last.entry instanceof ICloseableOutputValve) {
-				return true;
-			}
-			return false;
+		public boolean isDisposed() {
+			return target.disposed;
 		}
 
 		@Override
 		public void closePipeline() throws CircuitException {
-			if (target.last.entry instanceof ICloseableOutputValve) {
-				ICloseableOutputValve a = (ICloseableOutputValve) target.last.entry;
-				a.close(target);
-			}
-			releasePipeline();
+			target.headOnInactive();
+			target.dispose(true);
+			target=null;
 		}
 
 		@Override
 		public void releasePipeline() throws CircuitException {
-			if(target.isDisposed()){
-				return;
-			}
 			target.headOnInactive();
-			target.dispose();
+			target.dispose(false);
+			target=null;
 		}
 	}
 }

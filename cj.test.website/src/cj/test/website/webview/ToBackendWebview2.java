@@ -55,7 +55,10 @@ public class ToBackendWebview2 implements IGatewayAppSiteWayWebView {
 			cnt=circuit.content();
 			this.circuit=circuit;
 		}
-
+		@Override
+		public boolean isClosed() {
+			return false;
+		}
 		@Override
 		public void write(byte[] b, int pos, int length) {
 			cnt.writeBytes(b, pos, length);

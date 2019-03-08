@@ -2,14 +2,18 @@ package cj.studio.gateway.socket.serverchannel.tcp.valve;
 
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.io.MemoryContentReciever;
+import cj.studio.ecm.net.io.MemoryInputChannel;
 import cj.studio.ecm.net.util.TcpFrameBox;
+import cj.studio.gateway.socket.cable.wire.reciever.TcpContentReciever;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
+import cj.studio.gateway.socket.pipeline.IValveDisposable;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 
-public class LastTcpServerChannelInputValve implements IInputValve {
+public class LastTcpServerChannelInputValve implements IInputValve,IValveDisposable {
 	Channel channel;
 	public LastTcpServerChannelInputValve(Channel channel) {
 		this.channel=channel;
@@ -29,16 +33,43 @@ public class LastTcpServerChannelInputValve implements IInputValve {
 		if(!channel.isOpen()) {
 			throw new CircuitException("505", "对点网络已关闭，无法处理回推侦："+request);
 		}
-		Frame frame=(Frame)request;
-		byte[] box = TcpFrameBox.box(frame.toBytes());
-		ByteBuf bbuf = Unpooled.buffer();
-		bbuf.writeBytes(box);
-		channel.writeAndFlush(bbuf);
+		Frame frame = (Frame) request;
+		byte[] b = null;
+		if (frame.content().hasReciever()) {
+			if (!frame.content().isAllInMemory()) {
+				throw new CircuitException("503", "TCP仅支持MemoryContentReciever或者内容接收器为空." + frame);
+			}
+			if (frame.content().revcievedBytes() > 0) {
+				b = frame.content().readFully();
+			}
+		}
+		TcpContentReciever tcr = new TcpContentReciever(channel);
+		frame.content().accept(tcr);// 不管是否已存在接收器都覆盖掉
+
+		MemoryInputChannel in = new MemoryInputChannel(8192);
+		Frame pack = new Frame(in, "frame / gateway/1.0");// 有三种包：frame,content,last。frame包无内容；content和last包有内容无头
+		pack.content().accept(new MemoryContentReciever());
+		in.begin(null);
+		byte[] data = frame.toBytes();
+		in.done(data, 0, data.length);
+
+		byte[] box = TcpFrameBox.box(pack.toBytes());
+		ByteBuf bb = Unpooled.buffer();
+		bb.writeBytes(box);
+		channel.writeAndFlush(bb);
+//		
+		if (b != null) {
+			tcr.done(b, 0, b.length);
+		}
 	}
 
 	@Override
 	public void onInactive(String inputName, IIPipeline pipeline) throws CircuitException {
-		channel.close();
 	}
-
+	@Override
+	public void dispose(boolean isCloseableOutputValve) {
+		if(isCloseableOutputValve) {
+			channel.close();
+		}
+	}
 }

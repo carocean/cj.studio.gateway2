@@ -10,6 +10,7 @@ import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.logging.ILogging;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.DefaultSegmentCircuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IInputChannel;
 import cj.studio.ecm.net.IOutputChannel;
@@ -171,7 +172,7 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 		UdtInputChannel input = new UdtInputChannel();
 		Frame frame = input.begin(pack);
 		IOutputChannel output = new UdtOutputChannel(ctx.channel(), frame);
-		Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
+		Circuit circuit = new DefaultSegmentCircuit(output, String.format("%s 200 OK", frame.protocol()));
 		this.currentCircuit = circuit;
 		this.inputChannel = input;
 
@@ -257,6 +258,9 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 			if (junction != null) {
 				this.junctions.remove(junction);
 			}
+			if (sockets.contains(pipelineName)) {
+				sockets.remove(pipelineName);// 在此安全移除
+			}
 			IInputPipeline input = pipelines.get(dest);
 			input.headOnInactive(pipelineName);
 		}
@@ -277,19 +281,13 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 		for (String gatewayDest : arr) {
 			Frame frame = new Frame(String.format("onactive /%s/ udt/1.0", gatewayDest));
 			WSOutputChannel output = new WSOutputChannel(ctx.channel(), frame);
-			Circuit circuit = new Circuit(output, String.format("%s 200 OK", frame.protocol()));
+			Circuit circuit = new DefaultSegmentCircuit(output, String.format("%s 200 OK", frame.protocol()));
 			pipelineBuild(gatewayDest, circuit, ctx);
 		}
 	}
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-		String name = SocketName.name(ctx.channel().id(), info.getName());
-
-		if (sockets.contains(name)) {
-			sockets.remove(name);// 在此安全移除
-		}
-
 		pipelineRelease(ctx);
 		counter = 0;
 		super.channelInactive(ctx);

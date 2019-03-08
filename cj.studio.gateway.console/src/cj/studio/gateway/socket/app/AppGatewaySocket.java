@@ -19,6 +19,7 @@ import cj.studio.ecm.net.session.ISessionEvent;
 import cj.studio.ecm.resource.JarClassLoader;
 import cj.studio.gateway.ICluster;
 import cj.studio.gateway.IConfiguration;
+import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IRuntime;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
@@ -215,6 +216,10 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 
 	@Override
 	public void close() throws CircuitException {
+		IGatewaySocketContainer container = (IGatewaySocketContainer) parent.getService("$.container.socket");
+		if (container != null) {
+			container.remove(name());
+		}
 		isConnected = false;
 		sessionManager.stop();
 		program.close();

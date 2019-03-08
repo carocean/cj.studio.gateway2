@@ -16,7 +16,10 @@ public class InnerWSOutputChannel implements IOutputChannel {
 		this.channel = channel;
 		this.frame = frame;
 	}
-
+	@Override
+	public boolean isClosed() {
+		return !channel.isActive();
+	}
 	@Override
 	public void write(byte[] b, int pos, int length) {
 		TextWebSocketFrame binf = new TextWebSocketFrame();

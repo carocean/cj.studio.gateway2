@@ -1,6 +1,12 @@
 package cj.studio.ecm.net;
 
 public interface ICircuitContent {
+	/**
+	 * 获取分段回写器。<br>
+	 * 如果当前CircuitContent不支持分段，则返回null
+	 * @return
+	 */
+	ISegmentCircuitContent segment();
 	public abstract void writeBytes(byte[] b);
 	public abstract void writeBytes(byte[] b, int pos);
 	public abstract void writeBytes(byte[] b, int pos, int len);

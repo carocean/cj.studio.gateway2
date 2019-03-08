@@ -129,20 +129,30 @@ public class InputPipeline implements IInputPipeline {
 
 	@Override
 	public void dispose() {
+		dispose(false);
+	}
+	@Override
+	public void dispose(boolean isCloseableOutputValve) {
 		LinkEntry next = head;
 		LinkEntry prev = null;
-		while (next.next != null) {
+		while (next != null) {
+			if (next.entry instanceof IValveDisposable) {
+				IValveDisposable a = (IValveDisposable) next.entry;
+				a.dispose(isCloseableOutputValve);
+			}
 			prev = next;
 			next = next.next;
 			prev.next = null;
 			prev.entry = null;
 		}
-		this.props.clear();
 		this.head = null;
 		this.last = null;
+		
+		this.props.clear();
+		this.adapter=null;
+		this.props=null;
 		disposed = true;
 	}
-
 	@Override
 	public boolean isDisposed() {
 		return disposed;

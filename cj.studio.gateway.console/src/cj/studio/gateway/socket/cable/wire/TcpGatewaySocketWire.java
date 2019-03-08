@@ -107,11 +107,17 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		}
 		used(true);
 		Frame frame = (Frame) request;
-		if(!frame.content().canAccept()) {
-			throw new CircuitException("503", "开发者调用Tcp发送时不得指定内容接受器." + frame);
+		byte[] b = null;
+		if (frame.content().hasReciever()) {
+			if (!frame.content().isAllInMemory()) {
+				throw new CircuitException("503", "TCP仅支持MemoryContentReciever或者内容接收器为空." + frame);
+			}
+			if (frame.content().revcievedBytes() > 0) {
+				b = frame.content().readFully();
+			}
 		}
 		TcpContentReciever tcr = new TcpContentReciever(channel);
-		frame.content().accept(tcr);
+		frame.content().accept(tcr);// 不管是否已存在接收器都覆盖掉
 
 		MemoryInputChannel in = new MemoryInputChannel(8192);
 		Frame pack = new Frame(in, "frame / gateway/1.0");// 有三种包：frame,content,last。frame包无内容；content和last包有内容无头
@@ -124,7 +130,10 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
 		channel.writeAndFlush(bb);
-
+//		
+		if (b != null) {
+			tcr.done(b, 0, b.length);
+		}
 		used(false);
 		return null;
 	}
@@ -225,7 +234,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			bb.readBytes(b);
 			IInputChannel input = new MemoryInputChannel(8192);
 			MemoryContentReciever reciever = new MemoryContentReciever();
-			Frame pack = new Frame(input,reciever, b);
+			Frame pack = new Frame(input, reciever, b);
 			input.done(b, 0, 0);
 
 			if (!"GATEWAY/1.0".equals(pack.protocol())) {

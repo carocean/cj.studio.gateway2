@@ -93,7 +93,7 @@ public class AsyncInvocationHandler implements InvocationHandler, StringTypeConv
 		} finally {
 			if (out != null) {
 				local.remove();
-				out.closePipeline();
+				out.releasePipeline();
 			}
 		}
 

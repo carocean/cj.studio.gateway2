@@ -413,10 +413,6 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-		String name = SocketName.name(ctx.channel().id(), info.getName());
-		if (sockets.contains(name)) {// 移除channelSocket而不是destination的socket
-			sockets.remove(name);// 不论是ws还是http增加的，在此安全移除
-		}
 
 		Set<String> dests = pipelines.enumDest();
 		for (String dest : dests) {
@@ -424,6 +420,9 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			Junction junction = junctions.findInForwards(pipelineName);
 			if (junction != null) {
 				this.junctions.remove(junction);
+			}
+			if (sockets.contains(pipelineName)) {// 移除channelSocket而不是destination的socket
+				sockets.remove(pipelineName);// 不论是ws还是http增加的，在此安全移除
 			}
 			IInputPipeline input = pipelines.get(dest);
 			input.headOnInactive(pipelineName);

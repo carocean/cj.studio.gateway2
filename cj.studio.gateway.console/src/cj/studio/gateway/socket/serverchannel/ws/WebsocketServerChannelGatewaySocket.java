@@ -3,6 +3,7 @@ package cj.studio.gateway.socket.serverchannel.ws;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
@@ -55,6 +56,10 @@ public class WebsocketServerChannelGatewaySocket extends AbstractServerChannelSo
 
 	@Override
 	public void close() throws CircuitException {
+		IGatewaySocketContainer container = (IGatewaySocketContainer) parent.getService("$.container.socket");
+		if (container != null) {
+			container.remove(name());
+		}
 		if (channel.isOpen()) {
 			channel.close();
 		}

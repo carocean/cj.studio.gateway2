@@ -15,7 +15,10 @@ public class MemoryOutputChannel implements IOutputChannel {
 	public MemoryOutputChannel() {
 		buf = Unpooled.buffer(8192);
 	}
-
+	@Override
+	public boolean isClosed() {
+		return false;//内存的输出永不关闭
+	}
 	@Override
 	public void write(byte[] b, int pos, int length) {
 		buf.writeBytes(b, pos, length);
