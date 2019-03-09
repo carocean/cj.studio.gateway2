@@ -53,6 +53,7 @@ public class LastUdtServerChannelInputValve implements IInputValve,IValveDisposa
 		pack.content().accept(new MemoryContentReciever());
 		in.begin(null);
 		byte[] data = frame.toBytes();
+		frame.dispose();
 		in.done(data, 0, data.length);
 
 		UdtMessage okmsg = new UdtMessage(pack.toByteBuf());

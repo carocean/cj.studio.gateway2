@@ -55,6 +55,7 @@ public class LastTcpServerChannelInputValve implements IInputValve,IValveDisposa
 		pack.content().accept(new MemoryContentReciever());
 		in.begin(null);
 		byte[] data = frame.toBytes();
+		frame.dispose();
 		in.done(data, 0, data.length);
 
 		byte[] box = TcpFrameBox.box(pack.toBytes());

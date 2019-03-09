@@ -56,6 +56,7 @@ public class DefaultSegmentCircuitContent extends DefaultCircuitContent implemen
 		inpack.begin(pack);
 		inpack.done(b, 0, b.length);
 		byte[] raw = pack.toBytes();
+		pack.dispose();
 		super.writeBytes(raw, 0, raw.length);
 		super.flush();
 	}
@@ -67,6 +68,7 @@ public class DefaultSegmentCircuitContent extends DefaultCircuitContent implemen
 		incnt.begin(cnt);
 		incnt.done(b, pos, len);
 		byte[] raw = cnt.toBytes();
+		cnt.dispose();
 		super.writeBytes(raw, 0, raw.length);
 		super.flush();
 	}
@@ -83,6 +85,7 @@ public class DefaultSegmentCircuitContent extends DefaultCircuitContent implemen
 		inlast.begin(last);
 		inlast.done(b, pos, length);
 		byte[] raw = last.toBytes();
+		last.dispose();
 		super.writeBytes(raw, 0, raw.length);
 		super.flush();
 		this.state = 0;

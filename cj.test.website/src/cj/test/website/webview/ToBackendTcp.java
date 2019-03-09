@@ -45,7 +45,8 @@ public class ToBackendTcp implements IGatewayAppSiteWayWebView {
 		
 		try {
 			FileInputStream fis = new FileInputStream(
-					"/Users/caroceanjofers/Downloads/归档.zip");
+//					"/Users/caroceanjofers/Downloads/归档.zip");
+					"/Users/caroceanjofers/Downloads/订阅号.png");
 			byte[] b = new byte[8192];
 			int read = 0;
 			while ((read = fis.read(b)) != -1) {
@@ -58,7 +59,8 @@ public class ToBackendTcp implements IGatewayAppSiteWayWebView {
 		byte[] b = new byte[0];
 		in.done(b, 0, b.length);
 		
-		back.closePipeline();
+//		back.closePipeline();
+		back.releasePipeline();
 		circuit.content().writeBytes("由TcpReciever服务接收到达的消息".getBytes());
 	}
 
