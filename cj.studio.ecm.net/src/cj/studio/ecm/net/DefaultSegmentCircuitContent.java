@@ -15,7 +15,17 @@ public class DefaultSegmentCircuitContent extends DefaultCircuitContent implemen
 	public DefaultSegmentCircuitContent(Circuit owner, IOutputChannel writer, ByteBuf buf) {
 		super(owner, writer, buf);
 	}
-
+	@Override
+	public void clearbuf() {
+		state=0;
+		super.clearbuf();
+	}
+	
+	@Override
+	public void close() {
+		state=0;
+		super.close();
+	}
 	@Override
 	public Frame createFirst(String frame_line) throws CircuitException {
 		MemoryInputChannel infirst = new MemoryInputChannel(8192);

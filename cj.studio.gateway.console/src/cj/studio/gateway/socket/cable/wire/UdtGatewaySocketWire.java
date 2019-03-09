@@ -283,7 +283,22 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			String gatewayDestInHeader = frame.head(__frame_gatewayDest);
 			String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, getClass());
 			if (StringUtil.isEmpty(gatewayDest) || gatewayDest.endsWith("://")) {
-				throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
+				if ("error".equals(frame.command()) && "GATEWAY/1.0".equals(frame.protocol())) {
+					String acceptErrorPath = (String) parent.getService("$.prop.acceptErrorPath");
+					frame.url(acceptErrorPath);
+					while (acceptErrorPath.startsWith("/")) {
+						acceptErrorPath = acceptErrorPath.substring(1, acceptErrorPath.length());
+					}
+					int pos = acceptErrorPath.indexOf("/");
+					if (pos > -1) {
+						gatewayDest = acceptErrorPath.substring(0, pos);
+					}else {
+						gatewayDest=acceptErrorPath;
+					}
+				}
+				if (StringUtil.isEmpty(gatewayDest)) {
+					throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
+				}
 			}
 
 			IInputPipeline inputPipeline = pipelines.get(gatewayDest);

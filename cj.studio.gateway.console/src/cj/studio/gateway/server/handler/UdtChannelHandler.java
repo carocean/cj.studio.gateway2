@@ -14,6 +14,7 @@ import cj.studio.ecm.net.DefaultSegmentCircuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IInputChannel;
 import cj.studio.ecm.net.IOutputChannel;
+import cj.studio.ecm.net.ISegmentCircuitContent;
 import cj.studio.ecm.net.io.MemoryContentReciever;
 import cj.studio.ecm.net.io.MemoryInputChannel;
 import cj.studio.gateway.IGatewaySocketContainer;
@@ -132,8 +133,12 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 			}
 			StringWriter out = new StringWriter();
 			e.printStackTrace(new PrintWriter(out));
-			circuit.content().writeBytes(out.toString().getBytes());
-			circuit.content().flush();
+			ISegmentCircuitContent cnt=(ISegmentCircuitContent)circuit.content();
+			Frame err=cnt.createFirst("error / gateway/1.0");
+			cnt.writeBytes(err.toBytes());
+			byte[] msg=out.toString().getBytes();
+			cnt.done(msg,0,msg.length);
+			cnt.flush();
 			throw e;
 		} finally {
 			if (!circuit.content().isClosed()) {
@@ -162,7 +167,12 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 			}
 			StringWriter out = new StringWriter();
 			e.printStackTrace(new PrintWriter(out));
-			circuit.content().writeBytes(out.toString().getBytes());
+			ISegmentCircuitContent cnt=(ISegmentCircuitContent)circuit.content();
+			Frame err=cnt.createFirst("error / gateway/1.0");
+			cnt.writeBytes(err.toBytes());
+			byte[] msg=out.toString().getBytes();
+			cnt.done(msg,0,msg.length);
+			cnt.flush();
 			throw e;
 		}
 	}
@@ -210,8 +220,12 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 			}
 			StringWriter out = new StringWriter();
 			e.printStackTrace(new PrintWriter(out));
-			circuit.content().writeBytes(out.toString().getBytes());
-			circuit.content().flush();
+			ISegmentCircuitContent cnt=(ISegmentCircuitContent)circuit.content();
+			Frame err=cnt.createFirst("error / gateway/1.0");
+			cnt.writeBytes(err.toBytes());
+			byte[] msg=out.toString().getBytes();
+			cnt.done(msg,0,msg.length);
+			cnt.flush();
 			throw e;
 		}
 	}
@@ -242,8 +256,12 @@ public class UdtChannelHandler extends ChannelHandlerAdapter implements ChannelH
 			}
 			StringWriter out = new StringWriter();
 			e.printStackTrace(new PrintWriter(out));
-			circuit.content().writeBytes(out.toString().getBytes());
-			circuit.content().close();
+			ISegmentCircuitContent cnt=(ISegmentCircuitContent)circuit.content();
+			Frame err=cnt.createFirst("error / gateway/1.0");
+			cnt.writeBytes(err.toBytes());
+			byte[] msg=out.toString().getBytes();
+			cnt.done(msg,0,msg.length);
+			cnt.close();
 			ctx.close();
 			throw e;
 		}

@@ -35,7 +35,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	private boolean followRedirects;
 	private boolean retryOnConnectionFailure;
 	private int aggregatorLimit;
-
+	private String acceptErrorPath;//客户端接收系统error的应用处理地址，让开发者指定将错误导航到哪个website的什么webview中接收处理，在tcp|udt中有效
 	public GatewaySocketCable(IServiceProvider parent) {
 		this.parent = parent;
 		wires = new CopyOnWriteArrayList<>();
@@ -118,6 +118,9 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		}
 		if ("$.prop.aggregatorLimit".equals(name)) {
 			return aggregatorLimit;
+		}
+		if ("$.prop.acceptErrorPath".equals(name)) {
+			return this.acceptErrorPath;
 		}
 		return parent.getService(name);
 	}
@@ -280,6 +283,8 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 				: Boolean.valueOf(f.parameter("retryOnConnectionFailure"));
 		this.aggregatorLimit = StringUtil.isEmpty(f.parameter("aggregatorLimit")) ? 1024 * 1024 * 2
 				: Integer.valueOf(f.parameter("aggregatorLimit"));
+		this.acceptErrorPath = StringUtil.isEmpty(f.parameter("acceptErrorPath")) ? "/error/"
+				: f.parameter("acceptErrorPath");
 		if ("ws".equals(protocol)) {
 			wspath = f.parameter("wspath");
 			if (StringUtil.isEmpty(wspath)) {
