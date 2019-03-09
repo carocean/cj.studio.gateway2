@@ -243,6 +243,9 @@ public class OutputPipeline implements IOutputPipeline {
 
 		@Override
 		public void send(Object request, Object response) throws CircuitException {
+			if(target==null||target.disposed) {
+				throw new CircuitException("503", "输出管道已释放或关闭");
+			}
 			this.target.headFlow(request, response);
 		}
 

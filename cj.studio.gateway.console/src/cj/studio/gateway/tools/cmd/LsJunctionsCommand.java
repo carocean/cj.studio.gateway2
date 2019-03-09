@@ -166,6 +166,10 @@ public class LsJunctionsCommand extends Command {
 					System.out.println(String.format("%s\t\tretryOnConnectionFailure:%s", indent,
 							((IServiceProvider) cable).getService("$.prop.retryOnConnectionFailure")));
 				}
+				if("tcp".equals(cable.protocol())||"udt".equals(cable.protocol())) {
+					System.out.println(String.format("%s\t\tacceptErrorPath:%s", indent,
+							((IServiceProvider) cable).getService("$.prop.acceptErrorPath")));
+				}
 			}
 		}
 	}
