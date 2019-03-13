@@ -23,6 +23,13 @@
 						'localhost:27017'
 					]"
 				}
+			},{
+				name:"redis",
+				class:"cj.studio.orm.redis.RedisDBPlugin",
+				parameters:{
+					host:"localhost",
+					maxTotal:"10"
+				}
 			}
 		],		
 		activators : [
