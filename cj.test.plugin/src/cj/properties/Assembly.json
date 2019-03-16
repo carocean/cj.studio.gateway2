@@ -27,8 +27,10 @@
 				name:"redis",
 				class:"cj.studio.orm.redis.RedisDBPlugin",
 				parameters:{
-					host:"localhost",
-					maxTotal:"10"
+					redis1:"{
+						host:'localhost',
+						maxTotal:'10'
+					}"
 				}
 			}
 		],		
@@ -66,6 +68,10 @@
 		}],
 		scans : [{
 					package : "cj.studio.orm.mybatis",
+					extName : ".class|.json|.xml",
+					exoterical:"true"
+				},{
+					package : "cj.studio.orm.redis",
 					extName : ".class|.json|.xml",
 					exoterical:"true"
 				},{

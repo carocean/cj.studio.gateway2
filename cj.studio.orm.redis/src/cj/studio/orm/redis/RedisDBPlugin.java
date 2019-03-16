@@ -1,6 +1,10 @@
 package cj.studio.orm.redis;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IAssemblyContext;
@@ -8,6 +12,8 @@ import cj.studio.ecm.IChipPlugin;
 import cj.studio.ecm.context.IElement;
 import cj.studio.ecm.context.INode;
 import cj.studio.ecm.context.IProperty;
+import cj.ultimate.gson2.com.google.gson.Gson;
+import cj.ultimate.gson2.com.google.gson.reflect.TypeToken;
 import cj.ultimate.util.StringUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -15,92 +21,98 @@ import redis.clients.jedis.JedisPoolConfig;
 
 public class RedisDBPlugin implements IChipPlugin {
 
-	private JedisPool pool;
+	private Map<String, JedisPool> pools;
 	List<Jedis> container;
+
+	public RedisDBPlugin() {
+		container = new ArrayList<>();
+		pools = new HashMap<>();
+	}
 
 	@Override
 	public Object getService(String name) {
+		JedisPool pool = null;
+		if ("@auto".equals(name)) {
+			JedisPool[] arr = pools.values().toArray(new JedisPool[0]);
+			pool = arr[Math.abs(UUID.randomUUID().hashCode()) % arr.length];
+		} else {
+			pool = pools.get(name);
+		}
+		if (pool == null)
+			return null;
 		Jedis jedis = pool.getResource();
 		if (container.contains(jedis)) {
 			return jedis;
 		}
 		container.add(jedis);
-		return null;
+		return jedis;
 	}
 
 	@Override
 	public void load(IAssemblyContext ctx, IElement e) {
+		String names[] = e.enumNodeNames();
+		for (String name : names) {
+			IProperty prop = (IProperty) e.getNode(name);
+			loadRedisDBList(prop);
+		}
+
+	}
+
+	private void loadRedisDBList(IProperty e) {
 		JedisPoolConfig conf = new JedisPoolConfig();
-		IProperty host = (IProperty) e.getNode("host");
-		String hostStr="";
-		if (host != null) {
-			INode n = host.getValue();
-			if (n != null&&!StringUtil.isEmpty(n.getName())) {
-				hostStr=n.getName();
-			}
+		String name = e.getName();
+		INode n = e.getValue();
+		if (n == null) {
+			throw new EcmException(String.format("redis连接名：%s 缺少属性定义", name));
 		}
-		if(StringUtil.isEmpty(hostStr)) {
-			throw new EcmException("redis属性host为空");
+		String v = n.getName();
+		if (v == null || v.equals("")) {
+			throw new EcmException(String.format("redis连接名：%s 缺少属性定义", name));
 		}
-		IProperty maxWaitMillis = (IProperty) e.getNode("maxWaitMillis");
-		if (maxWaitMillis != null) {
-			INode n = maxWaitMillis.getValue();
-			if (n != null&&!StringUtil.isEmpty(n.getName())) {
-				conf.setMaxWaitMillis(Long.valueOf(n.getName()));
-			}
+		Map<String, String> props = new Gson().fromJson(v, new TypeToken<HashMap<String, String>>() {
+		}.getType());
+
+		String hostStr = props.get("host");
+		if (StringUtil.isEmpty(hostStr)) {
+			throw new EcmException(String.format("redis连接名：%s的属性host为空", name));
 		}
-		IProperty jmxEnabled = (IProperty) e.getNode("jmxEnabled");// 是否启用pool的jmx管理功能, 默认true
-		if (jmxEnabled != null) {
-			INode n = jmxEnabled.getValue();
-			if (n != null&&!StringUtil.isEmpty(n.getName())) {
-				conf.setJmxEnabled(Boolean.valueOf(n.getName()));
-			}
+
+		String maxWaitMillis = props.get("maxWaitMillis");
+		if (!StringUtil.isEmpty(maxWaitMillis)) {
+			conf.setMaxWaitMillis(Long.valueOf(maxWaitMillis));
 		}
-		IProperty lifo = (IProperty) e.getNode("lifo");// 是否启用后进先出, 默认true
-		if (lifo != null) {
-			INode n = lifo.getValue();
-			if (n != null&&!StringUtil.isEmpty(n.getName())) {
-				conf.setLifo(Boolean.valueOf(n.getName()));
-			}
+		String jmxEnabled = props.get("jmxEnabled");
+		if (!StringUtil.isEmpty(jmxEnabled)) {
+			conf.setJmxEnabled(Boolean.valueOf(jmxEnabled));
 		}
-		IProperty blockWhenExhausted = (IProperty) e.getNode("blockWhenExhausted");//// 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时,
-		if (blockWhenExhausted != null) {
-			INode n = blockWhenExhausted.getValue();
-			if (n != null&&!StringUtil.isEmpty(n.getName())) {
-				conf.setBlockWhenExhausted(Boolean.valueOf(n.getName()));
-			}
-		} //// 默认true
-		IProperty maxTotal = (IProperty) e.getNode("maxTotal");// 最大连接数, 默认8个
-		if (maxTotal != null) {
-			INode n = maxTotal.getValue();
-			if (n != null&&!StringUtil.isEmpty(n.getName())) {
-				conf.setMaxTotal(Integer.valueOf(n.getName()));
-			}
+		String lifo = props.get("lifo");
+		if (!StringUtil.isEmpty(lifo)) {
+			conf.setLifo(Boolean.valueOf(lifo));
 		}
-		IProperty minIdle = (IProperty) e.getNode("minIdle");// 最大空闲连接数, 默认8个
-		if (minIdle != null) {
-			INode n = minIdle.getValue();
-			if (n != null&&!StringUtil.isEmpty(n.getName())) {
-				conf.setMinIdle(Integer.valueOf(n.getName()));
-			}
+		String blockWhenExhausted = props.get("blockWhenExhausted");// 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时,
+		if (!StringUtil.isEmpty(blockWhenExhausted)) {
+			conf.setBlockWhenExhausted(Boolean.valueOf(blockWhenExhausted));
 		}
-		IProperty maxIdle = (IProperty) e.getNode("maxIdle");// 最小空闲连接数, 默认0
-		if (maxIdle != null) {
-			INode n = maxIdle.getValue();
-			if (n != null&&!StringUtil.isEmpty(n.getName())) {
-				conf.setMaxIdle(Integer.valueOf(n.getName()));
-			}
+		String maxTotal = props.get("maxTotal");// 最大连接数, 默认8个
+		if (!StringUtil.isEmpty(maxTotal)) {
+			conf.setMaxTotal(Integer.valueOf(maxTotal));
 		}
-		IProperty softMinEvictableIdleTimeMillis = (IProperty) e.getNode("softMinEvictableIdleTimeMillis");// 获取连接时的最大等待毫秒数(如果设置为阻塞时BlockWhenExhausted),如果超时就抛异常,
-																											// 小于零:阻塞不确定的时间,
-																											// 默认-1
-		if (softMinEvictableIdleTimeMillis != null) {
-			INode n = softMinEvictableIdleTimeMillis.getValue();
-			if (n != null&&!StringUtil.isEmpty(n.getName())) {
-				conf.setSoftMinEvictableIdleTimeMillis(Long.valueOf(n.getName()));
-			}
+		String minIdle = props.get("minIdle");// 最大空闲连接数, 默认8个
+		if (!StringUtil.isEmpty(minIdle)) {
+			conf.setMinIdle(Integer.valueOf(minIdle));
 		}
-		pool = new JedisPool(conf, hostStr);
+		String maxIdle = props.get("maxIdle");// 最小空闲连接数, 默认0
+		if (!StringUtil.isEmpty(maxIdle)) {
+			conf.setMaxIdle(Integer.valueOf(maxIdle));
+		}
+		String softMinEvictableIdleTimeMillis = props.get("softMinEvictableIdleTimeMillis");// 获取连接时的最大等待毫秒数(如果设置为阻塞时BlockWhenExhausted),如果超时就抛异常,
+//		// 小于零:阻塞不确定的时间,
+//		// 默认-1
+		if (!StringUtil.isEmpty(softMinEvictableIdleTimeMillis)) {
+			conf.setSoftMinEvictableIdleTimeMillis(Long.valueOf(softMinEvictableIdleTimeMillis));
+		}
+		JedisPool pool = new JedisPool(conf, hostStr);
+		pools.put(name, pool);
 	}
 
 	@Override
@@ -108,7 +120,10 @@ public class RedisDBPlugin implements IChipPlugin {
 		for (Jedis jedis : container) {
 			jedis.close();
 		}
-		pool.close();
+		for (JedisPool p : pools.values()) {
+			p.close();
+		}
+		pools.clear();
 	}
 
 }
