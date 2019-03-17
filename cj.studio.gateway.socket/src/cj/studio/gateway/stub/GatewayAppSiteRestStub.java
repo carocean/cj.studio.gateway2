@@ -108,8 +108,8 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 						throw new CircuitException("404", "在webview中未找到方法：" + dest);
 					}
 					Object[] args = getArgs(src, frame);
-					doMethodBefore(dest,args,frame,circuit);
-					Object ret = dest.invoke(GatewayAppSiteRestStub.this, args);
+					doMethodBefore(dest, args, frame, circuit);
+					Object ret = doMethod(GatewayAppSiteRestStub.this, dest, args, frame, circuit);
 					if (ret != null) {
 						CjStubReturn sr = dest.getDeclaredAnnotation(CjStubReturn.class);
 						Class<?> retType = sr == null ? null : sr.type();
@@ -123,7 +123,7 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 							circuit.content().writeBytes(new Gson().toJson(ret).getBytes());
 						}
 					}
-					doMethodAfter(dest,args,frame,circuit);
+					doMethodAfter(dest, args, frame, circuit);
 				} catch (Exception e) {
 					if (e instanceof CircuitException) {
 						throw (CircuitException) e;
@@ -139,9 +139,16 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 
 	}
 
-	protected  void doMethodAfter(Method m, Object[] args, Frame frame, Circuit circuit)throws CircuitException {};
+	protected Object doMethod(GatewayAppSiteRestStub stub, Method m, Object[] args, Frame frame, Circuit circuit)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		return m.invoke(stub, args);
+	}
 
-	protected  void doMethodBefore(Method m, Object[] args, Frame frame, Circuit circuit)throws CircuitException {};
+	protected void doMethodAfter(Method m, Object[] args, Frame frame, Circuit circuit) throws CircuitException {
+	};
+
+	protected void doMethodBefore(Method m, Object[] args, Frame frame, Circuit circuit) throws CircuitException {
+	};
 
 	private Object[] getArgs(Method src, Frame frame) throws CircuitException {
 		Map<String, Object> postContent = null;
@@ -165,19 +172,19 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 					}
 				} catch (UnsupportedEncodingException e) {
 				}
-				Class<?> pType =  sih.type();
-				Class<?>[] eleType =  sih.elementType();
+				Class<?> pType = sih.type();
+				Class<?>[] eleType = sih.elementType();
 				Class<?> rawType = p.getType();
 				if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
-					if(pType!=Void.class&&!rawType.isAssignableFrom(pType)) {
+					if (pType != Void.class && !rawType.isAssignableFrom(pType)) {
 						throw new EcmException(String.format("方法返回集合时注解CjStubReturn定义的type不是方法返回类型或其派生类型", args));
 					}
 				}
-				
+
 				if (pType.equals(Void.class)) {
 					pType = rawType;
 				}
-				args[i] = convertFrom(pType,eleType,value,String.format("方法：%s,参数：%s", src,p.getName()));
+				args[i] = convertFrom(pType, eleType, value, String.format("方法：%s,参数：%s", src, p.getName()));
 				continue;
 			}
 			CjStubInParameter sip = p.getAnnotation(CjStubInParameter.class);
@@ -193,14 +200,14 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 				Class<?> eleType[] = sip.elementType();
 				Class<?> rawType = p.getType();
 				if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
-					if(pType!=Void.class&&!rawType.isAssignableFrom(pType)) {
+					if (pType != Void.class && !rawType.isAssignableFrom(pType)) {
 						throw new EcmException(String.format("方法返回集合时注解CjStubReturn定义的type不是方法返回类型或其派生类型", args));
 					}
 				}
 				if (pType.equals(Void.class)) {
 					pType = rawType;
 				}
-				args[i] = convertFrom(pType,eleType, value,String.format("方法：%s,参数：%s", src,p.getName()));
+				args[i] = convertFrom(pType, eleType, value, String.format("方法：%s,参数：%s", src, p.getName()));
 				continue;
 			}
 			CjStubInContentKey sic = p.getAnnotation(CjStubInContentKey.class);
@@ -216,15 +223,15 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 					Class<?> eleType[] = sic.elementType();
 					Class<?> rawType = p.getType();
 					if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
-						if(pType!=Void.class&&!rawType.isAssignableFrom(pType)) {
+						if (pType != Void.class && !rawType.isAssignableFrom(pType)) {
 							throw new EcmException(String.format("方法返回集合时注解CjStubReturn定义的type不是方法返回类型或其派生类型", args));
 						}
 					}
 					if (pType.equals(Void.class)) {
 						pType = rawType;
 					}
-					Object value = convertFrom(pType,eleType, json,String.format("方法：%s,参数：%s", src,p.getName()));
-					
+					Object value = convertFrom(pType, eleType, json, String.format("方法：%s,参数：%s", src, p.getName()));
+
 					args[i] = value;
 				} else {
 					if (tmp != null) {
@@ -233,14 +240,16 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 						Class<?> eleType[] = sic.elementType();
 						Class<?> rawType = p.getType();
 						if (Collection.class.isAssignableFrom(rawType) || Map.class.isAssignableFrom(rawType)) {
-							if(pType!=Void.class&&!rawType.isAssignableFrom(pType)) {
-								throw new EcmException(String.format("方法返回集合时注解CjStubReturn定义的type不是方法返回类型或其派生类型", args));
+							if (pType != Void.class && !rawType.isAssignableFrom(pType)) {
+								throw new EcmException(
+										String.format("方法返回集合时注解CjStubReturn定义的type不是方法返回类型或其派生类型", args));
 							}
 						}
 						if (pType.equals(Void.class)) {
 							pType = rawType;
 						}
-						Object value = convertFrom(pType,eleType, json,String.format("方法：%s,参数：%s", src,p.getName()));
+						Object value = convertFrom(pType, eleType, json,
+								String.format("方法：%s,参数：%s", src, p.getName()));
 						args[i] = value;
 					} else {
 						if (p.getType().isPrimitive()) {
