@@ -133,7 +133,11 @@ public class SyncInvocationHandler implements InvocationHandler, StringTypeConve
 			}
 		}
 		if (!uri.endsWith("/")) {
-			uri += "/";
+			int pos=uri.lastIndexOf("/");
+			String tmp=uri.substring(pos+1,uri.length());
+			if(tmp.indexOf(".")<0) {
+				uri += "/";
+			}
 		}
 
 		String fline = String.format("%s %s %s", sm.command(), uri, sm.protocol());

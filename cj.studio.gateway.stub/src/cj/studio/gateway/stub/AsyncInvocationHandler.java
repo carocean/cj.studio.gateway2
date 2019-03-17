@@ -130,7 +130,11 @@ public class AsyncInvocationHandler implements InvocationHandler, StringTypeConv
 			}
 		}
 		if (!uri.endsWith("/")) {
-			uri += "/";
+			int pos=uri.lastIndexOf("/");
+			String tmp=uri.substring(pos+1,uri.length());
+			if(tmp.indexOf(".")<0) {
+				uri += "/";
+			}
 		}
 
 		String fline = String.format("%s %s %s", sm.command(), uri, sm.protocol());
@@ -158,6 +162,9 @@ public class AsyncInvocationHandler implements InvocationHandler, StringTypeConv
 			byte[] b = new Gson().toJson(postContent).getBytes();
 			ic.begin(frame);
 			ic.done(b, 0, b.length);
+		}else {
+			ic.begin(frame);
+			ic.done(new byte[0],0,0);
 		}
 		circuit.content().close();
 		return null;// 异步方法无返回值
