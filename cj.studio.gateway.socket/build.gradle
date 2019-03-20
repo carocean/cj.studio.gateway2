@@ -26,9 +26,7 @@ dependencies {
      //compile 'io.jsonwebtoken:jjwt:0.9.0'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.8.1'
     compile project(':cj.studio.ecm.net');
-    compile fileTree('../global/jee.runtime')
 	compile fileTree('../global/runtime')
-	compile fileTree('../global/cjtools')
 	compile fileTree('src/cj/references')//编译和运行时的依赖库，如果将来在神经元或netsite中运行的话，则不必将ecm,net等工具包放入该目录
 }
      task releaseToCmdline(type: Copy){

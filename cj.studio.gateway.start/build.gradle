@@ -54,16 +54,17 @@ task runnableJar(dependsOn:':cj.studio.gateway.console:release',type: Jar) {
 task releaseGatewayStart(dependsOn: runnableJar,type: Copy) {
      dependsOn "build"
      from 'build/libs/'
-      into '../cmdtools/gateway'
+     into '../cmdtools/gateway'
      include '**/*.jar'
+     exclude '**/*-javadoc.jar','**/*-sources.jar'
  	}
  	
 task release(type: Copy) {
      dependsOn ":cj.studio.ecm.net:release",":cj.studio.gateway.socket:release",":cj.studio.gateway.console:release","releaseGatewayStart",":cj.studio.gateway.stub:release",":cj.studio.orm.mybatis:release",":cj.studio.orm.mongodb:release",":cj.studio.orm.redis:release",":cj.test.stub:release",":cj.test.website:release",":cj.test.website2:release",":cj.test.plugin:release",":cj.test.road:release"
- 		doLast {
-			println 'gateway 环境发布完毕!'
-		}
- 	}
+ 	doLast {
+		println 'gateway 环境发布完毕!'
+	}
+ }
 tasks.getByPath(':cj.studio.gateway.socket:release').mustRunAfter tasks.getByPath(':cj.studio.ecm.net:release')
 tasks.getByPath(':cj.studio.gateway.console:release').mustRunAfter tasks.getByPath(':cj.studio.gateway.socket:release')
 tasks.getByPath(':cj.studio.gateway.start:release').mustRunAfter tasks.getByPath(':cj.studio.gateway.console:release')
