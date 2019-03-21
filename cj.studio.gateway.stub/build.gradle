@@ -38,18 +38,21 @@ task releaseToWebsite(type: Copy) {
  from 'build/libs/'
 into '../cj.test.website/src/cj/refembeds'
  include '**/*.jar'
+ exclude '**/*-javadoc.jar','**/*-sources.jar'
  }
  task releaseToWebsite2(type: Copy) {
  dependsOn "build"
  from 'build/libs/'
 into '../cj.test.website2/src/cj/refembeds'
  include '**/*.jar'
+ exclude '**/*-javadoc.jar','**/*-sources.jar'
  }
 task releaseToPlugin(type: Copy) {
  dependsOn "build"
  from 'build/libs/'
 into '../cj.test.plugin/src/cj/refembeds'
  include '**/*.jar'
+ exclude '**/*-javadoc.jar','**/*-sources.jar'
  } 
  task release(type:Copy){
   dependsOn "releaseToOutputs","releaseToWebsite","releaseToWebsite2","releaseToPlugin"

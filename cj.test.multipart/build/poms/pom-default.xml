@@ -34,14 +34,14 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>cj.studio.gateway2</groupId>
-      <artifactId>cj.studio.gateway.socket</artifactId>
+      <groupId>cj.studio.ecm</groupId>
+      <artifactId>cj.ultimate</artifactId>
       <version>1.0.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>cj.studio.ecm</groupId>
-      <artifactId>cj.ultimate</artifactId>
+      <groupId>cj.studio.gateway2</groupId>
+      <artifactId>cj.studio.gateway.socket</artifactId>
       <version>1.0.0</version>
       <scope>compile</scope>
     </dependency>

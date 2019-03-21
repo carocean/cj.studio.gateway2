@@ -31,12 +31,14 @@ task releaseToWebsite1(type: Copy) {
  from 'build/libs/'
 into '../cj.test.website/src/cj/references'
  include '**/*.jar'
+ exclude '**/*-javadoc.jar','**/*-sources.jar'
  }
  task releaseToWebsite2(type: Copy) {
  dependsOn "build"
  from 'build/libs/'
 into '../cj.test.website2/src/cj/references'
  include '**/*.jar'
+ exclude '**/*-javadoc.jar','**/*-sources.jar'
  }
  task release(type:Copy){
   dependsOn "releaseToWebsite1","releaseToWebsite2"

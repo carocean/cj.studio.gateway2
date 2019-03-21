@@ -58,7 +58,7 @@ task releaseGatewayStart(dependsOn: runnableJar,type: Copy) {
      include '**/*.jar'
      exclude '**/*-javadoc.jar','**/*-sources.jar'
  	}
- 	
+ 
 task release(type: Copy) {
      dependsOn ":cj.studio.ecm.net:release",":cj.studio.gateway.socket:release",":cj.studio.gateway.console:release","releaseGatewayStart",":cj.studio.gateway.stub:release",":cj.studio.orm.mybatis:release",":cj.studio.orm.mongodb:release",":cj.studio.orm.redis:release",":cj.test.stub:release",":cj.test.website:release",":cj.test.website2:release",":cj.test.plugin:release",":cj.test.road:release"
  	doLast {

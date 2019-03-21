@@ -60,6 +60,9 @@ subprojects {
 	uploadArchives {
 		repositories{
 			mavenDeployer {
+				repository(url: engineer_nexus){
+					authentication(userName:"admin",password:"admin123")
+		        }
 		        pom.groupId = project.group
 		        pom.version = project.version
 		        pom.artifactId = project.name
@@ -81,10 +84,6 @@ subprojects {
 						}
 					}
 				}
-			 
-		        repository(url: engineer_nexus){
-					authentication(userName:"admin",password:"admin123")
-		        }
 			}
 		}
 	}
