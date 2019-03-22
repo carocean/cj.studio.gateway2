@@ -1,0 +1,958 @@
+.container {
+	height: 100%;
+	display: flex;
+	display: -ms-flex;
+	display: -webkit-flex;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+}
+
+.container>.workbench {
+	flex: 1;
+	display: flex;
+	display: -ms-flex;
+	display: -webkit-flex;
+	flex-direction: column;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	padding-top: 70px;
+}
+
+.container>.workbench>.header {
+	height: 70px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	background: #f5f5f5;
+	z-index: 99999999;
+	-moz-box-shadow: 3px 4px 4px rgba(170, 170, 170, .8); /* Firefox */
+	-webkit-box-shadow: 3px 4px 4px rgba(170, 170, 170, .8);
+	/* Safari 和 Chrome */
+	box-shadow: 3px 4px 4px rgba(170, 170, 170, .8);
+	background: #000;
+}
+
+.container>.workbench>.header>.topbar {
+	position: absolute;
+	right: 20px;
+	top: 0;
+	min-width: 160px;
+	height: 30px;
+	border-bottom: 1px solid white;
+	text-align: center;
+	height: 30px;
+}
+.container>.workbench>.header>.topbar>.items{
+	line-height: 30px;
+	font-size: 12px;
+	color: white;
+	white-space: nowrap;
+}
+.container>.workbench>.header>.topbar>.items>li {
+	display: inline-block;
+	padding-left: 10px;
+}
+.container>.workbench>.header>.topbar>.items>li[logout]{
+	cursor: pointer;
+}
+.container>.workbench>.desktop>.mask{
+	position: fixed;
+	left:0;
+	top:0;
+	right:0;
+	bottom: 0;
+	background: rgba(238,238,238,0.6);
+	z-index: 999999999;
+	display: none;
+}
+.container>.workbench>.desktop>.mask>.content{
+	margin: 100px 100px 100px 50px;
+}
+
+
+.container>.workbench>.header>.docker {
+	position: absolute;
+	top: 14px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.container>.workbench>.header>.docker>.docker-layout {
+	height: 100%;
+	padding-left: 200px;
+	padding-right:200px;
+	position: relative;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.logo-region {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 220px;
+	bottom: 0;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.logo-region .log {
+	position: relative;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.logo-region .anchor
+	{
+	color: white;
+	font-size: 18px;
+	font-weight: bold;
+	vertical-align: middle;
+	display: inline-block;
+	padding-top: 10px;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.logo-region anchor:hover
+	{
+	color: gray;
+	background: none;
+}
+
+
+.container>.workbench>.header>.docker>.docker-layout>.logo-region img {
+	height: 40px;
+	max-width: 200px;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.toolbar {
+	height: 100%;
+	position: relative;
+	padding-left: 80px;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.toolbar>.launchbar
+	{
+	position: absolute;
+	left: 0;
+	bottom: -1px;
+	width: 80px;
+	background: gray;
+	line-height: 43px;
+	text-align: center;
+	color: white;
+	-moz-border-radius: 8px 10px 0 0;
+	-webkit-border-radius: 8px 10px 0 0;
+	border-radius: 8px 10px 0 0;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.toolbar>.launchbar span
+	{
+	-moz-box-shadow: 0 10px 15px #000; /* Firefox */
+	-webkit-box-shadow: 0 10px 15px #000; /* Safari 和 Chrome */
+	box-shadow: 0 10px 15px #fff;
+}
+.launchbar-hover,
+.container>.workbench>.header>.docker>.docker-layout>.toolbar>.launchbar:hover
+	{
+	cursor: pointer;
+	background: #ff5500 !important;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .tools {
+	position: absolute;
+	left: 80px;
+	bottom: 0;
+	right: 0;
+	line-height: 0;
+	border-bottom: 3px solid #e7e7e7;
+}
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .tools >.app-titlebar{
+	white-space: nowrap;
+	position: absolute;
+	right:0;
+	bottom:0px;
+	color: gray;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	display: none;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .tools >.app-titlebar>.app-title{
+	display: inline-block;
+	margin-right: 10px;
+}
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .tools >.app-titlebar>.app-actions{
+	display: inline-block;
+}
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .tools >.app-titlebar>.app-actions>li{
+	display: inline-block;
+	padding: 0 10px;
+	cursor: pointer;
+	color: gray;
+}
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .tools >.app-titlebar>.app-actions>li:hover{
+	border: 1px solid gray !important;
+	color: red;
+}
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .shortcuts
+	{
+	margin-left: 25px;
+	display: inline-block;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .shortcuts img
+	{
+	width: 100%;
+	height: 100%;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .shortcuts .circle
+	{
+	cursor: pointer;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	overflow: hidden;
+	-moz-box-shadow: 3px 4px 4px rgba(170, 170, 170, .8); /* Firefox */
+	-webkit-box-shadow: 3px 4px 4px rgba(170, 170, 170, .8);
+	/* Safari 和 Chrome */
+	box-shadow: 3px 4px 4px rgba(170, 170, 170, .8);
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .shortcuts .circle:hover
+	{
+	border-bottom: 1px solid white;
+}
+
+.container>.workbench>.header>.docker>.docker-layout>.toolbar .shortcuts>.button
+	{
+	display: inline-block;
+	padding: 0 15px;
+}
+
+.container>.workbench>.desktop {
+	flex: 1;
+	-webkit-flex: 1;
+	-ms-flex: 1;
+	position: relative;
+	height: 100%;
+}
+.container>.workbench>.desktop>.sidebar{
+	position: fixed;
+	right:0;
+	bottom:38px;
+	top:108px;
+	width: 96px;
+	background: rgba(236,236,236,0.8);
+	z-index: 99999999999;
+	-moz-box-shadow: -3px 4px 4px rgba(170, 170, 170, .8);
+    -webkit-box-shadow: -3px 4px 4px rgba(170, 170, 170, .8);
+    box-shadow: -3px 4px 4px rgba(170, 170, 170, .8);
+    -moz-border-radius: 15px 0 0 15px; /* Firefox */
+  -webkit-border-radius: 15px 0 0 15px; /* Safari 和 Chrome */
+  border-radius: 15px 0 0 15px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+  min-height: 600px;
+}
+
+.footer>.footer-box {
+	padding-top: 3px;
+	width: 100%;
+}
+
+.footer .contents {
+	margin: 8px 0;
+	position: relative;
+	text-align: center;
+	font-size: 12px;
+}
+
+.footer .contents .crop {
+	padding-right: 10px;
+}
+
+.footer .contents>p {
+	margin: 2px auto;
+}
+.container>.workbench>.desktop>.column {
+	height: 100%;
+}
+.container>.workbench>.desktop>.column  .layout-main {
+	float: left;
+	width: 100%;
+	height: 100%;
+}
+
+.container>.workbench>.desktop>.column  .layout-main .column-context {
+	margin-left: 500px; /*与col-sub产生10像素距离*/
+	height: 100%;
+}
+
+.container>.workbench>.desktop>.column  .column-left {
+	float: left;
+	width: 490px;
+	height: 100%;
+	margin-left: -100%;
+	border-right: 1px solid #f5f5f5;
+	position: relative;
+}
+
+.container>.workbench>.desktop>.column  .column-right {
+	float: left;
+	width: 250px;
+	height: 100%;
+	margin-left: -250px;
+	display: none;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region{
+	position: absolute;
+	top:0;
+	left:0;
+	right: 0;
+	bottom:0;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>label{
+	font-weight: bold;
+	color: #333;
+	display: inline-block;
+	padding-top: 4px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-toolbar{
+	position: absolute;
+	top:0;
+	height: 30px;
+	left:0;
+	right:0;
+	border-bottom:1px solid #ececec;
+	text-align: right;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree{
+	position: absolute;
+	top:30px;
+	left:0;
+	right:0;
+	bottom: 0;
+	overflow: auto;
+}
+.container > .workbench > .desktop > .column .column-left > .proj-region .popup-template{
+	display: none;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-toolbar li{
+	display: inline-block;
+	padding-right: 10px;
+	cursor: pointer;
+	padding-top: 3px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-toolbar li img{
+	width:20px;
+	height: 20px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders{
+	
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder{
+	padding-left:10px;
+	position: relative;
+}
+
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.folder-main{
+	padding: 10px 0;
+	border-bottom: 1px solid #ececec;
+	cursor: pointer;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.folder-main:last-child{
+	border-bottom: none;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.folder-main.selected{
+	background: #ececec;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.folder-main:hover{
+	background: #f5f5f5;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.folder-main>.folder-title{
+	display: inline-block;
+	padding-left: 10px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.folder-main>.folder-title>.folder-count{
+	color: gray;
+	font-size: 12px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.folder-main>img{
+	width:25px;
+	height: 25px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.popup-arrow{
+	position: absolute;
+	right:10px;
+	top:15px;
+	cursor: pointer;
+	display: inline-block;
+	padding-top: 4px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.popup-arrow:hover{
+	background: #cecece;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.popup-arrow>img{
+	width:20px;
+	height: 20px;
+}
+/*对象开始*/
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs{
+	display: none;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj{
+	padding-left:28px;
+	position: relative;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.obj-main{
+	padding: 10px 0;
+	border-bottom: 1px solid #ececec;
+	cursor: pointer;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.obj-main:last-child{
+	border-bottom: none;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.obj-main.selected{
+	background: #ececec;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.obj-main:hover{
+	background: #f5f5f5;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.obj-main>.obj-title{
+	display: inline-block;
+	padding-left: 10px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.obj-main>img{
+	width:25px;
+	height: 25px;
+	vertical-align: middle;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.popup-arrow{
+	position: absolute;
+	right:10px;
+	cursor: pointer;
+	display: inline-block;
+	padding-top: 4px;
+	top:9px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.popup-arrow:hover{
+	background: #cecece;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.popup-arrow>img{
+	width:20px;
+	height: 20px;
+}
+/*对象结束*/
+/*方法开始*/
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods{
+	display: none;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods>.pr-method{
+	padding-left:34px;
+	position: relative;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods>.pr-method>.method-main{
+	padding: 10px 0;
+	border-bottom: 1px solid #ececec;
+	cursor: pointer;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods>.pr-method>.method-main:last-child{
+	border-bottom: none;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods>.pr-method>.method-main.selected{
+	background: #ececec;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods>.pr-method>.method-main:hover{
+	background: #f5f5f5;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods>.pr-method>.method-main>.method-title{
+	display: inline-block;
+	padding-left: 10px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods>.pr-method>.method-main>.method-command{
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods>.pr-method>.popup-arrow{
+	position: absolute;
+	right:10px;
+	cursor: pointer;
+	display: inline-block;
+	padding-bottom:4px;
+	top:10px;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods>.pr-method>.popup-arrow:hover{
+	background: #cecece;
+}
+.container>.workbench>.desktop>.column  .column-left>.proj-region>.pr-tree>.pr-folders>.pr-folder>.pr-objs>.pr-obj>.pr-methods>.pr-method>.popup-arrow>img{
+	width:20px;
+	height: 20px;
+}
+/*方法结束*/
+.container>.workbench>.desktop>.column  .layout-main .column-context{
+	position: relative;
+}
+.container>.workbench>.desktop>.column  .layout-main .column-context >.panel-tools{
+	position: absolute;
+	top:30px;
+	right:0;
+	left:-10px;
+	bottom:0;
+	min-height:500px;
+	display: none;
+	z-index: 999999999999;
+	background: white;
+}
+.container>.workbench>.desktop>.column  .layout-main .column-context >.main-column-lets{
+	display: none;
+}
+.container>.workbench>.desktop>.column  .layout-main .column-context >.main-column-lets>.portlet{
+	min-height: 100px;
+	border-bottom: 1px solid #ececec;
+	margin: 0 10px 15px 10px;
+}
+.container>.workbench>.desktop>.column  .layout-main .column-context >.main-column-lets>.portlet[position]{
+	min-height: auto;
+}
+.container>.workbench>.desktop>.column  .layout-main .column-context >.main-column-lets>.portlet[position]>span[label]{
+	color: #555;
+	font-weight: bold;
+}
+.container>.workbench>.desktop>.column  .layout-main .column-context >.main-column-lets>.portlet[position]>span[name]{
+	color: #777;
+}
+.container>.workbench>.desktop>.desktop-top .top-select{
+	display: none;
+}
+.container>.workbench>.desktop>.desktop-top .top-select span{
+	display: inline-block;
+	padding-right: 5px;
+}
+.container>.workbench>.desktop>.desktop-top .top-select .label{
+	font-weight: bold;
+	color: gray;
+}
+.container>.workbench>.desktop>.desktop-top .top-select .top-name{
+	font-weight: bold;
+}
+.panel-tools{
+	padding: 10px;
+	overflow: auto;
+}
+.panel-tools>.popup-ul{
+	padding-bottom: 10px;
+}
+.panel-tools>.popup-ul{
+	padding-bottom: 10px;
+}
+.panel-tools>.popup-ul>.popup-tbar{
+	
+}
+.panel-tools>.popup-ul>li{
+	display: table;
+	width:100%;
+	border-bottom: 1px solid #ececec;
+	margin-bottom: 10px;
+}
+.panel-tools>.popup-ul>li.popup-tbar{
+	border-bottom: 2px solid #ececec;
+}
+.panel-tools>.popup-ul>.popup-bar>.popup-bar-left{
+	display: table-cell;
+	text-align: left;
+	vertical-align: middle;
+	color: #555;
+}
+.panel-tools>.popup-ul>.popup-bar.popup-tbar>.popup-bar-left{
+	font-size: 16px;
+}
+.panel-tools>.popup-ul>.popup-bar>.popup-bar-right-ul{
+	display: table-cell;
+	text-align: right;
+	vertical-align: middle;
+}
+.panel-tools>.popup-ul>.popup-bar>.popup-bar-right-ul>li{
+	display: inline-block;
+	padding: 4px 4px;
+	cursor: pointer;
+	vertical-align: middle;
+}
+.panel-tools>.popup-ul>.popup-bar>.popup-bar-right-ul>li img{
+	width:20px;
+	height: 20px;
+}
+.panel-tools>.popup-ul>.popup-tbar-region{
+	padding-left: 10px;
+	border-bottom: none;
+}
+.panel-tools>.popup-ul>.popup-tbar-region>.popup-rbar-table{
+	display: table;
+}
+.panel-tools>.popup-ul>.popup-tbar-region>.popup-rbar-table>.popup-rbar-row{
+	display: table-row;
+}
+.panel-tools>.popup-ul>.popup-tbar-region>.popup-rbar-table>.popup-rbar-row>.popup-rbar-cell{
+	display: table-cell;
+	padding:5px 10px 5px 0;
+	vertical-align: middle;
+}
+.panel-tools>.popup-ul>.popup-tbar-region>.popup-rbar-table>.popup-rbar-row>.popup-rbar-cell img{
+	width:20px;
+	height: 20px;
+}
+.panel-tools>.popup-ul>.popup-tbar-region>.popup-rbar-table>.popup-rbar-row>.popup-rbar-cell input{
+	width:200px;
+}
+.panel-tools>.popup-ul>.popup-tbar-region>.popup-rbar-table>.popup-rbar-row>.popup-rbar-cell span{
+	width:200px;
+	display: inline-block;
+}
+/**/
+.panel-tools>.popup-ul>.popup-ibar-region{
+	padding-left: 10px;
+	border-bottom: none;
+}
+.panel-tools>.popup-ul>.popup-ibar-region>.popup-ibar-table{
+	display: table;
+}
+.panel-tools>.popup-ul>.popup-ibar-region>.popup-ibar-table>.popup-ibar-row{
+	display: table-row;
+}
+.panel-tools>.popup-ul>.popup-ibar-region>.popup-ibar-table>.popup-ibar-row>.popup-ibar-cell{
+	display: table-cell;
+	padding:5px 10px 5px 0;
+	vertical-align: middle;
+	color: #555;
+	font-size: 12px;
+}
+.panel-tools>.popup-ul>.popup-ibar-region>.popup-ibar-table>.popup-ibar-row>.popup-ibar-cell img{
+	width:20px;
+	height: 20px;
+}
+.panel-tools>.popup-ul>.popup-ibar-region>.popup-ibar-table>.popup-ibar-row>.popup-ibar-cell input[type="text"]{
+	width:200px;
+}
+.panel-tools>.popup-ul>.popup-ibar-region>.popup-ibar-table>.popup-ibar-row>.popup-ibar-cell span{
+	width:200px;
+	display: inline-block;
+}
+/**/
+.panel-tools>.popup-ul>.popup-rbar-region{
+	border-bottom: none;
+}
+.panel-tools>.popup-ul>.popup-rbar-region>.popup-rbar-table{
+	display: table;
+	width:100%;
+}
+.panel-tools>.popup-ul>.popup-rbar-region>.popup-rbar-table>.popup-rbar-row{
+	display: table-row;
+}
+.panel-tools>.popup-ul>.popup-rbar-region>.popup-rbar-table>.popup-rbar-row>div{
+	border-bottom: 1px solid #f5f5f5;
+}
+.panel-tools>.popup-ul>.popup-rbar-region>.popup-rbar-table>.popup-rbar-row:first-child>div{
+	border-bottom: 2px solid #f5f5f5;
+}
+.panel-tools>.popup-ul>.popup-rbar-region>.popup-rbar-table>.popup-rbar-row>.popup-rbar-cell{
+	display: table-cell;
+	padding:5px 10px 5px 0;
+	vertical-align: middle;
+	color: #555;
+	font-size: 12px;
+}
+.panel-tools>.popup-ul>.popup-rbar-region>.popup-rbar-table>.popup-rbar-row>.popup-rbar-cell span{
+	display: inline-block;
+}
+.portlet .req-url{
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #f5f5f5;
+	display: table;
+	width:100%;
+}
+.portlet .req-url li{
+	display: table-cell;
+	vertical-align: middle;
+}
+.portlet .req-url li.dest{
+	width:180px;
+}
+.portlet .req-url li.dest input{
+	width:179px;
+}
+.portlet .req-url li.state{
+	width:150px;
+	display: none;
+	text-align: center;
+}
+.portlet .req-url input{
+	font-size: 12px;
+	color: #555;
+	padding: 8px 5px;
+	width:100%;
+	border-bottom:none;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	background: #f5f5f5;
+	border-right: 1px solid white;
+}
+
+.portlet .req-url li.state label{
+	font-size: 10px;
+	color: #555;
+	padding: 8px 0;
+	border-bottom:1px solid #f5f5f5;
+	display: inline-block;
+	vertical-align: middle;
+	width:120px;
+	text-align: center;
+}
+.portlet .req-url li.state label:hover{
+	color: red;
+	border-bottom:1px solid red;
+	cursor: pointer;
+}
+.portlet .net-protocols{
+	padding-left: 10px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #f5f5f5;
+	font-size: 12px;
+	color: #444;
+}
+.portlet .net-protocols>ul{
+	display: table;
+}
+.portlet .net-protocols>ul>li{
+	display: table-cell;
+	width:180px;
+}
+.portlet .net-protocols>ul>li label{
+	display: inline-block;
+	padding-left: 2px;
+}
+.portlet .headline{
+	padding: 10px;
+	background: #f5f5f5;
+	margin-bottom: 10px;
+}
+.portlet .headline>ul{
+	display: table;
+	width:100%;
+}
+.portlet .headline>ul>li{
+	display: table-cell;
+	vertical-align: middle;
+	padding-right: 20px;
+}
+.portlet .headline>ul>li.cmd{
+	width:60px;
+	height: 40px;
+}
+.portlet .headline>ul>li.cmd>input{
+	width:100%;
+	padding:10px 5px;
+	display: inline-block;
+}
+.portlet .headline>ul>li.url>input{
+	padding:10px 5px;
+	display: inline-block;
+	width:100%;
+}
+.portlet .headline>ul>li.prot{
+	width:60px;
+	height: 40px;
+}
+.portlet .headline>ul>li.prot>input{
+	width:100%;
+	padding:10px 5px;
+	display: inline-block;
+}
+.portlet .headline>ul>li.send{
+	padding-right: 0;
+}
+.portlet .headline>ul>li.send>input{
+	width:100%;
+	padding:10px 5px;
+	display: inline-block;
+	cursor: pointer;
+}
+.portlet .headline>ul>li.send>input:hover{
+	background: #f5f5f5;
+}
+.portlet .settings{
+}
+.portlet .settings>.tabs{
+	display: table;
+}
+.portlet .settings>.tabs>.tab{
+	display: table-cell;
+	width:100px;
+	height:30px;
+	vertical-align: middle;
+	text-align: center;
+	background: #f5f5f5;
+	border-right: 1px solid white;
+}
+.portlet .settings>.tabs>.tab.selected,
+.portlet .settings>.tabs>.tab:hover{
+	background: #ef9b38;
+	color: white;
+	cursor: pointer;
+}
+.portlet .settings>.tabs>.tab.selected{
+	border-bottom: 2px solid red;
+}
+.portlet .settings>.tabs>.tab>span{
+	display: inline-block;
+	font-size: 12px;
+	font-weight: bold;
+}
+.portlet .settings>.tab-panels>.tab-panel{
+	display: none;
+}
+.portlet .settings>.tab-panels .tab-panel.parameter{
+	display: block;
+}
+.portlet .settings>.tab-panels .tab-table-ul{
+	display: table;
+	width:100%;
+	border-top:1px solid #ececec;
+	font-size: 12px;
+}
+.portlet .settings>.tab-panels .tab-table-row{
+	display: table-row;
+}
+.portlet .settings>.tab-panels .tab-table-row.t-header{
+	height:35px;
+	border-bottom: 1px solid #f5f5f5;
+	background: #f5f5f5;
+	font-size: 12px;
+}
+.portlet .settings>.tab-panels .tab-table-cell{
+	display: table-cell;
+	vertical-align: middle;
+	padding-right: 12px;
+}
+.portlet .settings>.tab-panels .tab-table-cell input{
+	padding: 5px 3px;
+	width:100%;
+}
+.portlet .settings>.tab-panels .tab-table-cell.key{
+	width:100px;
+	position: relative;
+}
+.portlet .settings>.tab-panels .tab-table-cell.key.mutil{
+	padding-right: 32px;
+}
+.portlet .settings>.tab-panels .tab-table-cell.key.mutil>img{
+	height: 100%;
+	width:20px;
+	display: inline-block;
+	position: absolute;
+	top:0;
+	right:0;
+	bottom: 0;
+}
+
+.portlet .settings>.tab-panels .tab-table-cell.key.mutil>.down-list{
+	padding: 5px;
+	position: absolute;
+	min-width:50px;
+	min-height:20px; 
+	background: white;
+	right:0;
+	top:28px;
+	border: 1px solid #ececec;
+	z-index: 9999999;
+	display: none;
+}
+.portlet .settings>.tab-panels .tab-table-cell.key.mutil>.down-list>li{
+	padding: 5px;
+}
+.portlet .settings>.tab-panels .tab-table-cell.key.mutil>.down-list>li:hover{
+	background: #f5f5f5;
+	color: red;
+	cursor: pointer;
+}
+.portlet .settings>.tab-panels .tab-table-cell.value input[type=file]{
+	display: none;
+}
+.portlet .settings>.tab-panels .tab-table-cell.desc{
+	width:200px;
+}
+.portlet .settings>.tab-panels .tab-table-cell.op{
+	width:25px;
+	text-align: center;
+	display: none;
+	cursor: pointer;
+	vertical-align: middle;
+}
+.portlet .settings>.tab-panels .tab-table-cell.op:hover{
+	color: red;
+}
+.portlet .settings > .tab-panels .tab-panel.content>ul.radios{
+	display: table;
+	padding: 10px 10px;
+}
+.portlet .settings > .tab-panels .tab-panel.content>ul.radios>li{
+	display: table-cell;
+	padding-right: 20px;
+}
+.portlet .settings > .tab-panels .tab-panel.content>ul.radios>li label{
+	display: inline-block;
+	padding-left: 2px;
+}
+.portlet .settings > .tab-panels > .tab-panel.content>.tab-panels>.tab-panel{
+	display: none;
+}
+.portlet .settings > .tab-panels > .tab-panel.content > .tab-panels > .tab-panel.Any{
+	width:100%;
+}
+.portlet .settings > .tab-panels > .tab-panel.content > .tab-panels > .tab-panel.Any>textarea{
+	border:1px solid #f5f5f5;
+	padding: 5px;
+	min-height: 300px;
+	width:100%;
+	resize: none;
+	font-size: 12px;
+}
+.container > .workbench > .desktop > .column .layout-main .column-context > .main-column-lets > .portlet.reslet{
+	border-bottom: none;
+}
+.portlet>.res-bar{
+	border-bottom: 1px solid #ececec;
+	color: #555;
+}
+
+.portlet>.res-bar ul{
+	display: table;
+	padding-left: 70px;
+}
+.portlet>.res-bar ul>li{
+	display: table-cell;
+	padding-right: 10px;
+}
+.portlet>.res-bar ul>li label{
+	color: #555;
+	font-size: 12px;
+}
+.portlet>.res-bar ul>li span{
+	font-weight: bold;
+	color: red;
+}
+.portlet>.response{
+	display: table;
+	width:100%;
+	min-height: 300px;
+}
+.portlet>.response>.content{
+	display: table-cell;
+	min-height: 300px;
+	padding: 10px;
+}
+.panel-tools > .popup-ul > .popup-bar.popup-tbar > .popup-bar-left>label{
+	color: red;
+}

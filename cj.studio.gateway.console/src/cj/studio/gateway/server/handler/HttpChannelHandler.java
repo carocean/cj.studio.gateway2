@@ -222,7 +222,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		// Handshake
 		if (!info.getProps().containsKey(__http_ws_prop_wsPath)) {// 开发者未指定ws路径则默认为不开启ws服务
 			reset();
-			return;
+			throw new EcmException("Deny connection. Reason: Remote server is not open websocket service");
 		}
 		String wsPath = getWebSocketLocation(req);
 		String rwspath = getRequestWsLocation(req);

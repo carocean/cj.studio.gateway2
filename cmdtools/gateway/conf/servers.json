@@ -33,6 +33,13 @@
 		}
 	},
 	{
+		"name": "httpSite3",
+		"protocol": "http",
+		"host": "localhost:64000",
+		"props": {
+		}
+	},
+	{
 		"name": "wsSite",
 		"protocol": "ws",
 		"host": "localhost:8081",
