@@ -221,13 +221,20 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 		// Handshake
 		if (!info.getProps().containsKey(__http_ws_prop_wsPath)) {// 开发者未指定ws路径则默认为不开启ws服务
+			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), FORBIDDEN);
+			writeResponse(ctx, req, res);
 			reset();
-			throw new EcmException("Deny connection. Reason: Remote server is not open websocket service");
+			ctx.close();
+			return;
 		}
 		String wsPath = getWebSocketLocation(req);
 		String rwspath = getRequestWsLocation(req);
 		if (!wsPath.equals(rwspath)) {
-			throw new EcmException(String.format("Deny connection. Reason: The connection address you requested:%s is not the WS service address:%s", rwspath, wsPath));
+			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), FORBIDDEN);
+			writeResponse(ctx, req, res);
+			reset();
+			ctx.close();
+			return;
 		}
 		WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(wsPath, null, false,
 				10485760);
