@@ -7,6 +7,8 @@ import cj.studio.gateway.IGatewayServer;
 import cj.studio.gateway.conf.ServerInfo;
 import cj.studio.gateway.road.http.HttpServerInitializer;
 import cj.studio.gateway.server.initializer.HttpChannelInitializer;
+import cj.studio.gateway.server.secure.ISSLEngineFactory;
+import cj.studio.gateway.server.secure.SSLEngineFactory;
 import cj.ultimate.util.StringUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -22,7 +24,7 @@ public class HttpGatewayServer implements IGatewayServer, IServiceProvider {
 	private ServerInfo info;
 	boolean isStarted;
 	IServiceProvider parent;
-
+	ISSLEngineFactory sslEngine;
 	public HttpGatewayServer(IServiceProvider parent) {
 		this.parent = parent;
 	}
@@ -34,6 +36,9 @@ public class HttpGatewayServer implements IGatewayServer, IServiceProvider {
 		}
 		if ("$.server.name".equals(name)) {
 			return this.netName();
+		}
+		if("$.server.sslEngine".equals(name)) {
+			return sslEngine;
 		}
 		return parent.getService(name);
 	}
@@ -57,6 +62,8 @@ public class HttpGatewayServer implements IGatewayServer, IServiceProvider {
 			throw new EcmException(String.format("服务器%s已启动", this.netName()));
 		}
 		this.info = si;
+		this.sslEngine=new SSLEngineFactory(this);
+		this.sslEngine.refresh();
 		int bcnt = bossThreadCount();
 		int wcnt = workThreadCount();
 		if (bcnt == -1) {
