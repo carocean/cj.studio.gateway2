@@ -29,6 +29,10 @@ public class Gateway implements IGateway, IServiceProvider {
 	@CjServiceRef(refByName = "dloader")
 	IDestinationLoader dloader;
 
+	@CjServiceInvertInjection
+	@CjServiceRef(refByName = "micConnector")
+	IMicConnector micConnector;
+
 	public Gateway() {
 		logger = CJSystem.logging();
 	}
@@ -70,6 +74,10 @@ public class Gateway implements IGateway, IServiceProvider {
 	public void start() {
 		config.load();
 		servercontainer.startAll();
+		if (config.registry().isEnabled()) {
+			micConnector.init();
+			micConnector.connect();
+		}
 		logger.info("-------------网关启动完毕-------------------");
 	}
 
@@ -77,6 +85,9 @@ public class Gateway implements IGateway, IServiceProvider {
 	public void stop() {
 		// 停止所有服务程序
 		servercontainer.stopAll();
+		if (config.registry().isEnabled()) {
+			micConnector.disconnect();
+		}
 	}
 
 	@Override

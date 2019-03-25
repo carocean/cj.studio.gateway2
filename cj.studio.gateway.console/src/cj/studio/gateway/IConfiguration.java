@@ -3,6 +3,7 @@ package cj.studio.gateway;
 import java.util.Set;
 
 import cj.studio.gateway.conf.ServerInfo;
+import cj.studio.gateway.mic.MicRegistry;
 
 public interface IConfiguration {
 	void load();
@@ -16,4 +17,6 @@ public interface IConfiguration {
 	void removeServerInfo(String name);
 	void flushCluster();
 	ICluster getCluster();
+	MicRegistry registry();
+	void flushRegistry();
 }

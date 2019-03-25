@@ -11,6 +11,7 @@ import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.DefaultSegmentCircuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IInputChannel;
 import cj.studio.ecm.net.IOutputChannel;
@@ -29,6 +30,7 @@ import cj.studio.gateway.socket.cable.wire.reciever.UdtContentReciever;
 import cj.studio.gateway.socket.client.IExecutorPool;
 import cj.studio.gateway.socket.io.UdtInputChannel;
 import cj.studio.gateway.socket.io.UdtOutputChannel;
+import cj.studio.gateway.socket.io.WSOutputChannel;
 import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.InputPipelineCollection;
@@ -150,6 +152,10 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		try {
 			this.channel = b.connect(ip, port).sync().channel();
 		} catch (Throwable e) {
+			used(false);
+			@SuppressWarnings("unchecked")
+			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
+			wires.remove(this);
 			throw new CircuitException("505", e);
 		}
 		used(false);
@@ -201,7 +207,24 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 			pipelineRelease(ctx);
 		}
-
+		@Override
+		public void channelActive(ChannelHandlerContext ctx) throws Exception {
+			super.channelActive(ctx);
+			String gatewayDests = (String)parent.getService("$.prop."+__channel_onchannelEvent_notify_dests);
+			if (StringUtil.isEmpty(gatewayDests)) {
+				CJSystem.logging().warn(getClass(), String.format(
+						"客户端：%s 未指定通道激活或失活事件的通知目标。应用仅能在之后第一次请求时才能收到激活或失活事件。请在该net的连接串中指定参数：OnChannelEvent-Notify-Dests=dest1,dest2",
+						parent.getService("$.socket.name")));
+				return;
+			}
+			String arr[] = gatewayDests.split(",");
+			for (String gatewayDest : arr) {
+				Frame frame = new Frame(String.format("onactive /%s/ udt/1.0", gatewayDest));
+				WSOutputChannel output = new WSOutputChannel(ctx.channel(), frame);
+				Circuit circuit = new DefaultSegmentCircuit(output, String.format("%s 200 OK", frame.protocol()));
+				pipelineBuild(gatewayDest, circuit, ctx);
+			}
+		}
 		protected void pipelineRelease(ChannelHandlerContext ctx) throws Exception {
 			Set<String> dests = pipelines.enumDest();
 			for (String dest : dests) {
@@ -309,8 +332,8 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			}
 
 			// 以下生成目标管道
-			pipelineBuild(gatewayDest, frame, circuit, ctx);
-
+			pipelineBuild(gatewayDest,  circuit, ctx);
+			flowPipeline(inputPipeline, ctx, frame, circuit);// 再把本次请求发送处理
 		}
 
 		private void doContentPack(ChannelHandlerContext ctx, Frame pack) throws Exception {
@@ -388,7 +411,7 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			}
 		}
 
-		protected void pipelineBuild(String gatewayDest, Frame frame, Circuit circuit, ChannelHandlerContext ctx)
+		protected void pipelineBuild(String gatewayDest, Circuit circuit, ChannelHandlerContext ctx)
 				throws Exception {
 			IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
 
@@ -417,7 +440,6 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 				throw e;
 			}
 
-			flowPipeline(inputPipeline, ctx, frame, circuit);// 再把本次请求发送处理
 		}
 
 		@Override

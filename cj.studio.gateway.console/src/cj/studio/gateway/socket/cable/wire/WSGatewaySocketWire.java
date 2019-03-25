@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.DefaultSegmentCircuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IContentReciever;
 import cj.studio.ecm.net.IInputChannel;
@@ -150,6 +152,10 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			this.channel = b.connect(ip, port).sync().channel();
 			handler.handshakeFuture().sync();
 		} catch (Throwable e) {
+			used(false);
+			@SuppressWarnings("unchecked")
+			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
+			wires.remove(this);
 			throw new CircuitException("505", e);
 		}
 		used(false);
@@ -218,6 +224,20 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 		@Override
 		public void channelActive(ChannelHandlerContext ctx) throws Exception {
 			handshaker.handshake(ctx.channel());
+			String gatewayDests = (String)parent.getService("$.prop."+__channel_onchannelEvent_notify_dests);
+			if (StringUtil.isEmpty(gatewayDests)) {
+				CJSystem.logging().warn(getClass(), String.format(
+						"客户端：%s 未指定通道激活或失活事件的通知目标。应用仅能在之后第一次请求时才能收到激活或失活事件。请在该net的连接串中指定参数：OnChannelEvent-Notify-Dests=dest1,dest2",
+						parent.getService("$.socket.name")));
+				return;
+			}
+			String arr[] = gatewayDests.split(",");
+			for (String gatewayDest : arr) {
+				Frame frame = new Frame(String.format("onactive /%s/ ws/1.0", gatewayDest));
+				WSOutputChannel output = new WSOutputChannel(ctx.channel(), frame);
+				Circuit circuit = new DefaultSegmentCircuit(output, String.format("%s 200 OK", frame.protocol()));
+				pipelineBuild(gatewayDest, circuit, ctx);
+			}
 		}
 
 		@Override
@@ -300,7 +320,8 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			}
 
 			// 以下生成目标管道
-			pipelineBuild(gatewayDest, frame, circuit, ctx);
+			pipelineBuild(gatewayDest, circuit, ctx);
+			flowPipeline(ctx, inputPipeline, frame, circuit);// 再把本次请求发送处理
 		}
 
 		protected void flowPipeline(ChannelHandlerContext ctx, IInputPipeline pipeline, Frame frame, Circuit circuit)
@@ -329,7 +350,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 
 		}
 
-		protected void pipelineBuild(String gatewayDest, Frame frame, Circuit circuit, ChannelHandlerContext ctx)
+		protected void pipelineBuild(String gatewayDest,  Circuit circuit, ChannelHandlerContext ctx)
 				throws Exception {
 			IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
 
@@ -358,7 +379,6 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 				throw e;
 			}
 
-			flowPipeline(ctx, inputPipeline, frame, circuit);// 再把本次请求发送处理
 		}
 
 		@Override

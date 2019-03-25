@@ -12,6 +12,7 @@ import cj.studio.gateway.socket.cable.wire.HttpGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.TcpGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.UdtGatewaySocketWire;
 import cj.studio.gateway.socket.cable.wire.WSGatewaySocketWire;
+import cj.studio.gateway.socket.util.SocketContants;
 import cj.ultimate.util.StringUtil;
 
 public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider {
@@ -35,7 +36,9 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	private boolean followRedirects;
 	private boolean retryOnConnectionFailure;
 	private int aggregatorLimit;
-	private String acceptErrorPath;//客户端接收系统error的应用处理地址，让开发者指定将错误导航到哪个website的什么webview中接收处理，在tcp|udt中有效
+	private String acceptErrorPath;// 客户端接收系统error的应用处理地址，让开发者指定将错误导航到哪个website的什么webview中接收处理，在tcp|udt中有效
+	private String onChannelEvent_Notify_Dests;
+
 	public GatewaySocketCable(IServiceProvider parent) {
 		this.parent = parent;
 		wires = new CopyOnWriteArrayList<>();
@@ -122,6 +125,9 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		if ("$.prop.acceptErrorPath".equals(name)) {
 			return this.acceptErrorPath;
 		}
+		if ("$.prop.OnChannelEvent-Notify-Dests".equals(name)) {
+			return onChannelEvent_Notify_Dests;
+		}
 		return parent.getService(name);
 	}
 
@@ -134,17 +140,25 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	public IGatewaySocketWire select() throws CircuitException {
 		// 选择导线后，导线为忙
 		IGatewaySocketWire wire = local.get();
-		if (wire != null) {
+		if(wire==null) {
+			for (IGatewaySocketWire w : wires) {
+				if (w == null)
+					continue;
+				if(w.isIdle()&&w.isOpened()) {
+					local.set(w);
+					return w;
+				}
+			}
+		}else {
 			if (wire.isOpened()) {
 				return wire;
 			}
-			checkWires();
 		}
+		checkWires();
 		// 以下是新建
 		wire = createWire();
 		wire.connect(host, port);
 		wire.used(true);
-		wires.add(wire);
 		local.set(wire);
 		return wire;
 	}
@@ -285,6 +299,9 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 				: Integer.valueOf(f.parameter("aggregatorLimit"));
 		this.acceptErrorPath = StringUtil.isEmpty(f.parameter("acceptErrorPath")) ? "/error/"
 				: f.parameter("acceptErrorPath");
+		this.onChannelEvent_Notify_Dests = StringUtil
+				.isEmpty(f.parameter(SocketContants.__channel_onchannelEvent_notify_dests)) ? ""
+						: f.parameter(SocketContants.__channel_onchannelEvent_notify_dests);
 		if ("ws".equals(protocol)) {
 			wspath = f.parameter("wspath");
 			if (StringUtil.isEmpty(wspath)) {

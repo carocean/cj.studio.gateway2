@@ -1,0 +1,12 @@
+{
+	"guid":"8E8710A9-11EB-4F38-B901-657538057BA1",
+	"title":"源码网关",
+	"enabled":true,
+	"desc":"源码网关向mic注册",
+	"mic":{
+		"location":"/rr/cc/",
+		"host":"tcp://localhost:7080?heartbeat=5000&initialWireSize=1&workThreadCount=2",
+		"reconnDelay":6000,
+		"reconnPeriod":15000
+	}
+}
