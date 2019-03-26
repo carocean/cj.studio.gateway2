@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
-  <info organisation="cj.studio.gateway2" module="cj.test.multipart" revision="1.0.0" status="integration" publication="20190325213308">
+  <info organisation="cj.studio.gateway2" module="cj.test.multipart" revision="1.0.0" status="integration" publication="20190326224206">
     <description/>
   </info>
   <configurations>

@@ -140,21 +140,19 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	public IGatewaySocketWire select() throws CircuitException {
 		// 选择导线后，导线为忙
 		IGatewaySocketWire wire = local.get();
-		if(wire==null) {
-			for (IGatewaySocketWire w : wires) {
-				if (w == null)
-					continue;
-				if(w.isIdle()&&w.isOpened()) {
-					w.used(true);
-					local.set(w);
-					return w;
-				}
-			}
-		}else {
-			if (wire.isOpened()) {
-				return wire;
+		if (wire != null && wire.isOpened()) {
+			return wire;
+		}
+		for (IGatewaySocketWire w : wires) {
+			if (w == null)
+				continue;
+			if (w.isIdle() && w.isOpened()) {
+				w.used(true);
+				local.set(w);
+				return w;
 			}
 		}
+
 		checkWires();
 		// 以下是新建
 		wire = createWire();

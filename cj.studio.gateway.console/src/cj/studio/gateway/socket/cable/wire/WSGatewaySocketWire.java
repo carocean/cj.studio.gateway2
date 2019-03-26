@@ -320,7 +320,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			}
 
 			// 以下生成目标管道
-			pipelineBuild(gatewayDest, circuit, ctx);
+			inputPipeline=pipelineBuild(gatewayDest, circuit, ctx);
 			flowPipeline(ctx, inputPipeline, frame, circuit);// 再把本次请求发送处理
 		}
 
@@ -350,7 +350,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 
 		}
 
-		protected void pipelineBuild(String gatewayDest,  Circuit circuit, ChannelHandlerContext ctx)
+		protected IInputPipeline pipelineBuild(String gatewayDest,  Circuit circuit, ChannelHandlerContext ctx)
 				throws Exception {
 			IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
 
@@ -378,7 +378,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 				ctx.close();
 				throw e;
 			}
-
+			return inputPipeline;
 		}
 
 		@Override
