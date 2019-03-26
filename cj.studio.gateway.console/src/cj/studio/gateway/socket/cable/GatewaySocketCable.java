@@ -145,6 +145,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 				if (w == null)
 					continue;
 				if(w.isIdle()&&w.isOpened()) {
+					w.used(true);
 					local.set(w);
 					return w;
 				}
