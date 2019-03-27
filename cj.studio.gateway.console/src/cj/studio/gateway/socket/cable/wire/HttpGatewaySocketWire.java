@@ -64,10 +64,11 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 	public boolean isIdle() {
 		return isIdle;
 	}
-
+	public void updateIdleBeginTime() {
+		idleBeginTime=System.currentTimeMillis();
+	}
 	@Override
 	public Object send(Object request, Object response) throws CircuitException {
-		used(true);
 		Frame frame = (Frame) request;
 		String fullUri = String.format("%s%s", domain, frame.retrieveUrl());
 		Request.Builder rbuilder = new Request.Builder();
@@ -136,7 +137,6 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 					}
 					if (response.isSuccessful()) {
 						circuit.content().close();
-						used(false);
 					}
 				}
 
@@ -152,6 +152,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 
 				}
 			});
+			updateIdleBeginTime();
 			return circuit;
 		}
 		// 以下是同步
@@ -162,7 +163,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 		} catch (IOException e) {
 			throw new CircuitException("503", e);
 		}
-		used(false);
+		updateIdleBeginTime();
 		return circuit;
 	}
 
@@ -209,7 +210,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 				.keepAliveDuration(keepAliveDuration).connectTimeout(connectTimeout).followRedirects(followRedirects)
 				.readTimeout(readTimeout).writeTimeout(writeTimeout).retryOnConnectionFailure(retryOnConnectionFailure)
 				.build(exe);
-		used(false);
+		updateIdleBeginTime();
 	}
 
 	@Override

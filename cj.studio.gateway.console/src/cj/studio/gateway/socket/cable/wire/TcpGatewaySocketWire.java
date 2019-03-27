@@ -75,11 +75,10 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 	@Override
 	public void used(boolean b) {
 		isIdle = !b;
-		if (isIdle) {
-			idleBeginTime = System.currentTimeMillis();
-		}
 	}
-
+	public void updateIdleBeginTime() {
+		this.idleBeginTime = System.currentTimeMillis();;
+	}
 	@Override
 	public void dispose() {
 		close();
@@ -108,7 +107,6 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			wires.remove(this);
 			throw new CircuitException("500", "导线已关闭，包丢弃：" + request);
 		}
-		used(true);
 		Frame frame = (Frame) request;
 		byte[] b = null;
 		if (frame.content().hasReciever()) {
@@ -141,7 +139,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		if (b != null) {
 			tcr.done(b, 0, b.length);
 		}
-		used(false);
+		updateIdleBeginTime();
 		return null;
 	}
 
@@ -156,22 +154,23 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		try {
 			this.channel = b.connect(ip, port).sync().channel();
 		} catch (Throwable e) {
-			used(false);
 			@SuppressWarnings("unchecked")
 			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
 			wires.remove(this);
 			throw new CircuitException("505", e);
 		}
-		used(false);
+		updateIdleBeginTime();
 	}
 
 	@Override
 	public boolean isWritable() {
+		if(channel==null)return false;
 		return channel.isWritable();
 	}
 
 	@Override
 	public boolean isOpened() {
+		if(channel==null)return false;
 		return channel.isOpen();
 	}
 

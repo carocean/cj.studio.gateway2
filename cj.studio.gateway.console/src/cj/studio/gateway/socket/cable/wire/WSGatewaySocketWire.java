@@ -88,7 +88,9 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			idleBeginTime = System.currentTimeMillis();
 		}
 	}
-
+	protected void updateIdleBeginTime() {
+		idleBeginTime=System.currentTimeMillis();
+	}
 	@Override
 	public void dispose() {
 		close();
@@ -115,7 +117,6 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			wires.remove(this);
 			throw new CircuitException("500", "导线已关闭，包丢弃：" + request);
 		}
-		used(true);
 		Frame frame = (Frame) request;
 		if (!frame.content().isAllInMemory()) {
 			throw new CircuitException("503", "ws协议仅支持内存模式，请使用MemoryContentReciever");
@@ -127,7 +128,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		used(false);
+		updateIdleBeginTime();
 		return null;
 	}
 
@@ -152,22 +153,23 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			this.channel = b.connect(ip, port).sync().channel();
 			handler.handshakeFuture().sync();
 		} catch (Throwable e) {
-			used(false);
 			@SuppressWarnings("unchecked")
 			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
 			wires.remove(this);
 			throw new CircuitException("505", e);
 		}
-		used(false);
+		updateIdleBeginTime();
 	}
 
 	@Override
 	public boolean isWritable() {
+		if(channel==null)return false;
 		return channel.isWritable();
 	}
 
 	@Override
 	public boolean isOpened() {
+		if(channel==null)return false;
 		return channel.isOpen();
 	}
 

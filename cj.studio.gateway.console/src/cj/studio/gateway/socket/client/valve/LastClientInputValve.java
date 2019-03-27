@@ -1,6 +1,5 @@
 package cj.studio.gateway.socket.client.valve;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cj.studio.ecm.CJSystem;
@@ -19,7 +18,6 @@ import cj.studio.gateway.socket.util.SocketContants;
 
 public class LastClientInputValve implements IInputValve, IValveDisposable {
 	private Destination destination;
-	List<IGatewaySocketWire> wires;
 	private List<IGatewaySocketCable> cables;
 	HashFunction hash;
 	private IGatewaySocket socket;
@@ -30,7 +28,6 @@ public class LastClientInputValve implements IInputValve, IValveDisposable {
 		destination = (Destination) parent.getService("$.destination");
 		cables = (List<IGatewaySocketCable>) parent.getService("$.cables");
 		hash = new HashFunction();
-		wires = new ArrayList<>();
 	}
 
 	@Override
@@ -44,23 +41,12 @@ public class LastClientInputValve implements IInputValve, IValveDisposable {
 	public void flow(Object request, Object response, IIPipeline pipeline) throws CircuitException {
 		// 如果发现写失败则重新选择导线
 		// 由于pipeline在同一线程下，所以不必考虑选择或释放导线的并发问题，因为不存在并发
-		if (wires.isEmpty()) {
-			select(pipeline);
-		}
-		IGatewaySocketWire seleted = null;
-		for (IGatewaySocketWire w : wires) {
-			if (w == null) {
-				continue;
-			}
-			if (!w.isOpened()) {
-				wires.remove(w);
-				select(pipeline);
-				continue;
-			}
-			seleted = w;
-		}
+		IGatewaySocketWire seleted = select(pipeline);
 		if (seleted == null) {
 			throw new CircuitException("404", "未选择到可用导线");
+		}
+		if (!seleted.isOpened()) {
+			throw new CircuitException("404", "导线未打开");
 		}
 		try {
 			seleted.send(request, response);
@@ -72,17 +58,14 @@ public class LastClientInputValve implements IInputValve, IValveDisposable {
 	@Override
 	public void onInactive(String inputName, IIPipeline pipeline) throws CircuitException {
 		// 归还导线到电缆
-		for (IGatewaySocketWire w : wires) {
-			if (w != null) {
-				w.used(false);
-			}
+		for (IGatewaySocketCable cable : cables) {
+			cable.unselect();
 		}
-		wires.clear();
 	}
 
-	protected void select(IIPipeline pipeline) throws CircuitException {
+	protected IGatewaySocketWire select(IIPipeline pipeline) throws CircuitException {
 		if (cables.size() < 0) {
-			return;
+			return null;
 		}
 		String boardcast = destination.getProps().get("broadcast");
 		String name = pipeline.prop(SocketContants.__pipeline_name);
@@ -91,10 +74,9 @@ public class LastClientInputValve implements IInputValve, IValveDisposable {
 			int index = (int) (Math.abs(v) % cables.size());
 			IGatewaySocketCable cable = cables.get(index);
 			IGatewaySocketWire wire = cable.select();
-			if (wire != null) {
-				wires.add(wire);
+			if (wire != null && wire.isOpened()) {
+				return wire;
 			}
-			return;
 		}
 
 		// 多播是每个电览选一个导线
@@ -106,8 +88,9 @@ public class LastClientInputValve implements IInputValve, IValveDisposable {
 			if (!wire.isOpened()) {
 				continue;
 			}
-			wires.add(wire);
+			return wire;
 		}
+		return null;
 	}
 
 	@Override
@@ -119,9 +102,8 @@ public class LastClientInputValve implements IInputValve, IValveDisposable {
 				throw new EcmException(e);
 			}
 		}
-		this.cables=null;
-		this.destination=null;
-		this.socket=null;
-		this.wires=null;
+		this.cables = null;
+		this.destination = null;
+		this.socket = null;
 	}
 }

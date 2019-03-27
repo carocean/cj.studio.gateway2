@@ -2,6 +2,8 @@ package cj.test.website.webview;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -23,6 +25,11 @@ public class ToBackendTcp implements IGatewayAppSiteWayWebView {
 
 	@CjServiceRef(refByName = "$.output.selector")
 	IOutputSelector selector;
+	ExecutorService exe;
+
+	public ToBackendTcp() {
+		exe = Executors.newCachedThreadPool();
+	}
 
 	// 异步接收
 	@Override
@@ -31,8 +38,25 @@ public class ToBackendTcp implements IGatewayAppSiteWayWebView {
 		if (StringUtil.isEmpty(fn)) {
 			throw new CircuitException("404", "缺少参数：destFileName");
 		}
-		IOutputer back = selector.select("backend-tcp");// 回发
+		for (int i = 0; i < 4; i++) {
+			exe.execute(new Runnable() {
 
+				@Override
+				public void run() {
+					try {
+						sendFile(fn);
+					} catch (CircuitException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		circuit.content().writeBytes("由TcpReciever服务接收到达的消息".getBytes());
+	}
+
+	private void sendFile(String fn) throws CircuitException {
+		IOutputer back = selector.select("backend-tcp");// 回发
 		IOutputChannel output = new MemoryOutputChannel();
 		Circuit c1 = new Circuit(output, "tcp/1.0 200 ok");
 
@@ -40,9 +64,9 @@ public class ToBackendTcp implements IGatewayAppSiteWayWebView {
 		Frame f1 = new Frame(in, "put /website/tcp/ http/1.1");
 		in.begin(f1);
 		f1.parameter("destFileName", fn);
-		
+
 		back.send(f1, c1);
-		
+
 		try {
 			FileInputStream fis = new FileInputStream(
 //					"/Users/caroceanjofers/Downloads/归档.zip");
@@ -58,10 +82,9 @@ public class ToBackendTcp implements IGatewayAppSiteWayWebView {
 		}
 		byte[] b = new byte[0];
 		in.done(b, 0, b.length);
-		
+
 //		back.closePipeline();
 		back.releasePipeline();
-		circuit.content().writeBytes("由TcpReciever服务接收到达的消息".getBytes());
 	}
 
 }

@@ -40,7 +40,10 @@ public interface IGatewaySocketCable extends IClosable, IDisposable {
 	 * @return
 	 */
 	IGatewaySocketWire select() throws CircuitException;
-
+	/**
+	 * 清除当前线程中选中的导线
+	 */
+	void unselect();
 	/**
 	 * 初始化并解析字符
 	 * 

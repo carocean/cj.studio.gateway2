@@ -91,7 +91,9 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 	public long idleBeginTime() {
 		return idleBeginTime;
 	}
-
+	public void updateIdleBeginTime() {
+		idleBeginTime=System.currentTimeMillis();
+	}
 	@Override
 	public boolean isIdle() {
 		return isIdle;
@@ -105,7 +107,6 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			wires.remove(this);
 			throw new CircuitException("500", "导线已关闭，包丢弃：" + request);
 		}
-		used(true);
 		Frame frame = (Frame) request;
 		byte[] b=null;
 		if(frame.content().hasReciever()) {
@@ -136,7 +137,7 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		if(b!=null) {//发送端如果将侦内容接收到内存，则是一次性发送全部数据，所以使用done方法。注意：在发送者使用非MemoryContentReciever时，要放到out.send之后done，如果是MemoryContentReciever则放在out.send前
 			tcr.done(b, 0, b.length);
 		}
-		used(false);
+		updateIdleBeginTime();
 		return null;
 	}
 
@@ -152,22 +153,23 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		try {
 			this.channel = b.connect(ip, port).sync().channel();
 		} catch (Throwable e) {
-			used(false);
 			@SuppressWarnings("unchecked")
 			List<IGatewaySocketWire> wires = (List<IGatewaySocketWire>) parent.getService("$.wires");
 			wires.remove(this);
 			throw new CircuitException("505", e);
 		}
-		used(false);
+		updateIdleBeginTime();
 	}
 
 	@Override
 	public boolean isWritable() {
+		if(channel==null)return false;
 		return channel.isWritable();
 	}
 
 	@Override
 	public boolean isOpened() {
+		if(channel==null)return false;
 		return channel.isOpen();
 	}
 

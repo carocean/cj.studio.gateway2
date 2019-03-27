@@ -49,7 +49,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	public int initialWireSize() {
 		return initialWireSize;
 	}
-
+	
 	@Override
 	public int workThreadCount() {
 		return workThreadCount;
@@ -135,9 +135,16 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	public <T> ServiceCollection<T> getServices(Class<T> clazz) {
 		return parent.getServices(clazz);
 	}
-
 	@Override
-	public IGatewaySocketWire select() throws CircuitException {
+	public void unselect() {
+		IGatewaySocketWire wire=local.get();
+		if(wire==null)return;
+		wire.used(false);
+		local.set(null);
+		checkWires();
+	}
+	@Override
+	public synchronized IGatewaySocketWire select() throws CircuitException {
 		// 选择导线后，导线为忙
 		IGatewaySocketWire wire = local.get();
 		if (wire != null && wire.isOpened()) {
@@ -161,7 +168,7 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 		local.set(wire);
 		return wire;
 	}
-
+	
 	private void checkWires() {
 		for (IGatewaySocketWire w : wires) {
 			if (w == null)
