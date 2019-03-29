@@ -5,18 +5,24 @@ public class MicConfig {
 	String host;
 	long reconnDelay;
 	long reconnPeriod;
-
+	String cjtoken;
 	public MicConfig() {
 		reconnDelay = 5000L;
 		reconnPeriod = 10000L;
 	}
 
-	public MicConfig(String location, String host) {
+	public MicConfig(String location, String host,String cjtoken) {
 		this();
 		this.location = location;
 		this.host = host;
+		this.cjtoken=cjtoken;
 	}
-
+	public String getCjtoken() {
+		return cjtoken;
+	}
+	public void setCjtoken(String cjtoken) {
+		this.cjtoken = cjtoken;
+	}
 	public long getReconnDelay() {
 		return reconnDelay;
 	}

@@ -119,6 +119,7 @@ public class MicConnector extends TimerTask implements IMicConnector, IServiceSe
 		f.parameter("uuid", registry.getGuid());
 		f.parameter("title", registry.getTitle());
 		f.parameter("desc", registry.getDesc());
+		f.parameter("cjtoken",registry.getMic().getCjtoken());
 		f.parameter("location", registry.getMic().getLocation());
 		f.parameter("micient",micclient);
 		f.content().accept(new MemoryContentReciever());

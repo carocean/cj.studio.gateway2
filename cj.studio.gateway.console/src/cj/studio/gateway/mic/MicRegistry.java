@@ -10,12 +10,12 @@ public class MicRegistry {
 	public MicRegistry() {
 	}
 
-	public MicRegistry(String guid, String title, String location, String host, String desc) {
+	public MicRegistry(String guid, String title, String location, String host, String desc,String cjtoken) {
 		super();
 		this.guid = guid;
 		this.title = title;
 		this.desc = desc;
-		this.mic = new MicConfig(location, host);
+		this.mic = new MicConfig(location, host,cjtoken);
 	}
 	public boolean isEnabled() {
 		return enabled;
