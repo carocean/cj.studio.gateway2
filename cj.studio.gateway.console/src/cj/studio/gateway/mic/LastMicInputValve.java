@@ -1,13 +1,18 @@
 package cj.studio.gateway.mic;
 
 import cj.studio.ecm.CJSystem;
+import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
+import cj.studio.gateway.socket.util.SocketContants;
 
 public class LastMicInputValve implements IInputValve {
-
+	IMicCommandFactory factory;
+	public LastMicInputValve(IServiceProvider parent) {
+		factory=new MicCommandFactory(parent);
+	}
 	@Override
 	public void onActive(String inputName, IIPipeline pipeline) throws CircuitException {
 		System.out.println("-----onActive");
@@ -36,6 +41,12 @@ public class LastMicInputValve implements IInputValve {
 					return;
 				}
 			}
+			return;
+		}
+		if("exe".equals(frame.command())) {
+			String cmdline=frame.parameter("cmdline");
+			String channel=frame.head(SocketContants.__frame_fromPipelineName);
+			factory.exeCommand(cmdline,channel);
 			return;
 		}
 		pipeline.nextFlow(request, response, this);

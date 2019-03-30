@@ -8,6 +8,7 @@ import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.IServiceSetter;
+import cj.studio.ecm.ServiceCollection;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.CircuitException;
@@ -28,20 +29,31 @@ import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 
 @CjService(name = "micConnector")
-public class MicConnector extends TimerTask implements IMicConnector, IServiceSetter {
+public class MicConnector extends TimerTask implements IMicConnector, IServiceSetter ,IServiceProvider{
 	IServiceProvider parent;
 	IGatewaySocket micSenderSocket;
 	IGatewaySocket micReceiverSocket;// 用于接收
 	IGatewaySocketContainer sockets;
 	Timer timer;// 用于监控连接当断开时重连
 	MicRegistry registry;
+	private IInputPipeline micSenderInput;
 	static String micclient = "mic@gateway.client";
 	static String micsender="4082E611-C880-46DC-AB93-BAA975654803@mic";
 	@Override
 	public void setService(String serviceId, Object service) {
 		parent = (IServiceProvider) service;
 	}
-
+	@Override
+	public Object getService(String serviceId) {
+		if("$.sender.input".equals(serviceId)) {
+			return micSenderInput;
+		}
+		return parent.getService(serviceId);
+	}
+	@Override
+	public <T> ServiceCollection<T> getServices(Class<T> serviceClazz) {
+		return parent.getServices(serviceClazz);
+	}
 	@Override
 	public void run() {
 		@SuppressWarnings("unchecked")
@@ -74,13 +86,13 @@ public class MicConnector extends TimerTask implements IMicConnector, IServiceSe
 	public void connect() {
 		sockets = (IGatewaySocketContainer) parent.getService("$.container.socket");
 		try {
-			micReceiverSocket = new MicGatewaySocket(parent);
+			micReceiverSocket = new MicGatewaySocket(this);
 			Destination micReceiverDest = new Destination(micclient);
 //			micReceiverDest.getUris().add("app://localhost:mic");
 			micReceiverSocket.connect(micReceiverDest);
 			sockets.add(micReceiverSocket);
 
-			micSenderSocket = new ClientGatewaySocket(parent);
+			micSenderSocket = new ClientGatewaySocket(this);
 			Destination micSenderDest = new Destination(micsender);
 			String host = "";
 			if (registry.getMic().getHost().indexOf("OnChannelEvent-Notify-Dests") < 0) {
@@ -98,10 +110,10 @@ public class MicConnector extends TimerTask implements IMicConnector, IServiceSe
 
 			IInputPipelineBuilder micSenderBuilder = (IInputPipelineBuilder) micSenderSocket
 					.getService("$.pipeline.input.builder");
-			IInputPipeline micSenderInput = micSenderBuilder.createPipeline();
+			micSenderInput = micSenderBuilder.createPipeline();
 			sockets.add(micSenderSocket);
 
-			sendRegistry(micSenderInput);
+			sendRegistry();
 
 			CJSystem.logging().info(getClass(), String.format("注册mic成功。host %s,location %s",
 					registry.getMic().getHost(), registry.getMic().getLocation()));
@@ -113,7 +125,7 @@ public class MicConnector extends TimerTask implements IMicConnector, IServiceSe
 		}
 	}
 
-	protected void sendRegistry(IInputPipeline input) throws CircuitException {
+	protected void sendRegistry() throws CircuitException {
 		IInputChannel in = new MemoryInputChannel();
 		Frame f = new Frame(in, "register /mic/node.service mic/1.0");
 		f.parameter("uuid", registry.getGuid());
@@ -128,7 +140,7 @@ public class MicConnector extends TimerTask implements IMicConnector, IServiceSe
 		
 		IOutputChannel output=new MemoryOutputChannel();
 		Circuit c=new Circuit(output, "mic/1.0 200 OK");
-		input.headFlow(f, c);
+		micSenderInput.headFlow(f, c);
 	}
 
 	public void disconnect(boolean disposing) {

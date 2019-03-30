@@ -10,10 +10,7 @@ import cj.studio.gateway.socket.pipeline.IInputPipeline;
 import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IInputValve;
 import cj.studio.gateway.socket.pipeline.InputPipeline;
-import cj.studio.gateway.socket.serverchannel.tcp.valve.FirstTcpServerChannelInputValve;
-import cj.studio.gateway.socket.serverchannel.tcp.valve.LastTcpServerChannelInputValve;
 import cj.studio.gateway.socket.util.SocketContants;
-import io.netty.channel.Channel;
 
 public class MicInputPipelineBuilder implements IInputPipelineBuilder {
 	private Map<String, Object> props;
@@ -42,7 +39,7 @@ public class MicInputPipelineBuilder implements IInputPipelineBuilder {
 	@Override
 	public IInputPipeline createPipeline() throws CircuitException {
 		IInputValve first=new FirstMicInputValve();
-		IInputValve last=new LastMicInputValve();
+		IInputValve last=new LastMicInputValve(parent);
 		IInputPipeline input=new InputPipeline(first, last);
 		
 		input.prop(SocketContants.__pipeline_name, name);
