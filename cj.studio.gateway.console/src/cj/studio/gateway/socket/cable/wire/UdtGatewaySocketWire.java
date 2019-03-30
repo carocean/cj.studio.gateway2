@@ -1,7 +1,5 @@
 package cj.studio.gateway.socket.cable.wire;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +13,6 @@ import cj.studio.ecm.net.DefaultSegmentCircuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IInputChannel;
 import cj.studio.ecm.net.IOutputChannel;
-import cj.studio.ecm.net.http.HttpCircuit;
 import cj.studio.ecm.net.io.MemoryContentReciever;
 import cj.studio.ecm.net.io.MemoryInputChannel;
 import cj.studio.ecm.net.io.SimpleInputChannel;
@@ -300,7 +297,7 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			UdtInputChannel input = new UdtInputChannel();
 			Frame frame = input.begin(pack);
 			IOutputChannel output = new UdtOutputChannel(ctx.channel(), frame);
-			Circuit circuit = new HttpCircuit(output, String.format("%s 200 OK", frame.protocol()));
+			Circuit circuit = new DefaultSegmentCircuit(output, String.format("%s 200 OK", frame.protocol()));
 			this.currentCircuit = circuit;
 			this.inputChannel = input;
 
@@ -344,19 +341,9 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			}
 
 			byte[] b = pack.content().readFully();
-			Circuit circuit = this.currentCircuit;
 			try {
 				inputChannel.writeBytes(b, 0, b.length);
 			} catch (Exception e) {
-				if (!circuit.content().isCommited()) {
-					circuit.status("503");
-					circuit.message(e.toString().replace("\r", "").replace("\n", ""));
-					circuit.content().clearbuf();
-					circuit.content().flush();
-				}
-				StringWriter out = new StringWriter();
-				e.printStackTrace(new PrintWriter(out));
-				circuit.content().writeBytes(out.toString().getBytes());
 				throw e;
 			}
 		}
@@ -372,16 +359,6 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 				inputChannel.done(b, 0, b.length);
 				circuit.content().flush();// 到此刷新
 			} catch (Exception e) {
-				if (!circuit.content().isCommited()) {
-					circuit.status("503");
-					circuit.message(e.toString().replace("\r", "").replace("\n", ""));
-					circuit.content().clearbuf();
-					circuit.content().flush();
-				}
-				StringWriter out = new StringWriter();
-				e.printStackTrace(new PrintWriter(out));
-				circuit.content().writeBytes(out.toString().getBytes());
-				circuit.content().flush();
 				throw e;
 			} finally {
 				if (!circuit.content().isClosed()) {
@@ -401,14 +378,6 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			try {
 				pipeline.headFlow(frame, circuit);
 			} catch (Throwable e) {
-				if (!circuit.content().isCommited()) {
-					circuit.content().clearbuf();
-					circuit.content().flush();
-				}
-				StringWriter out = new StringWriter();
-				e.printStackTrace(new PrintWriter(out));
-				circuit.content().writeBytes(out.toString().getBytes());
-				circuit.content().flush();
 				throw e;
 			}
 		}
@@ -430,13 +399,6 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 			try {
 				inputPipeline.headOnActive(pipelineName);// 通知管道激活
 			} catch (Exception e) {
-				if (!circuit.content().isCommited()) {
-					circuit.content().clearbuf();
-					circuit.content().flush();
-				}
-				StringWriter out = new StringWriter();
-				e.printStackTrace(new PrintWriter(out));
-				circuit.content().writeBytes(out.toString().getBytes());
 				circuit.content().close();
 				ctx.close();
 				throw e;

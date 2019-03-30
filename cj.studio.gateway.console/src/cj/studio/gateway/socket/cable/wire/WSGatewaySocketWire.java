@@ -1,7 +1,5 @@
 package cj.studio.gateway.socket.cable.wire;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -335,14 +333,6 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			try {
 				pipeline.headFlow(frame, circuit);
 			} catch (Throwable e) {
-				if (!circuit.content().isCommited()) {
-					circuit.content().clearbuf();
-					circuit.content().flush();
-				}
-				StringWriter out = new StringWriter();
-				e.printStackTrace(new PrintWriter(out));
-				circuit.content().writeBytes(out.toString().getBytes());
-				circuit.content().flush();
 				throw e;
 			} finally {
 				if (!circuit.content().isClosed()) {
@@ -369,13 +359,6 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			try {
 				inputPipeline.headOnActive(pipelineName);// 通知管道激活
 			} catch (Exception e) {
-				if (!circuit.content().isCommited()) {
-					circuit.content().clearbuf();
-					circuit.content().flush();
-				}
-				StringWriter out = new StringWriter();
-				e.printStackTrace(new PrintWriter(out));
-				circuit.content().writeBytes(out.toString().getBytes());
 				circuit.content().close();
 				ctx.close();
 				throw e;

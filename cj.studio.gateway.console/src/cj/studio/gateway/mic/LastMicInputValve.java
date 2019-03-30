@@ -6,7 +6,6 @@ import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.pipeline.IIPipeline;
 import cj.studio.gateway.socket.pipeline.IInputValve;
-import cj.studio.gateway.socket.util.SocketContants;
 
 public class LastMicInputValve implements IInputValve {
 	IMicCommandFactory factory;
@@ -45,8 +44,8 @@ public class LastMicInputValve implements IInputValve {
 		}
 		if("exe".equals(frame.command())) {
 			String cmdline=frame.parameter("cmdline");
-			String channel=frame.head(SocketContants.__frame_fromPipelineName);
-			factory.exeCommand(cmdline,channel);
+			String user=frame.parameter("user");
+			factory.exeCommand(cmdline,user);
 			return;
 		}
 		pipeline.nextFlow(request, response, this);

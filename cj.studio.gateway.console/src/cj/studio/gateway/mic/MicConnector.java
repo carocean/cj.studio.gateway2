@@ -48,6 +48,9 @@ public class MicConnector extends TimerTask implements IMicConnector, IServiceSe
 		if("$.sender.input".equals(serviceId)) {
 			return micSenderInput;
 		}
+		if("$.registry".equals(serviceId)) {
+			return registry;
+		}
 		return parent.getService(serviceId);
 	}
 	@Override

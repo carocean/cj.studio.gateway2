@@ -38,7 +38,7 @@ public class ToBackendTcp implements IGatewayAppSiteWayWebView {
 		if (StringUtil.isEmpty(fn)) {
 			throw new CircuitException("404", "缺少参数：destFileName");
 		}
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 1; i++) {
 			exe.execute(new Runnable() {
 
 				@Override
@@ -70,7 +70,7 @@ public class ToBackendTcp implements IGatewayAppSiteWayWebView {
 		try {
 			FileInputStream fis = new FileInputStream(
 //					"/Users/caroceanjofers/Downloads/归档.zip");
-					"/Users/caroceanjofers/Downloads/订阅号.png");
+					"/Users/caroceanjofers/Downloads/Firefox-latest.dmg");
 			byte[] b = new byte[8192];
 			int read = 0;
 			while ((read = fis.read(b)) != -1) {
