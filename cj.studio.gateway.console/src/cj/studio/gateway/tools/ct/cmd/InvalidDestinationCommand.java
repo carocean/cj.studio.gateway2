@@ -34,10 +34,6 @@ public class InvalidDestinationCommand extends Command {
 			return;
 		}
 		String domain = args.get(0);
-		if (domain.indexOf("://") < 1) {
-			System.out.println(String.format("%s错误：域名格式不正确，应为：protocol://logicName", indent));
-			return;
-		}
 
 		if (!line.hasOption("c")) {
 			System.out.println(String.format("%s错误：缺少参数-c。", indent));

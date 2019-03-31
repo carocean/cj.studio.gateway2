@@ -14,13 +14,11 @@ public class LastMicInputValve implements IInputValve {
 	}
 	@Override
 	public void onActive(String inputName, IIPipeline pipeline) throws CircuitException {
-		System.out.println("-----onActive");
 		pipeline.nextOnActive(inputName, this);
 	}
 
 	@Override
 	public void flow(Object request, Object response, IIPipeline pipeline) throws CircuitException {
-		System.out.println("-----flow:" + request);
 		Frame frame = (Frame) request;
 		if ("notify".equals(frame.command())) {
 			String relativePath = frame.relativePath();
@@ -53,7 +51,6 @@ public class LastMicInputValve implements IInputValve {
 
 	@Override
 	public void onInactive(String inputName, IIPipeline pipeline) throws CircuitException {
-		System.out.println("-----onInactive");
 		pipeline.nextOnInactive(inputName, this);
 	}
 

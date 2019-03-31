@@ -34,10 +34,6 @@ public class ValidDestinationCommand extends Command {
 			return;
 		}
 		String domain = args.get(0);
-		if (domain.indexOf("://") < 1) {
-			System.out.println(String.format("%s错误：域名格式不正确，应为：protocol://logicName", indent));
-			return;
-		}
 		IConfiguration config =(IConfiguration)gateway.getService("$.config");
 		ICluster cluster=config.getCluster();
 		if (!cluster.containsValid(domain)&&!cluster.containsInvalid(domain)) {

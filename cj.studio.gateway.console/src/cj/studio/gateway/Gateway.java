@@ -14,6 +14,7 @@ import cj.studio.gateway.server.util.DefaultHttpMineTypeFactory;
 public class Gateway implements IGateway, IServiceProvider {
 	private IConfiguration config;
 	ILogging logger;
+	ISupportProtocol supportProtocol;
 	@CjServiceInvertInjection
 	@CjServiceRef(refByName = "gatewayServerContainer")
 	private IGatewayServerContainer servercontainer;
@@ -61,6 +62,9 @@ public class Gateway implements IGateway, IServiceProvider {
 		if ("$.homeDir".equals(name)) {
 			return String.format("%s", config.home());
 		}
+		if ("$.supportProtocol".equals(name)) {
+			return supportProtocol;
+		}
 		return null;
 	}
 
@@ -72,6 +76,7 @@ public class Gateway implements IGateway, IServiceProvider {
 
 	@Override
 	public void start() {
+		supportProtocol=new SupportProtocol();
 		config.load();
 		servercontainer.startAll();
 		if (config.registry().isEnabled()) {
@@ -98,8 +103,15 @@ public class Gateway implements IGateway, IServiceProvider {
 
 	@Override
 	public boolean supportProtocol(String protocol) {
-		return "ws".equals(protocol) || "http".equals(protocol) || "tcp".equals(protocol) || "udt".equals(protocol)
-				|| "jms".equals(protocol) || "app".equals(protocol);
+		return this.supportProtocol.supportProtocol(protocol);
 	}
+	class SupportProtocol implements ISupportProtocol{
 
+		@Override
+		public boolean supportProtocol(String protocol) {
+			return "ws".equals(protocol) || "http".equals(protocol) || "tcp".equals(protocol) || "udt".equals(protocol)
+					|| "jms".equals(protocol) || "app".equals(protocol);
+		}
+		
+	}
 }

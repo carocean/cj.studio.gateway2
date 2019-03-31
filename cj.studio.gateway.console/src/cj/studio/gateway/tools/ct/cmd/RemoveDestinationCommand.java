@@ -34,10 +34,6 @@ public class RemoveDestinationCommand extends Command {
 			return;
 		}
 		String domain = args.get(0);
-		if (domain.indexOf("://")<1) {
-			System.out.println(String.format("%s错误：域名格式不正确，应为：protocol://logicName", indent));
-			return;
-		}
 		ICluster cluster =(ICluster)gateway.getService("$.cluster");
 		cluster.removeDestination(domain);
 		IConfiguration config =(IConfiguration)gateway.getService("$.config");
