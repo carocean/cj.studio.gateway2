@@ -70,6 +70,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 
 	public WSGatewaySocketWire(IServiceProvider parent) {
 		this.parent = parent;
+		used(false);
 	}
 
 	@Override

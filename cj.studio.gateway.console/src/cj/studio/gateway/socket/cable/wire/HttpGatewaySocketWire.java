@@ -33,6 +33,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 
 	public HttpGatewaySocketWire(IServiceProvider parent) {
 		this.parent = parent;
+		used(false);
 	}
 
 	@Override

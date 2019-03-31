@@ -57,6 +57,7 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 
 	public UdtGatewaySocketWire(IServiceProvider parent) {
 		this.parent = parent;
+		used(false);
 	}
 
 	@Override

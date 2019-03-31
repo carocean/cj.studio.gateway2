@@ -60,6 +60,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 
 	public TcpGatewaySocketWire(IServiceProvider parent) {
 		this.parent = parent;
+		used(false);
 	}
 
 	@Override

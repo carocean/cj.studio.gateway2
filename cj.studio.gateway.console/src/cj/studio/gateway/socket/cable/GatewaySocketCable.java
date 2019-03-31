@@ -224,7 +224,6 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 	private void onconnect() throws CircuitException {
 		for (int i = 0; i < this.initialWireSize; i++) {
 			IGatewaySocketWire wire = createWire();
-			local.set(wire);
 			wire.connect(host, port);
 		}
 	}
