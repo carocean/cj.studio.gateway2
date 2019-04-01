@@ -66,8 +66,13 @@ public class InstallAppMicCommand extends MicCommand {
 		}
 		String fileName = frame.parameter("fileName");
 		String gatewayHome = (String) session.provider().getService("$.homeDir");
-		String file = String.format("%s%sassemblies%s%s%s%s", gatewayHome, File.separator, File.separator, domain,
-				File.separator, fileName);
+		String dir = String.format("%s%sassemblies%s%s%s", gatewayHome, File.separator, File.separator, domain,
+				File.separator);
+		File dirF=new File(dir);
+		if(!dirF.exists()) {
+			dirF.mkdirs();
+		}
+		String file=String.format("%s%s", dir,fileName);
 		frame.content().accept(new FileContentReciever(file, sb,user,response));
 	}
 
