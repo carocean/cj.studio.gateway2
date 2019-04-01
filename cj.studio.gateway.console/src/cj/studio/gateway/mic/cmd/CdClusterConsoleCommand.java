@@ -4,6 +4,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.mic.IMicConsoleSession;
 import cj.studio.gateway.mic.ISendResponse;
 import cj.studio.gateway.mic.MicCommand;
@@ -27,7 +28,7 @@ public class CdClusterConsoleCommand extends MicCommand {
 	}
 
 	@Override
-	public void doCommand(CommandLine line, String user, ISendResponse response, IMicConsoleSession session)
+	public void doCommand(CommandLine line, String user, ISendResponse response,Frame frame, IMicConsoleSession session)
 			throws CircuitException {
 		session.cd(user,new ClusterMicConsole(cmd()));
 	}

@@ -44,7 +44,7 @@ class MicCommandFactory implements IMicCommandFactory, IServiceProvider {
 	}
 
 	@Override
-	public void exeCommand(String cmdline, String user) throws CircuitException {
+	public void exeCommand(String cmdline, String user,Frame frame) throws CircuitException {
 		if (StringUtil.isEmpty(cmdline)) {
 			return;
 		}
@@ -79,7 +79,7 @@ class MicCommandFactory implements IMicCommandFactory, IServiceProvider {
 		GnuParser parser = new GnuParser();
 		try {
 			CommandLine the = parser.parse(cmd.options(), args);
-			cmd.doCommand(the, user, response, session);
+			cmd.doCommand(the, user, response,frame, session);
 		} catch (ParseException e) {
 			response.send(user, e.getMessage());
 			throw new CircuitException("503", e);

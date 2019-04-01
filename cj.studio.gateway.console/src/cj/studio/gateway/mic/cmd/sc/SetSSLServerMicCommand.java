@@ -7,6 +7,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.IConfiguration;
 import cj.studio.gateway.IGatewayServer;
 import cj.studio.gateway.IGatewayServerContainer;
@@ -46,7 +47,7 @@ public class SetSSLServerMicCommand extends MicCommand {
 	}
 
 	@Override
-	public void doCommand(CommandLine line, String user, ISendResponse response, IMicConsoleSession session)
+	public void doCommand(CommandLine line, String user, ISendResponse response, Frame frame,IMicConsoleSession session)
 			throws CircuitException {
 		@SuppressWarnings("unchecked")
 		List<String> args = line.getArgList();

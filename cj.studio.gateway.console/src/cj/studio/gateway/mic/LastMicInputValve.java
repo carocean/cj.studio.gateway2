@@ -43,7 +43,7 @@ public class LastMicInputValve implements IInputValve {
 		if("exe".equals(frame.command())) {
 			String cmdline=frame.parameter("cmdline");
 			String user=frame.parameter("user");
-			factory.exeCommand(cmdline,user);
+			factory.exeCommand(cmdline,user,frame);
 			return;
 		}
 		pipeline.nextFlow(request, response, this);

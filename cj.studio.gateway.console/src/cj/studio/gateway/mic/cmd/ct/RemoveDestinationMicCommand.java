@@ -6,6 +6,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.ICluster;
 import cj.studio.gateway.IConfiguration;
 import cj.studio.gateway.mic.IMicConsoleSession;
@@ -37,7 +38,7 @@ public class RemoveDestinationMicCommand extends MicCommand {
 	}
 
 	@Override
-	public void doCommand(CommandLine line, String user, ISendResponse response, IMicConsoleSession session)
+	public void doCommand(CommandLine line, String user, ISendResponse response,Frame frame, IMicConsoleSession session)
 			throws CircuitException {
 		@SuppressWarnings("unchecked")
 		List<String> args = line.getArgList();

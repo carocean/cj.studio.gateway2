@@ -4,7 +4,7 @@
 	"enabled":true,
 	"desc":"源码网关向mic注册",
 	"mic":{
-		"location":"/rr/mm/",
+		"location":"/infrastructurePlatform/frontend/",
 		"host":"tcp://localhost:7080?heartbeat=5000&initialWireSize=1&workThreadCount=2&acceptErrorPath=/website/error/",
 		"reconnDelay":6000,
 		"reconnPeriod":15000,

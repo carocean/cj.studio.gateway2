@@ -12,6 +12,7 @@ import org.apache.commons.cli.Options;
 
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IJunctionTable;
 import cj.studio.gateway.junction.BackwardJunction;
@@ -54,7 +55,7 @@ public class LsCommand extends MicCommand {
 	}
 
 	@Override
-	public void doCommand(CommandLine line, String user, ISendResponse response, IMicConsoleSession session)
+	public void doCommand(CommandLine line, String user, ISendResponse response,Frame frame, IMicConsoleSession session)
 			throws CircuitException {
 		IJunctionTable table = (IJunctionTable) session.provider().getService("$.junctions");
 		IGatewaySocketContainer sockets = (IGatewaySocketContainer) session.provider().getService("$.container.socket");

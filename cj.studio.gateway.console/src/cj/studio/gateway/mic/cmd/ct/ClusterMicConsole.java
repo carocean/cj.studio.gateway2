@@ -23,6 +23,9 @@ public class ClusterMicConsole extends MicConsole implements IMicConsole {
 		registry.add(new InvalidDestinationMicCommand());
 		registry.add(new ValidDestinationMicCommand());
 		registry.add(new RemoveDestinationMicCommand());
+		registry.add(new InstallAppMicCommand());
+		registry.add(new PluginAppMicCommand());
+		registry.add(new RmMicCommand());
 	}
 
 }

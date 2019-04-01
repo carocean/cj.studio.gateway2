@@ -10,6 +10,7 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.IGatewayServerContainer;
 import cj.studio.gateway.ISupportProtocol;
 import cj.studio.gateway.conf.ServerInfo;
@@ -46,7 +47,7 @@ public class StartServerMicCommand extends MicCommand {
 	}
 
 	@Override
-	public void doCommand(CommandLine line, String user, ISendResponse response, IMicConsoleSession session)
+	public void doCommand(CommandLine line, String user, ISendResponse response,Frame frame, IMicConsoleSession session)
 			throws CircuitException {
 		@SuppressWarnings("unchecked")
 		List<String> args = line.getArgList();

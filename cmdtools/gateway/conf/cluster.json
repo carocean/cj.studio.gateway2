@@ -1,1 +1,113 @@
-{"valids":[{"name":"/udt/website2/","uris":["udt://localhost:8083"],"props":{}},{"name":"road://test:way","uris":["http://192.168.1.106:8080"],"props":{}},{"name":"website","uris":["app://website:way"],"props":{"Upload-MaxFileLength":"200000"}},{"name":"/backend/uc/","uris":["http://localhost:9090?readTimeout\u003d100000000"],"props":{}},{"name":"http://news.163.com","uris":["https://news.163.com?minWireSize\u003d4\u0026maxWireSize\u003d10"],"props":{"Broadcast-Mode":"unicast"}},{"name":"/tcp/website2/","uris":["tcp://localhost:8082"],"props":{}},{"name":"backend-ws","uris":["ws://localhost:9091?wspath\u003d/\u0026heartbeat\u003d5000"],"props":{}},{"name":"/backend/website2/","uris":["http://localhost:8080?readTimeout\u003d100000000"],"props":{}},{"name":"website2","uris":["app://website2:way"],"props":{}},{"name":"backend","uris":["http://localhost:9090"],"props":{}},{"name":"backend-udt","uris":["udt://localhost:8083"],"props":{}},{"name":"backend-tcp","uris":["tcp://localhost:8082"],"props":{}}],"invalids":[]}
+{
+	"valids": [
+		{
+			"name": "/udt/website2/",
+			"uris": [
+				"udt://localhost:8083"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "road://test:way",
+			"uris": [
+				"http://192.168.1.106:8080"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "website",
+			"uris": [
+				"app://website:way"
+			],
+			"props": {
+				"Upload-MaxFileLength": "200000"
+			}
+		},
+		{
+			"name": "/backend/uc/",
+			"uris": [
+				"http://localhost:9090?readTimeout\u003d100000000"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "http://news.163.com",
+			"uris": [
+				"https://news.163.com?minWireSize\u003d4\u0026maxWireSize\u003d10"
+			],
+			"props": {
+				"Broadcast-Mode": "unicast"
+			}
+		},
+		{
+			"name": "/tcp/website2/",
+			"uris": [
+				"tcp://localhost:8082"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "backend-ws",
+			"uris": [
+				"ws://localhost:9091?wspath\u003d/\u0026heartbeat\u003d5000"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "/backend/website2/",
+			"uris": [
+				"http://localhost:8080?readTimeout\u003d100000000"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "website2",
+			"uris": [
+				"app://website2:way"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "backend",
+			"uris": [
+				"http://localhost:9090"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "backend-udt",
+			"uris": [
+				"udt://localhost:8083"
+			],
+			"props": {
+				
+			}
+		},
+		{
+			"name": "backend-tcp",
+			"uris": [
+				"tcp://localhost:8082"
+			],
+			"props": {
+				
+			}
+		}
+	],
+	"invalids": []
+}
