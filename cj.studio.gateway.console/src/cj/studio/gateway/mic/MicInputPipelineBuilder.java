@@ -43,8 +43,8 @@ public class MicInputPipelineBuilder implements IInputPipelineBuilder {
 		IInputPipeline input=new InputPipeline(first, last);
 		
 		input.prop(SocketContants.__pipeline_name, name);
-		String toWho=(String)parent.getService("$.server.name");
-		input.prop(SocketContants.__pipeline_toWho,toWho);
+		String socketName=(String)parent.getService("$.socket.name");
+		input.prop(SocketContants.__pipeline_toWho,socketName);
 		input.prop(SocketContants.__pipeline_toProtocol, "tcp");
 		
 		if(props!=null) {

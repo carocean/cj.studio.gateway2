@@ -26,6 +26,9 @@ public class MicGatewaySocket implements IGatewaySocket {
 		if ("$.pipeline.input.builder".equals(serviceId)) {
 			return builder;
 		}
+		if ("$.socket.name".equals(serviceId)) {
+			return this.name();
+		}
 		return parent.getService(serviceId);
 	}
 
