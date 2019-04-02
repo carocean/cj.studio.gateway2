@@ -13,7 +13,8 @@ public class WebsiteActivator implements IEntryPointActivator{
 		// TODO Auto-generated method stub
 		System.out.println("----activate");
 		IRuntime runtime=(IRuntime)site.getService("$.gateway.runtime");
-		Destination dest=new Destination();
+		Destination dest=new Destination("news.163.com");
+		dest.getUris().add("http://news.163.com");
 		runtime.addDestination(dest);
 		System.out.println(runtime);
 	}

@@ -16,6 +16,7 @@ public class MainConsole extends MicConsole implements IMicConsole {
 		registry.add(new ResetCommand());
 		registry.add(new CdServerConsoleCommand());
 		registry.add(new CdClusterConsoleCommand());
+		registry.add(new CloseSocketMicCommand());
 	}
 
 	@Override

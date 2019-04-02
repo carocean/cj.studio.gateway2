@@ -3,6 +3,7 @@ package cj.studio.gateway.socket.app;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOutputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.pipeline.OutputSelector;
+import cj.ultimate.IDisposable;
 import cj.ultimate.gson2.com.google.gson.Gson;
 import cj.ultimate.util.StringUtil;
 
@@ -42,12 +44,13 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 	private String homeDir;
 	private IGatewayAppSiteProgram program;
 	IAppSiteSessionManager sessionManager;
-
+	List<String> runtimeAddedDestNames;
 	public AppGatewaySocket(IServiceProvider parent) {
 		this.parent = parent;
 		inputBuilder = new AppSocketInputPipelineBuilder(this);
 		outputBuilder = new AppSocketOutputPipelineBuilder(this);
 		this.homeDir = (String) parent.getService("$.homeDir");
+		this.runtimeAddedDestNames=new ArrayList<>();
 	}
 
 	public boolean isConnected() {
@@ -216,6 +219,8 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 
 	@Override
 	public void close() throws CircuitException {
+		IDisposable runtime=(IDisposable)this.program.getService("$.gateway.runtime");
+		runtime.dispose();
 		IGatewaySocketContainer container = (IGatewaySocketContainer) parent.getService("$.container.socket");
 		if (container != null) {
 			container.remove(name());
@@ -223,10 +228,13 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		isConnected = false;
 		sessionManager.stop();
 		program.close();
+		this.runtimeAddedDestNames.clear();
 		this.inputBuilder = null;
 		this.parent = null;
 		this.program = null;
 		this.sessionManager = null;
+		this.runtimeAddedDestNames=null;
+		
 	}
 
 	class AppCoreService implements IServiceProvider {
@@ -274,7 +282,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 
 	}
 	
-	class Runtime implements IRuntime{
+	class Runtime implements IRuntime,IDisposable{
 		ICluster cluster;
 		IConfiguration config;
 		public Runtime(IConfiguration config) {
@@ -282,17 +290,30 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 			this.config=config;
 		}
 		@Override
+		public void dispose() {
+			String[] names=runtimeAddedDestNames.toArray(new String[0]);
+			for(String name:names) {
+				removeDestination(name);
+			}
+		}
+		@Override
 		public void flushCluster() {
 			config.flushCluster();
 		}
 		@Override
 		public void addDestination(Destination dest) {
+			if(StringUtil.isEmpty(dest.getName())||dest.getUris().isEmpty()) {
+				throw new EcmException("目标缺少目标名或远程地址");
+			}
+			dest.getProps().put("Is-Runtime-Destination", "true");
 			cluster.addDestination(dest);
+			runtimeAddedDestNames.add(dest.getName());
 		}
 
 		@Override
 		public void removeDestination(String domain) {
 			cluster.removeDestination(domain);
+			runtimeAddedDestNames.remove(domain);
 		}
 
 		@Override
