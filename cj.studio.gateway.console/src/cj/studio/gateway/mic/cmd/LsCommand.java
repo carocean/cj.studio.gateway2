@@ -264,23 +264,23 @@ public class LsCommand extends MicCommand {
 				continue;
 			}
 			String v = props.get(key);
-			sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;%s:%s</li>", indent, key,
+			sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;%s:%s</li>", indent, key,
 					v));
 		}
 		int nThread = (int) socket.getService("$.socket.loopsize");
-		sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;workThreadCount:%s</li>",
+		sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;workThreadCount:%s</li>",
 				indent, nThread));
 		Object udtsize = socket.getService("$.socket.loopudtsize");
 		if (udtsize != null) {
 			int nThread_udt = (int) udtsize;
 			sb.append(String.format(
-					"<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;workThreadCount_udt:%s</li>", indent,
+					"<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;workThreadCount_udt:%s</li>", indent,
 					nThread_udt));
 		}
 		String[] uris = dest.getUris().toArray(new String[0]);
 		sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;地址:", indent));
 		for (String uri : uris) {
-			sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;%s</li>", indent, uri));
+			sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;%s</li>", indent, uri));
 		}
 		@SuppressWarnings("unchecked")
 		List<IGatewaySocketCable> cables = (List<IGatewaySocketCable>) socket.getService("$.cables");
@@ -288,35 +288,35 @@ public class LsCommand extends MicCommand {
 		sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;电缆:", indent));
 		for (int i = 0; i < arr.length; i++) {
 			sb.append(String.format(
-					"<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;%s -------------------------------------",
+					"<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;%s -------------------------------------",
 					indent, i));
 			IGatewaySocketCable cable = arr[i];
-			sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;uri=%s://%s:%s</li>",
+			sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;uri=%s://%s:%s</li>",
 					indent, cable.protocol(), cable.host(), cable.port()));
-			sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;activedWires=%s</li>",
+			sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;activedWires=%s</li>",
 					indent, ((IServiceProvider) cable).getService("$.wires.count")));
-			sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;heartbeat=%s</li>",
+			sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;heartbeat=%s</li>",
 					indent, cable.getHeartbeat()));
-			sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;initialWireSize=%s</li>",
+			sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;initialWireSize=%s</li>",
 					indent, cable.initialWireSize()));
 			if ("http".equals(cable.protocol()) || "https".equals(cable.protocol())) {
-				sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;maxIdleConnections:%s</li>",
+				sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;maxIdleConnections:%s</li>",
 						indent, ((IServiceProvider) cable).getService("$.prop.maxIdleConnections")));
-				sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;keepAliveDuration:%s</li>",
+				sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;keepAliveDuration:%s</li>",
 						indent, ((IServiceProvider) cable).getService("$.prop.keepAliveDuration")));
-				sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;connectTimeout:%s</li>", indent,
+				sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;connectTimeout:%s</li>", indent,
 						((IServiceProvider) cable).getService("$.prop.connectTimeout")));
-				sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;readTimeout:%s</li>", indent,
+				sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;readTimeout:%s</li>", indent,
 						((IServiceProvider) cable).getService("$.prop.readTimeout")));
-				sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;writeTimeout:%s</li>", indent,
+				sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;writeTimeout:%s</li>", indent,
 						((IServiceProvider) cable).getService("$.prop.writeTimeout")));
-				sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;followRedirects:%s</li>", indent,
+				sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;followRedirects:%s</li>", indent,
 						((IServiceProvider) cable).getService("$.prop.followRedirects")));
-				sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;retryOnConnectionFailure:%s</li>",
+				sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;retryOnConnectionFailure:%s</li>",
 						indent, ((IServiceProvider) cable).getService("$.prop.retryOnConnectionFailure")));
 			}
 			if ("ws".equals(cable.protocol())) {
-				sb.append(String.format("<li style='padding-left:80px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;activedWires=%s</li>",
+				sb.append(String.format("<li style='padding-left:120px;'>%s&nbsp;&nbsp;&nbsp;&nbsp;activedWires=%s</li>",
 						indent, ((IServiceProvider) cable).getService("$.wspath")));
 			}
 
