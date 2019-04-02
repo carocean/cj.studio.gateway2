@@ -69,6 +69,10 @@ class MicCommandFactory implements IMicCommandFactory, IServiceProvider {
 			console.printMan();
 			return;
 		}
+		if("prefix".equals(cmdName)) {
+			response.send(user, String.format("$prefix{%s}",console.name()));
+			return;
+		}
 		String args[] = argline.split(" ");
 		MicCommand cmd = console.get(cmdName);
 		if(cmd==null) {
