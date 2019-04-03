@@ -227,6 +227,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 	@Override
 	public void close() throws CircuitException {
 		IDisposable runtime = (IDisposable) this.program.getService("$.gateway.runtime");
+		this.target.unload();
 		runtime.dispose();
 		IGatewaySocketContainer container = (IGatewaySocketContainer) parent.getService("$.container.socket");
 		if (container != null) {
@@ -237,11 +238,11 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		program.close();
 		this.runtimeAddedDestNames.clear();
 		this.inputBuilder = null;
-		this.parent = null;
 		this.program = null;
 		this.sessionManager = null;
 		this.runtimeAddedDestNames = null;
 		this.target = null;
+		this.parent = null;
 
 	}
 
