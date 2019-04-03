@@ -46,12 +46,14 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 	private IGatewayAppSiteProgram program;
 	IAppSiteSessionManager sessionManager;
 	List<String> runtimeAddedDestNames;
+	IAssembly target;
+
 	public AppGatewaySocket(IServiceProvider parent) {
 		this.parent = parent;
 		inputBuilder = new AppSocketInputPipelineBuilder(this);
 		outputBuilder = new AppSocketOutputPipelineBuilder(this);
 		this.homeDir = (String) parent.getService("$.homeDir");
-		this.runtimeAddedDestNames=new ArrayList<>();
+		this.runtimeAddedDestNames = new ArrayList<>();
 	}
 
 	public boolean isConnected() {
@@ -67,6 +69,10 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 			return outputBuilder;
 		}
 		if ("$.app.program".equals(name)) {
+			if (program == null) {
+				program = (IGatewayAppSiteProgram) target.workbin().part("$.cj.studio.gateway.app");
+				return program;
+			}
 			return program;
 		}
 		if ("$.socket".equals(name)) {
@@ -153,11 +159,11 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		IAssembly target = Assembly.loadAssembly(fn, share);
 		Map<String, IGatewayAppSitePlugin> plugins = scanPluginsAndLoad(home, target.info().getReferences(), share);
 		target.parent(new AppCoreService(plugins));
-
+		this.target = target;
 		target.start();
-
-		this.program = (IGatewayAppSiteProgram) target.workbin().part("$.cj.studio.gateway.app");
-
+		if (this.program == null) {
+			this.program = (IGatewayAppSiteProgram) target.workbin().part("$.cj.studio.gateway.app");
+		}
 		if (program == null) {
 			throw new EcmException("程序集验证失败，原因：未发现Program的派生实现");
 		}
@@ -220,7 +226,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 
 	@Override
 	public void close() throws CircuitException {
-		IDisposable runtime=(IDisposable)this.program.getService("$.gateway.runtime");
+		IDisposable runtime = (IDisposable) this.program.getService("$.gateway.runtime");
 		runtime.dispose();
 		IGatewaySocketContainer container = (IGatewaySocketContainer) parent.getService("$.container.socket");
 		if (container != null) {
@@ -234,8 +240,9 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		this.parent = null;
 		this.program = null;
 		this.sessionManager = null;
-		this.runtimeAddedDestNames=null;
-		
+		this.runtimeAddedDestNames = null;
+		this.target = null;
+
 	}
 
 	class AppCoreService implements IServiceProvider {
@@ -254,7 +261,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 				}
 				return selector;
 			}
-			
+
 			if (!plugins.isEmpty()) {
 				int pos = name.indexOf(".");
 				if (pos > 0) {
@@ -268,11 +275,11 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 					}
 				}
 			}
-			if("$.gateway.runtime".equals(name)) {
-				IConfiguration config =(IConfiguration)parent.getService("$.config");
+			if ("$.gateway.runtime".equals(name)) {
+				IConfiguration config = (IConfiguration) parent.getService("$.config");
 				return new Runtime(config);
 			}
-			if(IMicNode.SERVICE_KEY.equals(name)) {
+			if (IMicNode.SERVICE_KEY.equals(name)) {
 				return parent.getService(name);
 			}
 			return null;
@@ -285,28 +292,32 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		}
 
 	}
-	
-	class Runtime implements IRuntime,IDisposable{
+
+	class Runtime implements IRuntime, IDisposable {
 		ICluster cluster;
 		IConfiguration config;
+
 		public Runtime(IConfiguration config) {
-			this.cluster=config.getCluster();
-			this.config=config;
+			this.cluster = config.getCluster();
+			this.config = config;
 		}
+
 		@Override
 		public void dispose() {
-			String[] names=runtimeAddedDestNames.toArray(new String[0]);
-			for(String name:names) {
+			String[] names = runtimeAddedDestNames.toArray(new String[0]);
+			for (String name : names) {
 				removeDestination(name);
 			}
 		}
+
 		@Override
 		public void flushCluster() {
 			config.flushCluster();
 		}
+
 		@Override
 		public void addDestination(Destination dest) {
-			if(StringUtil.isEmpty(dest.getName())||dest.getUris().isEmpty()) {
+			if (StringUtil.isEmpty(dest.getName()) || dest.getUris().isEmpty()) {
 				throw new EcmException("目标缺少目标名或远程地址");
 			}
 			dest.getProps().put("Is-Runtime-Destination", "true");
@@ -344,6 +355,6 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		public void invalidDestination(String domain, String cause) {
 			cluster.invalidDestination(domain, cause);
 		}
-		
+
 	}
 }
