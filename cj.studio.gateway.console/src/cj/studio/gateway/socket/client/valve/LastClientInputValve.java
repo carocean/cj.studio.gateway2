@@ -51,7 +51,7 @@ public class LastClientInputValve implements IInputValve, IValveDisposable {
 		try {
 			seleted.send(request, response);
 		} catch (Throwable e) {
-			CJSystem.logging().error(getClass(), e + "");
+			throw e;
 		}
 	}
 
