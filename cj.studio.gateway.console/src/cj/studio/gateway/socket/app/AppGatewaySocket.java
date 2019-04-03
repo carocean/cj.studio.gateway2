@@ -21,6 +21,7 @@ import cj.studio.ecm.resource.JarClassLoader;
 import cj.studio.gateway.ICluster;
 import cj.studio.gateway.IConfiguration;
 import cj.studio.gateway.IGatewaySocketContainer;
+import cj.studio.gateway.IMicNode;
 import cj.studio.gateway.IRuntime;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
@@ -270,6 +271,9 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 			if("$.gateway.runtime".equals(name)) {
 				IConfiguration config =(IConfiguration)parent.getService("$.config");
 				return new Runtime(config);
+			}
+			if(IMicNode.SERVICE_KEY.equals(name)) {
+				return parent.getService(name);
 			}
 			return null;
 		}

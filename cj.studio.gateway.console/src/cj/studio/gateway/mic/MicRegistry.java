@@ -54,5 +54,5 @@ public class MicRegistry {
 	public void setMic(MicConfig mic) {
 		this.mic = mic;
 	}
-
+	
 }

@@ -65,6 +65,13 @@ public class Gateway implements IGateway, IServiceProvider {
 		if ("$.supportProtocol".equals(name)) {
 			return supportProtocol;
 		}
+		if (IMicNode.SERVICE_KEY.equals(name)) {
+			if (micConnector == null)
+				return null;
+			IServiceProvider provider = (IServiceProvider) micConnector;
+			IMicNode node = (IMicNode) provider.getService(name);
+			return node;
+		}
 		return null;
 	}
 
@@ -76,7 +83,7 @@ public class Gateway implements IGateway, IServiceProvider {
 
 	@Override
 	public void start() {
-		supportProtocol=new SupportProtocol();
+		supportProtocol = new SupportProtocol();
 		config.load();
 		servercontainer.startAll();
 		if (config.registry().isEnabled()) {
@@ -105,13 +112,14 @@ public class Gateway implements IGateway, IServiceProvider {
 	public boolean supportProtocol(String protocol) {
 		return this.supportProtocol.supportProtocol(protocol);
 	}
-	class SupportProtocol implements ISupportProtocol{
+
+	class SupportProtocol implements ISupportProtocol {
 
 		@Override
 		public boolean supportProtocol(String protocol) {
 			return "ws".equals(protocol) || "http".equals(protocol) || "tcp".equals(protocol) || "udt".equals(protocol)
 					|| "jms".equals(protocol) || "app".equals(protocol);
 		}
-		
+
 	}
 }

@@ -21,6 +21,7 @@ import cj.studio.ecm.net.io.MemoryOutputChannel;
 import cj.studio.gateway.IConfiguration;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.IMicConnector;
+import cj.studio.gateway.IMicNode;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.cable.IGatewaySocketCable;
@@ -50,6 +51,9 @@ public class MicConnector extends TimerTask implements IMicConnector, IServiceSe
 		}
 		if("$.registry".equals(serviceId)) {
 			return registry;
+		}
+		if (IMicNode.SERVICE_KEY.equals(serviceId)) {
+			return new MicNode(registry);
 		}
 		return parent.getService(serviceId);
 	}
