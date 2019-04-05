@@ -121,12 +121,12 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			throw new CircuitException("503", "ws协议仅支持内存模式，请使用MemoryContentReciever");
 		}
 		WebSocketFrame f = new BinaryWebSocketFrame(frame.toByteBuf());
-		ChannelFuture future =channel.writeAndFlush(f);
-		try {
-			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* ChannelFuture future = */channel.writeAndFlush(f);
+//		try {
+//			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		updateIdleBeginTime();
 		return null;
 	}
@@ -350,7 +350,7 @@ public class WSGatewaySocketWire implements IGatewaySocketWire {
 			IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 			String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
 			IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "ws")
-					.prop(__pipeline_fromWho, socketName).createPipeline();
+					.prop(__pipeline_fromWho, socketName).prop(__pipeline_fromNetType, "client").createPipeline();
 			pipelines.add(gatewayDest, inputPipeline);
 
 			BackwardJunction junction = new BackwardJunction(pipelineName);

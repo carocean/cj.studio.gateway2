@@ -39,7 +39,6 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -128,12 +127,12 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		byte[] box = TcpFrameBox.box(pack.toBytes());
 		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
-		ChannelFuture future = channel.writeAndFlush(bb);
-		try {
-			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* ChannelFuture future = */ channel.writeAndFlush(bb);
+//		try {
+//			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		if (b != null) {
 			tcr.done(b, 0, b.length);
 		}
@@ -380,7 +379,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
 			IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 			IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "tcp")
-					.prop(__pipeline_fromWho, socketName).createPipeline();
+					.prop(__pipeline_fromWho, socketName).prop(__pipeline_fromNetType, "client").createPipeline();
 			pipelines.add(gatewayDest, inputPipeline);
 
 			BackwardJunction junction = new BackwardJunction(pipelineName);

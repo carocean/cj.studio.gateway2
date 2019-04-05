@@ -61,12 +61,12 @@ public class LastTcpServerChannelInputValve implements IInputValve,IValveDisposa
 		byte[] box = TcpFrameBox.box(pack.toBytes());
 		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
-		ChannelFuture future =channel.writeAndFlush(bb);
-		try {
-			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* ChannelFuture future = */channel.writeAndFlush(bb);
+//		try {
+//			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		if (b != null) {
 			tcr.done(b, 0, b.length);
 		}

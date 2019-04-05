@@ -31,12 +31,12 @@ public class UdtOutputChannel implements IOutputChannel {
 		ByteBuf bb=Unpooled.buffer(length-pos);
 		bb.writeBytes(b,pos,length);
 		UdtMessage msg = new UdtMessage(bb);
-		ChannelFuture future =channel.writeAndFlush(msg);
-		try {
-			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* ChannelFuture future = */channel.writeAndFlush(msg);
+//		try {
+//			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		writedBytes += length - pos;
 	}
 
@@ -55,12 +55,12 @@ public class UdtOutputChannel implements IOutputChannel {
 		ByteBuf bb=Unpooled.buffer(length-pos);
 		bb.writeBytes(b,pos,length);
 		UdtMessage msg = new UdtMessage(bb);
-		ChannelFuture future =channel.writeAndFlush(msg);
-		try {
-			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* ChannelFuture future = */channel.writeAndFlush(msg);
+//		try {
+//			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		writedBytes += length - pos;
 		this.channel = null;
 		this.frame = null;

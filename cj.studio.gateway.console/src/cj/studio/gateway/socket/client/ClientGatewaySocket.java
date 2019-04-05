@@ -12,7 +12,6 @@ import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.cable.GatewaySocketCable;
 import cj.studio.gateway.socket.cable.IGatewaySocketCable;
 import cj.studio.gateway.socket.client.pipeline.builder.ClientSocketInputPipelineBuilder;
-import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.ultimate.util.StringUtil;
 
 //管理电缆集合
@@ -20,21 +19,19 @@ public class ClientGatewaySocket implements IGatewaySocket {
 	IServiceProvider parent;
 	List<IGatewaySocketCable> cables;// 电览集合,一个uri一个电缆
 	private Destination destination;
-	private IInputPipelineBuilder inputBuilder;// ClientGatewaySocket不需要输出管道,这与server端向目标端的输出一致。
 	private boolean isConnected;
 	IExecutorPool pool;
 
 	public ClientGatewaySocket(IServiceProvider parent) {
 		this.parent = parent;
 		cables = new CopyOnWriteArrayList<>();
-		inputBuilder = new ClientSocketInputPipelineBuilder(this);
 		pool = new ExecutorPool();
 	}
 
 	@Override
 	public Object getService(String name) {
 		if ("$.pipeline.input.builder".equals(name)) {
-			return inputBuilder;
+			return  new ClientSocketInputPipelineBuilder(this);
 		}
 		if ("$.socket".equals(name)) {
 			return this;
@@ -129,7 +126,6 @@ public class ClientGatewaySocket implements IGatewaySocket {
 		pool.shutdown();
 		parent = null;
 		isConnected = false;
-		this.inputBuilder = null;
 
 	}
 

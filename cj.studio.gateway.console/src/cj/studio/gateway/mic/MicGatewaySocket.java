@@ -9,11 +9,9 @@ import cj.studio.gateway.socket.IGatewaySocket;
 public class MicGatewaySocket implements IGatewaySocket {
 	IServiceProvider parent;
 	private Destination dest;
-	MicInputPipelineBuilder builder;
 
 	public MicGatewaySocket(IServiceProvider parent) {
 		this.parent = parent;
-		builder = new MicInputPipelineBuilder(this);
 	}
 
 	@Override
@@ -24,7 +22,7 @@ public class MicGatewaySocket implements IGatewaySocket {
 	@Override
 	public Object getService(String serviceId) {
 		if ("$.pipeline.input.builder".equals(serviceId)) {
-			return builder;
+			return  new MicInputPipelineBuilder(this);
 		}
 		if ("$.socket.name".equals(serviceId)) {
 			return this.name();

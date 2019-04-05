@@ -31,12 +31,12 @@ public class TcpOutputChannel implements IOutputChannel {
 		byte[] box = TcpFrameBox.box(b,pos,length);
 		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
-		ChannelFuture future =channel.writeAndFlush(bb);
-		try {
-			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* ChannelFuture future = */channel.writeAndFlush(bb);
+//		try {
+//			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		writedBytes += length - pos;
 	}
 
@@ -55,12 +55,12 @@ public class TcpOutputChannel implements IOutputChannel {
 		byte[] box = TcpFrameBox.box(b,pos,length);
 		ByteBuf bb = Unpooled.buffer();
 		bb.writeBytes(box);
-		ChannelFuture future =channel.writeAndFlush(bb);
-		try {
-			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* ChannelFuture future = */channel.writeAndFlush(bb);
+//		try {
+//			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		writedBytes += length - pos;
 		this.channel = null;
 		this.frame = null;

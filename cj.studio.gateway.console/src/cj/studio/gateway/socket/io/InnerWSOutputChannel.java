@@ -28,12 +28,12 @@ public class InnerWSOutputChannel implements IOutputChannel {
 	public void write(byte[] b, int pos, int length) {
 		TextWebSocketFrame binf = new TextWebSocketFrame();
 		binf.content().writeBytes(b, 0, length);
-		ChannelFuture future =channel.writeAndFlush(binf);
-		try {
-			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* ChannelFuture future = */channel.writeAndFlush(binf);
+//		try {
+//			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		writedBytes += length - pos;
 	}
 
@@ -52,12 +52,12 @@ public class InnerWSOutputChannel implements IOutputChannel {
 		}
 		TextWebSocketFrame binf = new TextWebSocketFrame();
 		binf.content().writeBytes(b, 0, length);
-		ChannelFuture future =channel.writeAndFlush(binf);
-		try {
-			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* ChannelFuture future = */channel.writeAndFlush(binf);
+//		try {
+//			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		writedBytes += length - pos;
 		this.channel = null;
 		this.frame = null;

@@ -168,7 +168,7 @@ public class WebsocketChannelHandler extends SimpleChannelInboundHandler<Object>
 		String pipelineName = SocketName.name(ctx.channel().id(), gatewayDest);
 		IInputPipelineBuilder builder = (IInputPipelineBuilder) socket.getService("$.pipeline.input.builder");
 		IInputPipeline inputPipeline = builder.name(pipelineName).prop(__pipeline_fromProtocol, "ws")
-				.prop(__pipeline_fromWho, info.getName()).createPipeline();
+				.prop(__pipeline_fromWho, info.getName()).prop(__pipeline_fromNetType, "server").createPipeline();
 		pipelines.add(gatewayDest, inputPipeline);
 
 		ForwardJunction junction = new ForwardJunction(pipelineName);

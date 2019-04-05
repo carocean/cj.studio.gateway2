@@ -221,6 +221,7 @@ public class HttpGatewaySocketWire implements IGatewaySocketWire {
 
 	@Override
 	public boolean isOpened() {
+		if(client==null)return false;
 		ExecutorService exe = client.dispatcher().executorService();
 		return !exe.isTerminated() && !exe.isShutdown();
 	}

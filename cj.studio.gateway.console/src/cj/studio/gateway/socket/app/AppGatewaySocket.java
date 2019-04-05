@@ -27,8 +27,6 @@ import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
 import cj.studio.gateway.socket.app.pipeline.builder.AppSocketInputPipelineBuilder;
 import cj.studio.gateway.socket.app.pipeline.builder.AppSocketOutputPipelineBuilder;
-import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
-import cj.studio.gateway.socket.pipeline.IOutputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.pipeline.OutputSelector;
 import cj.ultimate.IDisposable;
@@ -39,8 +37,6 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 
 	private IServiceProvider parent;
 	private Destination destination;
-	private IInputPipelineBuilder inputBuilder;
-	private IOutputPipelineBuilder outputBuilder;
 	private boolean isConnected;
 	private String homeDir;
 	private IGatewayAppSiteProgram program;
@@ -50,8 +46,6 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 
 	public AppGatewaySocket(IServiceProvider parent) {
 		this.parent = parent;
-		inputBuilder = new AppSocketInputPipelineBuilder(this);
-		outputBuilder = new AppSocketOutputPipelineBuilder(this);
 		this.homeDir = (String) parent.getService("$.homeDir");
 		this.runtimeAddedDestNames = new ArrayList<>();
 	}
@@ -63,10 +57,10 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 	@Override
 	public Object getService(String name) {
 		if ("$.pipeline.input.builder".equals(name)) {
-			return inputBuilder;
+			return new AppSocketInputPipelineBuilder(this);
 		}
 		if ("$.pipeline.output.builder".equals(name)) {
-			return outputBuilder;
+			return new AppSocketOutputPipelineBuilder(this);
 		}
 		if ("$.app.program".equals(name)) {
 			if (program == null) {
@@ -237,7 +231,6 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 		sessionManager.stop();
 		program.close();
 		this.runtimeAddedDestNames.clear();
-		this.inputBuilder = null;
 		this.program = null;
 		this.sessionManager = null;
 		this.runtimeAddedDestNames = null;

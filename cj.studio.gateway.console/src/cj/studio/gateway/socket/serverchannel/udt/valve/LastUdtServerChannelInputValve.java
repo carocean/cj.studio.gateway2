@@ -57,12 +57,12 @@ public class LastUdtServerChannelInputValve implements IInputValve,IValveDisposa
 		in.done(data, 0, data.length);
 
 		UdtMessage okmsg = new UdtMessage(pack.toByteBuf());
-		ChannelFuture future =channel.writeAndFlush(okmsg);
-		try {
-			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		/* ChannelFuture future = */channel.writeAndFlush(okmsg);
+//		try {
+//			future.await(SocketContants.__channel_write_await_timeout, TimeUnit.MILLISECONDS);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		if (b != null) {
 			tcr.done(b, 0, b.length);
 		}

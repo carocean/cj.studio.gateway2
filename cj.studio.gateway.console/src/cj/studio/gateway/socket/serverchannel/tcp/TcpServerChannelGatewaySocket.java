@@ -6,7 +6,6 @@ import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.IGatewaySocketContainer;
 import cj.studio.gateway.socket.Destination;
 import cj.studio.gateway.socket.IGatewaySocket;
-import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
 import cj.studio.gateway.socket.serverchannel.AbstractServerChannelSocket;
 import cj.studio.gateway.socket.serverchannel.tcp.pipeline.builder.TcpServerChannelInputPipelineBuilder;
 import cj.studio.gateway.socket.util.SocketName;
@@ -15,19 +14,17 @@ import io.netty.channel.Channel;
 public class TcpServerChannelGatewaySocket extends AbstractServerChannelSocket implements IGatewaySocket {
 	private IServiceProvider parent;
 	private Channel channel;
-	private IInputPipelineBuilder builder;
 	String gatewayDest;
 	public TcpServerChannelGatewaySocket(IServiceProvider parent,String gatewayDest, Channel channel) {
 		this.parent = parent;
 		this.channel = channel;
 		this.gatewayDest=gatewayDest;
-		this.builder = new TcpServerChannelInputPipelineBuilder(parent,channel);
 	}
 
 	@Override
 	public Object getService(String name) {
 		if ("$.pipeline.input.builder".equals(name)) {
-			return builder;
+			return  new TcpServerChannelInputPipelineBuilder(parent,channel);
 		}
 		if ("$.localAddress".equals(name)) {
 			return channel.localAddress().toString();

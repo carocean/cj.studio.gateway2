@@ -23,8 +23,6 @@ import cj.studio.gateway.socket.app.FillClassLoader;
 import cj.studio.gateway.socket.app.IGatewayAppSitePlugin;
 import cj.studio.gateway.socket.app.IGatewayAppSiteProgram;
 import cj.studio.gateway.socket.app.ProgramAdapterType;
-import cj.studio.gateway.socket.pipeline.IInputPipelineBuilder;
-import cj.studio.gateway.socket.pipeline.IOutputPipelineBuilder;
 import cj.studio.gateway.socket.pipeline.IOutputSelector;
 import cj.studio.gateway.socket.pipeline.OutputSelector;
 import cj.ultimate.gson2.com.google.gson.Gson;
@@ -34,16 +32,12 @@ public class RoadGatewaySocket implements IGatewaySocket {
 
 	private IServiceProvider parent;
 	private Destination destination;
-	private IInputPipelineBuilder inputBuilder;
-	private IOutputPipelineBuilder outputBuilder;
 	private boolean isConnected;
 	private String homeDir;
 	private IGatewayAppSiteProgram program;
 
 	public RoadGatewaySocket(IServiceProvider parent) {
 		this.parent = parent;
-		inputBuilder = new RoadInputPipelineBuilder(this);
-		outputBuilder = new RoadOutputPipelineBuilder(this);
 		this.homeDir = (String) parent.getService("$.homeDir");
 	}
 	public boolean isConnected() {
@@ -52,10 +46,10 @@ public class RoadGatewaySocket implements IGatewaySocket {
 	@Override
 	public Object getService(String name) {
 		if ("$.pipeline.input.builder".equals(name)) {
-			return inputBuilder;
+			return new RoadInputPipelineBuilder(this);
 		}
 		if ("$.pipeline.output.builder".equals(name)) {
-			return outputBuilder;
+			return new RoadOutputPipelineBuilder(this);
 		}
 		if ("$.app.program".equals(name)) {
 			return program;
@@ -198,7 +192,6 @@ public class RoadGatewaySocket implements IGatewaySocket {
 		}
 		isConnected = false;
 		program.close();
-		this.inputBuilder = null;
 		this.parent = null;
 		this.program = null;
 	}

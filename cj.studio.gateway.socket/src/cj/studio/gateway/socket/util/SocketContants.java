@@ -4,6 +4,7 @@ public interface SocketContants {
 	String __pipeline_name = "Pipeline-Name";// 管道名
 	String __pipeline_fromWho = "From-Who";
 	String __pipeline_fromProtocol = "From-Protocol";
+	String __pipeline_fromNetType = "From-Net-Type";
 	String __pipeline_builder_frontend_channel="Frontend-Channel";
 	String __pipeline_toWho = "To-Who";
 	String __pipeline_toProtocol = "To-Protocol";
