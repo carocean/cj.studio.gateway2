@@ -9,4 +9,5 @@ public interface IInputChannel {
 	long writedBytes()throws CircuitException;
 	void flush() throws CircuitException;
 	void accept(IContentReciever reciever)throws CircuitException;
+	boolean isDone();
 }

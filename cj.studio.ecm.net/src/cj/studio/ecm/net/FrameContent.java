@@ -11,6 +11,10 @@ class FrameContent implements IFrameContent {
 		this.input = input;
 	}
 	@Override
+	public boolean isDone() {
+		return input.isDone();
+	}
+	@Override
 	public boolean hasReciever() {
 		return reciever==null?false:true;
 	}

@@ -130,7 +130,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 	private void resetStreaming(boolean isLast) throws CircuitException {
 		String errText = "";
 		if (streaming) {
-			errText = "前序流仍未结束，可能会导致前序流数据丢失，请客户端检查前序发送流程是否在out.send后面调用了input.done方法。";
+			errText = "前序流仍未结束，可能会导致前序流数据丢失，请客户端检查前序发送流程是否调用了input.done方法。";
 			streaming = false;
 		} else {
 			errText = "当前流还未开始则发送内容或尾块";

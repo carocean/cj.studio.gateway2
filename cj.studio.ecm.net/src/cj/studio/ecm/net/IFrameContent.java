@@ -10,5 +10,5 @@ public interface IFrameContent {
 	void accept(IContentReciever reciever) throws CircuitException;
 	long revcievedBytes() throws CircuitException;
 	boolean hasReciever();
-
+	boolean isDone();
 }

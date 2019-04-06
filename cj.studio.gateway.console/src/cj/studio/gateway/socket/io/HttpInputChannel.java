@@ -15,7 +15,7 @@ public class HttpInputChannel implements IInputChannel {
 	private Frame frame;
 	private IContentReciever reciever;
 	private long writedBytes;
-
+	boolean isDone;
 	@Override
 	public void writeBytes(byte[] b, int pos, int length) throws CircuitException {
 		if (reciever != null) {
@@ -49,6 +49,7 @@ public class HttpInputChannel implements IInputChannel {
 			f.head(key, v);
 		}
 		this.frame=f;
+		isDone=false;
 		return f;
 	}
 
@@ -58,8 +59,12 @@ public class HttpInputChannel implements IInputChannel {
 			reciever.done(b, pos, length);
 		}
 		writedBytes += length - pos;
+		isDone=true;
 	}
-
+	@Override
+	public boolean isDone() {
+		return isDone;
+	}
 	@Override
 	public long writedBytes() {
 		return writedBytes;

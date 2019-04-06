@@ -73,9 +73,12 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 	public void used(boolean b) {
 		isIdle = !b;
 	}
+
 	public void updateIdleBeginTime() {
-		this.idleBeginTime = System.currentTimeMillis();;
+		this.idleBeginTime = System.currentTimeMillis();
+		;
 	}
+
 	@Override
 	public void dispose() {
 		close();
@@ -106,13 +109,17 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 		}
 		Frame frame = (Frame) request;
 		byte[] b = null;
+		boolean mustBeDone = false;
 		if (frame.content().hasReciever()) {
 			if (!frame.content().isAllInMemory()) {
 				throw new CircuitException("503", "TCP仅支持MemoryContentReciever或者内容接收器为空." + frame);
 			}
 			if (frame.content().revcievedBytes() > 0) {
 				b = frame.content().readFully();
+			} else {
+				b = new byte[0];
 			}
+			mustBeDone = true;
 		}
 		TcpContentReciever tcr = new TcpContentReciever(channel);
 		frame.content().accept(tcr);// 不管是否已存在接收器都覆盖掉
@@ -133,8 +140,8 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		}
-		if (b != null) {//注意：调用者必须放到out.send之后调用done方法
-			tcr.recieve(b, 0, b.length);
+		if (mustBeDone) {// 由于调用者使用了isAllInMemory接收器，前面在使用readFully()方法读取时如果没有完成则报流未完成异常，故而在使用内容的内存接收器模式时，发送前必须完成输入流，故而此处必须tcr.done
+			tcr.done(b, 0, b.length);
 		}
 		updateIdleBeginTime();
 		return null;
@@ -161,13 +168,15 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 
 	@Override
 	public boolean isWritable() {
-		if(channel==null)return false;
+		if (channel == null)
+			return false;
 		return channel.isWritable();
 	}
 
 	@Override
 	public boolean isOpened() {
-		if(channel==null)return false;
+		if (channel == null)
+			return false;
 		return channel.isOpen();
 	}
 
@@ -213,10 +222,11 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			pipelineRelease(ctx);
 
 		}
+
 		@Override
 		public void channelActive(ChannelHandlerContext ctx) throws Exception {
 			super.channelActive(ctx);
-			String gatewayDests = (String)parent.getService("$.prop."+__channel_onchannelEvent_notify_dests);
+			String gatewayDests = (String) parent.getService("$.prop." + __channel_onchannelEvent_notify_dests);
 			if (StringUtil.isEmpty(gatewayDests)) {
 				CJSystem.logging().warn(getClass(), String.format(
 						"客户端：%s 未指定通道激活或失活事件的通知目标。应用仅能在之后第一次请求时才能收到激活或失活事件。请在该net的连接串中指定参数：OnChannelEvent-Notify-Dests=dest1,dest2",
@@ -231,6 +241,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 				pipelineBuild(gatewayDest, circuit, ctx);
 			}
 		}
+
 		protected void pipelineRelease(ChannelHandlerContext ctx) throws Exception {
 			Set<String> dests = pipelines.enumDest();
 			for (String dest : dests) {
@@ -304,8 +315,8 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 					int pos = acceptErrorPath.indexOf("/");
 					if (pos > -1) {
 						gatewayDest = acceptErrorPath.substring(0, pos);
-					}else {
-						gatewayDest=acceptErrorPath;
+					} else {
+						gatewayDest = acceptErrorPath;
 					}
 				}
 				if (StringUtil.isEmpty(gatewayDest)) {
@@ -321,7 +332,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			}
 
 			// 以下生成目标管道
-			inputPipeline=pipelineBuild(gatewayDest,  circuit, ctx);
+			inputPipeline = pipelineBuild(gatewayDest, circuit, ctx);
 			flowPipeline(inputPipeline, ctx, frame, circuit);// 再把本次请求发送处理
 		}
 
@@ -372,7 +383,7 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 			}
 		}
 
-		protected IInputPipeline pipelineBuild(String gatewayDest,  Circuit circuit, ChannelHandlerContext ctx)
+		protected IInputPipeline pipelineBuild(String gatewayDest, Circuit circuit, ChannelHandlerContext ctx)
 				throws Exception {
 
 			IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);

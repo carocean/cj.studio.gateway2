@@ -10,7 +10,7 @@ public class UdtInputChannel implements IInputChannel {
 	private Frame frame;
 	private IContentReciever reciever;
 	private long writedBytes;
-
+	boolean isDone;
 	@Override
 	public Frame frame() {
 		return frame;
@@ -35,6 +35,7 @@ public class UdtInputChannel implements IInputChannel {
 		byte[] b=pack.content().readFully();
 		Frame frame=new Frame(this,b);
 		this.frame=frame;
+		isDone=false;
 		return frame;
 	}
 
@@ -44,6 +45,7 @@ public class UdtInputChannel implements IInputChannel {
 			reciever.done(b, pos, length);
 		}
 		writedBytes += length - pos;
+		isDone=true;
 	}
 
 	@Override
@@ -65,5 +67,8 @@ public class UdtInputChannel implements IInputChannel {
 	public Frame getFrame() {
 		return frame;
 	}
-
+	@Override
+	public boolean isDone() {
+		return isDone;
+	}
 }

@@ -106,13 +106,17 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 		}
 		Frame frame = (Frame) request;
 		byte[] b=null;
+		boolean mustBeDone = false;
 		if(frame.content().hasReciever()) {
 			if(!frame.content().isAllInMemory()) {
 				throw new CircuitException("503", "UDT仅支持MemoryContentReciever或者内容接收器为空." + frame);
 			}
 			if (frame.content().revcievedBytes() > 0) {
 				b = frame.content().readFully();
+			}else {
+				b=new byte[0];
 			}
+			mustBeDone=true;
 		}
 		UdtContentReciever tcr = new UdtContentReciever(channel);
 		frame.content().accept(tcr);
@@ -131,8 +135,8 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		}
-		if(b!=null) {//注意：调用者必须放到out.send之后调用done方法
-			tcr.recieve(b, 0, b.length);
+		if (mustBeDone) {// 由于调用者使用了isAllInMemory接收器，前面在使用readFully()方法读取时如果没有完成则报流未完成异常，故而在使用内容的内存接收器模式时，发送前必须完成输入流，故而此处必须tcr.done
+			tcr.done(b, 0, b.length);
 		}
 		updateIdleBeginTime();
 		return null;

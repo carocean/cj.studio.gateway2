@@ -10,7 +10,7 @@ public class TcpInputChannel implements IInputChannel {
 	private Frame frame;
 	private IContentReciever reciever;
 	private long writedBytes;
-
+	boolean isDone;
 	@Override
 	public Frame frame() {
 		return frame;
@@ -35,6 +35,7 @@ public class TcpInputChannel implements IInputChannel {
 		byte[] b=pack.content().readFully();
 		Frame frame=new Frame(this,b);
 		this.frame=frame;
+		isDone=false;
 		return frame;
 	}
 
@@ -44,13 +45,17 @@ public class TcpInputChannel implements IInputChannel {
 			reciever.done(b, pos, length);
 		}
 		writedBytes += length - pos;
+		isDone=true;
 	}
 
 	@Override
 	public long writedBytes() {
 		return writedBytes;
 	}
-
+	@Override
+	public boolean isDone() {
+		return isDone;
+	}
 	@Override
 	public void accept(IContentReciever reciever) {
 		reciever.begin(frame);

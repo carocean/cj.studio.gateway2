@@ -14,7 +14,7 @@ public class MemoryInputChannel implements IInputChannel {
 	private long writedBytes;
 	private Frame frame;
 	private int capacity;
-
+	boolean isDone;
 	public MemoryInputChannel(int capacity) {
 		buf = Unpooled.buffer(8192);
 		this.capacity = capacity;
@@ -43,6 +43,7 @@ public class MemoryInputChannel implements IInputChannel {
 	@Override
 	public Frame begin(Object request) {
 		this.frame = (Frame) request;
+		isDone=false;
 		return frame;
 	}
 
@@ -54,8 +55,12 @@ public class MemoryInputChannel implements IInputChannel {
 		}
 		reciever.done(b, pos, length);// 最后一个不入缓存
 		writedBytes += length - pos;
+		isDone=true;
 	}
-
+	@Override
+	public boolean isDone() {
+		return isDone;
+	}
 	@Override
 	public void flush() throws CircuitException{
 		if (buf.readableBytes() > 0) {

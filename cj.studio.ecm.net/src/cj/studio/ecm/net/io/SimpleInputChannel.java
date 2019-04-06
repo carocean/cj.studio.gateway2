@@ -10,7 +10,7 @@ public class SimpleInputChannel implements IInputChannel {
 	private IContentReciever reciever;
 	private long writedBytes;
 	private Frame frame;
-
+	boolean isDone;
 	@Override
 	public void flush() throws CircuitException{
 
@@ -33,6 +33,7 @@ public class SimpleInputChannel implements IInputChannel {
 	@Override
 	public Frame begin(Object request) {
 		this.frame = (Frame) request;
+		isDone=false;
 		return frame;
 	}
 
@@ -40,9 +41,13 @@ public class SimpleInputChannel implements IInputChannel {
 	public void done(byte[] b, int pos, int length)throws CircuitException {
 		reciever.done(b, pos, length);
 		reciever = null;
+		isDone=true;
 		frame = null;
 	}
-
+	@Override
+	public boolean isDone() {
+		return isDone;
+	}
 	@Override
 	public long writedBytes() {
 		return writedBytes;
