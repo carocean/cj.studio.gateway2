@@ -131,8 +131,8 @@ public class UdtGatewaySocketWire implements IGatewaySocketWire {
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		}
-		if(b!=null) {//发送端如果将侦内容接收到内存，则是一次性发送全部数据，所以使用done方法。注意：在发送者使用非MemoryContentReciever时，要放到out.send之后done，如果是MemoryContentReciever则放在out.send前
-			tcr.done(b, 0, b.length);
+		if(b!=null) {//注意：调用者必须放到out.send之后调用done方法
+			tcr.recieve(b, 0, b.length);
 		}
 		updateIdleBeginTime();
 		return null;

@@ -133,8 +133,8 @@ public class TcpGatewaySocketWire implements IGatewaySocketWire {
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		}
-		if (b != null) {
-			tcr.done(b, 0, b.length);
+		if (b != null) {//注意：调用者必须放到out.send之后调用done方法
+			tcr.recieve(b, 0, b.length);
 		}
 		updateIdleBeginTime();
 		return null;

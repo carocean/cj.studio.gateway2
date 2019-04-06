@@ -50,6 +50,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 	private int counter;
 	private Circuit currentCircuit;
 	private TcpInputChannel inputChannel;
+	boolean streaming;// 正在处理流
 
 	public TcpChannelHandler(IServiceProvider parent) {
 		this.parent = parent;
@@ -98,18 +99,60 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			CJSystem.logging().debug(getClass(), "收到心跳包.");
 			return;
 		case "frame":
+			if (streaming) {
+				resetStreaming(true);
+				break;
+			}
+			streaming = true;// 必须放在doFramePack前面，也就是不管它报不报错流程照走
 			doFramePack(ctx, pack);
 			break;
 		case "content":
+			if (!streaming) {
+				resetStreaming(true);
+				break;
+			}
 			doContentPack(ctx, pack);
 			break;
 		case "last":
+			if (!streaming) {
+				resetStreaming(true);
+				break;
+			}
+			streaming = false;
 			doLastPack(ctx, pack);
 			break;
 		default:
 			throw new EcmException("不支持的gateway指令：" + pack.command());
 		}
 
+	}
+
+	private void resetStreaming(boolean isLast) throws CircuitException {
+		String errText = "";
+		if (streaming) {
+			errText = "前序流仍未结束，可能会导致前序流数据丢失，请客户端检查前序发送流程是否在out.send后面调用了input.done方法。";
+			streaming = false;
+		} else {
+			errText = "当前流还未开始则发送内容或尾块";
+		}
+		CJSystem.logging().error(getClass(),errText);
+		Circuit circuit = this.currentCircuit;
+		if (!circuit.content().isCommited()) {
+			circuit.status("503");
+			circuit.message(errText);
+			circuit.content().clearbuf();
+			circuit.content().flush();
+		}
+		ISegmentCircuitContent cnt = (ISegmentCircuitContent) circuit.content();
+		Frame err = cnt.createFirst("error / gateway/1.0");
+		cnt.writeBytes(err.toBytes());
+		byte[] msg =errText.getBytes();
+		cnt.done(msg, 0, msg.length);
+		cnt.flush();
+		if(isLast) {
+			cnt.close();
+		}
+		throw new CircuitException("503", errText);
 	}
 
 	private void doLastPack(ChannelHandlerContext ctx, Frame pack) throws CircuitException {
@@ -131,11 +174,11 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			}
 			StringWriter out = new StringWriter();
 			e.printStackTrace(new PrintWriter(out));
-			ISegmentCircuitContent cnt=(ISegmentCircuitContent)circuit.content();
-			Frame err=cnt.createFirst("error / gateway/1.0");
+			ISegmentCircuitContent cnt = (ISegmentCircuitContent) circuit.content();
+			Frame err = cnt.createFirst("error / gateway/1.0");
 			cnt.writeBytes(err.toBytes());
-			byte[] msg=out.toString().getBytes();
-			cnt.done(msg,0,msg.length);
+			byte[] msg = out.toString().getBytes();
+			cnt.done(msg, 0, msg.length);
 			cnt.flush();
 			throw e;
 		} finally {
@@ -166,11 +209,11 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			}
 			StringWriter out = new StringWriter();
 			e.printStackTrace(new PrintWriter(out));
-			ISegmentCircuitContent cnt=(ISegmentCircuitContent)circuit.content();
-			Frame err=cnt.createFirst("error / gateway/1.0");
+			ISegmentCircuitContent cnt = (ISegmentCircuitContent) circuit.content();
+			Frame err = cnt.createFirst("error / gateway/1.0");
 			cnt.writeBytes(err.toBytes());
-			byte[] msg=out.toString().getBytes();
-			cnt.done(msg,0,msg.length);
+			byte[] msg = out.toString().getBytes();
+			cnt.done(msg, 0, msg.length);
 			cnt.flush();
 			throw e;
 		}
@@ -219,11 +262,11 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			}
 			StringWriter out = new StringWriter();
 			e.printStackTrace(new PrintWriter(out));
-			ISegmentCircuitContent cnt=(ISegmentCircuitContent)circuit.content();
-			Frame err=cnt.createFirst("error / gateway/1.0");
+			ISegmentCircuitContent cnt = (ISegmentCircuitContent) circuit.content();
+			Frame err = cnt.createFirst("error / gateway/1.0");
 			cnt.writeBytes(err.toBytes());
-			byte[] msg=out.toString().getBytes();
-			cnt.done(msg,0,msg.length);
+			byte[] msg = out.toString().getBytes();
+			cnt.done(msg, 0, msg.length);
 			cnt.flush();
 			throw e;
 		}
@@ -231,7 +274,7 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 
 	protected IInputPipeline pipelineBuild(String gatewayDest, Circuit circuit, ChannelHandlerContext ctx)
 			throws Exception {
-		TcpServerChannelGatewaySocket wsSocket = new TcpServerChannelGatewaySocket(parent,gatewayDest, ctx.channel());
+		TcpServerChannelGatewaySocket wsSocket = new TcpServerChannelGatewaySocket(parent, gatewayDest, ctx.channel());
 		sockets.add(wsSocket);// 不放在channelActive方法内的原因是当有构建需要时才添加，是按需索求
 
 		IGatewaySocket socket = this.sockets.getAndCreate(gatewayDest);
@@ -254,11 +297,11 @@ public class TcpChannelHandler extends ChannelHandlerAdapter implements SocketCo
 			}
 			StringWriter out = new StringWriter();
 			e.printStackTrace(new PrintWriter(out));
-			ISegmentCircuitContent cnt=(ISegmentCircuitContent)circuit.content();
-			Frame err=cnt.createFirst("error / gateway/1.0");
+			ISegmentCircuitContent cnt = (ISegmentCircuitContent) circuit.content();
+			Frame err = cnt.createFirst("error / gateway/1.0");
 			cnt.writeBytes(err.toBytes());
-			byte[] msg=out.toString().getBytes();
-			cnt.done(msg,0,msg.length);
+			byte[] msg = out.toString().getBytes();
+			cnt.done(msg, 0, msg.length);
 			cnt.close();
 			ctx.close();
 			throw e;
