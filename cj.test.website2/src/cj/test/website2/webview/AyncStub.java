@@ -10,7 +10,7 @@ public class AyncStub extends GatewayAppSiteRestStub implements IAsynStub{
 	@Override
 	public void test(String name, String cnt)throws CircuitException {
 		System.out.println("-----"+name+"----"+cnt);
-		throw new CircuitException("404", name+" "+cnt);
+		throw new CircuitException("404", name+" "+cnt+"我的天呢。");
 	}
 
 }

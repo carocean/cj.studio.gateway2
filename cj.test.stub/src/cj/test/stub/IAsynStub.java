@@ -8,7 +8,7 @@ import cj.studio.gateway.stub.annotation.CjStubService;
 
 @CjStubService(bindService = "/async/", usage = "xx服务")
 public interface IAsynStub {
-	@CjStubMethod(command="post",usage = "xx")
+	@CjStubMethod(command="get",usage = "xx")
 	void test(@CjStubInParameter(key = "name", usage = "xx") String name,
-			@CjStubInContentKey(key = "cnt", usage = "xx") String cnt) throws CircuitException;
+			@CjStubInParameter(key = "cnt", usage = "xx") String cnt) throws CircuitException;
 }

@@ -34,7 +34,24 @@ public class HttpChannelInitializer extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("codec-http", new HttpServerCodec(4096, 8192, SocketContants.__upload_chunked_cache_size));
 		pipeline.addLast("deflater", new HttpContentCompressor());
 		pipeline.addLast("http-chunked", new ChunkedWriteHandler());
+
 		HttpChannelHandler handler = new HttpChannelHandler(parent);
 		pipeline.addLast("handler", handler);
 	}
+
+	// netty铁定响应头仅支持assic码，所以重写了这个类，试了几个浏览器，仅有chrome浏览器的头信息能支持中文，因此还是改为标准的http响应码消息表吧。
+	// 在使用本类时需注释掉：pipeline.addLast("codec-http", new HttpServerCodec(4096, 8192,
+	// SocketContants.__upload_chunked_cache_size));
+	// 添加（HttpServerCodec作用等同于下面的两个）：
+//	pipeline.addLast(new HttpRequestDecoder(4096, 8192, SocketContants.__upload_chunked_cache_size));
+//	pipeline.addLast(new MyHttpResponseEncoder());
+//	class MyHttpResponseEncoder extends HttpResponseEncoder {
+//		@Override
+//		protected void encodeInitialLine(ByteBuf buf, HttpResponse response) throws Exception {
+//			buf.writeBytes(response.getProtocolVersion().text().getBytes());
+//			buf.writeByte(' ');
+//			buf.writeBytes(response.getStatus().toString().getBytes());
+//			buf.writeBytes(new byte[] { '\r', '\n' });
+//		}
+//	}
 }

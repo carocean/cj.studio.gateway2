@@ -3,14 +3,13 @@ package cj.studio.gateway.socket.io;
 import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 
-import java.util.concurrent.TimeUnit;
 
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.IOutputChannel;
 import cj.studio.gateway.server.util.DefaultHttpMineTypeFactory;
-import cj.studio.gateway.socket.util.SocketContants;
+import cj.studio.gateway.socket.util.HttpResponseStatusMapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -61,12 +60,17 @@ public class HttpOutputChannel implements IOutputChannel {
 		if (frame.containsHead(CONNECTION.toString())) {
 			circuit.head(CONNECTION.toString(), frame.head(CONNECTION.toString()));
 		}
-		HttpResponseStatus st = new HttpResponseStatus(Integer.valueOf(circuit.status()), circuit.message());
+		int stcode=Integer.valueOf(circuit.status());
+		String msg=HttpResponseStatusMapper.containsStateCode(stcode)?HttpResponseStatusMapper.message(stcode):circuit.message();
+		HttpResponseStatus st = new HttpResponseStatus(Integer.valueOf(circuit.status()),msg);
 		DefaultHttpResponse res = new DefaultHttpResponse(HttpVersion.valueOf(circuit.protocol()), st);
 
 		HttpHeaders headers = res.headers();
 		String names[] = circuit.enumHeadName();
 		for (String name : names) {
+			if ("message".equals(name) || "status".equals(name)) {
+				continue;
+			}
 			String v = circuit.head(name);
 			headers.add(name, v);
 		}
