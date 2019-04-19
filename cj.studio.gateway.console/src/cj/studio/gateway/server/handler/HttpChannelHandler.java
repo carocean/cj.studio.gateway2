@@ -596,7 +596,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		if (e instanceof CircuitException) {
 			CircuitException ce = (CircuitException) e;
 			if ("404".equals(ce.getStatus())) {
-				CJSystem.logging().error(getClass(), e.getMessage());
+				CJSystem.logging().error(getClass(),ce.getStatus()+" "+ e.getMessage());
 				return;
 			}
 		}
@@ -613,7 +613,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		if (e instanceof CircuitException) {
 			CircuitException ce = (CircuitException) e;
 			if ("404".equals(ce.getStatus())) {
-				CJSystem.logging().error(getClass(), e.getMessage());
+				CJSystem.logging().error(getClass(),ce.getStatus()+" "+ e.getMessage());
 				return;
 			}
 		}

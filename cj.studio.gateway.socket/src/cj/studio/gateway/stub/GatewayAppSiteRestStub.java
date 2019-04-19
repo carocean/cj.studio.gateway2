@@ -130,7 +130,14 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 					}
 					if (e instanceof InvocationTargetException) {
 						InvocationTargetException inv = (InvocationTargetException) e;
-						throw new CircuitException("503", inv.getTargetException());
+						if (inv.getTargetException() instanceof CircuitException) {
+							throw (CircuitException) inv.getTargetException();
+						}
+						CircuitException ce = CircuitException.search(inv.getTargetException());
+						if (ce == null) {
+							throw new CircuitException("503", inv.getTargetException());
+						} 
+						throw ce;
 					}
 					throw new CircuitException("503", e);
 				}

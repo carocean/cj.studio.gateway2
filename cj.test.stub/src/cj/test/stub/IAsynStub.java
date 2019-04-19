@@ -1,5 +1,6 @@
 package cj.test.stub;
 
+import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.stub.annotation.CjStubInContentKey;
 import cj.studio.gateway.stub.annotation.CjStubInParameter;
 import cj.studio.gateway.stub.annotation.CjStubMethod;
@@ -9,5 +10,5 @@ import cj.studio.gateway.stub.annotation.CjStubService;
 public interface IAsynStub {
 	@CjStubMethod(command="post",usage = "xx")
 	void test(@CjStubInParameter(key = "name", usage = "xx") String name,
-			@CjStubInContentKey(key = "cnt", usage = "xx") String cnt);
+			@CjStubInContentKey(key = "cnt", usage = "xx") String cnt) throws CircuitException;
 }
