@@ -40,6 +40,7 @@ dependencies {
 	     from 'build/libs/'
 	     into '../cj.studio.gateway.console/src/cj/references'
 	     include '**/*.jar'
+	     exclude '**/*-javadoc.jar','**/*-sources.jar'
      }
      
      //com.ly.wigo.shop.gateway

@@ -8,6 +8,7 @@ import java.util.Map;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 
+import cj.lns.chip.sos.cube.framework.CubeConfig;
 import cj.lns.chip.sos.cube.framework.ICube;
 import cj.lns.chip.sos.disk.INetDisk;
 import cj.lns.chip.sos.disk.NetDisk;
@@ -39,7 +40,7 @@ public class MongoDBPlugin implements IChipPlugin {
 			if (disks.containsKey(diskName)) {
 				disk = disks.get(diskName);
 			} else {
-				disk = NetDisk.trustOpen(client, diskName,this.getClass().getClassLoader());
+				disk = NetDisk.trustOpen(client, diskName, this.getClass().getClassLoader());
 				disks.put(diskName, disk);
 			}
 			return disk;
@@ -50,10 +51,25 @@ public class MongoDBPlugin implements IChipPlugin {
 		if (disks.containsKey(diskName)) {
 			disk = disks.get(diskName);
 		} else {
-			disk = NetDisk.trustOpen(client, diskName,this.getClass().getClassLoader());
+			disk = NetDisk.trustOpen(client, diskName, this.getClass().getClassLoader());
 			disks.put(diskName, disk);
 		}
 		ICube cube = StringUtil.isEmpty(cubeName) ? disk.home() : disk.cube(cubeName);
+		if (StringUtil.isEmpty(cubeName)) {
+			cube = disk.home();
+		} else {
+			if (cubeName.endsWith(":autocreate")) {
+				if(disk.existsCube(cubeName)) {
+					cube= disk.cube(cubeName);
+				}else {
+					CubeConfig conf=new CubeConfig();
+					conf.alias(cubeName);
+					cube=disk.createCube(cubeName, conf);
+				}
+			}else {
+				cube= disk.cube(cubeName);
+			}
+		}
 		return cube;
 	}
 
