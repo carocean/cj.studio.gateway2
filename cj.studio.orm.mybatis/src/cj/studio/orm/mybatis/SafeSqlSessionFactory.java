@@ -83,7 +83,7 @@ class SafeSqlSessionFactory implements ISafeSqlSessionFactory {
 		SqlSessionWrapper exists = sessions.get();
 		if (exists == null)
 			return;
-		if (exists.refCount.decrementAndGet() <= 1) {
+		if (exists.refCount.get() <= 1) {
 			exists.session.commit(force);
 			exists.isCommited.set(true);
 			exists.isForce.set(force);
