@@ -54,11 +54,12 @@ public class MongoDBPlugin implements IChipPlugin {
 			disk = NetDisk.trustOpen(client, diskName, this.getClass().getClassLoader());
 			disks.put(diskName, disk);
 		}
-		ICube cube = StringUtil.isEmpty(cubeName) ? disk.home() : disk.cube(cubeName);
+		ICube cube = null;
 		if (StringUtil.isEmpty(cubeName)) {
 			cube = disk.home();
 		} else {
 			if (cubeName.endsWith(":autocreate")) {
+				cubeName=cubeName.substring(0,cubeName.length()-":autocreate".length());
 				if(disk.existsCube(cubeName)) {
 					cube= disk.cube(cubeName);
 				}else {

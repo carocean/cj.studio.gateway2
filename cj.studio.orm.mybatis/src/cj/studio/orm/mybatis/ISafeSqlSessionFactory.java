@@ -11,4 +11,8 @@ public interface ISafeSqlSessionFactory {
 
 	void closeSession(SqlSession session);
 
+	void commit(boolean force);
+
+	void rollback();
+
 }

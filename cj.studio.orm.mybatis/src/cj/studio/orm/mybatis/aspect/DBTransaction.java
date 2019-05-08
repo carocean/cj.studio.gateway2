@@ -22,10 +22,12 @@ public class DBTransaction implements IAspect {
 		SqlSession session = MyBatisPlugin.getFactory().getSession(p.level());
 		try {
 			Object result = point.cut(bridge, args);
-			session.commit(p.force());
+//			session.commit(p.force());
+			MyBatisPlugin.getFactory().commit(p.force());
 			return result;
 		} catch (Exception e) {
-			session.rollback(p.force());
+//			session.rollback(p.force());
+			MyBatisPlugin.getFactory().rollback();
 			throw e;
 		} finally {
 			MyBatisPlugin.getFactory().closeSession(session);

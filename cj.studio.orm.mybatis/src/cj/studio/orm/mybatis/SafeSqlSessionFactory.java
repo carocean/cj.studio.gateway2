@@ -73,6 +73,26 @@ class SafeSqlSessionFactory implements ISafeSqlSessionFactory {
 		}
 	}
 
+	@Override
+	public synchronized void commit(boolean force) {
+		SqlSessionWrapper exists = sessions.get();
+		if (exists == null)
+			return;
+		if (exists.refCount < 1) {
+			exists.session.commit(force);
+		}
+	}
+
+	@Override
+	public synchronized void rollback() {
+		SqlSessionWrapper exists = sessions.get();
+		if (exists == null)
+			return;
+
+		exists.session.rollback(true);//不管嵌套多少层，只要调用了rollback就执行
+		exists.refCount=0;
+	}
+
 	class SqlSessionWrapper {
 		int refCount;
 		SqlSession session;
