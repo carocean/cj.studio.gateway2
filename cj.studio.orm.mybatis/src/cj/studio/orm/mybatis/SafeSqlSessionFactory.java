@@ -1,5 +1,8 @@
 package cj.studio.orm.mybatis;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.TransactionIsolationLevel;
@@ -36,7 +39,7 @@ class SafeSqlSessionFactory implements ISafeSqlSessionFactory {
 			wrapper.session = session;
 			sessions.set(wrapper);
 		}
-		wrapper.refCount++;
+		wrapper.refCount.incrementAndGet();
 		return wrapper.session;
 	}
 
@@ -65,8 +68,10 @@ class SafeSqlSessionFactory implements ISafeSqlSessionFactory {
 		SqlSessionWrapper exists = sessions.get();
 		if (exists == null)
 			return;
-		exists.refCount--;
-		if (exists.refCount < 1) {
+		if (exists.refCount.decrementAndGet() < 1) {
+			if(!exists.isCommited.get()) {
+				exists.session.commit(exists.isForce.get());
+			}
 			sessions.remove();
 			session.close();
 			CJSystem.logging().debug(getClass(), "SqlSession closed.");
@@ -78,8 +83,10 @@ class SafeSqlSessionFactory implements ISafeSqlSessionFactory {
 		SqlSessionWrapper exists = sessions.get();
 		if (exists == null)
 			return;
-		if (exists.refCount < 1) {
+		if (exists.refCount.decrementAndGet() <= 1) {
 			exists.session.commit(force);
+			exists.isCommited.set(true);
+			exists.isForce.set(force);
 		}
 	}
 
@@ -90,11 +97,18 @@ class SafeSqlSessionFactory implements ISafeSqlSessionFactory {
 			return;
 
 		exists.session.rollback(true);//不管嵌套多少层，只要调用了rollback就执行
-		exists.refCount=0;
+		exists.refCount.set(0);
 	}
 
 	class SqlSessionWrapper {
-		int refCount;
+		AtomicInteger refCount;
+		AtomicBoolean isForce;
+		AtomicBoolean isCommited;
 		SqlSession session;
+		public SqlSessionWrapper() {
+			refCount=new AtomicInteger(0);
+			isForce=new AtomicBoolean(false);
+			isCommited=new AtomicBoolean(false);
+		}
 	}
 }
