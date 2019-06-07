@@ -41,10 +41,11 @@ public class UdtInputChannel implements IInputChannel {
 
 	@Override
 	public void done(byte[] b, int pos, int length)throws CircuitException {
+		writedBytes += length - pos;
 		if (reciever != null) {
 			reciever.done(b, pos, length);
 		}
-		writedBytes += length - pos;
+		
 		isDone=true;
 	}
 

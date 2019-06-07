@@ -53,8 +53,8 @@ public class MemoryInputChannel implements IInputChannel {
 		if (reciever == null) {
 			throw new EcmException("没有reciever");
 		}
-		reciever.done(b, pos, length);// 最后一个不入缓存
 		writedBytes += length - pos;
+		reciever.done(b, pos, length);// 最后一个不入缓存
 		isDone=true;
 	}
 	@Override

@@ -39,6 +39,7 @@ public class SimpleInputChannel implements IInputChannel {
 
 	@Override
 	public void done(byte[] b, int pos, int length)throws CircuitException {
+		writedBytes += length - pos;
 		reciever.done(b, pos, length);
 		reciever = null;
 		isDone=true;
