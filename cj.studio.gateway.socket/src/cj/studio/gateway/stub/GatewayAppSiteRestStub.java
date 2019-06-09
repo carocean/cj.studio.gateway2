@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.net.Circuit;
@@ -18,6 +19,7 @@ import cj.studio.ecm.net.io.MemoryContentReciever;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.studio.gateway.socket.util.SocketContants;
+import cj.studio.gateway.stub.annotation.CjStubCircuitStatusMatches;
 import cj.studio.gateway.stub.annotation.CjStubInContentKey;
 import cj.studio.gateway.stub.annotation.CjStubInHead;
 import cj.studio.gateway.stub.annotation.CjStubInParameter;
@@ -93,6 +95,7 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 					stubClassName = frame.parameter(SocketContants.__frame_Head_Rest_Stub_Interface);
 				}
 				Class<?> clazz = GatewayAppSiteRestStub.this.getClass();
+				Method dest = null;
 				try {
 					Class<?> stub = Class.forName(stubClassName, true, clazz.getClassLoader());
 					if (!stub.isAssignableFrom(clazz)) {
@@ -103,11 +106,15 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 					if (src == null) {
 						throw new CircuitException("404", "在存根接口中未找到方法：" + src);
 					}
-					Method dest = findDestMethod(clazz, src);
+					dest = findDestMethod(stub, src);
 					if (dest == null) {
 						throw new CircuitException("404", "在webview中未找到方法：" + dest);
 					}
 					Object[] args = getArgs(src, frame);
+					String message=matchStatusAndGetMessage(circuit.status(),dest);
+					 if(!StringUtil.isEmpty(message)) {
+						 circuit.message(message);
+					 }
 					doMethodBefore(dest, args, frame, circuit);
 					Object ret = doMethod(GatewayAppSiteRestStub.this, dest, args, frame, circuit);
 					if (ret != null) {
@@ -126,24 +133,84 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 					doMethodAfter(dest, args, frame, circuit);
 				} catch (Exception e) {
 					if (e instanceof CircuitException) {
-						throw (CircuitException) e;
+						CircuitException ce=(CircuitException)e;
+						String msg=matchStatusAndGetMessage(ce.getStatus(),dest);
+						 if(!StringUtil.isEmpty(msg)) {
+							 ce=new CircuitException(ce.getStatus(), msg);
+							 CJSystem.logging().error(getClass(),ce);
+						 }
+						throw ce;
 					}
 					if (e instanceof InvocationTargetException) {
 						InvocationTargetException inv = (InvocationTargetException) e;
 						if (inv.getTargetException() instanceof CircuitException) {
-							throw (CircuitException) inv.getTargetException();
+							CircuitException ce=(CircuitException) inv.getTargetException();
+							String msg=matchStatusAndGetMessage(ce.getStatus(),dest);
+							 if(!StringUtil.isEmpty(msg)) {
+								 CJSystem.logging().error(getClass(),ce);
+								 ce=new CircuitException(ce.getStatus(), msg);
+							 }
+							throw ce;
 						}
 						CircuitException ce = CircuitException.search(inv.getTargetException());
 						if (ce == null) {
-							throw new CircuitException("503", inv.getTargetException());
-						} 
+							 String msg=matchStatusAndGetMessage("503",dest);
+							 if(StringUtil.isEmpty(msg)) {
+								 ce=new CircuitException("503", inv.getTargetException());
+							 }else {
+								 CJSystem.logging().error(getClass(),ce);
+								 ce=new CircuitException("503", msg);
+							 }
+							throw ce;
+						}
 						throw ce;
 					}
-					throw new CircuitException("503", e);
+					CircuitException ce =null;
+					String msg=matchStatusAndGetMessage("503",dest);
+					if(StringUtil.isEmpty(msg)) {
+						ce =new CircuitException("503", e);
+					}else {
+						CJSystem.logging().error(getClass(),ce);
+						ce =new CircuitException("503", msg);
+					}
+					throw ce;
 				}
 			}
 		});
 
+	}
+	/**
+	 * 没有匹配上则返回空消息
+	 * @param status
+	 * @param dest
+	 * @return
+	 */
+	protected String matchStatusAndGetMessage(String status, Method dest) {
+		CjStubCircuitStatusMatches mat = dest.getDeclaredAnnotation(CjStubCircuitStatusMatches.class);
+		if(mat==null) {
+			return null;
+		}
+		if(StringUtil.isEmpty(status)) {
+			status="500";
+		}
+		String[] arr=mat.status();
+		for(String st:arr) {
+			if(StringUtil.isEmpty(st)) {
+				continue;
+			}
+			st=st.trim();
+			String starts=status+" ";
+			int pos=st.indexOf(starts);
+			if(pos==0) {
+				String msg=st.substring(starts.length(),st.length());
+				if(StringUtil.isEmpty(msg))return msg;
+				while(msg.startsWith(" ")) {
+					msg=msg.substring(1,msg.length());
+				}
+				return msg;
+			}
+		}
+		return null;
 	}
 
 	protected Object doMethod(GatewayAppSiteRestStub stub, Method m, Object[] args, Frame frame, Circuit circuit)
