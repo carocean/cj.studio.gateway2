@@ -46,8 +46,7 @@ public abstract class PrintStubAppSiteWebView implements IGatewayAppSiteWayWebVi
 					if (StringUtil.isEmpty(mName)) {
 						mName = m.getName();
 					}
-					CjStubReturn ret = m.getDeclaredAnnotation(CjStubReturn.class);
-					onprintStubMethod(sm, ret, m, frame, circuit, resource);
+					onprintStubMethod(sm, m, frame, circuit, resource);
 					Parameter[] params = m.getParameters();
 					for (int i = 0; i < params.length; i++) {
 						Parameter p = params[i];
@@ -81,7 +80,7 @@ public abstract class PrintStubAppSiteWebView implements IGatewayAppSiteWayWebVi
 
 	protected abstract void onprintMethodEnd(Frame frame, Circuit circuit, IGatewayAppSiteResource resource);
 
-	protected abstract void onprintStubMethod(CjStubMethod sm, CjStubReturn ret, Method m, Frame frame, Circuit circuit,
+	protected abstract void onprintStubMethod(CjStubMethod sm,  Method m, Frame frame, Circuit circuit,
 			IGatewayAppSiteResource resource);
 
 	protected abstract void onprintStubMethodArgInContent(CjStubInContentKey sic, Parameter p, Method m, Frame frame,

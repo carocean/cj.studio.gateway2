@@ -8,6 +8,7 @@ import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.util.SocketContants;
+import cj.studio.gateway.stub.annotation.CjStubCircuitStatusMatches;
 import cj.studio.gateway.stub.annotation.CjStubInContentKey;
 import cj.studio.gateway.stub.annotation.CjStubInHead;
 import cj.studio.gateway.stub.annotation.CjStubInParameter;
@@ -33,15 +34,27 @@ public abstract class SimplePrintStubAppSiteWebView extends PrintStubAppSiteWebV
 	}
 
 	@Override
-	protected void onprintStubMethod(CjStubMethod sm, CjStubReturn ret, Method m, Frame frame, Circuit circuit,
+	protected void onprintStubMethod(CjStubMethod sm, Method m, Frame frame, Circuit circuit,
 			IGatewayAppSiteResource resource) {
 		circuit.content().writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;<b>%s</b><br>", m.getName()).getBytes());
 		circuit.content().writeBytes(
 				String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用法:%s<br>", sm.usage()).getBytes());
+		CjStubReturn ret = m.getDeclaredAnnotation(CjStubReturn.class);
 		if (ret != null) {
 			circuit.content()
 					.writeBytes(String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回值类型:%s,说明:%s<br>",
 							ret.type().getName(), ret.usage()).getBytes());
+		}
+		CjStubCircuitStatusMatches scsm = m.getDeclaredAnnotation(CjStubCircuitStatusMatches.class);
+		if (scsm != null) {
+			circuit.content().writeBytes("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;响应状态码映射:<br>".getBytes());
+			String[] statusArr = scsm.status();
+			for (String st : statusArr) {
+				circuit.content()
+						.writeBytes(String.format(
+								"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s<br>", st)
+								.getBytes());
+			}
 		}
 		circuit.content().writeBytes(
 				String.format("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;方法别名:%s<br>", sm.alias()).getBytes());
