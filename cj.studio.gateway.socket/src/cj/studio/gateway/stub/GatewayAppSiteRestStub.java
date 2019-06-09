@@ -136,8 +136,8 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 						CircuitException ce=(CircuitException)e;
 						String msg=matchStatusAndGetMessage(ce.getStatus(),dest);
 						 if(!StringUtil.isEmpty(msg)) {
-							 ce=new CircuitException(ce.getStatus(), msg);
 							 CJSystem.logging().error(getClass(),ce);
+							 ce=new CircuitException(ce.getStatus(), msg);
 						 }
 						throw ce;
 					}
@@ -158,7 +158,7 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 							 if(StringUtil.isEmpty(msg)) {
 								 ce=new CircuitException("503", inv.getTargetException());
 							 }else {
-								 CJSystem.logging().error(getClass(),ce);
+								 CJSystem.logging().error(getClass(),inv.getTargetException());
 								 ce=new CircuitException("503", msg);
 							 }
 							throw ce;
@@ -170,7 +170,7 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 					if(StringUtil.isEmpty(msg)) {
 						ce =new CircuitException("503", e);
 					}else {
-						CJSystem.logging().error(getClass(),ce);
+						CJSystem.logging().error(getClass(),e);
 						ce =new CircuitException("503", msg);
 					}
 					throw ce;
