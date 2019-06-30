@@ -255,7 +255,13 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 				}
 				return selector;
 			}
-
+			if ("$.gateway.runtime".equals(name)) {
+				IConfiguration config = (IConfiguration) parent.getService("$.config");
+				return new Runtime(config);
+			}
+			if ("$.gateway.app.pluginid".equals(name)) {
+				return plugins.keySet().toArray(new String[0]);
+			}
 			if (!plugins.isEmpty()) {
 				int pos = name.indexOf(".");
 				if (pos > 0) {
@@ -269,10 +275,7 @@ public class AppGatewaySocket implements IGatewaySocket, IServiceProvider {
 					}
 				}
 			}
-			if ("$.gateway.runtime".equals(name)) {
-				IConfiguration config = (IConfiguration) parent.getService("$.config");
-				return new Runtime(config);
-			}
+			
 			if (IMicNode.SERVICE_KEY.equals(name)) {
 				return parent.getService(name);
 			}
