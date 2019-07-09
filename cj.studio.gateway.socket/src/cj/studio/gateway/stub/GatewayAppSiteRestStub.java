@@ -90,9 +90,15 @@ public abstract class GatewayAppSiteRestStub implements IGatewayAppSiteWayWebVie
 				if (StringUtil.isEmpty(restCmd)) {
 					restCmd = frame.parameter(SocketContants.__frame_Head_Rest_Command);
 				}
+				if (StringUtil.isEmpty(restCmd)) {//为兼容dart的dio请求，其请求总是将head的键转为小写
+					restCmd = frame.head(SocketContants.__frame_Head_Rest_Command.toLowerCase());
+				}
 				String stubClassName = frame.head(SocketContants.__frame_Head_Rest_Stub_Interface);
 				if (StringUtil.isEmpty(stubClassName)) {
 					stubClassName = frame.parameter(SocketContants.__frame_Head_Rest_Stub_Interface);
+				}
+				if (StringUtil.isEmpty(stubClassName)) {
+					stubClassName = frame.head(SocketContants.__frame_Head_Rest_Stub_Interface.toLowerCase());
 				}
 				Class<?> clazz = GatewayAppSiteRestStub.this.getClass();
 				Method dest = null;
