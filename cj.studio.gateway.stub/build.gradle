@@ -21,6 +21,7 @@ dependencies {
 	compile(
             'commons-cli:commons-cli:1.2'
     )
+    compile project(':cj.studio.gateway.stubs');
     compile project(':cj.studio.ecm.net');
     compile project(':cj.studio.gateway.socket');
 	compile fileTree('../global/runtime')

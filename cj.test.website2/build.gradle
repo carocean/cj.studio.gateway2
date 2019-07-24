@@ -18,6 +18,7 @@ sourceSets {
  } 
 
 dependencies {
+	compile project(':cj.studio.gateway.stubs');
 	compile project(':cj.studio.gateway.stub');
 	compile project(':cj.studio.gateway.socket');
 	compile project(':cj.test.stub');

@@ -1,5 +1,6 @@
 
-include "cj.studio.gateway.console","cj.studio.gateway.start","cj.studio.gateway.socket","cj.studio.gateway.stub"
+include "cj.studio.gateway.console","cj.studio.gateway.start","cj.studio.gateway.socket"
+include "cj.studio.gateway.stub","cj.studio.gateway.stubs"
 include "cj.studio.orm.mybatis","cj.studio.orm.mongodb","cj.studio.orm.redis"
 include "cj.test.website","cj.test.website2","cj.test.multipart","cj.test.plugin","cj.test.road"
 include "cj.studio.ecm.net"
