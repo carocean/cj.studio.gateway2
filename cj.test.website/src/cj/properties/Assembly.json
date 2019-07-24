@@ -48,6 +48,7 @@
 	serviceContainer : {
 		name : "netContainer",
 		switchFilter:"off",
+		monitor:"",
 		jss:[{
 			module:"services1",
 			package:"cj.test.website.jss",
