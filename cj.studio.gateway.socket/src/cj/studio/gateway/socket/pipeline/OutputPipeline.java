@@ -252,6 +252,7 @@ public class OutputPipeline implements IOutputPipeline {
 
 		@Override
 		public boolean isDisposed() {
+			if(target==null)return true;
 			return target.disposed;
 		}
 
