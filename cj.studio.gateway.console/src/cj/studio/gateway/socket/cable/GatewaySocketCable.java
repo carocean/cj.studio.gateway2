@@ -293,9 +293,9 @@ public class GatewaySocketCable implements IGatewaySocketCable, IServiceProvider
 				: Long.valueOf(f.parameter("keepAliveDuration"));
 		this.connectTimeout = StringUtil.isEmpty(f.parameter("connectTimeout")) ? 10000L
 				: Long.valueOf(f.parameter("connectTimeout"));
-		this.readTimeout = StringUtil.isEmpty(f.parameter("readTimeout")) ? 10000L
+		this.readTimeout = StringUtil.isEmpty(f.parameter("readTimeout")) ? Long.MAX_VALUE/*10000L*/
 				: Long.valueOf(f.parameter("readTimeout"));
-		this.writeTimeout = StringUtil.isEmpty(f.parameter("writeTimeout")) ? 10000L
+		this.writeTimeout = StringUtil.isEmpty(f.parameter("writeTimeout")) ? Long.MAX_VALUE/*10000L*/
 				: Long.valueOf(f.parameter("writeTimeout"));
 		this.followRedirects = StringUtil.isEmpty(f.parameter("followRedirects")) ? true
 				: Boolean.valueOf(f.parameter("followRedirects"));
