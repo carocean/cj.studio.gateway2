@@ -18,11 +18,8 @@ sourceSets {
  } 
 
 dependencies {
-	compile project(':cj.studio.gateway.stub');
 	compile project(':cj.studio.gateway.socket');
-	compile project(':cj.studio.gateway.stubs');
 	compile project(':cj.studio.orm.mybatis');
-	compile project(':cj.test.stub');
 	compile fileTree('../global/jee.runtime')
 	compile fileTree('../global/runtime')
 	compile fileTree('../global/cjtools')

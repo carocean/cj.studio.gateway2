@@ -68,7 +68,6 @@ task release(type: Copy) {
 tasks.getByPath(':cj.studio.gateway.socket:release').mustRunAfter tasks.getByPath(':cj.studio.ecm.net:release')
 tasks.getByPath(':cj.studio.gateway.console:release').mustRunAfter tasks.getByPath(':cj.studio.gateway.socket:release')
 tasks.getByPath(':cj.studio.gateway.start:release').mustRunAfter tasks.getByPath(':cj.studio.gateway.console:release')
-tasks.getByPath(':cj.test.website:release').mustRunAfter tasks.getByPath(':cj.test.stub:release')
 tasks.getByPath(':cj.test.website:release').mustRunAfter tasks.getByPath(':cj.studio.gateway.socket:release')
 tasks.getByPath(':cj.test.website:release').mustRunAfter tasks.getByPath(':cj.studio.orm.mybatis:release')
 tasks.getByPath(':cj.test.plugin:release').mustRunAfter tasks.getByPath(':cj.studio.orm.mybatis:release')
@@ -76,5 +75,3 @@ tasks.getByPath(':cj.test.website:release').mustRunAfter tasks.getByPath(':cj.st
 tasks.getByPath(':cj.test.plugin:release').mustRunAfter tasks.getByPath(':cj.studio.orm.mongodb:release')
 tasks.getByPath(':cj.test.website:release').mustRunAfter tasks.getByPath(':cj.studio.orm.redis:release')
 tasks.getByPath(':cj.test.plugin:release').mustRunAfter tasks.getByPath(':cj.studio.orm.redis:release')
-tasks.getByPath(':cj.test.website2:release').mustRunAfter tasks.getByPath(':cj.test.stub:release')
-tasks.getByPath(':cj.test.website2:release').mustRunAfter tasks.getByPath(':cj.studio.gateway.socket:release')
