@@ -30,7 +30,7 @@ import cj.ultimate.net.sf.cglib.proxy.Enhancer;
 //SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
 public class MyBatisPlugin implements IChipPlugin {
 	private static ISafeSqlSessionFactory factory;
-	
+	ClassLoader classLoader;
 	public static ISafeSqlSessionFactory getFactory() {
 		return factory;
 	}
@@ -38,7 +38,11 @@ public class MyBatisPlugin implements IChipPlugin {
 	public Object getService(String name) {
 		Class<?> clazz = null;
 		try {
-			clazz = Class.forName(name);
+			if(classLoader!=null) {
+				clazz = Class.forName(name,true,classLoader);
+			}else{
+				clazz = Class.forName(name);
+			}
 		} catch (ClassNotFoundException e) {
 			throw new EcmException(e);
 		}
@@ -54,6 +58,7 @@ public class MyBatisPlugin implements IChipPlugin {
 	@Override
 	public void load(IAssemblyContext ctx, IElement args) {
 		ClassLoader the = ctx.getResource().getClassLoader();
+		this.classLoader=the;
 		InputStream in = the.getResourceAsStream("cj/db/mybatis.xml");
 		if (in == null) {
 			throw new EcmException("mybatis.xml不存在:cj/db/mybatis.xml");

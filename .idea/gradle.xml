@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$USER_HOME$/gradle-2.0" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/cj.studio.ecm.net" />
+            <option value="$PROJECT_DIR$/cj.studio.gateway.console" />
+            <option value="$PROJECT_DIR$/cj.studio.gateway.socket" />
+            <option value="$PROJECT_DIR$/cj.studio.gateway.start" />
+            <option value="$PROJECT_DIR$/cj.studio.orm.mongodb" />
+            <option value="$PROJECT_DIR$/cj.studio.orm.mybatis" />
+            <option value="$PROJECT_DIR$/cj.studio.orm.redis" />
+            <option value="$PROJECT_DIR$/cj.test.multipart" />
+            <option value="$PROJECT_DIR$/cj.test.plugin" />
+            <option value="$PROJECT_DIR$/cj.test.road" />
+            <option value="$PROJECT_DIR$/cj.test.website" />
+            <option value="$PROJECT_DIR$/cj.test.website2" />
+          </set>
+        </option>
+        <option name="useQualifiedModuleNames" value="true" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
