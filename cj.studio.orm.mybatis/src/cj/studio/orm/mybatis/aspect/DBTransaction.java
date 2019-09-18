@@ -1,5 +1,6 @@
 package cj.studio.orm.mybatis.aspect;
 
+import cj.studio.ecm.CJSystem;
 import org.apache.ibatis.session.SqlSession;
 
 import cj.studio.ecm.EcmException;
@@ -16,8 +17,9 @@ public class DBTransaction implements IAspect {
 	public Object cut(Object bridge, Object[] args, ICutpoint point) throws Throwable{
 		CjTransaction p = point.getMethodAnnotation(CjTransaction.class);
 		if (p == null) {
-			throw new EcmException(
-					"方法缺少事务注解：@CjTransaction 在：" + point.getServiceDefId() + "." + point.getMethodName());
+			CJSystem.logging().warn(getClass(),
+					String.format("方法缺少事务注解：@CjTransaction, 在：%s.%s。 该方法将在非事务模式下执行" , point.getServiceDefId(), point.getMethodName()));
+			return point.cut(bridge, args);
 		}
 		SqlSession session = MyBatisPlugin.getFactory().getSession(p.level());
 		try {
