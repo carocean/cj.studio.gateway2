@@ -30,7 +30,7 @@ dependencies {
 task releaseToHost(type: Copy) {
  dependsOn "build"
  from 'build/libs/'
-into '../cmdtools/gateway/assemblies/website/plugins/plugin-1.0'
+into '../cmdtools/gateway/assemblies/website/plugins/plugin'
  include '**/*.jar'
  exclude '**/*-javadoc.jar','**/*-sources.jar'
  }

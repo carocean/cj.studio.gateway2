@@ -1,8 +1,5 @@
 package cj.studio.gateway.socket.io;
 
-import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
-import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
-
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.Frame;
@@ -13,13 +10,10 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
-import io.netty.handler.codec.http.DefaultHttpContent;
-import io.netty.handler.codec.http.DefaultHttpResponse;
-import io.netty.handler.codec.http.DefaultLastHttpContent;
-import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.handler.codec.http.HttpVersion;
-import io.netty.handler.codec.http.LastHttpContent;
+import io.netty.handler.codec.http.*;
+
+import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
+import static io.netty.handler.codec.http.HttpHeaderUtil.setContentLength;
 
 public class HttpOutputChannel implements IOutputChannel {
 	Channel channel;
@@ -71,11 +65,11 @@ public class HttpOutputChannel implements IOutputChannel {
 			String v = circuit.head(name);
 			headers.add(name, v);
 		}
-		boolean close = headers.contains(CONNECTION, HttpHeaders.Values.CLOSE, true)
-				|| res.getProtocolVersion().equals(HttpVersion.HTTP_1_0)
-						&& !headers.contains(CONNECTION, HttpHeaders.Values.KEEP_ALIVE, true);
+		boolean close = headers.contains(CONNECTION, HttpHeaderValues.CLOSE, true)
+				|| res.protocolVersion().equals(HttpVersion.HTTP_1_0)
+						&& !headers.contains(CONNECTION, HttpHeaderValues.KEEP_ALIVE, true);
 		if (!close) {
-			res.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+			res.headers().set(CONNECTION, HttpHeaderValues.KEEP_ALIVE);
 		}
 //		String cntlen = circuit.head("Content-Length");
 //		if (StringUtil.isEmpty(cntlen)) {
@@ -84,9 +78,9 @@ public class HttpOutputChannel implements IOutputChannel {
 //			setContentLength(res, Long.valueOf(cntlen));
 //		}
 
-		String ctypeKey = HttpHeaders.Names.CONTENT_TYPE.toString();
+		String ctypeKey = HttpHeaderNames.CONTENT_TYPE.toString();
 		if (circuit.containsContentType()) {
-			res.headers().set(HttpHeaders.Names.CONTENT_TYPE, circuit.contentType());
+			res.headers().set(HttpHeaderNames.CONTENT_TYPE, circuit.contentType());
 		} else {
 			String extName = frame.url();
 			int pos = extName.lastIndexOf(".");
@@ -95,7 +89,7 @@ public class HttpOutputChannel implements IOutputChannel {
 				headers.add(ctypeKey, DefaultHttpMineTypeFactory.mime(extName));
 			} else {
 				String mime = "text/html; charset=utf-8";
-				res.headers().set(HttpHeaders.Names.CONTENT_TYPE, mime);
+				res.headers().set(HttpHeaderNames.CONTENT_TYPE, mime);
 			}
 		}
 

@@ -15,12 +15,9 @@ sourceSets {
  } 
 
 dependencies {
-	compile group: 'redis.clients', name: 'jedis', version: '3.0.1'
-	compile fileTree('../global/jee.runtime')
-	compile fileTree('../global/runtime')
-	compile fileTree('../global/cjtools')
-	compile fileTree('../global/cjmodules')
-	compile fileTree('src/cj/references')
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    compile group: 'redis.clients', name: 'jedis', version: '3.1.0'
+    compile fileTree('src/cj/references')
 	
 }
 task releaseToOutputs(type: Copy) {

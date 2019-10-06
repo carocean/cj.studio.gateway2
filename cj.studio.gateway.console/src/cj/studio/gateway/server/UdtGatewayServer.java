@@ -16,6 +16,8 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.udt.nio.NioUdtProvider;
+import io.netty.util.concurrent.DefaultExecutorServiceFactory;
+import io.netty.util.concurrent.ExecutorServiceFactory;
 
 public class UdtGatewayServer implements IGatewayServer {
 	private EventLoopGroup bossGroup;
@@ -58,13 +60,13 @@ public class UdtGatewayServer implements IGatewayServer {
 		this.info = si;
 		int bcnt = bossThreadCount();
 		int wcnt = workThreadCount();
-		ThreadFactory acceptFactory = new UtilThreadFactory("boss");
+		 ExecutorServiceFactory acceptFactory = new DefaultExecutorServiceFactory("boss");
 		if (bcnt == -1) {
 			bossGroup = new NioEventLoopGroup(1, acceptFactory, NioUdtProvider.MESSAGE_PROVIDER);
 		} else {
 			bossGroup = new NioEventLoopGroup(bcnt, acceptFactory, NioUdtProvider.MESSAGE_PROVIDER);
 		}
-		ThreadFactory connectFactory = new UtilThreadFactory("work");
+		ExecutorServiceFactory connectFactory = new DefaultExecutorServiceFactory("work");
 		if (wcnt == -1) {
 			workerGroup =  new NioEventLoopGroup(0,connectFactory, NioUdtProvider.MESSAGE_PROVIDER);
 		} else {

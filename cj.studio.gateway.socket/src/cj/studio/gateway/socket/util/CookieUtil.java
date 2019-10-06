@@ -1,17 +1,13 @@
 package cj.studio.gateway.socket.util;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.Frame;
 import cj.studio.ecm.net.http.CookieHelper;
 import cj.ultimate.util.StringUtil;
-import io.netty.handler.codec.http.Cookie;
-import io.netty.handler.codec.http.CookieDecoder;
-import io.netty.handler.codec.http.DefaultCookie;
-import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.ServerCookieEncoder;
+import io.netty.handler.codec.http.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class CookieUtil {
 	public final static String KEY_SESSION="JSESSION";
@@ -22,8 +18,8 @@ public class CookieUtil {
 			return jsession;
 		} else {
 			for (Cookie c : set) {
-				if (KEY_SESSION.equals(c.getName().toUpperCase())) {
-					jsession = c.getValue();
+				if (KEY_SESSION.equals(c.name().toUpperCase())) {
+					jsession = c.value();
 					break;
 				}
 			}
@@ -34,10 +30,10 @@ public class CookieUtil {
 	}
 	private static Set<Cookie> cookies(Circuit circuit) {
 		String cookieString = circuit
-				.head(HttpHeaders.Names.SET_COOKIE.toString());
+				.head(HttpHeaderNames.SET_COOKIE.toString());
 		if (StringUtil.isEmpty(cookieString))
 			return null;
-		Set<Cookie> cookies = CookieDecoder.decode(cookieString);
+		Set<Cookie> cookies = ServerCookieDecoder.decode(cookieString);
 		return cookies;
 	}
 	 /**
@@ -58,13 +54,13 @@ public class CookieUtil {
 			set = new HashSet<Cookie>();
 		}
 		for (Cookie c : set) {
-			if (c.getName().equals(key)) {
+			if (c.name().equals(key)) {
 				c.setValue(v);
 				if (maxAge < 0){
 					maxAge=Long.MIN_VALUE;
 				}
 				c.setMaxAge(maxAge);
-				if (StringUtil.isEmpty(c.getPath()))
+				if (StringUtil.isEmpty(c.path()))
 					c.setPath("/");//路径决定了cookie的共享区间，/表示站点的所有资源均共享同一cookie，如果以资源路径设为cookie路径，则各个资源均有独自的cookie，这会导致请求一个页面时，页面内的资源各自产生新的会话，因此必须设定此值
 				exists = true;
 				break;
@@ -78,7 +74,7 @@ public class CookieUtil {
 				maxAge=Long.MIN_VALUE;
 			}
 			c.setMaxAge(maxAge);
-			if (StringUtil.isEmpty(c.getPath()))
+			if (StringUtil.isEmpty(c.path()))
 				c.setPath("/");//路径决定了cookie的共享区间，/表示站点的所有资源均共享同一cookie，如果以资源路径设为cookie路径，则各个资源均有独自的cookie，这会导致请求一个页面时，页面内的资源各自产生新的会话，因此必须设定此值
 			set.add(c);
 //			Cookie c2 = new DefaultCookie("key", v);//永久保持此会话，用于在cjtoken过期后在服务器端判断并退出session，这一招还是在实在没办法时再这么做吧
@@ -93,6 +89,6 @@ public class CookieUtil {
 		for (Cookie c : set) {
 			cookieString += ServerCookieEncoder.encode(c) + ";";
 		}
-		circuit.head(HttpHeaders.Names.SET_COOKIE.toString(), cookieString);
+		circuit.head(HttpHeaderNames.SET_COOKIE.toString(), cookieString);
 	}
 }

@@ -1,13 +1,13 @@
 package cj.studio.gateway.tools;
 
-import java.io.IOException;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.log4j.Logger;
-
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
+import cj.studio.ecm.logging.ILogging;
 import cj.studio.gateway.IGateway;
+import org.apache.commons.cli.CommandLine;
+
+import java.io.IOException;
 
 @CjService(name = "gatewayEntrypoint", isExoteric = true)
 public class GatewayEntrypoint {
@@ -15,17 +15,18 @@ public class GatewayEntrypoint {
 	private IGateway gateway;
 	@CjServiceRef(refByName = "routerConsole")
 	private RouterConsole console;
-	Logger logger = Logger.getLogger(GatewayEntrypoint.class);
+	ILogging logger ;
 	public void setHomeDir(String homeDir){
 		gateway.setHomeDir(homeDir);
+		logger= CJSystem.logging();
 	}
 	public void main(CommandLine line) {
 		gateway.start();
 		if(line.hasOption("nohup")) {
-			logger.info("网关以nohup方式成功启动");
+			logger.info(getClass(),"网关以nohup方式成功启动");
 			return;
 		}
-		logger.info("网关成功启动");
+		logger.info(getClass(),"网关成功启动");
 		try {
 			console.monitor(gateway);
 		} catch (IOException e1) {

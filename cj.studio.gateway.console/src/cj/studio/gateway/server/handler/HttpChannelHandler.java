@@ -1,11 +1,11 @@
 package cj.studio.gateway.server.handler;
 
-import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
-import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_HEADERS;
-import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_METHODS;
-import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN;
-import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
-import static io.netty.handler.codec.http.HttpHeaders.Names.HOST;
+import static io.netty.handler.codec.http.HttpHeaderUtil.setContentLength;
+import static io.netty.handler.codec.http.HttpHeaderNames.ACCESS_CONTROL_ALLOW_HEADERS;
+import static io.netty.handler.codec.http.HttpHeaderNames.ACCESS_CONTROL_ALLOW_METHODS;
+import static io.netty.handler.codec.http.HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN;
+import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
+import static io.netty.handler.codec.http.HttpHeaderNames.HOST;
 import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
 import static io.netty.handler.codec.http.HttpResponseStatus.FORBIDDEN;
 
@@ -58,16 +58,7 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.DefaultHttpRequest;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.HttpContent;
-import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpMethod;
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.netty.handler.codec.http.HttpVersion;
-import io.netty.handler.codec.http.LastHttpContent;
+import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
@@ -108,9 +99,9 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
 		if (msg instanceof HttpRequest) {
 			HttpRequest req = (HttpRequest) msg;
-			this.keepLive = req.headers().contains(CONNECTION, HttpHeaders.Values.CLOSE, true)
-					|| req.getProtocolVersion().equals(HttpVersion.HTTP_1_0)
-							&& !req.headers().contains(CONNECTION, HttpHeaders.Values.KEEP_ALIVE, true);
+			this.keepLive = req.headers().contains(CONNECTION, HttpHeaderValues.CLOSE, true)
+					|| req.protocolVersion().equals(HttpVersion.HTTP_1_0)
+							&& !req.headers().contains(CONNECTION, HttpHeaderValues.KEEP_ALIVE, true);
 			handleHttpRequest(ctx, req);
 		} else if (msg instanceof HttpContent) {
 			handleHttpContent(ctx, msg);
@@ -182,21 +173,21 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	}
 
 	private void handleHttpRequest(ChannelHandlerContext ctx, HttpRequest req) throws Exception {
-		if (!req.getDecoderResult().isSuccess()) {
-			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), BAD_REQUEST);
+		if (!req.decoderResult().isSuccess()) {
+			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.protocolVersion(), BAD_REQUEST);
 			writeResponse(ctx, req, res);
 			reset();
 			return;
 		}
 
 		// deny PUT TRACE methods.
-		if (req.getMethod() == HttpMethod.PUT || req.getMethod() == HttpMethod.TRACE) {
-			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), FORBIDDEN);
+		if (req.method() == HttpMethod.PUT || req.method() == HttpMethod.TRACE) {
+			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.protocolVersion(), FORBIDDEN);
 			writeResponse(ctx, req, res);
 			reset();
 			return;
 		}
-		if ("/favicon.ico".equals(req.getUri())) {
+		if ("/favicon.ico".equals(req.uri())) {
 			if (isWindowPlatform) {
 				// 在windows上那怕是回写空的对favicon的响应均会报错，但好像仅有chrome浏览器少出现该问题
 				logger.debug(getClass(),
@@ -204,7 +195,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 				reset();
 				return;
 			}
-			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), HttpResponseStatus.OK);
+			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.protocolVersion(), HttpResponseStatus.OK);
 			IChipInfo cinfo = (IChipInfo) parent.getService("$.chipinfo");
 			InputStream gatewayLogo = cinfo.getIconStream();
 			byte[] buf = FileHelper.readFully(gatewayLogo);
@@ -221,7 +212,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 		// Handshake
 		if (!info.getProps().containsKey(__http_ws_prop_wsPath)) {// 开发者未指定ws路径则默认为不开启ws服务
-			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), FORBIDDEN);
+			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.protocolVersion(), FORBIDDEN);
 			writeResponse(ctx, req, res);
 			reset();
 			ctx.close();
@@ -230,7 +221,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		String wsPath = getWebSocketLocation(req);
 		String rwspath = getRequestWsLocation(req);
 		if (!wsPath.equals(rwspath)) {
-			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.getProtocolVersion(), FORBIDDEN);
+			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.protocolVersion(), FORBIDDEN);
 			writeResponse(ctx, req, res);
 			reset();
 			ctx.close();
@@ -240,7 +231,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 				10485760);
 		handshaker = wsFactory.newHandshaker(req);
 		if (handshaker == null) {
-			WebSocketServerHandshakerFactory.sendUnsupportedWebSocketVersionResponse(ctx.channel());
+			WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
 		} else {
 			FullHttpRequestImpl freq = new FullHttpRequestImpl(req);
 			handshaker.handshake(ctx.channel(), freq);
@@ -249,8 +240,8 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	}
 
 	protected String getRequestWsLocation(HttpRequest req) {
-		String host = req.headers().get(HOST);
-		String uri = req.getUri();
+		String host = req.headers().get(HOST).toString();
+		String uri = req.uri();
 		String cntpath = "";
 		int pos = uri.indexOf("?");
 		String remaining = uri;
@@ -289,7 +280,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 				wspath=wspath.substring(0,wspath.length()-1);
 			}
 		}
-		String host = req.headers().get(HOST);
+		String host = req.headers().get(HOST).toString();
 		String wsServicePath = String.format("ws://%s%s", host, wspath);
 		return wsServicePath;
 	}
@@ -440,14 +431,15 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	}
 
 	protected void flowHttpRequest(ChannelHandlerContext ctx, HttpRequest req) throws Exception {
-		String uri = req.getUri();
+		String uri = req.uri();
 		try {
 			uri = URLDecoder.decode(uri, "utf-8");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
-		String gatewayDestInHeader = req.headers().get(__frame_gatewayDest);
-		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, gatewayDestInHeader, getClass());
+		CharSequence gatewayDestInHeader = req.headers().get(__frame_gatewayDest);
+		String headGatewayDest=gatewayDestInHeader==null?"":gatewayDestInHeader.toString();
+		String gatewayDest = GetwayDestHelper.getGatewayDestForHttpRequest(uri, headGatewayDest, getClass());
 		if (StringUtil.isEmpty(gatewayDest) || gatewayDest.endsWith("://")) {
 			throw new CircuitException("404", "缺少路由目标，请求侦被丢掉：" + uri);
 		}
@@ -455,7 +447,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		HttpInputChannel input = new HttpInputChannel();
 		Frame frame = input.begin(req);
 		IOutputChannel output = new HttpOutputChannel(ctx.channel(), frame);
-		Circuit circuit = new HttpCircuit(output, String.format("%s 200 OK", req.getProtocolVersion().text()));
+		Circuit circuit = new HttpCircuit(output, String.format("%s 200 OK", req.protocolVersion().text()));
 		if ("false".equals(info.getProps().get(__circuit_same_origin_policy))) {
 			circuit.head(ACCESS_CONTROL_ALLOW_ORIGIN.toString(), "*");
 			circuit.head(ACCESS_CONTROL_ALLOW_HEADERS.toString(), "Origin, X-Requested-With, Content-Type, Accept");
@@ -533,20 +525,20 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 	protected void writeResponse(ChannelHandlerContext ctx, HttpRequest req, DefaultFullHttpResponse res) {
 		HttpHeaders headers = res.headers();
-		boolean close = headers.contains(CONNECTION, HttpHeaders.Values.CLOSE, true)
-				|| req.getProtocolVersion().equals(HttpVersion.HTTP_1_0)
-						&& !headers.contains(CONNECTION, HttpHeaders.Values.KEEP_ALIVE, true);
+		boolean close = headers.contains(CONNECTION, HttpHeaderValues.CLOSE, true)
+				|| req.protocolVersion().equals(HttpVersion.HTTP_1_0)
+						&& !headers.contains(CONNECTION, HttpHeaderValues.KEEP_ALIVE, true);
 		if (!close) {
-			res.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+			res.headers().set(CONNECTION, HttpHeaderValues.KEEP_ALIVE);
 		}
 		setContentLength(res, res.content().readableBytes());
-		String ctypeKey = HttpHeaders.Names.CONTENT_TYPE.toString();
+		String ctypeKey = HttpHeaderNames.CONTENT_TYPE.toString();
 		if (!headers.contains(ctypeKey)) {
 			if (req.headers().contains(ctypeKey)) {
 				headers.add(ctypeKey, req.headers().get(ctypeKey));
 			} else {
 				if (!headers.contains(ctypeKey)) {
-					String extName = req.getUri();
+					String extName = req.uri();
 					int pos = extName.lastIndexOf(".");
 					extName = extName.substring(pos + 1, extName.length());
 					if (DefaultHttpMineTypeFactory.containsMime(extName)) {
@@ -564,8 +556,8 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 	protected boolean isWebSocketReq(HttpRequest req) {
 		if (req.headers().get("Connection") == null)
 			return false;
-		return ((req.headers().get("Connection").contains("Upgrade"))
-				&& "websocket".equalsIgnoreCase(req.headers().get("Upgrade")));
+		return ((req.headers().get("Connection").toString().contains("Upgrade"))
+				&& "websocket".equalsIgnoreCase(req.headers().get("Upgrade").toString()));
 	}
 
 	@Override
@@ -640,15 +632,15 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		}
 
 		public FullHttpRequestImpl(HttpRequest req) {
-			super(req.getProtocolVersion(), req.getMethod(), req.getUri());
+			super(req.protocolVersion(), req.method(), req.uri());
 			HttpHeaders headers = req.headers();
-			for (Entry<String, String> en : headers.entries()) {
-				this.headers().add(en.getKey(), en.getValue());
+			for (Entry<CharSequence, CharSequence> en : headers.entries()) {
+				this.headers().add(en.getKey().toString(), en.getValue().toString());
 			}
 		}
 
 		public String getContentPath() {
-			String uri = getUri();
+			String uri = uri();
 			while (uri.startsWith("/")) {
 				uri = uri.substring(1, uri.length());
 			}
@@ -682,6 +674,12 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 		@Override
 		public boolean release(int arg0) {
 			return content.release(arg0);
+		}
+
+		@Override
+		public FullHttpRequest copy(ByteBuf newContent) {
+			content=newContent;
+			return this;
 		}
 
 		@Override
@@ -722,5 +720,14 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			return this;
 		}
 
+		@Override
+		public FullHttpRequest touch() {
+			return this;
+		}
+
+		@Override
+		public FullHttpRequest touch(Object hint) {
+			return this;
+		}
 	}
 }

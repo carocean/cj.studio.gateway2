@@ -1,10 +1,6 @@
 package cj.studio.ecm.net.http;
 
-import io.netty.handler.codec.http.Cookie;
-import io.netty.handler.codec.http.CookieDecoder;
-import io.netty.handler.codec.http.DefaultCookie;
-import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.ServerCookieEncoder;
+import io.netty.handler.codec.http.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,15 +15,15 @@ import cj.ultimate.util.StringUtil;
 
 public final class CookieHelper {
 	public static Set<Cookie> cookies(Frame frame) {
-		String cookieString = frame.head(HttpHeaders.Names.COOKIE.toString());
+		String cookieString = frame.head(HttpHeaderNames.COOKIE.toString());
 		if (StringUtil.isEmpty(cookieString))
 			return null;
-		Set<Cookie> cookies = CookieDecoder.decode(cookieString);
+		Set<Cookie> cookies = ServerCookieDecoder.decode(cookieString);
 		return cookies;
 	}
 
 	public static Set<Cookie> decode(String cookieString) {
-		Set<Cookie> set = CookieDecoder.decode(cookieString);
+		Set<Cookie> set = ServerCookieDecoder.decode(cookieString);
 		if (set == null)
 			return new HashSet<Cookie>();
 		return set;
@@ -47,18 +43,18 @@ public final class CookieHelper {
 
 	public static Set<Cookie> cookies(Circuit circuit) {
 		String cookieString = circuit
-				.head(HttpHeaders.Names.SET_COOKIE.toString());
+				.head(HttpHeaderNames.SET_COOKIE.toString());
 		if (StringUtil.isEmpty(cookieString))
 			return null;
-		Set<Cookie> cookies = CookieDecoder.decode(cookieString);
+		Set<Cookie> cookies = ServerCookieDecoder.decode(cookieString);
 		return cookies;
 	}
 	public static Set<Cookie> cookiesSet(Frame backFrame) {
 		String cookieString = backFrame
-				.head(HttpHeaders.Names.SET_COOKIE.toString());
+				.head(HttpHeaderNames.SET_COOKIE.toString());
 		if (StringUtil.isEmpty(cookieString))
 			return null;
-		Set<Cookie> cookies = CookieDecoder.decode(cookieString);
+		Set<Cookie> cookies = ServerCookieDecoder.decode(cookieString);
 		return cookies;
 	}
 	public static String cjtokenSet(Frame backFrame) {
@@ -68,8 +64,8 @@ public final class CookieHelper {
 			return cjtoken;
 		} else {
 			for (Cookie c : set) {
-				if ("CJTOKEN".equals(c.getName())) {
-					cjtoken = c.getValue();
+				if ("CJTOKEN".equals(c.name())) {
+					cjtoken = c.value();
 					break;
 				}
 			}
@@ -85,8 +81,8 @@ public final class CookieHelper {
 			return cjtoken;
 		} else {
 			for (Cookie c : set) {
-				if ("CJTOKEN".equals(c.getName())) {
-					cjtoken = c.getValue();
+				if ("CJTOKEN".equals(c.name())) {
+					cjtoken = c.value();
 					break;
 				}
 			}
@@ -103,8 +99,8 @@ public final class CookieHelper {
 			return cjtoken;
 		} else {
 			for (Cookie c : set) {
-				if ("CJTOKEN".equals(c.getName())) {
-					cjtoken = c.getValue();
+				if ("CJTOKEN".equals(c.name())) {
+					cjtoken = c.value();
 					break;
 				}
 			}
@@ -115,15 +111,15 @@ public final class CookieHelper {
 	}
 
 	public static String cookieString(Frame frame) {
-		return frame.head(HttpHeaders.Names.COOKIE.toString());
+		return frame.head(HttpHeaderNames.COOKIE.toString());
 	}
 
 	public static void cookieString(Frame frame, String str) {
-		frame.head(HttpHeaders.Names.COOKIE.toString(), str);
+		frame.head(HttpHeaderNames.COOKIE.toString(), str);
 	}
 
 	public static String cookieString(Circuit cir) {
-		return cir.head(HttpHeaders.Names.SET_COOKIE.toString());
+		return cir.head(HttpHeaderNames.SET_COOKIE.toString());
 	}
 
 	public static void removeCookie(Circuit circuit, String key) {
@@ -133,7 +129,7 @@ public final class CookieHelper {
 		}
 		Cookie found = null;
 		for (Cookie c : set) {
-			if (c.getName().equals(key)) {
+			if (c.name().equals(key)) {
 				found = c;
 				break;
 			}
@@ -151,7 +147,7 @@ public final class CookieHelper {
 		for (Cookie c : set) {
 			cookieString += ServerCookieEncoder.encode(c) + ";";
 		}
-		circuit.head(HttpHeaders.Names.SET_COOKIE.toString(), cookieString);
+		circuit.head(HttpHeaderNames.SET_COOKIE.toString(), cookieString);
 	}
 
 	public static void appendCookie(Circuit circuit, String key, String v) {
@@ -177,13 +173,13 @@ public final class CookieHelper {
 			set = new HashSet<Cookie>();
 		}
 		for (Cookie c : set) {
-			if (c.getName().equals(key)) {
+			if (c.name().equals(key)) {
 				c.setValue(v);
 				if (maxAge < 0){
 					maxAge=Long.MIN_VALUE;
 				}
 				c.setMaxAge(maxAge);
-				if (StringUtil.isEmpty(c.getPath()))
+				if (StringUtil.isEmpty(c.path()))
 					c.setPath("/");//路径决定了cookie的共享区间，/表示站点的所有资源均共享同一cookie，如果以资源路径设为cookie路径，则各个资源均有独自的cookie，这会导致请求一个页面时，页面内的资源各自产生新的会话，因此必须设定此值
 				exists = true;
 				break;
@@ -197,7 +193,7 @@ public final class CookieHelper {
 				maxAge=Long.MIN_VALUE;
 			}
 			c.setMaxAge(maxAge);
-			if (StringUtil.isEmpty(c.getPath()))
+			if (StringUtil.isEmpty(c.path()))
 				c.setPath("/");//路径决定了cookie的共享区间，/表示站点的所有资源均共享同一cookie，如果以资源路径设为cookie路径，则各个资源均有独自的cookie，这会导致请求一个页面时，页面内的资源各自产生新的会话，因此必须设定此值
 			set.add(c);
 //			Cookie c2 = new DefaultCookie("key", v);//永久保持此会话，用于在cjtoken过期后在服务器端判断并退出session，这一招还是在实在没办法时再这么做吧
@@ -212,7 +208,7 @@ public final class CookieHelper {
 		for (Cookie c : set) {
 			cookieString += ServerCookieEncoder.encode(c) + ";";
 		}
-		circuit.head(HttpHeaders.Names.SET_COOKIE.toString(), cookieString);
+		circuit.head(HttpHeaderNames.SET_COOKIE.toString(), cookieString);
 	}
 
 	public static void main(String... key) {
@@ -239,7 +235,7 @@ public final class CookieHelper {
 			set = new HashSet<Cookie>();
 		}
 		for (Cookie c : set) {
-			if (c.getName().equals(key)) {
+			if (c.name().equals(key)) {
 				c.setValue(v);
 				if (maxAge > -1)
 					c.setMaxAge(maxAge);
@@ -257,6 +253,6 @@ public final class CookieHelper {
 		for (Cookie c : set) {
 			cookieString += ServerCookieEncoder.encode(c) + ";";
 		}
-		frame.head(HttpHeaders.Names.SET_COOKIE.toString(), cookieString);
+		frame.head(HttpHeaderNames.SET_COOKIE.toString(), cookieString);
 	}
 }

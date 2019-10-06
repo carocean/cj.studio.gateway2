@@ -1,698 +1,195 @@
-2018年11月04日 21:33:12  信息 : -------------网关启动完毕-------------------
-2018年11月04日 21:33:16  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月04日 21:33:41  错误: cj.studio.gateway.tools.RouterConsole - 不认识的命令：ls
-2018年11月05日 12:17:34  信息 : -------------网关启动完毕-------------------
-2018年11月05日 12:17:44  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月05日 12:19:33  信息 : -------------网关启动完毕-------------------
-2018年11月05日 12:19:45  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月05日 12:45:40  信息 : -------------网关启动完毕-------------------
-2018年11月05日 12:45:49  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月05日 12:46:23  错误: cj.studio.gateway.server.handler.HttpServerHandler - 缺少路由目标，请求侦被丢掉：/
-2018年11月05日 12:46:36  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
-		at java.util.TreeMap.deleteEntry(TreeMap.java:2309)
-		at java.util.TreeMap.remove(TreeMap.java:608)
-		at cj.studio.gateway.junction.JunctionTable.remove(JunctionTable.java:34)
-		at cj.studio.gateway.server.handler.HttpServerHandler.channelInactive(HttpServerHandler.java:208)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelInactiveNow(ChannelHandlerInvokerUtil.java:46)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelInactive(DefaultChannelHandlerInvoker.java:77)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelInactive(DefaultChannelHandlerContext.java:299)
-		at io.netty.channel.ChannelHandlerAdapter.channelInactive(ChannelHandlerAdapter.java:100)
-		at io.netty.handler.codec.http.HttpContentEncoder.channelInactive(HttpContentEncoder.java:242)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelInactiveNow(ChannelHandlerInvokerUtil.java:46)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelInactive(DefaultChannelHandlerInvoker.java:77)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelInactive(DefaultChannelHandlerContext.java:299)
-		at io.netty.channel.ChannelHandlerAdapter.channelInactive(ChannelHandlerAdapter.java:100)
-		at io.netty.handler.codec.http.HttpObjectAggregator.channelInactive(HttpObjectAggregator.java:226)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelInactiveNow(ChannelHandlerInvokerUtil.java:46)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelInactive(DefaultChannelHandlerInvoker.java:77)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelInactive(DefaultChannelHandlerContext.java:299)
-		at io.netty.handler.codec.ReplayingDecoder.channelInactive(ReplayingDecoder.java:347)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelInactiveNow(ChannelHandlerInvokerUtil.java:46)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelInactive(DefaultChannelHandlerInvoker.java:77)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelInactive(DefaultChannelHandlerContext.java:299)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelInactive(DefaultChannelPipeline.java:827)
-		at io.netty.channel.AbstractChannel$AbstractUnsafe$5.run(AbstractChannel.java:544)
-		at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:318)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:353)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at java.lang.Thread.run(Thread.java:748)
-2018年11月05日 12:49:22  信息 : -------------网关启动完毕-------------------
-2018年11月05日 12:49:29  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月05日 12:58:24  信息 : -------------网关启动完毕-------------------
-2018年11月05日 12:58:36  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月05日 12:59:05  错误: cj.studio.gateway.server.handler.HttpServerHandler - 缺少路由目标，请求侦被丢掉：/
-2018年11月05日 14:47:17  信息 : -------------网关启动完毕-------------------
-2018年11月05日 14:47:21  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月05日 22:07:35  信息 : -------------网关启动完毕-------------------
-2018年11月05日 22:07:37  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月05日 22:07:37  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
-		at cj.studio.gateway.socket.app.AppGatewaySocket.connect(AppGatewaySocket.java:92)
-		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:35)
-		at cj.studio.gateway.server.handler.HttpServerHandler.flowHttpRequest(HttpServerHandler.java:256)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleHttpRequest(HttpServerHandler.java:113)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:84)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+2019年10月06日 16:19:16  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 16:19:16  信息 : -------------网关启动完毕-------------------
+2019年10月06日 16:19:16  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月06日 16:20:34  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 16:20:34  信息 : -------------网关启动完毕-------------------
+2019年10月06日 16:20:34  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月06日 16:20:40  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 16:20:40  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 16:20:50  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：java.lang.NullPointerException
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:440)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:209)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:105)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:84)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+		at io.netty.channel.PausableChannelEventExecutor.invokeChannelRead(PausableChannelEventExecutor.java:86)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:389)
+		at io.netty.channel.ChannelHandlerAdapter.channelRead(ChannelHandlerAdapter.java:143)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:84)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+		at io.netty.channel.PausableChannelEventExecutor.invokeChannelRead(PausableChannelEventExecutor.java:86)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:389)
 		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
 		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:84)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+		at io.netty.channel.PausableChannelEventExecutor.invokeChannelRead(PausableChannelEventExecutor.java:86)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:389)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:243)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:84)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+		at io.netty.channel.PausableChannelEventExecutor.invokeChannelRead(PausableChannelEventExecutor.java:86)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:389)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:956)
 		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at java.lang.Thread.run(Thread.java:748)
-2018年11月05日 22:44:48  信息 : -------------网关启动完毕-------------------
-2018年11月05日 22:44:51  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月06日 13:09:53  信息 : -------------网关启动完毕-------------------
-2018年11月06日 13:09:58  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月06日 13:22:45  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
-2018年11月06日 13:22:45  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
-2018年11月06日 13:22:45  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
-2018年11月06日 13:30:24  信息 : -------------网关启动完毕-------------------
-2018年11月06日 13:30:35  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月06日 15:05:33  信息 : -------------网关启动完毕-------------------
-2018年11月06日 15:05:34  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月06日 15:05:34  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月06日 16:01:35  信息 : -------------网关启动完毕-------------------
-2018年11月06日 16:01:38  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月06日 16:01:38  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月07日 02:44:15  信息 : -------------网关启动完毕-------------------
-2018年11月07日 02:44:37  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月07日 02:44:38  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月07日 02:45:36  错误: cj.studio.gateway.server.handler.HttpServerHandler - 簇中缺少目标:webview
-2018年11月07日 02:45:36  错误: cj.studio.gateway.server.handler.HttpServerHandler - 目标管道不存在acde480011220000-17b3-000000df-59b5b6508d2221cf-f13c4f0a@httpSite
-2018年11月07日 02:45:42  错误: cj.studio.gateway.server.handler.HttpServerHandler - 簇中缺少目标:webview
-2018年11月07日 02:45:42  错误: cj.studio.gateway.server.handler.HttpServerHandler - 目标管道不存在acde480011220000-17b3-000000ff-89dc27c10d223a7b-10d04db4@httpSite
-2018年11月07日 02:45:44  错误: cj.studio.gateway.server.handler.HttpServerHandler - 簇中缺少目标:webview
-2018年11月07日 02:45:44  错误: cj.studio.gateway.server.handler.HttpServerHandler - 目标管道不存在acde480011220000-17b3-0000010b-070a51a4fd22409e-68249d20@httpSite
-2018年11月07日 02:46:12  错误: cj.studio.gateway.server.handler.HttpServerHandler - 缺少路由目标，请求侦被丢掉：/apple-touch-icon-precomposed.png
-2018年11月07日 02:46:12  错误: cj.studio.gateway.server.handler.HttpServerHandler - 缺少路由目标，请求侦被丢掉：/apple-touch-icon.png
-2018年11月07日 02:46:52  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
-2018年11月07日 02:47:07  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
-		at cj.test.website.Home.flow(Home.java:27)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:77)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flowWay(CheckErrorInputVavle.java:50)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:33)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttp(FirstWayInputValve.java:96)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:54)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at cj.studio.gateway.server.handler.HttpServerHandler.flowHttpRequest(HttpServerHandler.java:244)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleHttpRequest(HttpServerHandler.java:114)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:85)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)
+		at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)
+		at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)
+		at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)
+		at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)
+		at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)
+		at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)
+2019年10月06日 16:20:55  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 16:20:55  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 16:21:10  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 16:21:10  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:40:12  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:40:12  信息 : -------------网关启动完毕-------------------
+2019年10月06日 20:40:12  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月06日 20:40:15  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月06日 20:40:16  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月06日 20:40:16  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月06日 20:40:16  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月06日 20:40:18  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:40:18  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:40:33  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:40:33  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:40:48  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:40:48  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:41:03  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:41:03  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:41:18  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:41:18  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:41:33  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:41:33  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:41:48  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:41:48  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:42:03  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:42:03  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:42:18  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:42:18  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:42:33  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:42:33  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:42:48  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:42:48  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:43:03  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:43:03  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:43:18  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:43:18  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:43:33  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:43:33  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:43:48  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:43:48  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:44:03  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:44:03  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:44:18  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:44:18  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:44:33  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:44:33  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:44:48  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:44:48  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:45:03  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:45:03  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:45:18  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:45:18  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:45:33  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:45:33  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:45:48  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:45:48  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:46:03  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:46:03  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:46:18  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:46:18  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:46:33  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:46:33  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:46:48  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:46:48  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:47:03  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:47:03  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:47:18  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:47:18  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:47:33  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:47:33  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:48:40  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:48:40  信息 : -------------网关启动完毕-------------------
+2019年10月06日 20:48:40  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月06日 20:48:43  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月06日 20:48:43  错误: cj.studio.gateway.server.handler.HttpChannelHandler -  异常：cj.studio.ecm.EcmException: 定义了多个程序集:/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/assemblies/website/
+		at cj.studio.gateway.socket.app.AppGatewaySocket.scanAssemblyAndLoad(AppGatewaySocket.java:149)
+		at cj.studio.gateway.socket.app.AppGatewaySocket.connect(AppGatewaySocket.java:120)
+		at cj.studio.gateway.DestinationLoader.load(DestinationLoader.java:40)
+		at cj.studio.gateway.GatewaySocketContainer.getAndCreate(GatewaySocketContainer.java:36)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.pipelineHttpBuild(HttpChannelHandler.java:496)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.flowHttpRequest(HttpChannelHandler.java:468)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.handleHttpRequest(HttpChannelHandler.java:209)
+		at cj.studio.gateway.server.handler.HttpChannelHandler.messageReceived(HttpChannelHandler.java:105)
+		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:105)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:84)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+		at io.netty.channel.PausableChannelEventExecutor.invokeChannelRead(PausableChannelEventExecutor.java:86)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:389)
+		at io.netty.channel.ChannelHandlerAdapter.channelRead(ChannelHandlerAdapter.java:143)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:84)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+		at io.netty.channel.PausableChannelEventExecutor.invokeChannelRead(PausableChannelEventExecutor.java:86)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:389)
 		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
 		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:84)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+		at io.netty.channel.PausableChannelEventExecutor.invokeChannelRead(PausableChannelEventExecutor.java:86)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:389)
+		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:243)
+		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:84)
+		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:153)
+		at io.netty.channel.PausableChannelEventExecutor.invokeChannelRead(PausableChannelEventExecutor.java:86)
+		at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:389)
+		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:956)
 		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at java.lang.Thread.run(Thread.java:748)
-2018年11月07日 02:47:08  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
-		at cj.test.website.Home.flow(Home.java:27)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:77)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-2018年11月07日 02:47:08  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextOnInactive(OutputPipeline.java:93)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flowWay(CheckErrorInputVavle.java:50)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.headOnInactive(OutputPipeline.java:74)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:33)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline$Outputer.releasePipeline(OutputPipeline.java:232)
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:50)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowHttp(FirstWayInputValve.java:96)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:54)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-2018年11月07日 02:47:08  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
-		at cj.studio.gateway.server.handler.HttpServerHandler.flowHttpRequest(HttpServerHandler.java:244)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextOnInactive(OutputPipeline.java:93)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleHttpRequest(HttpServerHandler.java:114)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.headOnInactive(OutputPipeline.java:74)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:85)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline$Outputer.releasePipeline(OutputPipeline.java:232)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:50)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-2018年11月07日 02:47:08  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：505 对点网络已不可写，无法处理回推侦：put /ss/bb.txt G/1.0
-		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.ws.valve.LastWebsocketInputValve.flow(LastWebsocketInputValve.java:28)
-		at io.netty.handler.codec.MessageToMessageCodec.channelRead(MessageToMessageCodec.java:111)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at cj.studio.gateway.socket.ws.valve.FirstWebsocketInputValve.flow(FirstWebsocketInputValve.java:17)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at cj.studio.gateway.socket.app.valve.LastWayOutputValve.flow(LastWayOutputValve.java:44)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:111)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.OutputValve2.flow(OutputValve2.java:15)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:111)
-		at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103)
-		at cj.test.website.valve.OutputValve1.flow(OutputValve1.java:15)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:111)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.studio.gateway.socket.app.valve.FirstWayOutputValve.flow(FirstWayOutputValve.java:17)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:105)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.headFlow(OutputPipeline.java:63)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline$Outputer.send(OutputPipeline.java:212)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:36)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at java.lang.Thread.run(Thread.java:748)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at java.lang.Thread.run(Thread.java:748)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at java.lang.Thread.run(Thread.java:748)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at java.lang.Thread.run(Thread.java:748)
-2018年11月07日 02:47:22  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：cj.studio.ecm.EcmException: 505 对点网络已不可写，无法处理回推侦：put /website2/ HTTP/1.1
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:48)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-2018年11月07日 02:47:22  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：cj.studio.ecm.EcmException: 505 对点网络已不可写，无法处理回推侦：put /website2/ HTTP/1.1
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:48)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at java.lang.Thread.run(Thread.java:748)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-	Cause by:
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at cj.studio.gateway.socket.ws.valve.LastWebsocketInputValve.flow(LastWebsocketInputValve.java:28)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at cj.studio.gateway.socket.ws.valve.FirstWebsocketInputValve.flow(FirstWebsocketInputValve.java:17)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at cj.studio.gateway.socket.app.valve.LastWayOutputValve.flow(LastWayOutputValve.java:44)
-		at java.lang.Thread.run(Thread.java:748)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:111)
-	Cause by:
-		at cj.test.website.valve.OutputValve2.flow(OutputValve2.java:15)
-		at cj.studio.gateway.socket.ws.valve.LastWebsocketInputValve.flow(LastWebsocketInputValve.java:28)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:111)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.OutputValve1.flow(OutputValve1.java:15)
-		at cj.studio.gateway.socket.ws.valve.FirstWebsocketInputValve.flow(FirstWebsocketInputValve.java:17)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:111)
-		at cj.studio.gateway.socket.app.valve.FirstWayOutputValve.flow(FirstWayOutputValve.java:17)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:105)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.headFlow(OutputPipeline.java:63)
-		at cj.studio.gateway.socket.app.valve.LastWayOutputValve.flow(LastWayOutputValve.java:44)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline$Outputer.send(OutputPipeline.java:212)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:111)
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:45)
-		at cj.test.website.valve.OutputValve2.flow(OutputValve2.java:15)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:111)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at cj.test.website.valve.OutputValve1.flow(OutputValve1.java:15)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:111)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.app.valve.FirstWayOutputValve.flow(FirstWayOutputValve.java:17)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:105)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.headFlow(OutputPipeline.java:63)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline$Outputer.send(OutputPipeline.java:212)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:45)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at java.lang.Thread.run(Thread.java:748)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at java.lang.Thread.run(Thread.java:748)
-2018年11月07日 02:47:30  错误: cj.studio.gateway.server.handler.HttpServerHandler - 簇中缺少目标:acde480011220000-17b3-000008bc-24fda44e6aa3e105-38d66354@httpSite
-2018年11月07日 02:47:30  错误: cj.studio.gateway.server.handler.HttpServerHandler - 簇中缺少目标:acde480011220000-17b3-000008bd-9ec230ce6aa3e114-4d4ad8de@httpSite
-2018年11月07日 02:47:40  错误: cj.studio.gateway.server.handler.HttpServerHandler - 簇中缺少目标:acde480011220000-17b3-00000af5-eb031e1a2aa0055a-0c7dceb8@httpSite
-2018年11月07日 02:47:48  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.dispose(OutputPipeline.java:131)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline$Outputer.releasePipeline(OutputPipeline.java:233)
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:50)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at java.lang.Thread.run(Thread.java:748)
-2018年11月07日 02:47:55  错误: cj.studio.gateway.server.handler.HttpServerHandler - 簇中缺少目标:acde480011220000-17b3-00000e2a-1e465dfb8aa03fb2-50e80f97@httpSite
-2018年11月07日 02:48:02  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextFlow(OutputPipeline.java:105)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.headFlow(OutputPipeline.java:63)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline$Outputer.send(OutputPipeline.java:212)
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:45)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at java.lang.Thread.run(Thread.java:748)
-2018年11月07日 02:48:03  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
-		at cj.studio.gateway.socket.pipeline.OutputPipeline$Outputer.closePipeline(OutputPipeline.java:223)
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:37)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at java.lang.Thread.run(Thread.java:748)
-2018年11月07日 02:49:11  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
-2018年11月07日 02:49:16  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
-2018年11月07日 02:49:20  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
-2018年11月07日 02:49:20  错误: cj.studio.gateway.server.handler.HttpServerHandler - Connection reset by peer
-2018年11月07日 02:50:56  错误: cj.studio.gateway.server.handler.HttpServerHandler -  异常：java.lang.NullPointerException
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.nextOnInactive(OutputPipeline.java:93)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline.headOnInactive(OutputPipeline.java:74)
-		at cj.studio.gateway.socket.pipeline.OutputPipeline$Outputer.releasePipeline(OutputPipeline.java:232)
-		at cj.test.website.webview.TestWebsocket.flow(TestWebsocket.java:50)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.renderJavaDocument(LastWayInputValve.java:136)
-		at cj.studio.gateway.socket.app.valve.LastWayInputValve.flow(LastWayInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve2.flow(InputValve2.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.test.website.valve.InputValve1.flow(InputValve1.java:22)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckSessionInputValve.flow(CheckSessionInputValve.java:50)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckErrorInputVavle.flow(CheckErrorInputVavle.java:37)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.CheckUrlInputValve.flow(CheckUrlInputValve.java:64)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:86)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flowWs(FirstWayInputValve.java:84)
-		at cj.studio.gateway.socket.app.valve.FirstWayInputValve.flow(FirstWayInputValve.java:58)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.nextFlow(InputPipeline.java:80)
-		at cj.studio.gateway.socket.pipeline.InputPipeline.headFlow(InputPipeline.java:74)
-		at cj.studio.gateway.server.handler.HttpServerHandler.handleWebSocketFrame(HttpServerHandler.java:148)
-		at cj.studio.gateway.server.handler.HttpServerHandler.messageReceived(HttpServerHandler.java:87)
-		at io.netty.channel.SimpleChannelInboundHandler.channelRead(SimpleChannelInboundHandler.java:103)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:154)
-		at io.netty.channel.ChannelHandlerInvokerUtil.invokeChannelReadNow(ChannelHandlerInvokerUtil.java:74)
-		at io.netty.channel.DefaultChannelHandlerInvoker.invokeChannelRead(DefaultChannelHandlerInvoker.java:138)
-		at io.netty.channel.DefaultChannelHandlerContext.fireChannelRead(DefaultChannelHandlerContext.java:320)
-		at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:846)
-		at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:127)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:485)
-		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:452)
-		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:346)
-		at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:794)
-		at java.lang.Thread.run(Thread.java:748)
-2018年11月07日 23:06:35  信息 : -------------网关启动完毕-------------------
-2018年11月07日 23:06:38  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月07日 23:06:38  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月07日 23:07:24  信息 : -------------网关启动完毕-------------------
-2018年11月07日 23:07:28  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月07日 23:07:28  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月29日 10:19:50  信息 : -------------网关启动完毕-------------------
-2018年11月29日 10:32:21  信息 : -------------网关启动完毕-------------------
-2018年11月29日 16:55:22  信息 : -------------网关启动完毕-------------------
-2018年11月29日 16:55:27  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月29日 16:55:29  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月30日 20:19:36  信息 : -------------网关启动完毕-------------------
-2018年11月30日 20:19:39  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年11月30日 20:19:42  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年12月08日 22:25:54  信息 : -------------网关启动完毕-------------------
-2018年12月08日 22:25:54  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年12月08日 22:38:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:38:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:38:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:38:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:38:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:38:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:38:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:38:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:38:19  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:40:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:40:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:40:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:40:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 22:40:56  错误: cj.studio.gateway.server.handler.HttpChannelHandler - Connection reset by peer
-2018年12月08日 23:14:27  信息 : -------------网关启动完毕-------------------
-2018年12月08日 23:14:37  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2018年12月13日 01:43:58  信息 : -------------网关启动完毕-------------------
-2018年12月13日 20:21:09  信息 : -------------网关启动完毕-------------------
-2018年12月13日 20:21:19  信息 : 已装载共享库/Users/caroceanjofers/studio/lns.github.com/cj.studio.gateway2/cmdtools/gateway/lib/share
-2019年03月20日 22:33:49  信息 : -------------网关启动完毕-------------------
+		at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:514)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:471)
+		at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:385)
+		at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:351)
+		at io.netty.util.concurrent.SingleThreadEventExecutor$2.run(SingleThreadEventExecutor.java:116)
+		at io.netty.util.internal.chmv8.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1412)
+		at io.netty.util.internal.chmv8.ForkJoinTask.doExec(ForkJoinTask.java:280)
+		at io.netty.util.internal.chmv8.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:877)
+		at io.netty.util.internal.chmv8.ForkJoinPool.scan(ForkJoinPool.java:1706)
+		at io.netty.util.internal.chmv8.ForkJoinPool.runWorker(ForkJoinPool.java:1661)
+		at io.netty.util.internal.chmv8.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:126)
+2019年10月06日 20:48:46  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:48:46  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:49:01  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:49:01  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:49:16  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:49:16  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:49:31  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:49:31  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:49:41  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:49:41  信息 : -------------网关启动完毕-------------------
+2019年10月06日 20:49:41  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月06日 20:49:44  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月06日 20:49:47  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月06日 20:49:47  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月06日 20:49:47  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月06日 20:49:47  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:49:47  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:50:02  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:50:02  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:50:17  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:50:17  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:50:32  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:50:32  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:50:47  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:50:47  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:51:02  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:51:02  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:51:17  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:51:17  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月06日 20:51:32  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月06日 20:51:32  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080

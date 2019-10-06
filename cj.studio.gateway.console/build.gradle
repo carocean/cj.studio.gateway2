@@ -14,30 +14,36 @@ sourceSets {
         options.encoding = "UTF-8"  
     } 
  repositories { 
-	 flatDir(dirs: "../global/runtime") 
- } 
+ }
 
 dependencies {
+	compile group: 'log4j', name: 'log4j', version: '1.2.17'
+	compile group: 'org.apache.commons', name: 'commons-pool2', version: '2.7.0'
+	compile group: 'com.barchart.http', name: 'barchart-http-server', version: '1.1.6'
+	compile group: 'com.barchart.udt', name: 'barchart-udt-bundle', version: '2.3.0'
+	compile group: 'io.netty', name: 'netty-all', version: '5.0.0.Alpha2'
 	compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.12.0'
 	compile project(':cj.studio.gateway.socket');//指定你要依赖的你公司的其它项目
 	compile(
             'commons-cli:commons-cli:1.2'
     )
-    //compile 'com.auth0:java-jwt:3.2.0'
-    //compile 'io.jsonwebtoken:jjwt:0.9.0'
-	compile fileTree('../global/runtime')
-	compile fileTree('../global/cjtools')
-	//compile fileTree('src/cj/references')//编译和运行时的依赖库，如果将来在神经元或netsite中运行的话，则不必将ecm,net等工具包放入该目录
 }
-     task releaseToCmdline(type: Copy){
-      dependsOn "build"
-	     from 'build/libs/'
-	     into '../cmdtools/gateway'
-	     include '**/*.jar'
-	      exclude '**/*-javadoc.jar','**/*-sources.jar'
-     }
-     
-     task release(type:Copy){
-      dependsOn "releaseToCmdline"
-     }
+task copyReferences(type: Copy) {
+	from configurations.compileClasspath.files {
+		include 'netty-all-*.jar', 'commons-pool2-*.jar','barchart-*.jar'
+	}
+	into 'src/cj/references'
+}
+build.dependsOn('copyReferences')
+task releaseToCmdline(type: Copy){
+dependsOn "build"
+ from 'build/libs/'
+ into '../cmdtools/gateway'
+ include '**/*.jar'
+  exclude '**/*-javadoc.jar','**/*-sources.jar'
+}
+
+task release(type:Copy){
+dependsOn "releaseToCmdline"
+}
      

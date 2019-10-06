@@ -1,8 +1,9 @@
 package cj.studio.ecm.net;
 
+import cj.studio.ecm.logging.ILogging;
+
 import java.util.Stack;
 
-import org.slf4j.Logger;
 
 /**
  * 回路异常。
@@ -192,7 +193,7 @@ public class CircuitException extends Exception {
 	 * @param e
 	 * @param logger
 	 */
-	public static String print(Throwable e, Logger logger) {
+	public static String print(Throwable e, ILogging logger) {
 		CircuitException ce = search(e);
 		String cause = ce == null ? e.getMessage() : ce.messageCause();
 		if(logger!=null)
@@ -200,7 +201,7 @@ public class CircuitException extends Exception {
 		return cause;
 	}
 	
-	public static Exception throwExceptionIt(Throwable e, Logger logger) {
+	public static Exception throwExceptionIt(Throwable e, ILogging logger) {
 		CircuitException ce = search(e);
 		if (ce == null)
 			throw new RuntimeException(e);
@@ -209,7 +210,7 @@ public class CircuitException extends Exception {
 			logger.error(cause);
 		return ce;
 	}
-	public static RuntimeException throwRuntimeIt(Throwable e, Logger logger) {
+	public static RuntimeException throwRuntimeIt(Throwable e, ILogging logger) {
 		CircuitException ce = search(e);
 		if (ce == null)
 			throw new RuntimeException(e);

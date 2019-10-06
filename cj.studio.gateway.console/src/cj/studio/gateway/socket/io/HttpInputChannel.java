@@ -36,17 +36,17 @@ public class HttpInputChannel implements IInputChannel {
 	@Override
 	public Frame begin(Object request) {
 		HttpRequest req = (HttpRequest) request;
-		String uri = req.getUri();
-		String line = String.format("%s %s %s", req.getMethod(), uri, req.getProtocolVersion().text());
+		String uri = req.uri();
+		String line = String.format("%s %s %s", req.method(), uri, req.protocolVersion().text());
 		Frame f = new HttpFrame(this, line);
 		HttpHeaders headers = req.headers();
-		Set<String> set = headers.names();
-		for (String key : set) {
+		Set<CharSequence> set = headers.names();
+		for (CharSequence key : set) {
 			if ("url".equals(key)) {
 				continue;
 			}
-			String v = headers.get(key);
-			f.head(key, v);
+			String v = headers.get(key).toString();
+			f.head(key.toString(), v);
 		}
 		this.frame=f;
 		isDone=false;

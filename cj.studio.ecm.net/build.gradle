@@ -19,16 +19,16 @@ sourceSets {
  } 
  
 dependencies {
+	// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.8.1'
-	compile fileTree(dir: '../global/lib', includes: ['*.jar'])
-	compile fileTree('../global/cjtools')
-	compile fileTree(dir: 'libs', includes: ['*.jar'])
-	
-    runtime fileTree(dir: 'libs', includes: ['*.jar'])
+	compile group: 'com.barchart.http', name: 'barchart-http-server', version: '1.1.6'
+	compile group: 'com.barchart.udt', name: 'barchart-udt-bundle', version: '2.3.0'
+	compile group: 'io.netty', name: 'netty-all', version: '5.0.0.Alpha2'
 }
-    task release(type: Copy) {
-     dependsOn "build","sourcesJar"
-     from 'build/libs/'
-     into '../outputs'
-     include '**/*.jar'
- 	}
+task release(type: Copy) {
+ dependsOn "build","sourcesJar"
+ from 'build/libs/'
+ into '../outputs'
+ include '**/*.jar'
+}

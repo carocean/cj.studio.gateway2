@@ -29,22 +29,22 @@ dependencies {
 	compile fileTree('../global/runtime')
 	compile fileTree('src/cj/references')//编译和运行时的依赖库，如果将来在神经元或netsite中运行的话，则不必将ecm,net等工具包放入该目录
 }
-     task releaseToCmdline(type: Copy){
-      dependsOn "build"
-	     from 'build/libs/'
-	     into '../outputs'
-	     include '**/*.jar'
-     }
-      task releaseToGateway(type: Copy){
-      dependsOn "build"
-	     from 'build/libs/'
-	     into '../cj.studio.gateway.console/src/cj/references'
-	     include '**/*.jar'
-	     exclude '**/*-javadoc.jar','**/*-sources.jar'
-     }
-     
-     //com.ly.wigo.shop.gateway
-     task release(type:Copy){
-      dependsOn "releaseToCmdline","releaseToGateway","javadocJar"
-     }
+task releaseToCmdline(type: Copy){
+dependsOn "build"
+ from 'build/libs/'
+ into '../outputs'
+ include '**/*.jar'
+}
+//task releaseToGateway(type: Copy){
+//dependsOn "build"
+// from 'build/libs/'
+// into '../cj.studio.gateway.console/src/cj/references'
+// include '**/*.jar'
+// exclude '**/*-javadoc.jar','**/*-sources.jar'
+//}
+
+//com.ly.wigo.shop.gateway
+task release(type:Copy){
+dependsOn "releaseToCmdline","javadocJar"
+}
      
