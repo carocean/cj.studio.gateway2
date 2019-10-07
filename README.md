@@ -24,3 +24,130 @@
 	mdisk命令行工具，它是以命令行窗口实现的网盘工具，以netdisk为核心，方便mongodb的开发、测试和运维管理。它用起来非常简单，只要连到你的mongodb即可将mongodb当成网盘数据库，且对原mongodb的库不受影响。
 	cjnet 用于调试neuron中的应用程序和netsite中的应用程序，它是一个cj studio产品系中有关net产品开发和调试必不可少的工具。
 	netsite也是一个像tomcat/jetty等服务容器的命令行工具，它与神经元的区别在于，它只能部署在神经网络的终端，而不能成为其中间节点。它的优点在于，它可以部署成百上千个应用，而在一个神经元节点上一般不这么做。此工具暂时停止了升级。
+	
+## 网关应用的调试方法
+   有两种调试方法，一种是建立main项目，此方法适用于eclipse和idea开发工具；另一种是直接使用idea的Jar Application，该方法仅适用于intellij idea开发工具
+   - 建立main项目调试
+   1.建立项目，将下面代码考贝进去
+   复制代码：
+   ```java
+public class AppMain {
+
+
+	private static String fileName;
+	public static void main(String[] args) throws ParseException, IOException {
+		fileName = "cj.studio.gateway.console";
+		Options options = new Options();
+//		Option h = new Option("h", "host",false, "要绑定的ip地址（一台服务器上可能有多网卡，默认采用localhost)，格式：-h ip:port，port可以省去");
+//		options.addOption(h);
+		Option  l = new Option("l","log", false, "充许网络日志输出到控制台");
+		options.addOption(l);
+		Option  m = new Option("m","man", false, "帮助");
+		options.addOption(m);
+		Option  u = new Option("nohup","nohup", false, "使用nohup后台启动");
+		options.addOption(u);
+//		Option  p = new Option("p","pwd", true, "密码，如果密码前有!符，请将密码前后加引号'");
+//		options.addOption(p);
+//		Option  db = new Option("db","database", true, "mongodb的库名，有权限访问的");
+//		options.addOption(db);
+		Option debug = new Option("d","debug", true, "调试命令行程序集时使用，需指定以下jar包所在目录\r\n"+fileName);
+		options.addOption(debug);
+
+		// GnuParser
+		// BasicParser
+		// PosixParser
+		GnuParser parser = new GnuParser();
+		CommandLine line = parser.parse(options, args);
+		if (line.hasOption("m")) {
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp("gateway", options);
+			return;
+		}
+		
+		// 取属性的方式line.getOptionProperties("T").get("boss")
+		// System.out.println(line.getOptionProperties("T").get("boss"));
+//		if(StringUtil.isEmpty(line.getOptionValue("h")))
+//			throw new ParseException("参数-h是host为必需，但为空");
+		
+		String usr = System.getProperty("user.dir");
+		File f = new File(usr);
+		File[] arr = f.listFiles(new FilenameFilter() {
+
+			@Override
+			public boolean accept(File dir, String name) {
+				if (name.startsWith(fileName)) {
+					return true;
+				}
+				return false;
+			}
+		});
+		if (arr.length < 1 && !line.hasOption("debug")) {
+			throw new IOException(fileName + " 程序集不存在.");
+		}
+		if (line.hasOption("debug")) {
+			File[] da = new File(line.getOptionValue("debug")).listFiles(new FilenameFilter() {
+
+				@Override
+				public boolean accept(File dir, String name) {
+					if (name.startsWith(fileName)) {
+						return true;
+					}
+					return false;
+				}
+			});
+			if (da.length < 0)
+				throw new IOException("调试时不存在指定的必要jar包" + fileName);
+			f = da[0];
+		} else {
+			f = arr[0];
+		}
+
+		IAssembly assembly = Assembly.loadAssembly(f.toString());
+		assembly.start();
+		Object main = assembly.workbin().part("gatewayEntrypoint");
+		IAdaptable a = (IAdaptable) main;
+		IActuator act = a.getAdapter(IActuator.class);
+		act.exactCommand("setHomeDir", new Class<?>[]{String.class}, f.getParent());
+		act.exeCommand("main", line);
+
+	}
+
+}
+```
+  2.建立build.gradle,将下面考进去
+  ```groovy
+apply plugin:'application'
+mainClassName = "cj.netos.microapp.main.Main"
+sourceSets { 
+	 main { 
+	 	java{
+	 		srcDir "$projectDir/src"
+	 	}
+	 	resources{
+		 	srcDir "$projectDir/src"
+		 }
+	 } 
+ 	}
+ 		sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+ 	tasks.withType(JavaCompile) {  
+        options.encoding = "UTF-8"  
+    } 
+ repositories { 
+ 	mavenCentral();
+ }
+
+dependencies {
+	compile group: 'log4j', name: 'log4j', version: '1.2.17'
+}
+```
+  注意：引用log4j一般则可以了，如果提示缺包则再添加引用
+  3. 在eclipse或idea中先以java application选项运行一下main类，之后找到java application生成的项，修改其配置项，为其添加program arguments参数：
+  -debug /Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway
+  -deubg参数后面是网关所在的路径
+  4. 接下来就可以正常通过eclipse或idea的debug或run按钮启动网关了
+- 直接使用idea的Jar Application
+  1。直接在idea的run/debug 配置界面中新建run/debug项
+  2。在Path To Jar文本框中输入网关主jar地址，如：/Users/caroceanjofers/studio/github/cj.netos.gbera/cj.netos.gbera/cmdtools/gateway/gateway-2.3.7.jar
+  3。在Program arguments文本框中输入网关主目录所在地址：-debug /Users/caroceanjofers/studio/github/cj.netos.gbera/cj.netos.gbera/cmdtools/gateway
+- 我们看到使用idea更方便配置网关应用，所以推荐使用idea开发工具。但idea不能像eclipse在调试中修改java代码立即生效，它需要每次重启，就是第一种方法在命名用idea时也一样。
