@@ -13238,3 +13238,12 @@
 2019年10月08日 00:54:25  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
 2019年10月08日 00:54:25  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
 2019年10月08日 00:54:25  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月08日 01:37:30  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月08日 01:37:30  信息 : -------------网关启动完毕-------------------
+2019年10月08日 01:37:30  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月08日 01:37:36  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月08日 01:37:36  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月08日 01:37:37  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月08日 01:37:39  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月08日 01:37:39  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月08日 01:37:39  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.

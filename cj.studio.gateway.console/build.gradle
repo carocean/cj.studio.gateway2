@@ -22,13 +22,13 @@ dependencies {
 	compile project(':cj.studio.ecm.net');
 	compile project(':cj.studio.gateway.socket');
 }
-task copyReferences(type: Copy) {
-	from configurations.compileClasspath.files {
-		include 'okhttp-*.jar'//console项目和网关应用都要用到okhttp，如果在console中不加直接通直sh gateway.sh启动是没问题，因为使用了gateway.jar包，但如果使用main项目调试应用时由于main调试没有将gateway.jar加载到上下文环境因此报缺，故而将该包放到console中
-	}
-	into 'src/cj/references'
-}
-build.dependsOn('copyReferences')
+//task copyReferences(type: Copy) {
+//	from configurations.compileClasspath.files {
+//		include 'okhttp-*.jar'
+//	}
+//	into 'src/cj/references'
+//}
+//build.dependsOn('copyReferences')
 task releaseToCmdline(type: Copy){
 dependsOn "build"
  	from 'build/libs/'

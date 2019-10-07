@@ -138,10 +138,11 @@ sourceSets {
  }
 
 dependencies {
-	compile group: 'log4j', name: 'log4j', version: '1.2.17'
+	compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.1'
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
 }
 ```
-  注意：引用log4j一般则可以了，如果提示缺包则再添加引用
+  注意：引用log4j,okhttp一般则可以了，如果提示缺包则再添加引用(注：这些包在使用linux和windows脚本启动时并不缺，仅用在调试)
   3. 在eclipse或idea中先以java application选项运行一下main类，之后找到java application生成的项，修改其配置项，为其添加program arguments参数：
   -debug /Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway
   -deubg参数后面是网关所在的路径
