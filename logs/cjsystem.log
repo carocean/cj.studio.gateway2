@@ -13247,3 +13247,335 @@
 2019年10月08日 01:37:39  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
 2019年10月08日 01:37:39  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
 2019年10月08日 01:37:39  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:05:09  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:05:09  信息 : -------------网关启动完毕-------------------
+2019年10月09日 15:05:09  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 15:05:14  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:05:14  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:05:29  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:05:29  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:05:44  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:05:44  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:05:59  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:06:00  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:06:14  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:06:15  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:06:30  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:06:30  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:06:45  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:06:45  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:07:00  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:07:00  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:07:15  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:07:15  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:07:30  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:07:30  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:07:45  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:07:45  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:08:00  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:08:00  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:08:04  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 404 簇中缺少目标:microapp
+2019年10月09日 15:08:15  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:08:15  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:08:40  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:08:40  信息 : -------------网关启动完毕-------------------
+2019年10月09日 15:08:40  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 15:08:46  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:08:46  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:08:48  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 15:08:50  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:08:50  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:08:50  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:09:01  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:09:01  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:09:16  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:09:16  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:09:31  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:09:31  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:09:46  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:09:46  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:10:01  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:10:01  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:10:16  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:10:16  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:10:31  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:10:31  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:10:46  信息: cj.studio.gateway.mic.MicConnector - 正在重连mic...
+2019年10月09日 15:10:46  错误: cj.studio.gateway.mic.MicConnector - 注册mic失败，原因：505 java.net.ConnectException: Connection refused: localhost/127.0.0.1:7080
+2019年10月09日 15:11:28  信息 : -------------网关启动完毕-------------------
+2019年10月09日 15:11:28  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 15:12:34  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 15:12:37  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:12:37  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:12:37  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:14:51  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:14:51  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:14:51  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:15:10  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:15:10  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:15:10  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:20:31  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:20:31  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:20:32  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:20:43  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:20:44  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:20:44  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:22:25  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:22:25  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:22:25  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:26:35  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：blogService.toString。 该方法将在非事务模式下执行
+2019年10月09日 15:26:35  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：blogService.toString。 该方法将在非事务模式下执行
+2019年10月09日 15:26:36  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：blogService.toString。 该方法将在非事务模式下执行
+2019年10月09日 15:26:37  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:26:37  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：blogService.toString。 该方法将在非事务模式下执行
+2019年10月09日 15:26:38  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：userService.toString。 该方法将在非事务模式下执行
+2019年10月09日 15:26:38  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：userService.toString。 该方法将在非事务模式下执行
+2019年10月09日 15:26:39  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：userService.toString。 该方法将在非事务模式下执行
+2019年10月09日 15:26:40  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:26:40  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：userService.toString。 该方法将在非事务模式下执行
+2019年10月09日 15:26:41  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:26:41  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：userService.toString。 该方法将在非事务模式下执行
+2019年10月09日 15:31:15  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:31:15  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:31:15  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:32:33  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:32:33  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:32:39  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:35:53  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:35:53  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:35:53  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:37:17  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:37:17  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:37:17  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:39:05  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:39:07  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:39:09  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:40:33  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:40:33  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:40:33  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:41:04  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:41:04  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:41:04  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:41:27  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:41:27  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 15:41:27  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:27:31  信息 : -------------网关启动完毕-------------------
+2019年10月09日 17:27:31  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 17:27:35  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 17:27:37  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:27:37  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:27:37  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:28:35  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:28:35  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:28:35  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:30:17  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:30:17  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:30:17  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:31:11  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:31:12  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:31:12  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:32:22  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:32:22  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:32:37  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:37:03  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:37:03  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:37:03  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:41:06  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:41:06  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:41:10  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:43:48  信息 : -------------网关启动完毕-------------------
+2019年10月09日 17:43:48  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 17:43:57  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 17:44:30  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:44:30  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:44:46  信息 : -------------网关启动完毕-------------------
+2019年10月09日 17:44:46  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 17:45:23  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 17:45:51  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:45:51  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:45:51  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:45:51  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:45:51  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:45:52  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:50:58  信息 : -------------网关启动完毕-------------------
+2019年10月09日 17:50:58  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 17:53:30  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 17:54:03  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:54:03  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:54:03  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:54:30  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:54:30  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:54:30  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:56:39  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:56:39  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 17:56:39  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:00:28  信息 : -------------网关启动完毕-------------------
+2019年10月09日 18:00:28  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 18:00:36  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 18:01:09  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:01:09  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:01:09  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:01:41  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:01:42  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:01:42  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:02:16  信息 : -------------网关启动完毕-------------------
+2019年10月09日 18:02:16  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 18:02:19  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 18:02:21  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:02:21  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:02:21  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:02:49  信息 : -------------网关启动完毕-------------------
+2019年10月09日 18:02:49  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 18:03:13  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 18:03:15  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:03:15  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:03:15  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:04:00  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:04:00  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:04:00  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:08:43  信息 : -------------网关启动完毕-------------------
+2019年10月09日 18:08:43  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 18:08:52  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 18:08:54  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:08:54  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:08:54  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:09:26  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:09:26  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:09:26  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:10:05  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:10:05  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:10:05  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:12:38  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:12:38  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:12:38  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:13:18  信息 : -------------网关启动完毕-------------------
+2019年10月09日 18:13:18  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 18:14:43  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 18:14:46  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:14:46  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:14:46  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:15:12  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:15:12  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:15:12  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:15:41  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:15:41  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:15:41  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:16:35  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:16:35  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:16:35  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:17:58  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:17:58  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:17:58  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:20  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:20  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:20  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:24  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:24  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:24  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:32  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:32  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:32  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:53  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:53  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:25:53  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:27:27  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:27:27  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:27:27  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:27:36  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:27:36  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:27:36  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:40:47  信息 : -------------网关启动完毕-------------------
+2019年10月09日 18:40:47  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 18:40:51  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 18:40:53  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:40:53  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:40:53  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:41:17  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:41:17  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:41:17  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:41:25  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:41:25  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:41:25  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:51:38  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:51:38  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 18:51:38  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:01:26  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:01:26  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:01:26  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:09:01  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:09:01  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:09:01  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:09:13  信息 : -------------网关启动完毕-------------------
+2019年10月09日 19:09:13  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 19:09:17  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 19:09:21  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:09:21  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:09:21  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:09:22  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：blogService.toString。 该方法将在非事务模式下执行
+2019年10月09日 19:09:22  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：userService.toString。 该方法将在非事务模式下执行
+2019年10月09日 19:10:50  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:10:50  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:10:50  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:10:59  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:10:59  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:10:59  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:11:00  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：blogService.toString。 该方法将在非事务模式下执行
+2019年10月09日 19:11:00  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：userService.toString。 该方法将在非事务模式下执行
+2019年10月09日 19:12:02  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:12:02  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:12:02  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:12:02  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：blogService.toString。 该方法将在非事务模式下执行
+2019年10月09日 19:12:02  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：userService.toString。 该方法将在非事务模式下执行
+2019年10月09日 19:13:06  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:13:06  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:13:06  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:13:16  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:13:16  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:13:16  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:13:16  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：blogService.toString。 该方法将在非事务模式下执行
+2019年10月09日 19:13:16  警告: cj.studio.orm.mybatis.aspect.DBTransaction - 方法缺少事务注解：@CjTransaction, 在：userService.toString。 该方法将在非事务模式下执行
+2019年10月09日 19:17:59  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:17:59  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:17:59  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:18:30  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:18:30  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:18:30  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:20:07  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:20:07  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:20:07  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:20:07  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 404 簇中缺少目标:myChannel
+2019年10月09日 19:25:04  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:25:04  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:25:04  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:25:08  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:25:08  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:25:08  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:27:57  信息 : 网关监视失败。原因：Bad file descriptor
+2019年10月09日 19:28:19  信息 : -------------网关启动完毕-------------------
+2019年10月09日 19:28:19  信息: cj.studio.gateway.tools.GatewayEntrypoint - 网关成功启动
+2019年10月09日 19:28:22  信息 : 已装载共享库/Users/caroceanjofers/studio/github/cj.studio.gateway2/cmdtools/gateway/lib/share
+2019年10月09日 19:28:24  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:28:24  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:28:24  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:28:28  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:28:28  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:28:28  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:04  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:04  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:04  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:22  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:22  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:22  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:31  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:31  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:31  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:32  警告: cj.studio.gateway.server.handler.WebsocketChannelHandler - 服务器：wsSite 未指定通道激活或失活事件的通知目标。应用仅能在之后第一次请求时才能收到激活或失活事件。请在该net的属性中指定：OnChannelEvent-Notify-Dests=dest1,dest2
+2019年10月09日 19:32:36  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:36  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:32:36  调试: cj.studio.orm.mybatis.SafeSqlSessionFactory - SqlSession closed.
+2019年10月09日 19:33:09  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 404 资源文件不存在:/test/js/jquery/jquery-2.1.4.js
+2019年10月09日 19:33:09  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 404 资源文件不存在:/test/js/index.js
+2019年10月09日 19:33:09  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 404 资源文件不存在:/test/js/socket.io.js
+2019年10月09日 19:33:09  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 404 资源文件不存在:/test/img/1.png
+2019年10月09日 19:33:09  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 404 资源文件不存在:/test/js/index.js
+2019年10月09日 19:33:09  错误: cj.studio.gateway.server.handler.HttpChannelHandler - 404 资源文件不存在:/test/img/1.png

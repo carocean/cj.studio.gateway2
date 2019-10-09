@@ -66,10 +66,15 @@ public class HttpOutputChannel implements IOutputChannel {
 			headers.add(name, v);
 		}
 		boolean close = headers.contains(CONNECTION, HttpHeaderValues.CLOSE, true)
+				|| HttpHeaderValues.CLOSE.toString().equals(frame.head(CONNECTION.toString()))
 				|| res.protocolVersion().equals(HttpVersion.HTTP_1_0)
-						&& !headers.contains(CONNECTION, HttpHeaderValues.KEEP_ALIVE, true);
+						;
 		if (!close) {
-			res.headers().set(CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+			if(!headers.contains(CONNECTION, HttpHeaderValues.KEEP_ALIVE, true)) {
+				res.headers().set(CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+			}
+		}else{
+			res.headers().set(CONNECTION, HttpHeaderValues.CLOSE);
 		}
 //		String cntlen = circuit.head("Content-Length");
 //		if (StringUtil.isEmpty(cntlen)) {

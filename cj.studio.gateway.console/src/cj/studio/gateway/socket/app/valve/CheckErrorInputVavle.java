@@ -33,7 +33,7 @@ public class CheckErrorInputVavle implements IInputValve {
 
 	@Override
 	public void flow(Object request, Object response, IIPipeline pipeline) throws CircuitException {
-		if (response instanceof HttpFrame) {
+		if (request instanceof HttpFrame) {
 			flowWay((HttpFrame) request, (HttpCircuit) response, pipeline);
 		} else {
 			pipeline.nextFlow(request, response, this);

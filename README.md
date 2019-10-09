@@ -9,7 +9,6 @@
 - 订阅式广播应用：多个网关向一个目标网关主题应用凝聚，主题收到消息即向各订阅结点分发，主题可由运维人员自建。该功能类似于memcache和zookeeper，其用途在于各网关节点的同步。
 - 为各种net协议加心跳机制。	
 - 微服务定义和客端调用机制，包括向指网关注册（任意网关均可作为微服务中心）。由于注册（报送微服务信息）、路由、发现、断路重连是网关的基本功能，所以微服务机制的实现可在2个工作日内完成。
-- 大规范测试。测试暂定于11月低进行。	
 	
 	Gateway即可用于开发网站项目，也可用于开发微服务项目，称之为网关应用，在作为分布式平台使用时，支持微服务的注册、发现、路由、断路重试等功能。它可以发展为N层分布式架构，层级由运维人员自建。
  	Gateway对于中小型互联网公司来说是一种福音，因为这类公司往往没有实力或者没有足够的资金投入去开发自己的分布式系统基础设施，使用Gateway一站式解决方案能在从容应对业务发展的同时大大减少开发成本。同时，随着近几年微服务架构和Docker容器概念的火爆，也会让Gateway在未来越来越“云”化的软件开发风格中立有一席之地，尤其是在目前五花八门的分布式解决方案中提供了标准化的、全站式的技术方案，意义可能会堪比当年Servlet规范的诞生，有效推进服务端软件系统技术水平的进步。
@@ -24,7 +23,37 @@
 	mdisk命令行工具，它是以命令行窗口实现的网盘工具，以netdisk为核心，方便mongodb的开发、测试和运维管理。它用起来非常简单，只要连到你的mongodb即可将mongodb当成网盘数据库，且对原mongodb的库不受影响。
 	cjnet 用于调试neuron中的应用程序和netsite中的应用程序，它是一个cj studio产品系中有关net产品开发和调试必不可少的工具。
 	netsite也是一个像tomcat/jetty等服务容器的命令行工具，它与神经元的区别在于，它只能部署在神经网络的终端，而不能成为其中间节点。它的优点在于，它可以部署成百上千个应用，而在一个神经元节点上一般不这么做。此工具暂时停止了升级。
-	
+## 与nginx兼容
+* 在使用默认的nginx配置时会报错误：upstream prematurely closed connection while reading upstream
+* gateway不支持http/1.0协议，如以1.0协议请求会被拒绝，而nginx的默认使用的是http/1.0协议(nginx不管浏览器发来的请求是否是http/1.1都默认改写为http/1.0发应用发请求)，因此必须修改为支持http/1.1，如下：
+
+```nginx
+
+upstream website{
+    server localhost:8080;
+    keepalive 65; #必须加上
+}
+location /website/ {
+    proxy_pass http://website;
+    proxy_http_version 1.1;#必须加上
+    proxy_set_header Connection "";#必须加上，此处nginx覆盖了请求头中的Connection值，如果能取到最好，我还不知道怎么配置获取
+    proxy_set_header Host $host:$server_port;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+#这是路由websocket
+location /myChannel {
+    proxy_pass http://website;
+    proxy_http_version 1.1;#必须加上
+    proxy_set_header Upgrade $http_upgrade;#必须加上
+    proxy_set_header Connection "keep-alive, Upgrade";#必须加上
+    proxy_set_header Host $host:$server_port;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+
+```
+
 ## 网关应用的调试方法
    有两种调试方法，一种是建立main项目，此方法适用于eclipse和idea开发工具；另一种是直接使用idea的Jar Application，该方法仅适用于intellij idea开发工具
    - 建立main项目调试

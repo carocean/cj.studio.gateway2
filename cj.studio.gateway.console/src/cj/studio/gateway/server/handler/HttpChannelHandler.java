@@ -180,8 +180,8 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 			return;
 		}
 
-		// deny PUT TRACE methods.
-		if (req.method() == HttpMethod.PUT || req.method() == HttpMethod.TRACE) {
+		// deny PUT TRACE methods and http/1.0.
+		if (req.method() == HttpMethod.PUT || req.method() == HttpMethod.TRACE||req.protocolVersion().equals(HttpVersion.HTTP_1_0)) {
 			DefaultFullHttpResponse res = new DefaultFullHttpResponse(req.protocolVersion(), FORBIDDEN);
 			writeResponse(ctx, req, res);
 			reset();
