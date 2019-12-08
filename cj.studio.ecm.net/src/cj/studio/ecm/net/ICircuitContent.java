@@ -22,7 +22,7 @@ public interface ICircuitContent {
 	 * @return
 	 */
 	public abstract int capacity();// buf容量
-
+	public void writer(IContentWriter writer);
 	/**
 	 * 刷新缓冲输出到客户端<br>
 	 * 可以调用多次，第一次调用仅将响应头输出客户端，之后是纯数据的输出。如果开发者无调用，则系统在执行完flow方法后自动调用。

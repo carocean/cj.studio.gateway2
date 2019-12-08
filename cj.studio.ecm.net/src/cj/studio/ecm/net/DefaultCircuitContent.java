@@ -17,13 +17,18 @@ class DefaultCircuitContent implements ICircuitContent {
 	private Circuit owner;
 	private ReentrantLock lock;
 	private Condition waitClose;
-
+	IContentWriter writer;
 	public DefaultCircuitContent(Circuit owner, IOutputChannel output, ByteBuf buf, int capacity) {
 		this.buf = buf;
 		this.capacity = capacity;
 		this.output = output;
 		this.owner = owner;
 		this.lock = new ReentrantLock();
+	}
+
+	@Override
+	public void writer(IContentWriter writer) {
+		this.writer=writer;
 	}
 
 	public DefaultCircuitContent(Circuit owner, IOutputChannel writer, ByteBuf buf) {
@@ -88,6 +93,14 @@ class DefaultCircuitContent implements ICircuitContent {
 		if (buf.readableBytes() > 0) {
 			byte[] b = readFully(buf);
 			output.write(b, 0, b.length);
+			return;
+		}
+		if (writer != null&&!writer.isFinished()) {
+			try {
+				writer.write(output);
+			} catch (CircuitException e) {
+				throw new EcmException(e);
+			}
 		}
 	}
 
@@ -95,14 +108,8 @@ class DefaultCircuitContent implements ICircuitContent {
 	public void close() {
 		try {
 			checkIsFull();
-			if (output == null)
-				return;
-			if (state == 0) {
-				output.begin(owner);
-				state = 1;
-			}
-			byte[] b = readFully(buf);
-			output.done(b, 0, b.length);
+			flush();
+			output.done(new byte[0],0,0);
 			state = -1;
 		} finally {
 			if (waitClose != null) {
@@ -199,7 +206,7 @@ class DefaultCircuitContent implements ICircuitContent {
 
 	@Override
 	public long writedBytes() {
-		return this.output.writedBytes();
+		return this.output.writedBytes()+(writer==null?0:writer.length());
 	}
 
 }

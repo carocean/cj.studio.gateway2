@@ -2,6 +2,10 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="cj.studio.gateway2.cj.studio.gateway.stub.main" target="1.8" />
+      <module name="cj.studio.gateway2.cj.studio.gateway.stub.test" target="1.8" />
+      <module name="cj.studio.gateway2.cj.test.stub.main" target="1.8" />
+      <module name="cj.studio.gateway2.cj.test.stub.test" target="1.8" />
       <module name="cj.studio.gateway2.cj.test.website2.main" target="1.8" />
       <module name="cj.studio.gateway2.cj.test.website2.test" target="1.8" />
     </bytecodeTargetLevel>

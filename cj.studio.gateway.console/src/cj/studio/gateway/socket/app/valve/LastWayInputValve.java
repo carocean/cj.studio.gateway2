@@ -15,6 +15,7 @@ import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
+import cj.studio.ecm.net.io.FileWriter;
 import cj.studio.ecm.script.IJssModule;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
@@ -173,56 +174,15 @@ public class LastWayInputValve implements IInputValve {
 		if (this.mimes.containsKey(ext)) {
 			circuit.contentType(mimes.get(ext));
 		}
-//		try {
-//			rpath=URLDecoder.decode(rpath, "utf-8");//为了不影响性能，资源中文名乱码问题留给应用开发者在valve中处理。
-//		} catch (UnsupportedEncodingException e1) {
-//		}
 		if (rpath.endsWith("/")) {
 			rpath = String.format("%s%s", rpath, httpWelcome);
 		}
 		File file = resource.realFileName(rpath);
-		RandomAccessFile raf = null;
 		try {
-			raf = new RandomAccessFile(file, "r");
-//			circuit.head("Content-Length",raf.length()+"");
-			int read = 0;
-			byte[] b = new byte[8192];
-			while ((read = raf.read(b)) != -1) {
-				circuit.content().writeBytes(b, 0, read);
-			}
+			circuit.content().writer(new FileWriter(file));
 		} catch (FileNotFoundException e) {
-			throw new CircuitException("404", e);
-		} catch (IOException e) {
-			throw new CircuitException("503", e);
-		} finally {
-			if (raf != null) {
-				try {
-					raf.close();
-				} catch (IOException e) {
-				}
-			}
+			throw new CircuitException("404",e);
 		}
-//		FileInputStream in = null;
-//		try {
-//			in = new FileInputStream(file);
-//			int read = 0;
-//			byte[] b = new byte[8192];
-//			while ((read = in.read(b)) != -1) {
-//				circuit.content().writeBytes(b, 0, read);
-//			}
-//		} catch (FileNotFoundException e) {
-//			throw new CircuitException("404", e);
-//		} catch (IOException e) {
-//			throw new CircuitException("503", e);
-//		} finally {
-//			if (in != null) {
-//				try {
-//					in.close();
-//				} catch (IOException e) {
-//				}
-//			}
-//		}
-
 	}
 
 	private boolean mappingsContainsKey(String rpath) {
