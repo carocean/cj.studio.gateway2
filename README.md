@@ -178,6 +178,6 @@ dependencies {
   4. 接下来就可以正常通过eclipse或idea的debug或run按钮启动网关了
 - 直接使用idea的Jar Application
   1。直接在idea的run/debug 配置界面中新建run/debug项
-  2。在Path To Jar文本框中输入网关主jar地址，如：/Users/caroceanjofers/studio/github/cj.netos.gbera/cj.netos.gbera/cmdtools/gateway/gateway-2.3.7.jar
+  2。在Path To Jar文本框中输入网关主jar地址，如：/Users/caroceanjofers/studio/github/cj.netos.gbera/cj.netos.gbera/cmdtools/gateway/gateway-2.3.8.jar
   3。在Program arguments文本框中输入网关主目录所在地址：-debug /Users/caroceanjofers/studio/github/cj.netos.gbera/cj.netos.gbera/cmdtools/gateway
 - 我们看到使用idea更方便配置网关应用，所以推荐使用idea开发工具。但idea不能像eclipse在调试中修改java代码立即生效，它需要每次重启，就是第一种方法在命名用idea时也一样。

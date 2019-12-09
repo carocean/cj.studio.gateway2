@@ -10,6 +10,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpContentCompressor;
+import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
@@ -31,12 +32,11 @@ public class HttpChannelInitializer extends ChannelInitializer<SocketChannel> {
 			engine.setUseClientMode(false);
 			pipeline.addLast("ssl", new SslHandler(engine));
 		}
-		pipeline.addLast("codec-http", new HttpServerCodec(4096, 8192, SocketContants.__upload_chunked_cache_size));
-		pipeline.addLast("deflater", new HttpContentCompressor());
-		pipeline.addLast("http-chunked", new ChunkedWriteHandler());
-
+		pipeline.addLast( new HttpServerCodec());
+		pipeline.addLast(new HttpContentCompressor());
+		pipeline.addLast( new ChunkedWriteHandler());
 		HttpChannelHandler handler = new HttpChannelHandler(parent);
-		pipeline.addLast("handler", handler);
+		pipeline.addLast(handler);
 	}
 
 	// netty铁定响应头仅支持assic码，所以重写了这个类，试了几个浏览器，仅有chrome浏览器的头信息能支持中文，因此还是改为标准的http响应码消息表吧。

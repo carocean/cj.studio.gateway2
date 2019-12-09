@@ -81,15 +81,18 @@ class DefaultCircuitContent implements ICircuitContent {
 	public void clearbuf() {
 		buf.clear();
 	}
-
 	@Override
-	public void flush() {
+	public void flushHeaders(){
 		if (output == null)
 			return;
 		if (state == 0) {
 			output.begin(owner);
 			state = 1;
 		}
+	}
+	@Override
+	public void flush() {
+		flushHeaders();
 		if (buf.readableBytes() > 0) {
 			byte[] b = readFully(buf);
 			output.write(b, 0, b.length);

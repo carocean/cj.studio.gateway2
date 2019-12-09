@@ -76,12 +76,7 @@ public class HttpOutputChannel implements IOutputChannel {
 		}else{
 			res.headers().set(CONNECTION, HttpHeaderValues.CLOSE);
 		}
-//		String cntlen = circuit.head("Content-Length");
-//		if (StringUtil.isEmpty(cntlen)) {
 		setContentLength(res, circuit.content().writedBytes());
-//		} else {
-//			setContentLength(res, Long.valueOf(cntlen));
-//		}
 
 		String ctypeKey = HttpHeaderNames.CONTENT_TYPE.toString();
 		if (circuit.containsContentType()) {

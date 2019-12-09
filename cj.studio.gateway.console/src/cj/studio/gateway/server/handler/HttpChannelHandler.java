@@ -477,6 +477,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 		try {
 			pipeline.headFlow(frame, circuit);
+			circuit.content().flushHeaders();
 		} catch (Throwable e) {
 			if (!circuit.content().isCommited()) {
 				circuit.content().clearbuf();

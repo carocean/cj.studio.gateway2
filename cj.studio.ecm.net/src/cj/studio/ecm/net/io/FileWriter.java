@@ -23,7 +23,7 @@ public class FileWriter implements IContentWriter {
 	}
 
 	@Override
-    public void write(IOutputChannel output) throws CircuitException {
+    public  void write(IOutputChannel output) throws CircuitException {
 		try {
 			int read = 0;
 			byte[] b = new byte[8192];
@@ -44,7 +44,7 @@ public class FileWriter implements IContentWriter {
     }
 
 	@Override
-	public long length() {
+	public  long length() {
 		try {
 			return raf.length();
 		} catch (IOException e) {
