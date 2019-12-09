@@ -1,5 +1,7 @@
 package cj.studio.ecm.net;
 
+import io.netty.channel.FileRegion;
+
 public interface IOutputChannel {
 	void write(byte[] b,int pos,int length);
 	void begin(Circuit circuit);//circuit or frame
@@ -10,4 +12,6 @@ public interface IOutputChannel {
 	 * @return
 	 */
 	boolean isClosed();
+
+
 }

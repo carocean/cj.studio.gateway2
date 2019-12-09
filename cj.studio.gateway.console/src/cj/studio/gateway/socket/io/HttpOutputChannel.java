@@ -10,9 +10,11 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.FileRegion;
 import io.netty.handler.codec.http.*;
 
 import static io.netty.handler.codec.http.HttpHeaderNames.CONNECTION;
+import static io.netty.handler.codec.http.HttpHeaderNames.TRANSFER_ENCODING;
 import static io.netty.handler.codec.http.HttpHeaderUtil.setContentLength;
 
 public class HttpOutputChannel implements IOutputChannel {
@@ -76,8 +78,8 @@ public class HttpOutputChannel implements IOutputChannel {
 		}else{
 			res.headers().set(CONNECTION, HttpHeaderValues.CLOSE);
 		}
-		setContentLength(res, circuit.content().writedBytes());
-
+		long length=circuit.content().writedBytes();
+		setContentLength(res, length);//采用了压缩HttpContentCompressor,因此setContentLength无效，下载文件时浏览器无进度条，如何使文件跳过HttpContentCompressor？DefaultFileRegion即可，它是通道故而跳过
 		String ctypeKey = HttpHeaderNames.CONTENT_TYPE.toString();
 		if (circuit.containsContentType()) {
 			res.headers().set(HttpHeaderNames.CONTENT_TYPE, circuit.contentType());

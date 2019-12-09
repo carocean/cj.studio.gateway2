@@ -29,6 +29,11 @@ public class FileWriter implements IContentWriter {
 			byte[] b = new byte[8192];
 			while ((read = raf.read(b)) != -1) {
 				output.write(b, 0, read);
+				try {
+					Thread.sleep(40L);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (IOException e) {
 			throw new CircuitException("503", e);
