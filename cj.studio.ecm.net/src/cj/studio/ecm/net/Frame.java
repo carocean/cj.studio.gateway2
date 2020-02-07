@@ -239,6 +239,13 @@ public class Frame implements IPrinter, IDisposable {
 	}
 
 	public String head(String name) {
+		if (headmap.containsKey(name)) {
+			return headmap.get(name);
+		}
+		String lower=name.toLowerCase();
+		if (headmap.containsKey(lower)) {
+			return headmap.get(lower);
+		}
 		return headmap.get(name);
 	}
 
@@ -355,6 +362,10 @@ public class Frame implements IPrinter, IDisposable {
 	public String parameter(String name) {
 		if (parametermap.containsKey(name))
 			return parametermap.get(name);
+		String lower=name.toLowerCase();
+		if (parametermap.containsKey(lower)) {
+			return parametermap.get(lower);
+		}
 		Pattern p = Pattern.compile(String.format(QUERY_STRING_REG, name));
 		Matcher m = p.matcher(url());
 		if (m.find()) {
