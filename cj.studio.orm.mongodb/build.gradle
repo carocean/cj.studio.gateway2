@@ -15,7 +15,7 @@ sourceSets {
  } 
 
 dependencies {
-	// https://mvnrepository.com/artifact/org.mongodb/mongodb-driver
+    compile group: 'cj.studio.netdisk', name: 'cj.lns.chip.sos.cube', version: ref_cj_lns_chip_sos_cube_version
 	compile group: 'org.mongodb', name: 'mongodb-driver', version: '3.4.2'
 	compile fileTree('../global/jee.runtime')
 	compile fileTree('../global/runtime')

@@ -28,7 +28,6 @@ subprojects {
         testCompile 'junit:junit:4.8.2'
         compile group: 'cj.studio.ecm', name: 'cj.ultimate', version: ref_cj_ultimate_version
     	compile group: 'cj.studio.ecm', name: 'cj.studio.ecm.corelib', version: ref_cj_studio_ecm_corelib_version
-    	compile group: 'cj.studio.netdisk', name: 'cj.lns.chip.sos.cube', version: ref_cj_lns_chip_sos_cube_version
     }
     
     jar {
