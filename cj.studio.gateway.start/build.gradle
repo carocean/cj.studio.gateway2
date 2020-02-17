@@ -55,7 +55,7 @@ task releaseGatewayStart(dependsOn: runnableJar,type: Copy) {
      dependsOn "build"
      from 'build/libs/'
      into '../cmdtools/gateway'
-     include '**/*.jar'
+     include '**/gateway-*.jar'
      exclude '**/*-javadoc.jar','**/*-sources.jar'
  	}
  
