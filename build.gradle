@@ -55,16 +55,13 @@ subprojects {
 	    archives javadocJar  
 	    archives sourcesJar  
    	}
-   
+
 	uploadArchives {
 		repositories{
 			mavenDeployer {
-				repository(url: engineer_nexus){
-					authentication(userName:"deployment",password:"deployment123")
-		        }
-		        pom.groupId = project.group
-		        pom.version = project.version
-		        pom.artifactId = project.name
+				pom.groupId = project.group
+				pom.version = project.version
+				pom.artifactId = project.name
 				pom.project{
 					name project.name
 					packaging 'jar'
@@ -72,8 +69,8 @@ subprojects {
 					licenses {
 						license {
 							name 'The Apache Software License, Version 2.0'
-								url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-								distribution ''
+							url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+							distribution ''
 						}
 					}
 					developers{
@@ -82,6 +79,10 @@ subprojects {
 							name 'Carocean Jofers'
 						}
 					}
+				}
+
+				repository(url: engineer_nexus){
+					authentication(userName:"deployment",password:"deployment123")
 				}
 			}
 		}
