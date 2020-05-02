@@ -31,9 +31,17 @@
 						host:'localhost',
 						maxTotal:'10'
 					}"
+			},{
+				name:"curator",
+				class:"cj.studio.orm.curator.CuratorPlugin",
+				parameters:{
+					connectString: "47.104.128.137:2181,47.104.128.137:2182,47.104.128.137:2183",
+					sessionTimeoutMs: "500000",
+					connectionTimeoutMs: "500000",
+					retryIntervalMs: "5000"
 				}
 			}
-		],		
+		],
 		activators : [
 			
 		]

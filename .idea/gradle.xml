@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/cj.studio.gateway.console" />
             <option value="$PROJECT_DIR$/cj.studio.gateway.socket" />
             <option value="$PROJECT_DIR$/cj.studio.gateway.start" />
+            <option value="$PROJECT_DIR$/cj.studio.orm.curator" />
             <option value="$PROJECT_DIR$/cj.studio.orm.mongodb" />
             <option value="$PROJECT_DIR$/cj.studio.orm.mybatis" />
             <option value="$PROJECT_DIR$/cj.studio.orm.redis" />

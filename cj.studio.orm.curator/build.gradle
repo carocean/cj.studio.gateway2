@@ -1,0 +1,44 @@
+sourceSets {
+    main {
+        java {
+            srcDir "$projectDir/src"
+        }
+    }
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+repositories {
+}
+
+dependencies {
+    compile group: 'org.apache.curator', name: 'curator-framework', version: '4.3.0'
+    compile group: 'org.apache.curator', name: 'curator-recipes', version: '4.3.0'
+
+}
+task releaseToOutputs(type: Copy) {
+    dependsOn "build"
+    from 'build/libs/'
+    into '../outputs/embeds'
+    include '**/*.jar'
+}
+task releaseToWebsite(type: Copy) {
+    dependsOn "build"
+    from 'build/libs/'
+    into '../cj.test.website/src/cj/refembeds'
+    include '**/*.jar'
+    exclude '**/*-javadoc.jar', '**/*-sources.jar'
+}
+task releaseToPlugin(type: Copy) {
+    dependsOn "build"
+    from 'build/libs/'
+    into '../cj.test.plugin/src/cj/refembeds'
+    include '**/*.jar'
+    exclude '**/*-javadoc.jar', '**/*-sources.jar'
+}
+
+task release(type: Copy) {
+    dependsOn "releaseToOutputs", "releaseToWebsite", "releaseToPlugin"
+}
