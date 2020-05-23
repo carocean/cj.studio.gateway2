@@ -9,15 +9,7 @@
 				
 			}
 		},
-		{
-			"name": "road://test:way",
-			"uris": [
-				"http://192.168.1.106:8080"
-			],
-			"props": {
-				
-			}
-		},
+
 		{
 			"name": "website",
 			"uris": [
@@ -36,15 +28,7 @@
 				
 			}
 		},
-		{
-			"name": "http://news.163.com",
-			"uris": [
-				"https://news.163.com?minWireSize\u003d4\u0026maxWireSize\u003d10"
-			],
-			"props": {
-				"Broadcast-Mode": "unicast"
-			}
-		},
+
 		{
 			"name": "/tcp/website2/",
 			"uris": [
@@ -72,15 +56,7 @@
 				
 			}
 		},
-		{
-			"name": "website2",
-			"uris": [
-				"app://website2:way"
-			],
-			"props": {
-				
-			}
-		},
+
 		{
 			"name": "backend",
 			"uris": [

@@ -12,4 +12,6 @@ public interface IGatewaySocketContainer {
 	boolean isEmpty();
 	int count();
 	boolean contains(String name);
+
+	void load(ICluster cluster) throws CircuitException;
 }
