@@ -1,5 +1,6 @@
 package cj.studio.orm.redis;
 
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.EcmException;
 import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.context.IServiceContainerMonitor;
@@ -28,7 +29,7 @@ public class RedisServiceContainerMonitor implements IServiceContainerMonitor {
         String maxAttempts = site.getProperty("redis.cluster.maxAttempts");
         int maxAttemptsInt = StringUtil.isEmpty(maxAttempts) ? 5 : Integer.valueOf(maxAttempts);
         String password = site.getProperty("redis.cluster.password");
-
+        CJSystem.logging().info(getClass(), String.format("redis配置参数：connectionTimeout=%s,soTimeout=%s,maxAttempts=%s", connectionTimeout, soTimeout, maxAttempts));
         Set<String> nodeSet = new Gson().fromJson(addresses, HashSet.class);
         Set<HostAndPort> nodes = new HashSet<>();
         for (String n : nodeSet) {
@@ -44,6 +45,7 @@ public class RedisServiceContainerMonitor implements IServiceContainerMonitor {
         config(site, poolConfig);
         jedisCluster = new JedisCluster(nodes, connectionTimeoutInt, soTimeoutInt, maxAttemptsInt, password, poolConfig);
         site.addService("@.redis.cluster", jedisCluster);
+        CJSystem.logging().info(getClass(), String.format("redis成功连接！%s", addresses));
     }
 
     public static void main(String[] args) {
