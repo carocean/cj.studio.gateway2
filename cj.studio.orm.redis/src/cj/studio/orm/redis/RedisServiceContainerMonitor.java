@@ -29,7 +29,7 @@ public class RedisServiceContainerMonitor implements IServiceContainerMonitor {
         String maxAttempts = site.getProperty("redis.cluster.maxAttempts");
         int maxAttemptsInt = StringUtil.isEmpty(maxAttempts) ? 5 : Integer.valueOf(maxAttempts);
         String password = site.getProperty("redis.cluster.password");
-        CJSystem.logging().info(getClass(), String.format("redis配置参数：connectionTimeout=%s,soTimeout=%s,maxAttempts=%s", connectionTimeout, soTimeout, maxAttempts));
+        CJSystem.logging().info(getClass(), String.format("redis配置参数：connectionTimeout=%s,soTimeout=%s,maxAttempts=%s", connectionTimeoutInt, soTimeoutInt, maxAttemptsInt));
         Set<String> nodeSet = new Gson().fromJson(addresses, HashSet.class);
         Set<HostAndPort> nodes = new HashSet<>();
         for (String n : nodeSet) {
