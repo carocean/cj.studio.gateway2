@@ -1,4 +1,5 @@
-sourceSets { 
+version = '2.4.5'
+sourceSets {
 	 main { 
 	 	java{
 	 		srcDir "$projectDir/src"
@@ -7,6 +8,7 @@ sourceSets {
  	}
  	sourceCompatibility = 1.8
     targetCompatibility = 1.8
+
  	tasks.withType(JavaCompile) {  
         options.encoding = "UTF-8"  
     } 
