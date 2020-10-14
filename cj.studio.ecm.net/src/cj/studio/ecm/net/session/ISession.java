@@ -22,7 +22,7 @@ public interface ISession {
 	long createTime();
 	long lastVisitTime();
 	Object attribute(String key);
-	void attribute(String key,Serializable value);
+	void attribute(String key,Object value);
 	
 	
 	void removeAttribute(String key);

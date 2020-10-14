@@ -1,6 +1,5 @@
 package cj.studio.ecm.net.session;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,14 +7,14 @@ import java.util.Map;
 public class Session implements ISession {
 	private List<ISessionEvent> events;
 	private String sessionId;
-	private Map<String, Serializable> attmap;
+	private Map<String, Object> attmap;
 	private long createTime;
 	private long lastVisitTime;
 	private SessionInfo info;
 
 	public Session(String sid, SessionInfo info, List<ISessionEvent> events) {
 		sessionId = sid;
-		attmap = new HashMap<String, Serializable>(4);
+		attmap = new HashMap<>(4);
 		this.events = events;
 		this.info = info;
 	}
@@ -62,7 +61,7 @@ public class Session implements ISession {
 	}
 
 	@Override
-	public void attribute(String key, Serializable value) {
+	public void attribute(String key, Object value) {
 
 		if (attmap.containsKey(key)) {
 			Object old = attmap.get(key);
