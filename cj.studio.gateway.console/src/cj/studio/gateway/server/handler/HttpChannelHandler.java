@@ -446,6 +446,7 @@ public class HttpChannelHandler extends SimpleChannelInboundHandler<Object> impl
 
 		HttpInputChannel input = new HttpInputChannel();
 		Frame frame = input.begin(req);
+		frame.url(uri);
 		IOutputChannel output = new HttpOutputChannel(ctx.channel(), frame);
 		Circuit circuit = new HttpCircuit(output, String.format("%s 200 OK", req.protocolVersion().text()));
 		if ("false".equals(info.getProps().get(__circuit_same_origin_policy))) {
