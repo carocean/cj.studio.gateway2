@@ -15,7 +15,7 @@ public class TestSession implements IGatewayAppSiteWayWebView {
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
 		HttpFrame f=(HttpFrame)frame;
-		System.out.println(f.session());
+		System.out.println("TestSession:"+f.session().attribute("test"));
 	}
 	
 }

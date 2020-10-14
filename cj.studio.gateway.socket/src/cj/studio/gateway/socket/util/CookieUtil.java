@@ -89,7 +89,7 @@ public class CookieUtil {
 		for (Cookie c : set) {
 			cookieString += ServerCookieEncoder.encode(c) + ";";
 		}
-		cookieString+="SameSite=None; Secure";
+//		cookieString+="SameSite=None; Secure=false";//由于非 HTTPS Cookie 无法设置“secure”属性，已拒绝 Cookie “JSESSION”。不论secure是true或false只要有它就取不到cookie
 		circuit.head("Set-Cookie", cookieString);
 	}
 }

@@ -15,7 +15,7 @@ public class Home implements IGatewayAppSiteWayWebView {
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
 		HttpFrame f=(HttpFrame)frame;
-		System.out.println(f.session());
+		f.session().attribute("test","123");
 		circuit.content().writeBytes("<img src='img/bi.png'>".getBytes());
 		resource.redirect("/website2/test/session.html",circuit);
 	}
