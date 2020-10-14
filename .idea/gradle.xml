@@ -21,7 +21,6 @@
             <option value="$PROJECT_DIR$/cj.studio.orm.redis" />
             <option value="$PROJECT_DIR$/cj.test.multipart" />
             <option value="$PROJECT_DIR$/cj.test.plugin" />
-            <option value="$PROJECT_DIR$/cj.test.website" />
             <option value="$PROJECT_DIR$/cj.test.website2" />
           </set>
         </option>

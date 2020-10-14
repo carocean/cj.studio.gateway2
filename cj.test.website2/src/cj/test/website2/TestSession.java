@@ -10,14 +10,12 @@ import cj.studio.ecm.net.http.HttpFrame;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 
-@CjService(name="/",scope= Scope.multiton)
-public class Home implements IGatewayAppSiteWayWebView {
+@CjService(name="/test/session.html",scope= Scope.multiton)
+public class TestSession implements IGatewayAppSiteWayWebView {
 	@Override
 	public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
 		HttpFrame f=(HttpFrame)frame;
 		System.out.println(f.session());
-		circuit.content().writeBytes("<img src='img/bi.png'>".getBytes());
-		resource.redirect("/website2/test/session.html",circuit);
 	}
 	
 }
