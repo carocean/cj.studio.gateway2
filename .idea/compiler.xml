@@ -8,8 +8,6 @@
       <module name="cj.studio.gateway2.cj.test.road.test" target="1.8" />
       <module name="cj.studio.gateway2.cj.test.stub.main" target="1.8" />
       <module name="cj.studio.gateway2.cj.test.stub.test" target="1.8" />
-      <module name="cj.studio.gateway2.cj.test.website2.main" target="1.8" />
-      <module name="cj.studio.gateway2.cj.test.website2.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

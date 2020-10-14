@@ -15,7 +15,7 @@ import cj.ultimate.util.StringUtil;
 
 public final class CookieHelper {
 	public static Set<Cookie> cookies(Frame frame) {
-		String cookieString = frame.head(HttpHeaderNames.COOKIE.toString());
+		String cookieString = frame.head("Cookie");
 		if (StringUtil.isEmpty(cookieString))
 			return null;
 		Set<Cookie> cookies = ServerCookieDecoder.decode(cookieString);
@@ -43,7 +43,7 @@ public final class CookieHelper {
 
 	public static Set<Cookie> cookies(Circuit circuit) {
 		String cookieString = circuit
-				.head(HttpHeaderNames.SET_COOKIE.toString());
+				.head("Set-Cookie");
 		if (StringUtil.isEmpty(cookieString))
 			return null;
 		Set<Cookie> cookies = ServerCookieDecoder.decode(cookieString);
@@ -51,7 +51,7 @@ public final class CookieHelper {
 	}
 	public static Set<Cookie> cookiesSet(Frame backFrame) {
 		String cookieString = backFrame
-				.head(HttpHeaderNames.SET_COOKIE.toString());
+				.head("Set-Cookie");
 		if (StringUtil.isEmpty(cookieString))
 			return null;
 		Set<Cookie> cookies = ServerCookieDecoder.decode(cookieString);
@@ -111,15 +111,15 @@ public final class CookieHelper {
 	}
 
 	public static String cookieString(Frame frame) {
-		return frame.head(HttpHeaderNames.COOKIE.toString());
+		return frame.head("Cookie");
 	}
 
 	public static void cookieString(Frame frame, String str) {
-		frame.head(HttpHeaderNames.COOKIE.toString(), str);
+		frame.head("Cookie", str);
 	}
 
 	public static String cookieString(Circuit cir) {
-		return cir.head(HttpHeaderNames.SET_COOKIE.toString());
+		return cir.head("Set-Cookie");
 	}
 
 	public static void removeCookie(Circuit circuit, String key) {
@@ -147,7 +147,7 @@ public final class CookieHelper {
 		for (Cookie c : set) {
 			cookieString += ServerCookieEncoder.encode(c) + ";";
 		}
-		circuit.head(HttpHeaderNames.SET_COOKIE.toString(), cookieString);
+		circuit.head("Set-Cookie", cookieString);
 	}
 
 	public static void appendCookie(Circuit circuit, String key, String v) {
@@ -208,7 +208,7 @@ public final class CookieHelper {
 		for (Cookie c : set) {
 			cookieString += ServerCookieEncoder.encode(c) + ";";
 		}
-		circuit.head(HttpHeaderNames.SET_COOKIE.toString(), cookieString);
+		circuit.head("Set-Cookie", cookieString);
 	}
 
 	public static void main(String... key) {
@@ -253,6 +253,6 @@ public final class CookieHelper {
 		for (Cookie c : set) {
 			cookieString += ServerCookieEncoder.encode(c) + ";";
 		}
-		frame.head(HttpHeaderNames.SET_COOKIE.toString(), cookieString);
+		frame.head("Set-Cookie", cookieString);
 	}
 }

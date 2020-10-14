@@ -1,1 +1,42 @@
-[{"name":"httpSite2","protocol":"http","host":"localhost:8084","road":"road://test:way","props":{}},{"name":"udtSite","protocol":"udt","host":"localhost:8083","props":{}},{"name":"tcpSite","protocol":"tcp","host":"localhost:8082","props":{}},{"name":"httpSite","protocol":"http","host":"localhost:8080","props":{"wsPath":"/myChannel","KeyStore-File":"~/keystore/https.keystore","KeyStore-Password":"ks1234","Cert-Password":"my1234","SSL-Enabled":"false","KeyStore-Type":"JKS"}},{"name":"wsSite","protocol":"ws","host":"localhost:8081","props":{"wsPath":"/"}}]
+[
+  {
+    "name": "httpSite2",
+    "protocol": "http",
+    "host": "localhost:8084",
+    "road": "road://test:way",
+    "props": {}
+  },
+  {
+    "name": "udtSite",
+    "protocol": "udt",
+    "host": "localhost:8083",
+    "props": {}
+  },
+  {
+    "name": "tcpSite",
+    "protocol": "tcp",
+    "host": "localhost:8082",
+    "props": {}
+  },
+  {
+    "name": "httpSite",
+    "protocol": "http",
+    "host": "localhost:8080",
+    "props": {
+      "wsPath": "/myChannel",
+      "KeyStore-File": "~/keystore/https.keystore",
+      "KeyStore-Password": "ks1234",
+      "Cert-Password": "my1234",
+      "SSL-Enabled": "false",
+      "KeyStore-Type": "JKS"
+    }
+  },
+  {
+    "name": "wsSite",
+    "protocol": "ws",
+    "host": "localhost:8081",
+    "props": {
+      "wsPath": "/"
+    }
+  }
+]

@@ -1,0 +1,35 @@
+sourceSets { 
+	 main { 
+	 	java{
+	 		srcDir "$projectDir/src"
+	 	}
+	 	resources{
+		 	srcDir "$projectDir/site-src"
+		 }
+	 } 
+ 	}
+ 	sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+ 	tasks.withType(JavaCompile) {  
+        options.encoding = "UTF-8"  
+    } 
+ repositories { 
+	 flatDir(dirs: "../global/lib") 
+ } 
+
+dependencies {
+	compile project(':cj.studio.gateway.socket');
+	compile fileTree('src/cj/references')
+	
+}
+task releaseToHost(type: Copy) {
+ dependsOn "build"
+ from 'build/libs/'
+into '../cmdtools/gateway/assemblies/website2'
+ include '**/*.jar'
+ exclude '**/*-javadoc.jar','**/*-sources.jar'
+ }
+ 
+ task release(type:Copy){
+  dependsOn "releaseToHost"
+ }

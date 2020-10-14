@@ -30,7 +30,7 @@ public class CookieUtil {
 	}
 	private static Set<Cookie> cookies(Circuit circuit) {
 		String cookieString = circuit
-				.head(HttpHeaderNames.SET_COOKIE.toString());
+				.head("Set-Cookie");
 		if (StringUtil.isEmpty(cookieString))
 			return null;
 		Set<Cookie> cookies = ServerCookieDecoder.decode(cookieString);
@@ -89,6 +89,7 @@ public class CookieUtil {
 		for (Cookie c : set) {
 			cookieString += ServerCookieEncoder.encode(c) + ";";
 		}
-		circuit.head(HttpHeaderNames.SET_COOKIE.toString(), cookieString);
+		cookieString+="SameSite=None; Secure";
+		circuit.head("Set-Cookie", cookieString);
 	}
 }

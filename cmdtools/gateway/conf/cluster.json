@@ -11,9 +11,9 @@
 		},
 
 		{
-			"name": "website",
+			"name": "website2",
 			"uris": [
-				"app://website:way"
+				"app://website2:way"
 			],
 			"props": {
 				"Upload-MaxFileLength": "200000"
