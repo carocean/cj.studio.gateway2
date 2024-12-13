@@ -35,7 +35,7 @@ Gateway 2.0 sets a new benchmark for distributed microservice platforms. Its mod
 
 
 
-Example Projects
+# Example Projects
 
 You can refer to two other projects on my GitHub: cj.studio.gateway.examples.frontend and cj.studio.gateway.examples.backend.
 The Multipart requests have been parsed in-memory, but to avoid issues like the file upload size limit and disk buffering encountered in web containers like Tomcat or Jetty, this method has poor performance and flexibility. Gateway2.0 will open the data interface to developers, allowing them to decide how to handle it, with no buffering in between, thus enabling unlimited file upload capabilities.
