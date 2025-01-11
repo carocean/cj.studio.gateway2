@@ -7,12 +7,6 @@
     "props": {}
   },
   {
-    "name": "udtSite",
-    "protocol": "udt",
-    "host": "localhost:8083",
-    "props": {}
-  },
-  {
     "name": "tcpSite",
     "protocol": "tcp",
     "host": "localhost:8082",

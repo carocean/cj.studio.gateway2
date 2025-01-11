@@ -17,6 +17,9 @@ import cj.studio.ecm.adapter.IActuator;
 import cj.studio.ecm.adapter.IAdaptable;
 import cj.ultimate.util.StringUtil;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 public class Gateway {
 
 	private static String fileName;
@@ -87,6 +90,14 @@ public class Gateway {
 			f = arr[0];
 		}
 
+		ScriptEngineManager manager = new ScriptEngineManager();
+		// 获取 JavaScript 引擎
+		ScriptEngine engine = manager.getEngineByName("nashorn");
+
+		if (engine == null) {
+			System.out.println("Nashorn 脚本引擎不可用！");
+			return;
+		}
 		IAssembly assembly = Assembly.loadAssembly(f.toString());
 		assembly.start();
 		Object main = assembly.workbin().part("gatewayEntrypoint");

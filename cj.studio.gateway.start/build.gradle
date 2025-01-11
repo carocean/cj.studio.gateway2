@@ -36,6 +36,7 @@ dependencies {
 	compile group: 'com.barchart.udt', name: 'barchart-udt-bundle', version: '2.3.0'
 	compile group: 'io.netty', name: 'netty-all', version: '5.0.0.Alpha2'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
+//    compile 'org.openjdk.nashorn:nashorn-core:1.3.0'
     compile project(':cj.studio.ecm.net');
     compile project(':cj.studio.gateway.socket');
 }
