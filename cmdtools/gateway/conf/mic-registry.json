@@ -1,13 +1,22 @@
 {
-	"guid":"8E8710A9-11EB-4F38-B901-657538057BA1",
-	"title":"源码网关",
-	"enabled":false,
-	"desc":"源码网关向mic注册",
+	"guid":"DBA13D01-D6EF-4087-8819-6FEC2394DFF1",
+	"title":"空网关",
+	"enabled":true,
+	"desc":"用于网关向注册中心测试",
 	"mic":{
-		"location":"/infrastructurePlatform/frontend/",
+		"location":"/netos/",
 		"host":"tcp://localhost:7080?heartbeat=5000&initialWireSize=1&workThreadCount=2&acceptErrorPath=/website/error/",
+		"openportsUrls": [
+			"http://localhost:8080/website/portsapi/",
+			"http://localhost:9090/website/portsapi/",
+			"http://localhost:9090/website2/portsapi/"
+		],
 		"reconnDelay":6000,
 		"reconnPeriod":15000,
-		"cjtoken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuZXRvcy5taWMiLCJleHAiOjMzMDkwMzk2NDAwLCJ1c2VyIjoiY2oiLCJpYXQiOjE1NTQzOTY0MDAsImp0aSI6Ijg0MWZlODFkLWU1OTYtNGEyNC1hM2U1LTNkZTgxZmE1ZTVhZiJ9.Kxj3TL_fpfXfT9k0G3V-oZp4AQBu1hUeQv5FYlk_NfQ"
+		"appId": "system.netos",
+		"appKey": "995C2A861BE8064A1F8A022B5C0D2E36",
+		"appSecret": "504176DB9128386E3EDB3121EE99EA10",
+		"cjtoken":"E2E53E9D4067636B436047A15EDEC08C",
+		"desc": "该token是专用于访问注册中心的，因此在申请token时请用：accesstoken.mic作为device来申请，可以避免在device相同时被其它登录请求覆盖掉令牌。申请后可在uc中心扩展token的过期时间或指定为不受限。openportsUrls地址是外部该问的地址，将在注册中心展示"
 	}
 }

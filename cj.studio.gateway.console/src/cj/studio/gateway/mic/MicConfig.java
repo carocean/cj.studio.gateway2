@@ -1,14 +1,22 @@
 package cj.studio.gateway.mic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MicConfig {
 	String location;
 	String host;
 	long reconnDelay;
 	long reconnPeriod;
+	String appId;
+	String appKey;
+	String appSecret;
 	String cjtoken;
+	List<String> openportsUrls;
 	public MicConfig() {
 		reconnDelay = 5000L;
 		reconnPeriod = 10000L;
+		openportsUrls=new ArrayList<>();
 	}
 
 	public MicConfig(String location, String host,String cjtoken) {
@@ -47,4 +55,35 @@ public class MicConfig {
 		return host;
 	}
 
+	public String getAppId() {
+		return appId;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+
+	public String getAppKey() {
+		return appKey;
+	}
+
+	public void setAppKey(String appKey) {
+		this.appKey = appKey;
+	}
+
+	public String getAppSecret() {
+		return appSecret;
+	}
+
+	public void setAppSecret(String appSecret) {
+		this.appSecret = appSecret;
+	}
+
+	public List<String> getOpenportsUrls() {
+		return openportsUrls;
+	}
+
+	public void setOpenportsUrls(List<String> openportsUrls) {
+		this.openportsUrls = openportsUrls;
+	}
 }

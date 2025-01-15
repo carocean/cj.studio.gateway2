@@ -3,6 +3,7 @@ package cj.studio.gateway.mic;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.EcmException;
@@ -140,7 +141,14 @@ public class MicConnector extends TimerTask implements IMicConnector, IServiceSe
 		f.parameter("desc", registry.getDesc());
 		f.parameter("cjtoken",registry.getMic().getCjtoken());
 		f.parameter("location", registry.getMic().getLocation());
+		f.parameter("appId", registry.getMic().getAppId());
+		f.parameter("appKey", registry.getMic().getAppKey());
 		f.parameter("micient",micclient);
+		String appSecret = registry.getMic().getAppSecret();
+		String nonce = Encript.md5(UUID.randomUUID().toString());
+		String sign = Encript.md5(String.format("%s%s%s", registry.getMic().getAppKey(), nonce, appSecret));
+		f.parameter("nonce", nonce);
+		f.parameter("sign", sign);
 		f.content().accept(new MemoryContentReciever());
 		in.begin(f);
 		in.done(new byte[0], 0, 0);
